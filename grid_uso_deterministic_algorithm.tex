@@ -4,6 +4,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
+\usepackage{enumerate}
 \usepackage[square,sort,numbers]{natbib}
 \usepackage{xspace}
 
@@ -40,38 +41,36 @@ Deterministic algorithm for two dimensional grid USOs.
 
 \section{Introduction}
 
-Let $X$ and $Y$ be any finite sets. Let $K_X$ denote the complete graph on the vertex set $X$. The product graph $K_X\times K_Y$ is called the \emph{grid} or \emph{$X\times Y$-grid}. More specifically, its vertex set is $X\times Y$ and $(v_x,v_y),(w_x,w_y) \in X\times Y$ are adjacent if $v_x = w_x$ and $v_y \not= w_y$ or $v_x \not= w_x$ and $v_y = w_y$. In the first case we call the edge \emph{vertical} and in the latter we call it \emph{horizontal}. This terminology comes from identifying the elements of $X$ and $Y$ with real numbers and then embedding the vertices on the Euclidian plane. 
+Let $X$ and $Y$ be any finite sets and let $K_X$ denote the complete graph on the vertex set $X$. The product graph $K_X\times K_Y$ is called the \emph{$X\times Y$-grid} or simply a \emph{grid}. For $m,n \in \mathbb{N}$ an $m\times n$ grid is any grid $K_X\times K_Y$ with $|X| = m$ and $|Y| = n$. The vertex set of the grid $K_X\times K_Y$ is $X\times Y$ and $(v_x,v_y),(w_x,w_y) \in X\times Y$ are adjacent if either $v_x = w_x$ and $v_y \not= w_y$ or $v_x \not= w_x$ and $v_y = w_y$. In the first case we call the edge \emph{vertical} and in the latter we call it \emph{horizontal}. This terminology comes from identifying the elements of $X$ and $Y$ with real numbers and then embedding the vertices on the Euclidian plane. 
 
-An induced subgraph of a grid that is also a grid is called a \emph{subgrid}. Any subgrid of an $X\times Y$-grid is an $I\times J$-grid where $I \subseteq X$ and $J \subseteq Y$. If a grid is oriented then a subgrid inherits the orientation. A vertex in an oriented graph is called a \emph{sink} if all its incident edges are incoming. An orientation of a grid is a \emph{unique sink orientation} if all its subgrids have a unique sink. The \emph{\indegree} of a vertex $v \in K_{Y} \times K_{X}$ is an ordered pair $\ind (v) \in \{0,1,\ldots,|X|-1\}\times \{0,1,\ldots,|Y|-1\}$ which specifies the number of incoming horizontal and horizontal edges of $v$ respectively. 
+An induced subgraph of a grid is called a \emph{subgrid} if it is also a grid. Any subgrid of an $X\times Y$-grid is an $I\times J$-grid where $I \subseteq X$ and $J \subseteq Y$. If a grid is oriented then a subgrid inherits the orientation. A vertex in an oriented graph is called a \emph{sink} if all its incident edges are incoming. An orientation of a grid is a \emph{unique sink orientation}, or \emph{USO} for short, if all its subgrids have a unique sink. In a grid unique sink orientation $G$ the \emph{\indegree} of a vertex $v \in G$ is an ordered pair $\ind (v) \in \{0,1,\ldots,|X|-1\}\times \{0,1,\ldots,|Y|-1\}$ which specifies the number of incoming horizontal and vertical edges of $v$ respectively. 
 
-We define a partial order of vertices in a grid USO $K_{m} \times K_{n}$ as follows. For any two vertices $v,w \in K_{m} \times K_{n}$ consider the smallest subgrid containing $v$ and $w$. We say that $w \succeq v$ if there is a path from $w$ to $v$ in this subgrid. Notice that not necessarily all vertices are comparable.
+Given a grid USO the task is to find the global sink. The USO is given via a vertex oracle: for each \emph{vertex query} the oracle reveals the orientations of the edges adjacent to the vertex. The question is, how many vertex queries suffice to find the sink of a grid USO of certain size?
+
+We define a partial order of vertices in a grid unique sink orientation $G$ as follows. For any two vertices $v,w \in G$ consider the smallest subgrid containing both $v$ and $w$. We say that $w \succeq v$ if there is a path from $w$ to $v$ in this subgrid. Notice that not necessarily all vertices are comparable.
+
+
 
 \begin{lemma}[Product construction]
- 
+ Let $G$ be an $X\times Y$-grid USO for some sets $X$ and $Y$ and let $A \subset 2^X$ and $B \subset 2^Y$ be partitions of $X$ and $Y$ respectively. Let $H$ be an $A\times B$-grid. \JN{See Malte's 4$\times$4 lower bound for a possible way to define this.}
 \end{lemma}
 
-
-\textbf{Define vertex query}
 
 \section{The algorithm}
 
 \begin{lemma}
- Let $M = \max\{m,n\}$. Given a square grid $K_{n} \times K_{n}$, we can find a vertex with \indegree $(a,b)$ with $a, b \geq \frac{n}{4} - 1$ using $\mathcal{O}(n)$ vertex queries.
+ Given an $n\times n$ grid USO we can find a vertex with a \indegree $(a,b)$ satisfying $a, b \geq \frac{n}{4} - 1$ by using $\mathcal{O}(n)$ vertex queries.
 \end{lemma}
 
 \begin{proof}
- First, query the diagonal vertices $v_i = (i,i)$, $i = 1,\ldots,n$. We can assume that $j < i$ implies that  $v_j \succeq v_i$ or that $v_j$ and $v_i$ are incomparable; otherwise just rename the coordinates. \JN{Sorting overhead which is not needed for the actual algorithm, but only for the analysis.} Then, each $v_i$ has at least $i-1$ incoming edges. 
+ First, query the diagonal i.e. the vertices $v_i = (i,i)$, $i = 1,\ldots,n$. We can assume that $j < i$ implies that either $v_j \succeq v_i$ or $v_j$ and $v_i$ are incomparable; otherwise just rename the coordinates. \JN{Sorting overhead which is not needed for the actual algorithm, but only for the analysis.} Then, each $v_i$ has at least $i-1$ incoming edges. This can be seen by looking at all vertices $v_j$ with $j < i$. Either $v_j \succeq v_i$ or they are not comparable, but in both cases there is one incoming edge towards $v_i$ in the $2\times 2$ subgrid containing both $v_i$ and $v_j$. 
  
- 
- This can be seen by looking at all $v_j \not= v_i$ with $v_i \succeq_L v_j$. Either $v_i \succeq v_j$ or they are not comparable, and in both cases there is one incoming edge towards $v_i$ in the $2\times 2$ subgrid containing $v_i$ and $v_j$. 
- 
- Let $V = \{v_{n/2},\ldots,v_n\}$. For each vertex in $V$ record if the majority of its incoming edges are horizontal or vertical and call such a vertex horizontal or vertical respectively. W.l.o.g there are more vertical vertices in $V$ and let $V' \subset V$ be the set of vertical vertices. Note that $|V'| \geq \frac{n-n/2 + 1}{2} \geq \frac{n}{4}$ and each vertex in $V'$ has at least $\frac{n/2-1}{2}$ incoming vertical edges. \JN{If $n$ is odd we get a bit worse than what we want} 
- 
- Let $v_k$ be the 
+ Now let $V = \{v_{\lceil n/2 \rceil},\ldots,v_n\}$. For each vertex in $V$ record if the majority of its incoming edges are horizontal or vertical and call such a vertex horizontal or vertical respectively. By symmetry we can assume that there are more vertical vertices in $V$ and let $V' \subseteq V$ be the set of vertical vertices. Note that $|V'| \geq \frac{n-\lceil n/2\rceil + 1}{2} \geq \frac{n}{4}$ and each vertex in $V'$ has at least $\frac{\lceil n/2\rceil-1}{2}$ incoming vertical edges. 
+  Let $v_k \in V'$ be the vertical vertex with maximal index $k$. \JN{This should be maybe written using the product construction.} Query all the vertices that are in the same row as $v_k$ and in the same column with some vertex from $V'$ \JN{figure needed}. Let $v^*$ be the sink of the $|V'|\times 1$ subgrid formed by these evaluated vertices (including $v_k$). Let $(a,b)$ be the \indegree of $v^*$. We claim that $a, b \geq \frac{n}{4} - 1$. Firstly, Note that $v^*$ has incoming edges from all of the other vertices in the $|V'|\times 1$ subgrid we evaluated, so $a \geq |V'|-1 \geq \frac{n-\lceil n/2\rceil + 1}{2} - 1 \geq \frac{n}{4} - 1$. Secondly, there is a vertex $v \in V'$ that is in the same column as $v^*$. If we can show that there is an edge from $v$ to $v^*$, then by acyclicity $v^*$ has at least one more incoming vertical edge as compared to $v$, therefore establishing that $b \geq \frac{\lceil n/2\rceil-1}{2} + 1 \geq \frac{n}{4} \geq \frac{n}{4} - 1$. To show that there is an edge from $v$ to $v^*$ there are two cases. In the first case $v \succeq v_k$ and because $v_k \succeq v^*$ we have due to transitivity that $v \succeq v^*$. In the second case $v$ and $v_k$ are incomparable. Because there is an edge from $v_k$ to $v^*$, the edge between $v$ and $v^*$ has to be oriented towards $v^*$. \JN{also figure} This finishses the proof.
 \end{proof}
 
 \begin{corollary}
- Let $M = \max\{m,n\}$. Given a grid $K_{m} \times K_{n}$, we can find a vertex with \indegree $(a,b)$ with $a \geq \frac{m}{4}$ and  $b \geq \frac{n}{4}$ using $\mathcal{O}(M)$ vertex queries.
+ Let $M = \max\{m,n\}$. Given a grid $K_{m} \times K_{n}$, we can find a vertex with \indegree $(a,b)$ with $a \geq \frac{m}{4} - 1$ and  $b \geq \frac{n}{4} - 1$ using $\mathcal{O}(M)$ vertex queries.
 \end{corollary}
 
 \begin{proof}
