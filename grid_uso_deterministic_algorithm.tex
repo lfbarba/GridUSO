@@ -1,0 +1,127 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+%\usepackage{../outlines_pkg/outlines}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[square,sort,numbers]{natbib}
+\usepackage{xspace}
+
+\title{Grid USO algorithms}
+\author{Antonis, Bernd, Jerri, Luis, Malte}
+
+\newtheorem{observation}{Observation}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{theorem}{Theorem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Setup margin comments. If you want to ignore them, then comment the other part out.
+\newcommand{\JN}[1]{\marginpar{\parbox{4cm}{{\small {\bf JN:} #1}}}} %Jerri
+\newcommand{\LB}[1]{\marginpar{\parbox{4cm}{{\small {\bf JN:} #1}}}} %Luis
+\newcommand{\MM}[1]{\marginpar{\parbox{4cm}{{\small {\bf JN:} #1}}}} %Malte
+\newcommand{\AT}[1]{\marginpar{\parbox{4cm}{{\small {\bf JN:} #1}}}} %Antonis
+\newcommand{\BG}[1]{\marginpar{\parbox{4cm}{{\small {\bf JN:} #1}}}} %Bernd
+%\newcommand{\JN}[1]{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\indegree}{refined in-degree\xspace}
+\newcommand{\ind}{\ensuremath{\mathrm{ind}}}
+
+\begin{document}
+
+\maketitle 
+
+\begin{abstract}
+Deterministic algorithm for two dimensional grid USOs.
+\end{abstract}
+
+\section{Introduction}
+
+Let $X$ and $Y$ be any finite sets. Let $K_X$ denote the complete graph on the vertex set $X$. The product graph $K_X\times K_Y$ is called the \emph{grid} or \emph{$X\times Y$-grid}. More specifically, its vertex set is $X\times Y$ and $(v_x,v_y),(w_x,w_y) \in X\times Y$ are adjacent if $v_x = w_x$ and $v_y \not= w_y$ or $v_x \not= w_x$ and $v_y = w_y$. In the first case we call the edge \emph{vertical} and in the latter we call it \emph{horizontal}. This terminology comes from identifying the elements of $X$ and $Y$ with real numbers and then embedding the vertices on the Euclidian plane. 
+
+An induced subgraph of a grid that is also a grid is called a \emph{subgrid}. Any subgrid of an $X\times Y$-grid is an $I\times J$-grid where $I \subseteq X$ and $J \subseteq Y$. If a grid is oriented then a subgrid inherits the orientation. A vertex in an oriented graph is called a \emph{sink} if all its incident edges are incoming. An orientation of a grid is a \emph{unique sink orientation} if all its subgrids have a unique sink. The \emph{\indegree} of a vertex $v \in K_{Y} \times K_{X}$ is an ordered pair $\ind (v) \in \{0,1,\ldots,|X|-1\}\times \{0,1,\ldots,|Y|-1\}$ which specifies the number of incoming horizontal and horizontal edges of $v$ respectively. 
+
+We define a partial order of vertices in a grid USO $K_{m} \times K_{n}$ as follows. For any two vertices $v,w \in K_{m} \times K_{n}$ consider the smallest subgrid containing $v$ and $w$. We say that $w \succeq v$ if there is a path from $w$ to $v$ in this subgrid. Notice that not necessarily all vertices are comparable.
+
+\begin{lemma}[Product construction]
+ 
+\end{lemma}
+
+
+\textbf{Define vertex query}
+
+\section{The algorithm}
+
+\begin{lemma}
+ Let $M = \max\{m,n\}$. Given a square grid $K_{n} \times K_{n}$, we can find a vertex with \indegree $(a,b)$ with $a, b \geq \frac{n}{4} - 1$ using $\mathcal{O}(n)$ vertex queries.
+\end{lemma}
+
+\begin{proof}
+ First, query the diagonal vertices $v_i = (i,i)$, $i = 1,\ldots,n$. We can assume that $j < i$ implies that  $v_j \succeq v_i$ or that $v_j$ and $v_i$ are incomparable; otherwise just rename the coordinates. \JN{Sorting overhead which is not needed for the actual algorithm, but only for the analysis.} Then, each $v_i$ has at least $i-1$ incoming edges. 
+ 
+ 
+ This can be seen by looking at all $v_j \not= v_i$ with $v_i \succeq_L v_j$. Either $v_i \succeq v_j$ or they are not comparable, and in both cases there is one incoming edge towards $v_i$ in the $2\times 2$ subgrid containing $v_i$ and $v_j$. 
+ 
+ Let $V = \{v_{n/2},\ldots,v_n\}$. For each vertex in $V$ record if the majority of its incoming edges are horizontal or vertical and call such a vertex horizontal or vertical respectively. W.l.o.g there are more vertical vertices in $V$ and let $V' \subset V$ be the set of vertical vertices. Note that $|V'| \geq \frac{n-n/2 + 1}{2} \geq \frac{n}{4}$ and each vertex in $V'$ has at least $\frac{n/2-1}{2}$ incoming vertical edges. \JN{If $n$ is odd we get a bit worse than what we want} 
+ 
+ Let $v_k$ be the 
+\end{proof}
+
+\begin{corollary}
+ Let $M = \max\{m,n\}$. Given a grid $K_{m} \times K_{n}$, we can find a vertex with \indegree $(a,b)$ with $a \geq \frac{m}{4}$ and  $b \geq \frac{n}{4}$ using $\mathcal{O}(M)$ vertex queries.
+\end{corollary}
+
+\begin{proof}
+ Use the product construction and divide the columns into blocks of size $\frac{m}{n}$.
+ 
+ %Without loss of generality assume that $m \geq n$. Assume also for the ease of description that $n$ divides $m$. We will deal with this assumption in the end. Divide the columns into $n$ blocks of size $\frac{m}{n}$. More specifically, partition $[m]$ into $n$ parts $I_1, \ldots, I_n \subseteq [m]$ with $|I_j| = \frac{m}{n}$ for all $j = 1,\ldots, n$. 
+ 
+ %We are going to consider the subgrids of the form $K_{I_j}\times K_{\{j\}}$. Notice that each subgrid is a fraction of a different row and consists of $\frac{m}{n}$ vertices. We query all the vertices in these subgrids for a total of $m$ vertex queries therefore finding also the sink $s_j$ in each subgrid $K_{I_j}\times K_{\{j\}}$. Consider any linear extension of the partial order induced by the relation $\succeq$ on the set $\{s_1, \ldots, s_n\}$. We can assume that the order of the indices coincides with the linear extension, otherwise just rename them. Notice that $s_j$ has at least $j\cdot\frac{m}{n} - 1$ incoming edges (to see that, compare $s_j$ with all the vertices in the subgrids whose sinks are $s_1,\ldots,s_{j-1}$ and the subgrid containing $s_j$). Consider the set $S = \{s_{ n/2 },\ldots, s_n\}$ \JN{We need to somehow deal with parity of $n$.}. Assume that for at least half of the $s_j$'s the majority of the incoming edges are vertical (the horizontal case is similar and easier) and let $S' \subseteq S$ be the set of such $S_j$'s. That is, every $s_j \in S'$ has at least $\frac{1}{2}\left(j\cdot\frac{m}{n} - 1\right)$ vertical incoming edges. Now $|S'| \geq \frac{n}{4}$ and every vertex has at least $\frac{1}{2}\left(\frac{n}{2}\cdot\frac{m}{n} - 1\right) = \frac{m}{4}-\frac{1}{2}$ many incoming vertical edges.
+\end{proof}
+
+
+
+\begin{lemma}
+ Let $M = \max\{m,n\}$. Given a vertex  in a grid $K_{m} \times K_{n}$ with \indegree $(\alpha m,\beta n)$ with $0 \leq \alpha, \beta \leq 1$, we can find another vertex with \indegree either $\left(\alpha m,\frac{1+3\beta'}{4} n\right)$ or $\left(\frac{1+3\alpha'}{4} m, \beta n\right)$ with $\alpha' \geq \alpha$ and $\beta ' \geq \beta$. The number of vertex queries used in the process is $\mathcal{O}(M)$.
+\end{lemma}
+
+\begin{corollary}
+\label{cor:hit_wall}
+ Let $M = \max\{m,n\}$. Given a vertex with \indegree $(\alpha m,\beta n)$ in a grid $K_{m} \times K_{n}$ we can find another vertex with \indegree either $(\alpha' m, n)$ or $(m, \beta' n)$ with $\alpha' \geq \alpha$ and $\beta ' \geq \beta$. The number of vertex queries used in the process is $\mathcal{O}(M\log M)$. 
+\end{corollary}
+
+\begin{theorem}
+ Let $M = \max\{m,n\}$. The sink of the grid $K_{m} \times K_{n}$ can be found in $\mathcal{O}(M(\log M)^2)$ vertex queries.
+\end{theorem}
+
+\begin{proof}
+ Use Corollary \ref{cor:hit_wall} to strip away a constant fraction of the whole grid. This needs logartihmically many steps. 
+\end{proof}
+
+
+
+
+
+%if every induced directed subgraph that is attained by fixing or limiting the range of some coordinates of the vertices has a unique sink. More specifically, we require this property to hold for subgraphs that are attained by taking $d$ nonempty index sets $\emptyset \not= J_i \subseteq \mathbb{Z}_n, i = 1,\ldots,d$ and considering the induced subgraph over the vertices $\{(a_1,\ldots, a_d) \in V \: : \:  a_i \in J_i \: \forall i = 1,\ldots, d \}$. If each $J_i$ is the whole of $\mathbb{Z}_n$ or a singleton, we call the resulting induced subgraph a \emph{face}. The dimension $d' \in \{0,1,\ldots, d\}$ of the face is the number of index sets that are the whole of $\mathbb{Z}_n$. Note that a face of $(K_n)^d$ of dimension $d'$ is isomorphic to $(K_n)^{d'}$. Any face can be compactly written as a vector $(v_1,\ldots,v_d) \in \left(\mathbb{Z}_{n} \cup \{*\}\right)^d$ where $v_i$ matches the only element of $J_i$ when $J_i$ is a singleton and $v_i$ is $*$ otherwise. Unless otherwise clear, one should also specify what $n$ is when talking of faces. This concept of a face is a natural generalization from the $d$-cube $(K_2)^d$ for which the faces we defined correspond to the faces of the $d$-cube in the geometric sense.
+
+%Consider some USO of $(K_n)^d$. For this USO we define the \emph{in-map} $\phi : V \rightarrow \mathbb{Z}_n^d$ for each vertex $v = (v_1,\dots, v_d) \in V$ so that $\phi(v)_i$ is the number of edges that are incoming for $v$ from its neighbors $w \in V$ that differ from $v$ on coordinate $i$. It was shown by \citet[Theorem 2]{gartner2008unique} that for a USO this mapping is infact a bijection. The \emph{product construction} for grids (\citet{gartner2008unique}, \citet{szabo2001unique}) states that we can contract dimensions and maintain the USO structure. More specifically, for any $I \subseteq \mathbb{Z}_n$ consider the set of faces 
+% \begin{align*}
+%  G = \{(a_1,\ldots,a_n) : a_i = * \textnormal{ if } i \in I \textnormal{ and } a_i \in \mathbb{Z}_n \textnormal{ otherwise}\}.
+% \end{align*}
+% Note that $|G| = n^{d-|I|}$ and there is a natrual way to consider a USO over a graph whose vertices are the faces in $G$: for any $f \in G$ its neighbors are those faces that differ from it in the fixed coordinates and the orientation of the edges is determined by the orientation of the corresponding edges in the sink of $f$. This definition turns out to be well defined and the arising structure forms a USO that is over a graph isomorphic to $(K_n)^{d-|I|}$. 
+% 
+% 
+% The problem we are looking at is that of finding the global sink of a USO over $(K_n)^d$. The USO is given by an oracle that for any given vertex reveals the orientations of the edges adjacent to the vertex. The question is, what is the least number of these vertex queries needed to find the unique global sink? Just knowing its location is not sufficient, but we also require that the sink is evaluated. This requirement will prove useful when developing an algorithm.
+
+\subsection{Grids in two dimensions}
+
+
+
+
+\bibliographystyle{unsrtnat}
+\bibliography{../references.bib}
+
+\end{document}
