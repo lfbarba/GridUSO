@@ -7,6 +7,8 @@
 \usepackage{enumerate}
 \usepackage[square,sort,numbers]{natbib}
 \usepackage{xspace}
+\usepackage{graphicx}
+\usepackage{subcaption}
 
 \title{Grid USO algorithms}
 \author{Antonis, Bernd, Jerri, Luis, Malte}
@@ -66,7 +68,29 @@ We define a partial order of vertices in a grid unique sink orientation $G$ as f
  First, query the diagonal i.e. the vertices $v_i = (i,i)$, $i = 1,\ldots,n$. We can assume that $j < i$ implies that either $v_j \succeq v_i$ or $v_j$ and $v_i$ are incomparable; otherwise just rename the coordinates. \JN{Sorting overhead which is not needed for the actual algorithm, but only for the analysis.} Then, each $v_i$ has at least $i-1$ incoming edges. This can be seen by looking at all vertices $v_j$ with $j < i$. Either $v_j \succeq v_i$ or they are not comparable, but in both cases there is one incoming edge towards $v_i$ in the $2\times 2$ subgrid containing both $v_i$ and $v_j$. 
  
  Now let $V = \{v_{\lceil n/2 \rceil},\ldots,v_n\}$. For each vertex in $V$ record if the majority of its incoming edges are horizontal or vertical and call such a vertex horizontal or vertical respectively. By symmetry we can assume that there are more vertical vertices in $V$ and let $V' \subseteq V$ be the set of vertical vertices. Note that $|V'| \geq \frac{n-\lceil n/2\rceil + 1}{2} \geq \frac{n}{4}$ and each vertex in $V'$ has at least $\frac{\lceil n/2\rceil-1}{2}$ incoming vertical edges. 
-  Let $v_k \in V'$ be the vertical vertex with maximal index $k$. \JN{This should be maybe written using the product construction.} Query all the vertices that are in the same row as $v_k$ and in the same column with some vertex from $V'$ \JN{figure needed}. Let $v^*$ be the sink of the $|V'|\times 1$ subgrid formed by these evaluated vertices (including $v_k$). Let $(a,b)$ be the \indegree of $v^*$. We claim that $a, b \geq \frac{n}{4} - 1$. Firstly, Note that $v^*$ has incoming edges from all of the other vertices in the $|V'|\times 1$ subgrid we evaluated, so $a \geq |V'|-1 \geq \frac{n-\lceil n/2\rceil + 1}{2} - 1 \geq \frac{n}{4} - 1$. Secondly, there is a vertex $v \in V'$ that is in the same column as $v^*$. If we can show that there is an edge from $v$ to $v^*$, then by acyclicity $v^*$ has at least one more incoming vertical edge as compared to $v$, therefore establishing that $b \geq \frac{\lceil n/2\rceil-1}{2} + 1 \geq \frac{n}{4} \geq \frac{n}{4} - 1$. To show that there is an edge from $v$ to $v^*$ there are two cases. In the first case $v \succeq v_k$ and because $v_k \succeq v^*$ we have due to transitivity that $v \succeq v^*$. In the second case $v$ and $v_k$ are incomparable. Because there is an edge from $v_k$ to $v^*$, the edge between $v$ and $v^*$ has to be oriented towards $v^*$. \JN{also figure} This finishses the proof.
+  Let $v_k \in V'$ be the vertical vertex with maximal index $k$. \JN{This should be maybe written using the product construction.} Query all the vertices that are in the same row as $v_k$ and in the same column with some vertex from $V'$. Let $v^*$ be the sink of the $|V'|\times 1$ subgrid formed by these evaluated vertices (including $v_k$). Let $(a,b)$ be the \indegree of $v^*$. We claim that $a, b \geq \frac{n}{4} - 1$. Firstly, Note that $v^*$ has incoming edges from all of the other vertices in the $|V'|\times 1$ subgrid we evaluated, so $a \geq |V'|-1 \geq \frac{n-\lceil n/2\rceil + 1}{2} - 1 \geq \frac{n}{4} - 1$. Secondly, there is a vertex $v \in V'$ that is in the same column as $v^*$.
+  The situation is depicted in Figure~\ref{fig:seedlem1}.
+  \begin{figure}[htbp] 
+  	\centering
+  	\includegraphics[scale=0.7]{seedlemma_fig1.pdf}
+  	\caption{In this figure only a subset of the edges of the grid appears. The vertices that are marked with discs are the ones evaluated.} 
+  	\label{fig:seedlem1}
+  \end{figure}
+   If we can show that there is an edge from $v$ to $v^*$, then by acyclicity $v^*$ has at least one more incoming vertical edge as compared to $v$, therefore establishing that $b \geq \frac{\lceil n/2\rceil-1}{2} + 1 \geq \frac{n}{4} \geq \frac{n}{4} - 1$. To show that there is an edge from $v$ to $v^*$ there are two cases. In the first case $v \succeq v_k$ and because $v_k \succeq v^*$ we have due to transitivity that $v \succeq v^*$. In the second case $v$ and $v_k$ are incomparable. Then, the edge between $v$ and $v^*$ has to be oriented towards $v^*$. This is because otherwise we would have that $v_k \succeq v$. We give illustrations of the two cases in Figure~\ref{fig:seedlem2}; the proof is finished. 
+   \begin{figure}[htbp] 
+       \centering
+       \begin{subfigure}[b]{0.4\textwidth}
+           \includegraphics[scale = 0.7]{seedlemma_fig2_cas1.pdf}
+           \caption{$v \succeq v_k$}
+       \end{subfigure}
+       \qquad \qquad
+       \begin{subfigure}[b]{0.4\textwidth}
+           \includegraphics[scale = 0.7]{seedlemma_fig2_cas2.pdf}
+           \caption{$v$ and $v_k$ are incomparable}
+       \end{subfigure}
+       \caption{Illustrations of the two cases. }
+       \label{fig:seedlem2}
+   \end{figure}
 \end{proof}
 
 \begin{corollary}
