@@ -186,13 +186,13 @@ Let $G$ be an $[m]\times[n]$ grid USO.
 Given a vertex $x$ with \indegree $[\alpha m, \beta n]$ such that $\alpha, \beta \in (1/4,1)$, we can compute another vertex with \indegree $[a,b]$ where either $a = m$ and $b \geq \beta n$, or $a \geq \alpha m$ and $b  = n$. This process requires $O((n + m) \log (n+m))$ vertex queries.
 \end{corollary}
 \begin{proof}
-After applying Lemma~\ref{lemma:Constant fraction improvement} repeatedly $O(\log(n + m))$ times, we reach a vertex with \indegree $[a', b']$ such that either $a' = m - c$ or $b' = n- c$ for some absolute constant $c$. 
+After applying Lemma~\ref{lemma:Constant fraction improvement} repeatedly $O(\log(n + m))$ times, we reach a vertex $z$ with \indegree $[a_z, b_z]$ such that either $a_z = m - c$ or $b_z = n- c$ for some absolute constant $c$. 
 Since each application of Lemma~\ref{lemma:Constant fraction improvement} requires $O(n+m)$ vertex queries, this process takes $O((n + m) \log (n+m))$ vertex queries
 
-Assume without loss of generality that $a' = m-c$.
-Consider the  $I_x\times J_x$-subgrid dominated by $x$ and 
-notice that $|I_x| = \alpha m$ while $|J_x| = \beta n$. 
-Let $\overline{I_x} = [m] \setminus I_x$ and note that $|\overline{I_x}| = c$. Therefore, we can find the sink $y$ of the $\overline{I_x}\times J_x$-grid by querying each of its vertices. This process requires $O(|J_x|) = O(n)$ queries.  After that, the smallest element among $x$ and $y$ is the sink of the $[m]\times J_x$-grid, i.e., it has \indegree $(m, |J_x|)$, where $|J_x|  = \beta n$.
+Assume without loss of generality that $a_z = m-c$. The case when $b_z = n-c$ is analogous. 
+Consider the  $I_z\times J_z$-subgrid dominated by $z$ and 
+notice that $|I_z| = m-c$ while $|J_z| \geq \beta n$. 
+Let $\overline{I_z} = [m] \setminus I_z$ and note that $|\overline{I_z}| = c$. Therefore, we can find the sink $y$ of the $\overline{I_z}\times J_z$-grid by querying each of its vertices. This process requires $O(|J_z|) = O(n)$ queries.  After that, the smallest element among $x$ and $y$ is the sink of the $[m]\times J_z$-grid, i.e., it has \indegree $(m, |J_z|)$, where $|J_z|  \geq \beta n$.
 \end{proof}
 
 
