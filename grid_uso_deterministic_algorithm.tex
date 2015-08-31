@@ -94,7 +94,7 @@ We define a partial order of vertices in a grid unique sink orientation $G$ as f
    \end{figure}
 \end{proof}
 
-\begin{corollary}
+\begin{corollary}\label{corollary: n/4 indegree}
  Let $M = \max\{m,n\}$. Given a grid $K_{m} \times K_{n}$, we can find a vertex with \indegree $(a,b)$ with $a \geq \frac{m}{4} - 1$ and  $b \geq \frac{n}{4} - 1$ using $\mathcal{O}(M)$ vertex queries.
 \end{corollary}
 
@@ -151,7 +151,7 @@ Notice that $|I_v| = a$ while $|J_v| = b$. Moreover, by Lemma~\ref{} $v$ is the 
 
 \begin{lemma}\label{lemma:Constant fraction improvement}
 Let $G$ be an $[m]\times[n]$-grid USO. 
-Given a vertex $v$ with \indegree $[\alpha m, \beta n]$ such that $0 < \alpha, \beta < 1$, we can compute another vertex with \indegree $[a,b]$ where either $a\geq \frac{1+7\alpha}{8}m$ and $b \geq \beta n$, or $a \geq \alpha m$ and $b \geq \frac{1 + 7\beta}{8}n$. This process requires $O(n + m)$ vertex queries.
+Given a vertex $v$ with \indegree $[\alpha m, \beta n]$ such that $0 < \alpha, \beta < 1$, we can compute another vertex with \indegree $[a,b]$ where either $a\geq \frac{1+7\alpha}{8}m$ and $b \geq \beta n$, or $a \geq \alpha m$ and $b \geq \frac{1 + 7\beta}{8}n$. This process requires $O(M)$ vertex queries, where $M = \max\{m,n\}$.
 \end{lemma}
 
 \begin{proof}
@@ -163,8 +163,8 @@ Consider the  $I_v\times J_v$-subgrid dominated by $v$ and
 notice that $|I_v| = \alpha m$ while $|J_v| = \beta n$.
 
 Let $\overline{I_v} = [m]\setminus I_v$ and $\overline{J_v} = [n]\setminus J_v$.
-Let $A_1, \ldots, A_\rho$ be a partition of $\overline{I_v}$ into $\rho$ pairwise disjoint subsets of indices such that each has size $k = (1-\beta)n$, except maybe for the last one which has at most $2k-1$ indices.
-Let $G_i$ be the $A_i\times \overline{J_v}$-grid, for $1\leq i\leq \rho$. That is, we define $\rho$ $k\times k$ pairwise-disjoint square subgrids of $G$ (we ignore the set $A_{\rho+1}$). See Figure~\ref{fig:Expansion Lemma 1} for an illustration.
+Let $A_1, \ldots, A_\rho$ be a partition of $\overline{I_v}$ into $\rho$ pairwise disjoint subsets of indices such that each has size $k = (1-\beta)n$, except maybe for the last one which contains at most $2k-1$ indices.
+For each $1\leq i\leq \rho$, let $G_i$ be the $A_i\times \overline{J_v}$-grid. That is, we define $\rho$ $k\times k$ pairwise-disjoint square subgrids of $G$; see Figure~\ref{fig:Expansion Lemma 1}.
 
 \begin{figure}[tb]
 \centering
@@ -174,8 +174,8 @@ Let $G_i$ be the $A_i\times \overline{J_v}$-grid, for $1\leq i\leq \rho$. That i
 \label{fig:Expansion Lemma 1}
 \end{figure}
 
-For each $G_i$, use Lemma~\ref{} to compute a vertex $s_i$ having \indegree at least $[a,b]$ in $G_i$, where $a,b \geq k/4$.
-This requires $O(k)$ vertex queries. Since we have $\rho$ square matrices, after $O(k\rho) = O(m)$ vertex queries we can compute the set $\{s_1, \ldots, s_\rho\}$.
+For each $G_i$, use Corollary~\ref{corollary: n/4 indegree} to compute a vertex $s_i$ having \indegree at least $[a,b]$ in $G_i$, where $a,b \geq k/4$ (the \indegree of $s_i$ in $G$ may be larger).
+By Corollary~\ref{corollary: n/4 indegree}, this requires $O(k)$ vertex queries. Since we have $\rho$ grids, after $O(k\rho) = O(m)$ vertex queries we can compute each of $s_1, \ldots, s_\rho$.
  
 Consider the $I_{s_i}\times J_{s_j}$-subgrid dominated by $s_i$ in $G_i$, where $|I_{s_i}|, |J_{s_i}| \geq k/4$. Given any $i\neq j$, notice that the set $I_{s_i}$ and $I_{s_j}$ are not necessarily disjoint whereas $J_{s_i}\cap J_{s_j} = \emptyset$; see Figure~\ref{fig:Expansion Lemma 1}.
 
@@ -198,6 +198,12 @@ Consequently, $z$ is smaller than every vertex in the $I_v\times (J_v\cup J_{s_i
 Because $z$ is the sink of $W$, we know that
  $$b_z \geq |W| = \beta n + k/4 = \beta n + \frac{(1-\beta)}{4}n = \frac{1 + 3\beta}{4}n\geq \frac{1 + 7\beta}{8}n.$$
 
+
+\textbf{Case 2:} If for each $1\leq i\leq \rho$ $s_i$ is smaller than each vertex in the $I_{s_i}\times J_v$-grid, then we want to compute a vertex that is smaller than each vertex in $S = \{s_1, \ldots, s_\rho\}$.
+To this end, let $t_1 = s_1$.
+For each $2\leq i\leq \rho$, let $t_{i+1}$ be the sink of the smallest subgrid containing $t_i$ and $s_{i+1}$. Note that we can compute $t_{i+1}$ with a constant number of vertex queries.
+Thus, after $O(\rho)$ vertex queries, we obtain a vertex $t = t_\rho$, such that $t$ is smaller than $s_i$, for each $1\leq i\leq \rho$. Notice that $t$ lies in the same row as some $s_j\in S$ and in the same column as some $s_h\in S$; see Figure~\ref{fig:Expansion Case 2}. 
+
 \begin{figure}[h]
 \centering
 \includegraphics{expansion_lemma_fig2.pdf}
@@ -205,11 +211,6 @@ Because $z$ is the sink of $W$, we know that
 \caption{\small }
 \label{fig:Expansion Case 2}
 \end{figure}
-
-\textbf{Case 2:} If for each $1\leq i\leq \rho$ $s_i$ is smaller than each vertex in the $I_{s_i}\times J_v$-grid, then we want to compute a vertex that is smaller than each vertex in $S = \{s_1, \ldots, s_\rho\}$.
-To this end, let $t_1 = s_1$.
-For each $2\leq i\leq \rho$, let $t_{i+1}$ be the sink of the smallest subgrid containing $t_i$ and $s_{i+1}$. Note that we can compute $t_{i+1}$ with a constant number of vertex queries.
-Thus, after $O(\rho)$ vertex queries, we obtain a vertex $t = t_\rho$, such that $t$ is smaller than $s_i$, for each $1\leq i\leq \rho$. Notice that $t$ lies in the same row as some $s_j\in S$ and in the same column as some $s_h\in S$; see Figure~\ref{fig:Expansion Case 2}. 
 
 Consider the following set $$W = \left(I_v\cup \left(\bigcup_{i=1}^\rho I_{s_i}\right)\right)\times \{y_t\},$$
 where $t = (x_t, y_t)$.
@@ -230,19 +231,32 @@ because each $s_i$ is smaller than each vertex in the $I_{s_i}\times J_v$-grid, 
 Therefore, regardless of the case, we can always guarantee the existence of a vertex $z$ with \indegree $[a_z,b_z]$ such that either $a_z\geq \frac{1+7\alpha}{8}m$ and $b_z \geq \beta n$, or $a_z \geq \alpha m$ and $b_z \geq \frac{1 + 7\beta}{8}n$.
 \end{proof}
 
-\begin{corollary}
+\begin{corollary}\label{corollary:Expansion to the wall}
 Let $G$ be an $[m]\times[n]$ grid USO. 
-Given a vertex $v$ with \indegree $[\alpha m, \beta n]$ such that $\alpha, \beta \geq 1/4$, we can compute another vertex with \indegree $[a,b]$ where either $a = m$ and $b \geq \beta n$, or $a \geq \alpha m$ and $b  = n$. This process requires $O((n + m) \log (n+m))$ vertex queries.
+Given a vertex $v$ with \indegree $[\alpha m, \beta n]$ such that $0 < \alpha, \beta \geq 1$, we can compute another vertex with \indegree $[a,b]$ where either $a = m$ and $b \geq \beta n$, or $a \geq \alpha m$ and $b  = n$. This process requires $O(M \log M)$ vertex queries, where $M = \max\{m,n\}$.
 \end{corollary}
 \begin{proof}
 After applying Lemma~\ref{lemma:Constant fraction improvement} repeatedly $O(\log(n + m))$ times, we reach a vertex $z$ with \indegree $[a_z, b_z]$ such that either $a_z = m - c$ or $b_z = n- c$ for some absolute constant $c$. 
-Since each application of Lemma~\ref{lemma:Constant fraction improvement} requires $O(n+m)$ vertex queries, this process takes $O((n + m) \log (n+m))$ vertex queries
+Since each application of Lemma~\ref{lemma:Constant fraction improvement} requires $O(n+m)$ vertex queries, this process takes $O((n + m) \log (n+m))$ vertex queries.
 
 Assume without loss of generality that $a_z = m-c$. The case when $b_z = n-c$ is analogous. 
 Consider the  $I_z\times J_z$-subgrid dominated by $z$ and 
 notice that $|I_z| = m-c$ while $|J_z| \geq \beta n$. 
 Let $\overline{I_z} = [m] \setminus I_z$ and note that $|\overline{I_z}| = c$. Therefore, we can find the sink $w$ of the $\overline{I_z}\times J_z$-grid by querying each of its vertices. This process requires $O(|J_z|) = O(n)$ queries.  After that, the smallest element among $z$ and $w$ is the sink of the $[m]\times J_z$-grid, i.e., it has \indegree $(m, |J_z|)$, where $|J_z|  \geq \beta n$.
 \end{proof}
+
+Using  Corollaries~\ref{corollary: n/4 indegree} and~\ref{corollary:Expansion to the wall}, we can find a vertex $v$ with \indegree $[a,b]$ where either $a = m$ and $b \geq  n/4$, or $a \geq  m/4$ and $b  = n$. Assume without loss of generality that $a = m$ while $b\geq  n/4$, the other case is analogous. Recall that computing $v$ requires $O((n + m) \log (n+m))$ vertex queries.
+
+Consider the $I_v\times J_v$-grid dominated by $v$ and 
+notice that $|I_v| = m$ while $|J_v| \geq n/4$. Let $\overline{J_v} = [n]\setminus J_v$.
+
+By Lemma~\ref{}, $v$ is the sink $s_1$ of the $[m] \times J_v$-grid. Thus, we can recursively compute the sink $s_2$ of the $[m]\times \overline{J_v}$-grid and compare it with $s_1$. Then, the smallest among $s_1$ and $s_2$ is the sink of the whole grid.
+That is, we can discard a constant fraction of the grid in each iteration of this recursive algorithm. Therefore, we obtain the following result.
+
+\begin{corollary}
+ Let $M = \max\{m,n\}$. The sink of an $[m]\times[n]$-grid USO can be found after $\mathcal{O}(M(\log M)^2)$ vertex queries.
+\end{corollary}
+ 
 
 
 
