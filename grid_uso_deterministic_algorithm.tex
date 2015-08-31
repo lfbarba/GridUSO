@@ -39,14 +39,41 @@
 \maketitle 
 
 \begin{abstract}
-Deterministic algorithm for two dimensional grid USOs.
+    \noindent
+    We study unique sink orientations of so-called grids
+    (cartesian products of complete graphs).
+    Our main contribution is a deterministic algorithm which finds the sink in
+    two-dimensional grid USOs using $O(N (\log N)^2)$ vertex queries.
 \end{abstract}
 
 \section{Introduction}
 
-Let $X$ and $Y$ be any finite sets and let $K_X$ denote the complete graph on the vertex set $X$. The product graph $K_X\times K_Y$ is called the \emph{$X\times Y$-grid} or simply a \emph{grid}. For $m,n \in \mathbb{N}$ an $m\times n$ grid is any grid $K_X\times K_Y$ with $|X| = m$ and $|Y| = n$. The vertex set of the grid $K_X\times K_Y$ is $X\times Y$ and $(v_x,v_y),(w_x,w_y) \in X\times Y$ are adjacent if either $v_x = w_x$ and $v_y \not= w_y$ or $v_x \not= w_x$ and $v_y = w_y$. In the first case we call the edge \emph{vertical} and in the latter we call it \emph{horizontal}. This terminology comes from identifying the elements of $X$ and $Y$ with real numbers and then embedding the vertices on the Euclidian plane. 
+\subsection{Grids, subgrids and orientations}
 
-An induced subgraph of a grid is called a \emph{subgrid} if it is also a grid. Any subgrid of an $X\times Y$-grid is an $I\times J$-grid where $I \subseteq X$ and $J \subseteq Y$. If a grid is oriented then a subgrid inherits the orientation. A vertex in an oriented graph is called a \emph{sink} if all its incident edges are incoming. An orientation of a grid is a \emph{unique sink orientation}, or \emph{USO} for short, if all its subgrids have a unique sink. In a grid unique sink orientation $G$ the \emph{\indegree} of a vertex $v \in G$ is an ordered pair $\ind (v) \in \{0,1,\ldots,|X|-1\}\times \{0,1,\ldots,|Y|-1\}$ which specifies the number of incoming horizontal and vertical edges of $v$ respectively. 
+We write $K_X$ for the complete graph on a given vertex set $X$.
+Given two finite sets $X$ and $Y$,
+the \emph{grid on $X \times Y$} is the product graph $G = K_X \times K_Y$.
+It is also called an \emph{$(m,n)$-grid}, where $m = |X|$ and $n = |Y|$ denote
+the cardinalities of the index sets.
+See figure \ref{fig:a-grid} for an example of a grid.
+
+Explicitly, the vertex set of the graph $G$ is $X \times Y$, and two
+vertices $v,w \in X \times Y$ are adjacent if and only if they differ in
+exactly one of the two coordinates.
+We call the edge $vw$ a \emph{vertical edge} if $v$ and $w$ differ in the
+$X$-coordinate, and we speak of a \emph{horizontal edge} if they differ in the
+$Y$-coordinate.
+
+An induced subgraph of a grid is called a \emph{subgrid} if it is itself a grid.
+The subgrids of $G$ are exactly those induced subgraphs whose vertex set is a
+cartesian product $I \times J$, for some $I \subseteq X$ and $J \subseteq Y$.
+If the graph $G$ is oriented then its subgrids inherit an orientation.
+
+A vertex in an oriented graph is called a \emph{sink} if all its incident edges are incoming.
+An orientation of a grid is a \emph{unique sink orientation}, or \emph{USO}
+for short, if all its non-empty subgrids have a unique sink.
+
+In a grid unique sink orientation $G$ the \emph{\indegree} of a vertex $v \in G$ is an ordered pair $\ind (v) \in \{0,1,\ldots,|X|-1\}\times \{0,1,\ldots,|Y|-1\}$ which specifies the number of incoming horizontal and vertical edges of $v$ respectively. 
 
 Given a grid USO the task is to find the global sink. The USO is given via a vertex oracle: for each \emph{vertex query} the oracle reveals the orientations of the edges adjacent to the vertex. The question is, how many vertex queries suffice to find the sink of a grid USO of certain size?
 
@@ -57,6 +84,110 @@ We define a partial order of vertices in a grid unique sink orientation $G$ as f
 \begin{lemma}[Product construction]
  Let $G$ be an $X\times Y$-grid USO for some sets $X$ and $Y$ and let $A \subset 2^X$ and $B \subset 2^Y$ be partitions of $X$ and $Y$ respectively. Let $H$ be an $A\times B$-grid. \JN{See Malte's 4$\times$4 lower bound for a possible way to define this.}
 \end{lemma}
+
+
+\subsection{Summary of results}
+
+We assume that a unique sink orientation $G$ of the $(m,n)$-grid is given to
+us by means of a \emph{vertex oracle} which, when asked about a vertex $v$ of
+$G$,
+reveals the orientations of the edges adjacent to $v$.
+A \emph{sink-finding algorithm for the $(m,n)$-grid} is any procedure which
+eventually queries the sink of $G$.
+In this paper we pursue the following question:
+\begin{quote}
+    Among all deterministic sink-finding algorithms $\cal A$ for the
+    $(m,n)$-grid, what is the minimum number of queries that $\cal A$ must ask
+    in the worst case?
+\end{quote}
+Throughout the paper we will denote this number by $t(m,n)$.
+Our results are:
+
+\begin{itemize}
+    \item
+        $t(m,n) \in O(N (\log N)^2)$, where $N = m+n$. (Theorem \ref{})
+    \item
+        $t(m,n) \ge m+n-1$ (theorem \ref{}), and this is optimal at least in
+        the following cases:
+        \begin{itemize}
+            \item $m=2$ or $n=2$ (theorem \ref{}),
+            \item $(m,n) = (3,3)$ (theorem \ref{}),
+            \item $(m,n) = (4,4)$ (theorem \ref{}).
+        \end{itemize}
+\end{itemize}
+
+\section{Induced USOs}
+
+When designing algorithms for grids, at some point one will typically want to
+partition the grid into blocks.
+Such a partition into blocks forms itself a grid;
+we will see below how to define an induced orientation on it,
+to be made good use of in the proofs of theorem \ref{} and theorem \ref{}.
+An example of such an induced unique sink orientation is shown in figure
+\ref{fig:induced}.
+
+Let $G = K_X \times K_Y$ be an oriented grid,
+and let $A$ and $B$ be partitions of $X$ and $Y$, respectively.
+We study the grid $H = K_A \times K_B$.
+For every vertex $x = (a,b)$ of $H$, $a \times b$ is a subgrid of $G$, and we
+denote this subgrid by $G(x)$ to emphasize that it inherits an orientation
+from $G$.
+
+\begin{lemma}
+    The following are equivalent for all $x \in H$ and $t \in G(x)$.
+        \begin{enumerate}[(i)]
+            \item
+                $t$ is a sink in $G$.
+            \item
+                $t$ is a sink in $G(x)$, and for every $y \in N_H(x)$ and
+                every $v \in G(y) \cap N_G(t)$ there is the directed edge
+                $v \to t$.
+        \end{enumerate}
+\end{lemma}
+
+\begin{lemma}
+    \label{lemma:induced}
+    If the orientation of $G$ is a unique sink orientation,
+    then the following defines a unique sink orientation on $H$:
+    Let $x$ and $x'$ be neighbours in $H$, and let $t$ denote the sink of
+    $G(x)$.
+    We draw an arc $x' \to x$ if and only if for all
+    $v \in G(x') \cap N_G(t)$ we have $v \to t$.
+\end{lemma}
+
+\begin{definition}
+    Given a USO of $G = K_X \times K_Y$ and partitions $A,B$ of the index sets
+    $X,Y$, the orientation of $H = K_A \times K_B$
+    as defined in Lemma \ref{lemma:induced} is called the \emph{unique
+    sink orientation induced by $G$ on $H$}.
+\end{definition}
+
+\section{Algorithms}
+
+\subsection{The product algorithm}
+
+\subsection{An $O(N (\log N)^2)$ algorithm}
+
+\section{A lower bound}
+
+In this short section we prove a linear lower bound on the number $t(m,n)$ of
+queries needed to find the sink in a grid USO.
+
+\begin{lemma}
+    $ t(1,k) = k $.
+\end{lemma}
+
+\begin{theorem}
+    $ t(m,n) \ge m+n-1 $.
+\end{theorem}
+
+\section{Optimal algorithms for small grids}
+
+\subsection{$(2 , n)$-grids}
+\subsection{$(3 , 3)$-grids}
+\subsection{$(4 , 4)$-grids}
+
+\section{Higher-dimensional grids}
 
 
 \section{The algorithm}
@@ -257,8 +388,6 @@ That is, we can discard a constant fraction of the grid in each iteration of thi
  Let $M = \max\{m,n\}$. The sink of an $[m]\times[n]$-grid USO can be found after $\mathcal{O}(M(\log M)^2)$ vertex queries.
 \end{corollary}
  
-
-
 
 
 
