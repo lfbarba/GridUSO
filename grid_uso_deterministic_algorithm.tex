@@ -144,54 +144,53 @@ We define a partial order of vertices in a grid unique sink orientation $G$ as f
 
 \section{Hitting the wall}
 
-Given a vertex $x = (x_1, x_2)$ with \indegree $[a, b]$ in a grid \LB{I suggest to use $[a,b]$ for the \indegree since we may use $(x_1, x_2)$ for the coordinates representing a vertex as in this case} USO $G$, let $I_x\subseteq [m]$ be the set of indices such that  $I_x \times x_1$ is the set of all vertices with an outgoing horizontal edge to $x$. Analogously, $J_x\subseteq [n]$ is the set of indices such that $J_x\times x_2$ is the set of all vertices with an outgoing vertical edge to $x$.
-Notice that by Lemma~\ref{}, $x$ is the sink of the $I_x\times J_x$-subgrid. We say that the $I_x\times J_x$-grid is \emph{dominated} by $x$ in $G$.
+Given a vertex $v = (x_v, y_v)$ with \indegree $[a, b]$ in a grid \LB{I suggest to use $[a,b]$ for the \indegree since we may use $(x_v, y_v)$ for the coordinates representing a vertex $v$ as in this case} USO $G$, let $I_v\subseteq [m]$ be the set of indices such that  $I_v \times \{y_v\}$ is the set of all vertices with an outgoing horizontal edge to $v$. Analogously, $J_v\subseteq [n]$ is the set of indices such that $\{x_v\}\times J_v$ is the set of all vertices with an outgoing vertical edge to~$v$.
+Notice that $|I_v| = a$ while $|J_v| = b$. Moreover, by Lemma~\ref{} $v$ is the sink of the $I_v\times J_v$-subgrid. In this case, we say that the $I_v\times J_v$-grid is \emph{dominated} by $v$ in~$G$.
 
 
 \begin{lemma}\label{lemma:Constant fraction improvement}
 Let $G$ be an $[m]\times[n]$-grid USO. 
-Given a vertex $x$ with \indegree $[\alpha m, \beta n]$ such that $\alpha, \beta \in (0,1)$, we can compute another vertex with \indegree $[a,b]$ where either $a\geq \frac{1+7\alpha}{8}m$ and $b \geq \beta n$, or $a \geq \alpha m$ and $b \geq \frac{1 + 7\beta}{8}n$. This process requires $O(n + m)$ vertex queries.
+Given a vertex $v$ with \indegree $[\alpha m, \beta n]$ such that $\alpha, \beta \in (0,1)$, we can compute another vertex with \indegree $[a,b]$ where either $a\geq \frac{1+7\alpha}{8}m$ and $b \geq \beta n$, or $a \geq \alpha m$ and $b \geq \frac{1 + 7\beta}{8}n$. This process requires $O(n + m)$ vertex queries.
 \end{lemma}
 
 \begin{proof}
 Assume that $(1-\alpha) m \geq (1-\beta)n$, the other case is analogous. 
 Let $\rho = \lfloor \frac{(1-\alpha)m}{(1-\beta)n} \rfloor$.
-We consider $\rho$ square grids defines as follows. 
+We consider $\rho$ square grids defined as follows. 
 
-Consider the  $I_x\times J_x$-subgrid dominated by $x$ and 
-notice that $|I_x| = \alpha m$ while $|J_x| = \beta n$.
+Consider the  $I_v\times J_v$-subgrid dominated by $v$ and 
+notice that $|I_v| = \alpha m$ while $|J_v| = \beta n$.
 
-Let $\overline{I_x} = [m]\setminus I_x$ and $\overline{J_x} = [n]\setminus J_x$.
-Let $A_1, \ldots, A_\rho, A_{\rho+1}$ be a partition of $\overline{I_x}$ into $\rho+1$ pairwise disjoint subsets such that each has size $k = (1-\beta)n$ (except maybe the last one).
-Let $G_i$ be the $A_i\times \overline{J_x}$-grid, for $1\leq i\leq \rho$. That is, we defined $\rho$ $k\times k$ pairwise-disjoint square subgrids of $G$ (we ignore the set $A_{\rho+1}$).
+Let $\overline{I_v} = [m]\setminus I_v$ and $\overline{J_v} = [n]\setminus J_v$.
+Let $A_1, \ldots, A_\rho, A_{\rho+1}$ be a partition of $\overline{I_v}$ into $\rho+1$ pairwise disjoint subsets such that each has size $k = (1-\beta)n$ (except maybe the last one).
+Let $G_i$ be the $A_i\times \overline{J_v}$-grid, for $1\leq i\leq \rho$. That is, we define $\rho$ $k\times k$ pairwise-disjoint square subgrids of $G$ (we ignore the set $A_{\rho+1}$).
 
 For each $G_i$, use Lemma~\ref{} to compute a vertex $s_i$ having \indegree at least $[a,b]$ in $G_i$, where $a,b \geq k/4$.
 This requires $O(k)$ vertex queries. 
 Consider the $I_{s_i}\times J_{s_j}$-subgrid dominated by $s_i$ in $G_i$, where $|I_{s_i}|, |J_{s_i}| \geq k/4$.
 
-By the USO-Lemma~\ref{}, we know that $s_i$ is smaller than each vertex in either the $I_x\times J_{s_i}$-grid or the $I_{s_i}\times J_x$-grid. This yields two cases:
+By the USO-Lemma~\ref{}, we know that $s_i$ is smaller than each vertex in either the $I_v\times J_{s_i}$-grid or the $I_{s_i}\times J_v$-grid. This yields two cases:
 
 \textbf{Case 1:} If there exists $1\leq i \leq \rho$ such that
-$s_i$ is smaller than each vertex in the $I_x\times J_{s_i}$-grid, then let $W =  I(s_i) \times (J_x\cup J_{s_i})$ be a set of at least $\beta n + k/4$ vertices, where $I(s_i)$ is the column-index of $s_i$; see Figure~\ref{}. 
+$s_i$ is smaller than each vertex in the $I_v\times J_{s_i}$-grid, then let $W =  x_{s_i} \times (J_v\cup J_{s_i})$ be a set of at least $\beta n + k/4$ vertices, where $s_i = (x_{s_i}, y_{s_i})$; see Figure~\ref{}. 
 
 Let $z$ be the sink of $W$. Note that we can compute $z$ after querying each vertex of $W$, i.e., after $O(n)$ vertex queries. Assume that $z$ has \indegree $[a_z, b_z]$. 
-Because $z$ is smaller than $s_i$, $z$ is also smaller than every vertex in the $I_x\times J_{s_i}$-grid. Moreover, since $s_i$ is smaller than $x$, $z$ is also smaller than $x$ and hence, $z$ is smaller than every vertex in the $I_x\times J_x$-grid.
-Consequently, $x$ is larger than every vertex in the $I_x\times (J_x\cup J_{s_i})$-grid, i.e., $a_z\geq |I_x| = \alpha m$.
-
-Because $z$ is the sink of $W$
+Because $z$ is smaller than $s_i$, $z$ is also smaller than every vertex in the $I_v\times J_{s_i}$-grid. Moreover, since $s_i$ is smaller than $v$, we know that $z$ is also smaller than $v$ and hence, $z$ is smaller than every vertex in the $I_v\times J_v$-grid.
+Consequently, $v$ is larger than every vertex in the $I_v\times (J_v\cup J_{s_i})$-grid, i.e., $a_z\geq |I_v| = \alpha m$.
+Because $z$ is the sink of $W$, we know that
  $$b_z \geq |W| = \beta n + k/4 = \beta n + \frac{(1-\beta)}{4}n = \frac{1 + 3\beta}{4}n\geq \frac{1 + 7\beta}{8}n.$$
 
-\textbf{Case 2:} If for each $1\leq i\leq \rho$ $s_i$ is smaller than each vertex in the $I_{s_i}\times J_x$-grid, then we want to compute a vertex that is smaller than each vertex in $S = \{s_1, \ldots, s_\rho\}$.
+\textbf{Case 2:} If for each $1\leq i\leq \rho$ $s_i$ is smaller than each vertex in the $I_{s_i}\times J_v$-grid, then we want to compute a vertex that is smaller than each vertex in $S = \{s_1, \ldots, s_\rho\}$.
 To this end, let $t_1 = s_1$.
 For each $2\leq i\leq \rho$, let $t_{i+1}$ be the sink of the smallest subgrid containing $t_i$ and $s_{i+1}$. Note that we can compute $t_{i+1}$ with a constant number of vertex queries.
 Thus, after $O(\rho)$ vertex queries, we obtain a vertex $t = t_\rho$, such that $t$ is smaller than $s_i$, for each $1\leq i\leq \rho$. Notice that $t$ lies in the same row as some $s_j\in S$ and in the same column as some $s_h\in S$. 
 
-Consider the following set $$W = \left(I_x\cup \left(\bigcup_{i=1}^\rho I_{s_i}\right)\right)\times J(t),$$
-where $J(t)$ is the row-index of $t$.
+Consider the following set $$W = \left(I_v\cup \left(\bigcup_{i=1}^\rho I_{s_i}\right)\right)\times y_t,$$
+where $t = (x_t, y_t)$.
 Let $z$ be the sink of $W$ and let $(a_z, b_z)$ denote the \indegree of $z$.
 
 Because $z$ is the sink of $W$, we conclude that 
-$$a_z \geq |W|  = |I_x| + \sum_{i=1}^\rho |I_{s_i}| \geq
+$$a_z \geq |W|  = |I_v| + \sum_{i=1}^\rho |I_{s_i}| \geq
 \alpha m + \rho k/4  = \alpha m +  \left\lfloor \frac{(1-\alpha)m}{(1-\beta)n} \right\rfloor \frac{(1-\beta) n}{4}.$$
 
 Since we assumed that $(1 - \alpha) m > (1-\beta) n$, and by the properties of the floor function, we know that $$(1 - \alpha) m \geq \left \lfloor \frac{(1-\alpha)m}{(1-\beta)n} \right \rfloor (1-\beta)n \geq \frac{(1 - \alpha) m}{2} \ .$$
@@ -200,14 +199,14 @@ Consequently,
 $$a_z \geq \alpha m + \frac{(1-\alpha)m}{8} = \frac{(1 + 7\alpha) m}{8}.$$
 
 Since $z$ is smaller than $t$, and 
-because each $s_i$ is smaller than each vertex in the $I_{s_i}\times J_x$-grid, $z$ is also smaller than each vertex in the $I_{s_i}\times J_x$-grid. Thus, by the definition of $W$, we conclude that $b_z \geq |J_x| \geq \beta n$.
+because each $s_i$ is smaller than each vertex in the $I_{s_i}\times J_v$-grid, $z$ is also smaller than each vertex in the $I_{s_i}\times J_v$-grid. Thus, by the definition of $W$, we conclude that $b_z \geq |J_v| \geq \beta n$.
 
 Therefore, regardless of the case, we can always guarantee the existence of a vertex $z$ with \indegree $[a_z,b_z]$ such that either $a_z\geq \frac{1+7\alpha}{8}m$ and $b_z \geq \beta n$, or $a_z \geq \alpha m$ and $b_z \geq \frac{1 + 7\beta}{8}n$.
 \end{proof}
 
 \begin{corollary}
 Let $G$ be an $[m]\times[n]$ grid USO. 
-Given a vertex $x$ with \indegree $[\alpha m, \beta n]$ such that $\alpha, \beta \in (1/4,1)$, we can compute another vertex with \indegree $[a,b]$ where either $a = m$ and $b \geq \beta n$, or $a \geq \alpha m$ and $b  = n$. This process requires $O((n + m) \log (n+m))$ vertex queries.
+Given a vertex $v$ with \indegree $[\alpha m, \beta n]$ such that $\alpha, \beta \in (1/4,1)$, we can compute another vertex with \indegree $[a,b]$ where either $a = m$ and $b \geq \beta n$, or $a \geq \alpha m$ and $b  = n$. This process requires $O((n + m) \log (n+m))$ vertex queries.
 \end{corollary}
 \begin{proof}
 After applying Lemma~\ref{lemma:Constant fraction improvement} repeatedly $O(\log(n + m))$ times, we reach a vertex $z$ with \indegree $[a_z, b_z]$ such that either $a_z = m - c$ or $b_z = n- c$ for some absolute constant $c$. 
@@ -216,7 +215,7 @@ Since each application of Lemma~\ref{lemma:Constant fraction improvement} requir
 Assume without loss of generality that $a_z = m-c$. The case when $b_z = n-c$ is analogous. 
 Consider the  $I_z\times J_z$-subgrid dominated by $z$ and 
 notice that $|I_z| = m-c$ while $|J_z| \geq \beta n$. 
-Let $\overline{I_z} = [m] \setminus I_z$ and note that $|\overline{I_z}| = c$. Therefore, we can find the sink $y$ of the $\overline{I_z}\times J_z$-grid by querying each of its vertices. This process requires $O(|J_z|) = O(n)$ queries.  After that, the smallest element among $x$ and $y$ is the sink of the $[m]\times J_z$-grid, i.e., it has \indegree $(m, |J_z|)$, where $|J_z|  \geq \beta n$.
+Let $\overline{I_z} = [m] \setminus I_z$ and note that $|\overline{I_z}| = c$. Therefore, we can find the sink $w$ of the $\overline{I_z}\times J_z$-grid by querying each of its vertices. This process requires $O(|J_z|) = O(n)$ queries.  After that, the smallest element among $z$ and $w$ is the sink of the $[m]\times J_z$-grid, i.e., it has \indegree $(m, |J_z|)$, where $|J_z|  \geq \beta n$.
 \end{proof}
 
 
