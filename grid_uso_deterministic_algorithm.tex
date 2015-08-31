@@ -33,6 +33,7 @@
 
 \newcommand{\indegree}{refined in-degree\xspace}
 \newcommand{\ind}{\ensuremath{\mathrm{ind}}}
+\newcommand{\og}{\overrightarrow{G}}
 
 \begin{document}
 
@@ -55,19 +56,26 @@ Given two finite sets $X$ and $Y$,
 the \emph{grid on $X \times Y$} is the product graph $G = K_X \times K_Y$.
 It is also called an \emph{$(m,n)$-grid}, where $m = |X|$ and $n = |Y|$ denote
 the cardinalities of the index sets.
-See figure \ref{fig:a-grid} for an example of a grid.
+See figure \ref{fig:examplegrid} for an example of a grid.
 
 Explicitly, the vertex set of the graph $G$ is $X \times Y$, and two
 vertices $v,w \in X \times Y$ are adjacent if and only if they differ in
 exactly one of the two coordinates.
-We call the edge $vw$ a \emph{vertical edge} if $v$ and $w$ differ in the
-$X$-coordinate, and we speak of a \emph{horizontal edge} if they differ in the
+We call the edge $vw$ a \emph{horizontal edge} if $v$ and $w$ differ in the
+$X$-coordinate, and we speak of a \emph{vertical edge} if they differ in the
 $Y$-coordinate.
 
 An induced subgraph of a grid is called a \emph{subgrid} if it is itself a grid.
 The subgrids of $G$ are exactly those induced subgraphs whose vertex set is a
 cartesian product $I \times J$, for some $I \subseteq X$ and $J \subseteq Y$.
 If the graph $G$ is oriented then its subgrids inherit an orientation.
+
+  \begin{figure}[htbp] 
+  	\centering
+  	\includegraphics[scale=0.7]{examplegrid_fig.pdf}
+  	\caption{In this figure only a subset of the edges of the $(m,n)$-grid appears (in this case $m=6$ and $n=4$). A $(4,2)$-subgrid of our grid is depicted in gray.} 
+  	\label{fig:examplegrid}
+  \end{figure}
 
 A vertex in an oriented graph is called a \emph{sink} if all its incident edges are incoming.
 An orientation of a grid is a \emph{unique sink orientation}, or \emph{USO}
@@ -105,12 +113,12 @@ Our results are:
     \item
         $t(m,n) \in O(N (\log N)^2)$, where $N = m+n$. (Theorem \ref{})
     \item
-        $t(m,n) \ge m+n-1$ (theorem \ref{}), and this is optimal at least in
+        $t(m,n) \ge m+n-1$ (Theorem \ref{thm:lowerbound}), and this is optimal at least in
         the following cases:
         \begin{itemize}
-            \item $m=2$ or $n=2$ (theorem \ref{}),
-            \item $(m,n) = (3,3)$ (theorem \ref{}),
-            \item $(m,n) = (4,4)$ (theorem \ref{}).
+            \item $m=2$ or $n=2$ (Theorem \ref{}),
+            \item $(m,n) = (3,3)$ (Theorem \ref{}),
+            \item $(m,n) = (4,4)$ (Theorem \ref{}).
         \end{itemize}
 \end{itemize}
 
@@ -299,7 +307,7 @@ Let $\overline{I_v} = [m]\setminus I_v$ and $\overline{J_v} = [n]\setminus J_v$.
 Let $A_1, \ldots, A_\rho$ be a partition of $\overline{I_v}$ into $\rho$ pairwise disjoint subsets of indices such that each has size $k = (1-\beta)n$, except maybe for the last one which contains at most $2k-1$ indices.
 For each $1\leq i\leq \rho$, let $G_i$ be the $A_i\times \overline{J_v}$-grid. That is, we define $\rho$ $k\times k$ pairwise-disjoint square subgrids of $G$; see Figure~\ref{fig:Expansion Lemma 1}.
 
-\begin{figure}[t]
+\begin{figure}[tb]
 \centering
 \includegraphics{expansion_lemma_fig1.pdf}
 %[width=1\textwidth]
@@ -310,18 +318,12 @@ For each $1\leq i\leq \rho$, let $G_i$ be the $A_i\times \overline{J_v}$-grid. T
 For each $G_i$, use Corollary~\ref{corollary: n/4 indegree} to compute a vertex $s_i$ having \indegree at least $[a,b]$ in $G_i$, where $a,b \geq k/4$ (the \indegree of $s_i$ in $G$ may be larger).
 By Corollary~\ref{corollary: n/4 indegree}, this requires $O(k)$ vertex queries. Since we have $\rho$ grids, after $O(k\rho) = O(m)$ vertex queries we can compute each of $s_1, \ldots, s_\rho$.
  
-Consider the $I_{s_i}\times J_{s_j}$-subgrid dominated by $s_i$ in $G_i$, where $|I_{s_i}|, |J_{s_i}| \geq k/4$. Given any $i\neq j$, notice that the set $J_{s_i}$ and $J_{s_j}$ are not necessarily disjoint whereas $I_{s_i}\cap I_{s_j} = \emptyset$; see Figure~\ref{fig:Expansion Lemma 1}.
+Consider the $I_{s_i}\times J_{s_j}$-subgrid dominated by $s_i$ in $G_i$, where $|I_{s_i}|, |J_{s_i}| \geq k/4$. Given any $i\neq j$, notice that the set $I_{s_i}$ and $I_{s_j}$ are not necessarily disjoint whereas $J_{s_i}\cap J_{s_j} = \emptyset$; see Figure~\ref{fig:Expansion Lemma 1}.
 
 By the USO-Lemma~\ref{}, we know that $s_i$ is smaller than each vertex in either the $I_v\times J_{s_i}$-grid or the $I_{s_i}\times J_v$-grid. This yields two cases:
 
 \textbf{Case 1:} If there exists $1\leq i \leq \rho$ such that
 $s_i$ is smaller than each vertex in the $I_v\times J_{s_i}$-grid, then let $W =  \{x_{s_i}\} \times (J_v\cup J_{s_i})$ be a set of at least $\beta n + k/4$ vertices, where $s_i = (x_{s_i}, y_{s_i})$; see Figure~\ref{fig:Expansion Case 1}. 
-
-Let $z$ be the sink of $W$. Note that we can compute $z$ after querying each vertex of $W$, i.e., after $O(n)$ vertex queries. Assume that $z$ has \indegree $[a_z, b_z]$. 
-Because $z$ is smaller than $s_i$, $z$ is also smaller than every vertex in the $I_v\times J_{s_i}$-grid. Moreover, since $s_i$ is smaller than $v$, we know that $z$ is also smaller than $v$ and hence, $z$ is smaller than every vertex in the $I_v\times J_v$-grid.
-Consequently, $z$ is smaller than every vertex in the $I_v\times (J_v\cup J_{s_i})$-grid, i.e., $a_z\geq |I_v| = \alpha m$.
-Because $z$ is the sink of $W$, we know that
- $$b_z \geq |W| = \beta n + k/4 = \beta n + \frac{(1-\beta)}{4}n = \frac{1 + 3\beta}{4}n\geq \frac{1 + 7\beta}{8}n.$$
 
 \begin{figure}[h]
 \centering
@@ -330,6 +332,12 @@ Because $z$ is the sink of $W$, we know that
 \caption{\small }
 \label{fig:Expansion Case 1}
 \end{figure}
+
+Let $z$ be the sink of $W$. Note that we can compute $z$ after querying each vertex of $W$, i.e., after $O(n)$ vertex queries. Assume that $z$ has \indegree $[a_z, b_z]$. 
+Because $z$ is smaller than $s_i$, $z$ is also smaller than every vertex in the $I_v\times J_{s_i}$-grid. Moreover, since $s_i$ is smaller than $v$, we know that $z$ is also smaller than $v$ and hence, $z$ is smaller than every vertex in the $I_v\times J_v$-grid.
+Consequently, $z$ is smaller than every vertex in the $I_v\times (J_v\cup J_{s_i})$-grid, i.e., $a_z\geq |I_v| = \alpha m$.
+Because $z$ is the sink of $W$, we know that
+ $$b_z \geq |W| = \beta n + k/4 = \beta n + \frac{(1-\beta)}{4}n = \frac{1 + 3\beta}{4}n\geq \frac{1 + 7\beta}{8}n.$$
 
 
 \textbf{Case 2:} If for each $1\leq i\leq \rho$ $s_i$ is smaller than each vertex in the $I_{s_i}\times J_v$-grid, then we want to compute a vertex that is smaller than each vertex in $S = \{s_1, \ldots, s_\rho\}$.
@@ -390,6 +398,66 @@ That is, we can discard a constant fraction of the grid in each iteration of thi
  Let $M = \max\{m,n\}$. The sink of an $[m]\times[n]$-grid USO can be found after $\mathcal{O}(M(\log M)^2)$ vertex queries.
 \end{corollary}
  
+\section{A deterministic lower bound}
+In this section, we prove that any deterministic algorithm needs at least $m+n-1$ vertex evaluations to solve the $(m,n)$-grid USO. We say that a vertical edge 
+is oriented \emph{upwards} to mean that it is oriented from the vertex in the lower to the vertex in the higher row\AT{Should the definition of upwards be with the main set of definitions?}.  
+
+\begin{lemma}[Merge]\label{lem:merge}
+Consider two grid USOs: the $(m,n_1)$-grid $G_1$ of dimension and the $(m,n_2)$-grid $G_2$. The orientation of the $(m, n_1+n_2)$-grid, that has  
+$G_1$ embedded in the upper $n_1$ rows and $G_2$ embedded in the bottom $n_2$ rows and such that all vertical edges connecting $G_1$ 
+and $G_2$ go upwards, is a grid USO\AT{This lemma should be able to take some generalization.}.
+\end{lemma}
+\begin{proof}
+Both $G_1$ and $G_2$ are grid USO. We embed them and direct all unoriented vertical edges from $G_2$ to $G_1$ (upwards). Any subgrid that lies 
+completely in $G_1$ or in $G_2$ is unaffected. Any subgrid that contains rows from both $G_1$ and $G_2$ will have a 
+unique sink which will lie in $G_1$. 
+\end{proof}
+
+\begin{lemma}\label{lem:kx1}
+Every deterministic algorithm needs $m$ queries to find the sink of a $(m,1)$-grid USO. 
+\end{lemma}
+\begin{proof}
+Let $v_i$ denote the vertex evaluated at the $i$th query, for $i=1,\ldots, m$. At evaluation of $v_1$ we answer with the source. Then, at every vertex 
+we answer with all edges that are not yet defined to be outgoing. Then, $v_i$ will have $i-1$ edges, already evaluated from the previous evaluations, which will 
+be incoming. Thus, it will have $m-i$ outgoing edges. At the $(m-1)$th iteration the vertex $v_{m-1}$ will have one outgoing edge which will point to $v_m$.
+The algorithm then needs to also evaluate $v_m$ (which will be the sink) for a total of $m$ queries. 
+\end{proof}
+
+\begin{theorem} \label{thm:lowerbound}
+Every deterministic algorithm needs at least $m+n-1$ queries to find the sink of a $(m,n)$-grid USO. 
+\end{theorem}
+\begin{proof}
+Again, let $v_i$ denote the vertex evaluated at the $i$th query, now for $i=1,\ldots, n$. Let $\og_m$ be the all-forward orientation of the $(m,1)$-grid. 
+That is, all arrows point towards the right. 
+W.l.o.g. we assume that $v_1$ is the vertex 
+at the bottom left corner which is the source of the grid USO. 
+We say that a row has been evaluated when it contains a vertex that has been evaluated. 
+Our strategy will be that all vertical edges are upwards and that the first $n-1$ evaluated rows 
+have $\og_m$ embedded. For the row evaluated last we will use the strategy from Lemma~\ref{lem:kx1}.
+
+Let $v_i$ be the currently evaluated vertex at a time when there are still unevaluated rows. This is definitely the case if $i\leq n-1$, but there might still be
+unevaluated rows at a later step. 
+If $v_i$ is in a row that contains a previously evaluated vertex $v_j$, for $j < i$, then 
+we proceed with revealing orientation $\og_m$ in the corresponding row (and the vertical edges always point upwards). 
+
+If $v_i$ is in a row where no other vertex has been evaluated: Consider the re-arrangement of the grid 
+such that the row that contains $v_i$ is the first from the bottom that has no other vertex evaluated (i.e. no vertex $v_j$, $j<i$). 
+The only vertices other than $v_i$ that have been evaluated, are in lower rows and, thus, the re-arrangement does not change 
+something for the vertices that have been already evaluated.
+The orientation we uncover internally in the row of $v_i$ is $\og_m$ and, again, all vertical edges go upwards. 
+
+Every time a new row is queried (except for the last one), 
+we implicitly embed $\og_m$ in this row which, by the re-arrangement, we assume is now lower compared to all the rows
+that have not been queried.  Note that since all vertical edges are upwards, this is safe by Lemma~\ref{lem:merge}.
+Therefore, the algorithm needs at least $n$ queries to evaluate a vertex in each row. We will embed the sink of the grid USO in the highest row (the one 
+evaluated last; the earliest at the $n$th query).
+
+Now consider the $i$th evaluation which is the one of the last unevaluated row, i.e. $i \geq n$. This row will have all vertical edges incoming. 
+Here we will not embed $\og_m$, but we will play the strategy from Lemma~\ref{lem:kx1}. Thus, the algorithm will need $m$ evaluations to find 
+the sink of this row, that will also be the sink of the $(m,n)$-grid USO. Since all vertical edges are upwards, we can do this by Lemma~\ref{lem:merge}. 
+Hence the total number of evaluations is at least $n$, to evaluate one vertex in each row, plus $m-1$ to evaluate the sink in the last row.
+In total, at least $m+n-1$.
+\end{proof}
 
 
 
