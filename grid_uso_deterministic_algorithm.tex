@@ -286,8 +286,34 @@ queries needed to find the sink in a grid USO.
 
 \section{Hitting the wall}
 
-Given a vertex $v = (x_v, y_v)$ with \indegree $[a, b]$ in a grid \LB{I suggest to use $[a,b]$ for the \indegree since we may use $(x_v, y_v)$ for the coordinates representing a vertex $v$ as in this case} USO $G$, let $I_v\subseteq [m]$ be the set of indices such that  $I_v \times \{y_v\}$ is the set of all vertices with an outgoing horizontal edge to $v$. Analogously, $J_v\subseteq [n]$ is the set of indices such that $\{x_v\}\times J_v$ is the set of all vertices with an outgoing vertical edge to~$v$.
-Notice that $|I_v| = a$ while $|J_v| = b$. Moreover, by Lemma~\ref{} $v$ is the sink of the $I_v\times J_v$-subgrid. In this case, we say that the $I_v\times J_v$-grid is \emph{dominated} by $v$ in~$G$.
+Given a vertex $v = (x_v, y_v)$ with \indegree $[a, b]$ in a grid \LB{I suggest to use $[a,b]$ for the \indegree since we may use $(x_v, y_v)$ for the coordinates representing a vertex $v$ as in this case} USO $G$, let $I_v\subseteq [m]$ be the set of indices such that  $I_v \times \{y_v\}$ is the set of all vertices with an outgoing horizontal edge to $v$. Analogously, $J_v\subseteq [n]$ is the set of indices such that $\{x_v\}\times J_v$ is the set of all vertices with an outgoing vertical edge to~$v$. Notice that $|I_v| = a$ while $|J_v| = b$.
+
+\begin{lemma}\label{lemma:Sink of dominated grid}
+Given a vertex  $v = (x_v, y_v)$ in a grid USO $G$, $v$ is the sink of the $I_v\times J_v$-grid.
+\end{lemma}
+\begin{proof}
+Assume for a contradiction that there is a vertex $z = (x_z, y_z)$ of the $I_v\times J_v$-grid such that $z$ is smaller than $v$. Let $u = (x_z, y_v)$ and $w = (x_v, y_z)$ the other two vertices of the $\{x_v, x_z\}\times\{y_v,y_z\}$-grid.
+Since $x_v\in I_v$ and $y_v\in J_v$ and by the definition of $I_v$ and $J_v$, we know that $v$ is smaller than both $u$ and~$w$.
+Because we assumed that $z$ is smaller than $v$, by transitivity we know that both $u$ and $w$ are also smaller than $z$. Therefore, both $z$ and $v$ are sinks of the $\{x_v, x_z\}\times\{y_v,y_z\}$-grid---a contradiction to the USO property that comes from assuming that $z$ is smaller than $v$. Therefore, $v$ is the sink of the $I_v\times J_v$-grid.
+\end{proof}
+
+We say that the $I_v\times J_v$-grid is \emph{dominated} by $v$ in~$G$.
+
+\begin{lemma}
+[USO-Lemma]
+Given an $[m]\times[n]$-grid USO $G$ and sets $I, I'\subset [m]$ and $J,J'\subset [n]$ such that $I\cap I' = \emptyset = J\cap J'$. If $u$ is the sink of the $I\times J$-grid while $v$ is the sink of the $I'\times J'$-grid such that $v$ is smaller than $u$, then $v$ is either smaller than the sink of the $I\times J'$-grid or smaller than the sink of the $I'\times J$-grid (maybe smaller than both).
+\end{lemma}
+\begin{proof}
+Let $t = (x_t, y_t)$ and $s = (x_s, y_s)$ be the sinks of the $I\times J'$-grid and the $I'\times J$-grid, respectively.
+Assume for a contradiction that $v = (x_v, y_v)$ is larger than both $t$ and $s$. 
+Let $p = (x_s, y_t)$ and $q = (x_t, y_s)$ be the other two vertices of the $\{x_s, x_t\}\times\{y_s, y_t\}$-grid. 
+Because $x_s \in I'$ and $y_t\in J'$, $p$ is in the $I'\times J'$-grid and hence, $v$ is smaller than $p$. Since $t$ and $s$ are both smaller than $v$, by transitivity we know that both $t$ and $s$ are smaller than $p$. 
+Analogously, since $q$ is in the $I\times J$-grid, it is larger than $u$ and hence larger than $v$. Therefore, by transitivity, we know that both $t$ and $s$ are smaller than $q$. That is, both $t$ and $s$ are sinks of the $\{x_s, x_t\}\times\{y_s, y_t\}$-grid---a contradiction that comes from assuming that both $t$ and $s$ are smaller than $v$.
+Therefore, $v$ is smaller than either $t$ or $s$.
+\end{proof}
+
+\subsection{Finding the sink}
+The idea of our algorithm is the following: Using Lemma~\ref{corollary: n/4 indegree}, we find a vertex with ``large'' \indegree, then we apply repeatedly and algorithm that finds new vertices with ``larger'' \indegree until finding one with \indegree either $[$
 
 
 \begin{lemma}\label{lemma:Constant fraction improvement}
@@ -318,7 +344,11 @@ For each $1\leq i\leq \rho$, let $G_i$ be the $A_i\times \overline{J_v}$-grid. T
 For each $G_i$, use Corollary~\ref{corollary: n/4 indegree} to compute a vertex $s_i$ having \indegree at least $[a,b]$ in $G_i$, where $a,b \geq k/4$ (the \indegree of $s_i$ in $G$ may be larger).
 By Corollary~\ref{corollary: n/4 indegree}, this requires $O(k)$ vertex queries. Since we have $\rho$ grids, after $O(k\rho) = O(m)$ vertex queries we can compute each of $s_1, \ldots, s_\rho$.
  
+<<<<<<< Updated upstream
 Consider the $I_{s_i}\times J_{s_j}$-subgrid dominated by $s_i$ in $G_i$, where $|I_{s_i}|, |J_{s_i}| \geq k/4$. Given any $i\neq j$, notice that the set $I_{s_i}$ and $I_{s_j}$ are not necessarily disjoint whereas $J_{s_i}\cap J_{s_j} = \emptyset$; see Figure~\ref{fig:Expansion Lemma 1}.
+=======
+Consider the $I_{s_i}\times J_{s_j}$-subgrid dominated by $s_i$ in $G_i$, where $|I_{s_i}|, |J_{s_i}| \geq k/4$ and $I_{s_i}\subseteq A_i$ while $J_{s_i}\subseteq \overline{J_v}$. Given any $i\neq j$, notice that the set $J_{s_i}$ and $J_{s_j}$ are not necessarily disjoint whereas $I_{s_i}\cap I_{s_j} = \emptyset$; see Figure~\ref{fig:Expansion Lemma 1}.
+>>>>>>> Stashed changes
 
 By the USO-Lemma~\ref{}, we know that $s_i$ is smaller than each vertex in either the $I_v\times J_{s_i}$-grid or the $I_{s_i}\times J_v$-grid. This yields two cases:
 
@@ -391,7 +421,7 @@ Using  Corollaries~\ref{corollary: n/4 indegree} and~\ref{corollary:Expansion to
 Consider the $I_v\times J_v$-grid dominated by $v$ and 
 notice that $|I_v| = m$ while $|J_v| \geq n/4$. Let $\overline{J_v} = [n]\setminus J_v$.
 
-By Lemma~\ref{}, $v$ is the sink $s_1$ of the $[m] \times J_v$-grid. Thus, we can recursively compute the sink $s_2$ of the $[m]\times \overline{J_v}$-grid and compare it with $s_1$. Then, the smallest among $s_1$ and $s_2$ is the sink of the whole grid.
+By Lemma~\ref{lemma:Sink of dominated grid}, $v$ is the sink $s_1$ of the $[m] \times J_v$-grid. Thus, we can recursively compute the sink $s_2$ of the $[m]\times \overline{J_v}$-grid and compare it with $s_1$. Then, the smallest among $s_1$ and $s_2$ is the sink of the whole grid.
 That is, we can discard a constant fraction of the grid in each iteration of this recursive algorithm. Therefore, we obtain the following result.
 
 \begin{corollary}
