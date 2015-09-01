@@ -249,27 +249,6 @@ queries needed to find the sink in a grid USO.
 
 
 
-\begin{lemma}
- Let $M = \max\{m,n\}$. Given a vertex  in a grid $K_{m} \times K_{n}$ with \indegree $(\alpha m,\beta n)$ with $0 \leq \alpha, \beta \leq 1$, we can find another vertex with \indegree either $\left(\alpha m,\frac{1+3\beta'}{4} n\right)$ or $\left(\frac{1+3\alpha'}{4} m, \beta n\right)$ with $\alpha' \geq \alpha$ and $\beta ' \geq \beta$. The number of vertex queries used in the process is $\mathcal{O}(M)$.
-\end{lemma}
-
-\begin{corollary}
-\label{cor:hit_wall}
- Let $M = \max\{m,n\}$. Given a vertex with \indegree $(\alpha m,\beta n)$ in a grid $K_{m} \times K_{n}$ we can find another vertex with \indegree either $(\alpha' m, n)$ or $(m, \beta' n)$ with $\alpha' \geq \alpha$ and $\beta ' \geq \beta$. The number of vertex queries used in the process is $\mathcal{O}(M\log M)$. 
-\end{corollary}
-
-\begin{theorem}
- Let $M = \max\{m,n\}$. The sink of the grid $K_{m} \times K_{n}$ can be found in $\mathcal{O}(M(\log M)^2)$ vertex queries.
-\end{theorem}
-
-\begin{proof}
- Use Corollary \ref{cor:hit_wall} to strip away a constant fraction of the whole grid. This needs logartihmically many steps. 
-\end{proof}
-
-
-
-
-
 %if every induced directed subgraph that is attained by fixing or limiting the range of some coordinates of the vertices has a unique sink. More specifically, we require this property to hold for subgraphs that are attained by taking $d$ nonempty index sets $\emptyset \not= J_i \subseteq \mathbb{Z}_n, i = 1,\ldots,d$ and considering the induced subgraph over the vertices $\{(a_1,\ldots, a_d) \in V \: : \:  a_i \in J_i \: \forall i = 1,\ldots, d \}$. If each $J_i$ is the whole of $\mathbb{Z}_n$ or a singleton, we call the resulting induced subgraph a \emph{face}. The dimension $d' \in \{0,1,\ldots, d\}$ of the face is the number of index sets that are the whole of $\mathbb{Z}_n$. Note that a face of $(K_n)^d$ of dimension $d'$ is isomorphic to $(K_n)^{d'}$. Any face can be compactly written as a vector $(v_1,\ldots,v_d) \in \left(\mathbb{Z}_{n} \cup \{*\}\right)^d$ where $v_i$ matches the only element of $J_i$ when $J_i$ is a singleton and $v_i$ is $*$ otherwise. Unless otherwise clear, one should also specify what $n$ is when talking of faces. This concept of a face is a natural generalization from the $d$-cube $(K_2)^d$ for which the faces we defined correspond to the faces of the $d$-cube in the geometric sense.
 
 %Consider some USO of $(K_n)^d$. For this USO we define the \emph{in-map} $\phi : V \rightarrow \mathbb{Z}_n^d$ for each vertex $v = (v_1,\dots, v_d) \in V$ so that $\phi(v)_i$ is the number of edges that are incoming for $v$ from its neighbors $w \in V$ that differ from $v$ on coordinate $i$. It was shown by \citet[Theorem 2]{gartner2008unique} that for a USO this mapping is infact a bijection. The \emph{product construction} for grids (\citet{gartner2008unique}, \citet{szabo2001unique}) states that we can contract dimensions and maintain the USO structure. More specifically, for any $I \subseteq \mathbb{Z}_n$ consider the set of faces 
@@ -280,8 +259,6 @@ queries needed to find the sink in a grid USO.
 % 
 % 
 % The problem we are looking at is that of finding the global sink of a USO over $(K_n)^d$. The USO is given by an oracle that for any given vertex reveals the orientations of the edges adjacent to the vertex. The question is, what is the least number of these vertex queries needed to find the unique global sink? Just knowing its location is not sufficient, but we also require that the sink is evaluated. This requirement will prove useful when developing an algorithm.
-
-\subsection{Grids in two dimensions}
 
 
 \section{Hitting the wall}
