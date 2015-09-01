@@ -313,7 +313,7 @@ Therefore, $v$ is smaller than either $t$ or $s$.
 \end{proof}
 
 \subsection{Finding the sink}
-The idea of our algorithm is the following: Using Lemma~\ref{corollary: n/4 indegree}, we find a vertex with ``large'' \indegree, then we apply repeatedly and algorithm that finds new vertices with ``larger'' \indegree until finding one with \indegree either $[$
+The idea of our algorithm is the following: Using Lemma~\ref{corollary: n/4 indegree}, by Lemma~\ref{lemma:Sink of dominated grid}, this vertex dominates already a subgrid with at least $n^2/16$ of the vertices. However, this is not enough so we use Lemma~\ref{lemma:Constant fraction improvement} to find a smaller vertex that dominates a larger subgrid. By repeating this process a logarithmic number of times, we end up with a vertex whose dominated subgrid spans a strip of the original grid containing at least one eight of the vertices. This leaves us with another (non-square) grid where we can repeat our algorithm. The key result to this process is described in the next lemma.
 
 
 \begin{lemma}\label{lemma:Constant fraction improvement}
@@ -401,6 +401,8 @@ because each $s_i$ is smaller than each vertex in the $I_{s_i}\times J_v$-grid, 
 
 Therefore, regardless of the case, we can always guarantee the existence of a vertex $z$ with \indegree $[a_z,b_z]$ such that either $a_z\geq \frac{1+7\alpha}{8}m$ and $b_z \geq \beta n$, or $a_z \geq \alpha m$ and $b_z \geq \frac{1 + 7\beta}{8}n$.
 \end{proof}
+
+
 
 \begin{corollary}\label{corollary:Expansion to the wall}
 Let $G$ be an $[m]\times[n]$ grid USO. 
