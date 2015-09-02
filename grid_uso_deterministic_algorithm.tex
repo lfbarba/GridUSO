@@ -53,7 +53,7 @@
 
 We write $K_X$ for the complete graph on a given vertex set $X$.
 Given two finite sets $X$ and $Y$,
-the \emph{grid on $X \times Y$} is the product graph $G = K_X \times K_Y$.
+the \emph{$X \times Y$-grid} is the product graph $G = K_X \times K_Y$.
 It is also called an \emph{$(m,n)$-grid}, where $m = |X|$ and $n = |Y|$ denote
 the cardinalities of the index sets.
 See figure \ref{fig:examplegrid} for an example of a grid.
@@ -79,25 +79,21 @@ If the graph $G$ is oriented then its subgrids inherit an orientation.
 
 A vertex in an oriented graph is called a \emph{sink} if all its incident edges are incoming.
 An orientation of a grid is a \emph{unique sink orientation}, or \emph{USO}
-for short, if all its non-empty subgrids have a unique sink.
+for short, if all its non-empty subgrids have a unique sink. For simplicity, we call a grid with a unique sink orientation a grid USO.
 
-In a grid unique sink orientation $G$ the \emph{\indegree} of a vertex $v \in G$ is an ordered pair $\ind (v) \in \{0,1,\ldots,|X|-1\}\times \{0,1,\ldots,|Y|-1\}$ which specifies the number of incoming horizontal and vertical edges of $v$ respectively. 
+Given a grid USO the task is to find the global sink. 
+We assume that the orientations of the edges are given by means of a \emph{vertex oracle} which supports \emph{vertex queries} of the form: Given a vertex of the grid, reveal the orientations of the edges adjacent to this vertex.
+In this paper, we study the following question: how many vertex queries suffice to find the sink of a grid USO of certain size?
 
-Given a grid USO the task is to find the global sink. The USO is given via a vertex oracle: for each \emph{vertex query} the oracle reveals the orientations of the edges adjacent to the vertex. The question is, how many vertex queries suffice to find the sink of a grid USO of certain size?
-
-We define a partial order of vertices in a grid unique sink orientation $G$ as follows. For any two vertices $v,w \in G$ consider the smallest subgrid containing both $v$ and $w$. We say that $w \succeq v$ if there is a path from $w$ to $v$ in this subgrid. As the grid USO is acyclic, this defines a partial order on the vertices. Note that the sink of the grid is the unique minimal vertex with respect to this ordering. 
-
-\begin{lemma}[Product construction]
- Let $G$ be an $X\times Y$-grid USO for some sets $X$ and $Y$ and let $A \subset 2^X$ and $B \subset 2^Y$ be partitions of $X$ and $Y$ respectively. Let $H$ be an $A\times B$-grid. \JN{See Malte's 4$\times$4 lower bound for a possible way to define this.}
-\end{lemma}
+%\begin{lemma}[Product construction]
+% Let $G$ be an $X\times Y$-grid USO for some sets $X$ and $Y$ and let $A \subset 2^X$ and $B \subset 2^Y$ be partitions of $X$ and $Y$, respectively. Let $H$ be an $A\times B$-grid. \JN{See Malte's 4$\times$4 lower bound for a possible way to define this.}
+%\end{lemma}
 
 
 \subsection{Summary of results}
 
-We assume that a unique sink orientation $G$ of the $(m,n)$-grid is given to
-us by means of a \emph{vertex oracle} which, when asked about a vertex $v$ of
-$G$,
-reveals the orientations of the edges adjacent to $v$.
+We assume that a unique sink orientation of an $(m,n)$-grid $G$ is given to
+us by means of a \emph{vertex oracle}.
 A \emph{sink-finding algorithm for the $(m,n)$-grid} is any procedure which
 eventually queries the sink of $G$.
 In this paper we pursue the following question:
@@ -111,7 +107,7 @@ Our results are:
 
 \begin{itemize}
     \item
-        $t(m,n) \in O(N (\log N)^2)$, where $N = m+n$. (Theorem \ref{})
+        $t(m,n) \in O(N (\log N)^2)$, where $N = m+n$. (Theorem~\ref{theorem:Sink algorithm})
     \item
         $t(m,n) \ge m+n-1$ (Theorem \ref{thm:lowerbound}), and this is optimal at least in
         the following cases:
@@ -127,8 +123,7 @@ Our results are:
 When designing algorithms for grids, at some point one will typically want to
 partition the grid into blocks.
 Such a partition into blocks forms itself a grid;
-we will see below how to define an induced orientation on it,
-to be made good use of in the proofs of theorem \ref{} and theorem \ref{}.
+we will see below how to define an induced orientation on it.
 An example of such an induced unique sink orientation is shown in figure
 \ref{fig:induced}.
 
@@ -168,35 +163,15 @@ from $G$.
     sink orientation induced by $G$ on $H$}.
 \end{definition}
 
-\section{Algorithms}
+\section{The sink-finding algorithm}
 
-\subsection{The product algorithm}
+In a grid USO $G$, the \emph{\indegree} of a vertex $v \in G$ is an ordered pair $\ind (v) \in \{0,1,\ldots,|X|-1\}\times \{0,1,\ldots,|Y|-1\}$ which specifies the number of incoming horizontal and vertical edges of $v$ respectively. 
 
-\subsection{An $O(N (\log N)^2)$ algorithm}
+We define a partial order of vertices in a grid unique sink orientation $G$ as follows. For any two vertices $v,w \in G$ consider the smallest subgrid containing both $v$ and $w$. We say that $w \succeq v$ if there is a path from $w$ to $v$ in this subgrid. As the grid USO is acyclic, this defines a partial order on the vertices. Note that the sink of the grid is the unique minimal vertex with respect to this ordering. 
 
-\section{A lower bound}
-
-In this short section we prove a linear lower bound on the number $t(m,n)$ of
-queries needed to find the sink in a grid USO.
-
-\begin{lemma}
-    $ t(1,k) = k $.
-\end{lemma}
-
-\begin{theorem}
-    $ t(m,n) \ge m+n-1 $.
-\end{theorem}
-
-\section{Optimal algorithms for small grids}
-
-\subsection{$(2 , n)$-grids}
-\subsection{$(3 , 3)$-grids}
-\subsection{$(4 , 4)$-grids}
-
-\section{Higher-dimensional grids}
+Note that two vertices may not be $\succeq$-comparable in the smallest subgrid containing them. Thus, we consider the transitive closure of this relation and say that a vertex $w$ is \emph{larger} than $v$ (or $v$ is smaller than $w$) if there is a sequence $w = v_1, v_2, \ldots, v_k = v$ of $G$ such that $v_i \succeq v_{i+1}$, for each $1\leq i\leq k-1$.
 
 
-\section{The algorithm}
 
 \begin{lemma}
  Given an $n\times n$ grid USO we can find a vertex with a \indegree $[a,b]$ satisfying $a, b \geq \frac{n}{4} - 1$ by using $\mathcal{O}(n)$ vertex queries.
@@ -350,7 +325,7 @@ Because $z$ is the sink of $W$, we know that
 \textbf{Case 2:} If for each $1\leq i\leq \rho$ $s_i$ is smaller than each vertex in the $I_{s_i}\times J_v$-grid, then we want to compute a vertex that is smaller than each vertex in $S = \{s_1, \ldots, s_\rho\}$.
 To this end, let $t_1 = s_1$.
 For each $2\leq i\leq \rho$, let $t_{i+1}$ be the sink of the smallest subgrid containing $t_i$ and $s_{i+1}$. Note that we can compute $t_{i+1}$ with a constant number of vertex queries.
-Thus, after $O(\rho)$ vertex queries, we obtain a vertex $t = t_\rho$, such that $t$ is smaller than $s_i$, for each $1\leq i\leq \rho$. Notice that $t$ lies in the same row as some $s_j\in S$ and in the same column as some $s_h\in S$; see Figure~\ref{fig:Expansion Case 2}. 
+Thus, after $O(\rho)$ vertex queries, we obtain a vertex $t = t_\rho$, such that $t$ is smaller than $s_i$, for each $1\leq i\leq \rho$. Notice that $t$ lies in the same row as some $s_j\in S$ and in the same column as some $s_h\in S$, for some $1\leq j,h\leq \rho$; see Figure~\ref{fig:Expansion Case 2}. 
 
 \begin{figure}[h]
 \centering
@@ -364,7 +339,7 @@ Consider the following set $$W = \left(I_v\cup \left(\bigcup_{i=1}^\rho I_{s_i}\
 where $t = (x_t, y_t)$.
 Let $z$ be the sink of $W$ and let $(a_z, b_z)$ denote the \indegree of $z$.
 
-Because $z$ is the sink of $W$, we conclude that 
+Because $z$ is the sink of $W$, we infer that 
 $$a_z \geq |W|  = |I_v| + \sum_{i=1}^\rho |I_{s_i}| \geq
 \alpha m + \rho k/4  = \alpha m +  \left\lfloor \frac{(1-\alpha)m}{(1-\beta)n} \right\rfloor \frac{(1-\beta) n}{4}.$$
 
@@ -374,7 +349,9 @@ Consequently,
 $$a_z \geq \alpha m + \frac{(1-\alpha)m}{8} = \frac{(1 + 7\alpha) m}{8}.$$
 
 Since $z$ is smaller than $t$, and 
-because each $s_i$ is smaller than each vertex in the $I_{s_i}\times J_v$-grid, $z$ is also smaller than each vertex in the $I_{s_i}\times J_v$-grid. Thus, by the definition of $W$, we conclude that $b_z \geq |J_v| \geq \beta n$.
+because each $s_i$ is smaller than each vertex in the $I_{s_i}\times J_v$-grid, $z$ is also smaller than each vertex in the $I_{s_i}\times J_v$-grid, for each $1\leq i\leq \rho$. 
+Moreover, because $z$ is smaller than $v$, $z$ is also smaller than each vertex in the $I_v\times J_v$-grid.
+Thus, if $z = (x_z, y_z)$, then $z$ is smaller than each vertex in $\{x_z\}\times J_v$, i.e., $b_z \geq |J_v| \geq \beta n$; see Figure~\ref{fig:Expansion Case 2}.
 
 Therefore, regardless of the case, we can always guarantee the existence of a vertex $z$ with \indegree $[a_z,b_z]$ such that either $a_z\geq \frac{1+7\alpha}{8}m$ and $b_z \geq \beta n$, or $a_z \geq \alpha m$ and $b_z \geq \frac{1 + 7\beta}{8}n$.
 \end{proof}
@@ -403,9 +380,9 @@ notice that $|I_v| = m$ while $|J_v| \geq n/4$. Let $\overline{J_v} = [n]\setmin
 By Lemma~\ref{lemma:Sink of dominated grid}, $v$ is the sink $s_1$ of the $[m] \times J_v$-grid. Thus, we can recursively compute the sink $s_2$ of the $[m]\times \overline{J_v}$-grid and compare it with $s_1$. Then, the smallest among $s_1$ and $s_2$ is the sink of the whole grid.
 That is, we can discard a constant fraction of the grid in each iteration of this recursive algorithm. Therefore, we obtain the following result.
 
-\begin{corollary}
+\begin{theorem}\label{theorem:Sink algorithm}
  Let $M = \max\{m,n\}$. The sink of an $[m]\times[n]$-grid USO can be found after $\mathcal{O}(M(\log M)^2)$ vertex queries.
-\end{corollary}
+\end{theorem}
  
 \section{A deterministic lower bound}
 In this section, we prove that any deterministic algorithm needs at least $m+n-1$ vertex evaluations to solve the $(m,n)$-grid USO. We say that a vertical edge 
@@ -467,6 +444,14 @@ the sink of this row, that will also be the sink of the $(m,n)$-grid USO. Since 
 Hence the total number of evaluations is at least $n$, to evaluate one vertex in each row, plus $m-1$ to evaluate the sink in the last row.
 In total, at least $m+n-1$.
 \end{proof}
+
+\section{Optimal algorithms for small grids}
+
+\subsection{$(2 , n)$-grids}
+\subsection{$(3 , 3)$-grids}
+\subsection{$(4 , 4)$-grids}
+
+\section{Higher-dimensional grids}
 
 
 
