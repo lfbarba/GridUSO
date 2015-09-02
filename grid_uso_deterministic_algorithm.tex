@@ -169,8 +169,7 @@ We define a partial order of vertices in a grid unique sink orientation $G$ as f
 
 Note that two vertices may not be $\succeq$-comparable in the smallest subgrid containing them. Thus, we consider the transitive closure of this relation and say that a vertex $w$ is \emph{larger} than $v$ (or $v$ is smaller than $w$) if there is a sequence $w = v_1, v_2, \ldots, v_k = v$ of $G$ such that $v_i \succeq v_{i+1}$, for each $1\leq i\leq k-1$.
 
-In a grid USO $G$, the \emph{\indegree} of a vertex $v \in G$ is an ordered pair $\ind (v) \in \{0,1,\ldots,|X|-1\}\times \{0,1,\ldots,|Y|-1\}$ which specifies the number of incoming horizontal and vertical edges of $v$ respectively. 
-
+In a grid USO $G$, the \emph{\indegree} of a vertex $v \in G$ is an ordered pair $[a_v, b_v] \in \{0,1,\ldots,|X|-1\}\times \{0,1,\ldots,|Y|-1\}$ where $a_v$ and $b_v$ specify the number of incoming horizontal  and vertical edges of $v$, respectively.
 
 \begin{lemma}
  Given an $n\times n$ grid USO we can find a vertex with a \indegree $[a,b]$ satisfying $a, b \geq \frac{n}{4} - 1$ by using $\mathcal{O}(n)$ vertex queries.
@@ -180,32 +179,32 @@ In a grid USO $G$, the \emph{\indegree} of a vertex $v \in G$ is an ordered pair
 The algorithm we describe queries a linear number of vertices of the grid before finding a vertex with the required \indegree. 
 After explaining the algorithm we prove its correctness.
   
-The algorithm works as follows. First, query the diagonal vertices $D = \{v_1,\ldots, v_n\}$ where $v_i = (i,i)$. If one of the vertices in $D$ has the required \indegree, we are done. If not, assume without loss of generality that $v_i \succeq v_j$ whenever $j > i$; otherwise rename the vertices. We call this the \emph{index-order assumption}.
+The algorithm works as follows. First, query the diagonal vertices $D = \{v_1,\ldots, v_n\}$ where $v_i = (i,i)$. If one of the vertices in $D$ has the required \indegree, we are done. If not, assume without loss of generality that $v_i \succeq v_j$ whenever $j > i$; otherwise rename the vertices. 
+With this assumption, we claim that every diagonal vertex $v_i \in D$ has at least $i - 1$ incoming edges. Indeed, for each $j < i$, we have that either $v_j \succeq v_i$ or they are incomparable. Thus, regardless of the case we can guarantee the existence of at least one incoming edge to $v_i$ in the $2\times 2$ subgrid containing $v_i$ and $v_j$. 
 
-
-Define $V = \{v_{\lceil n/2 \rceil},\ldots,v_n\} \subseteq D$.
-Label the vertices in $V$ as \emph{horizontal} (\emph{resp.} \emph{vertical}), if the majority of incoming edges for the corresponding vertex are horizontal (\emph{resp.}vertical). 
+Let $V = \{v_{\lceil n/2 \rceil},\ldots,v_n\} \subseteq D$.
+Label the vertices in $V$ as \emph{horizontal}  or \emph{vertical}, if the majority of incoming edges for the corresponding vertex are horizontal  or vertical, respectively. 
 Assume without loss of generality that there are more vertical vertices in $V$; otherwise change the role of the coordinates. 
-Let $V' \subseteq V$ be the set of all vertical vertices in $V$.
+Let $V' \subseteq V$ be the set of all vertical vertices in $V$ and notice that $|V'| \geq |V|/2$.
  Additionally, let $v$ be a minimal vertex of $V'$, i.e., for each $u\in V'$ either $u\succeq v$, or $u$ and $v$ are incomparable. 
 
-Let $I'$ be the set of indices containing the first coordinate of each vertex in $V'$.
+Let $I'$ be the set of indices containing the first coordinate of each vertex in~$V'$.
 Assume that $v = (x_v, y_v)$ and let $W = I'\times \{y_v\}$ be the set of vertices in the same row as $v$ and in the same column as some other vertex from $V'$.
 To conclude, the algorithm queries each vertex in $W$.
 It is clear from the description above that the number of vertices queried so far is $|D| + |W| = \mathcal{O}(n)$. 
 We claim that one of the queried vertices will have the required \indegree.
-  
-To prove our claim, note that every diagonal vertex $v_i \in D$ has at least $i - 1$ incoming edges. This follows from the index-order assumption: For each $j < i$, we have that either $v_j \succeq v_i$ or they are incomparable. Thus, regardless of the case we can guarantee the existence of at least one incoming edge to $v_i$ in the $2\times 2$ subgrid containing $v_i$ and $v_j$. 
-  
+
+To prove our claim, recall that every diagonal vertex $v_i \in D$ has at least $i - 1$ incoming edges.  
 Therefore, each vertex of $V$ has at least $\lceil n/2 \rceil - 1$ incoming edges. 
 Moreover, each vertex in $V'$ has at least $\frac{\lceil n/2\rceil-1}{2}$ incoming vertical edges and $|V'| \geq \frac{n-\lceil n/2\rceil + 1}{2} \geq \frac{n}{4}$. 
-Recall that $v$ is a minimal vertex in $V'$. 
 
 Let $v^*$ be the sink of $W$ obtained after querying each vertex in this set (including $v$). Let $[a,b]$ be the \indegree of $v^*$. We claim that $a, b \geq \frac{n}{4} - 1$. 
-Because $v^*$ is smaller than each vertex in $W$, we know that $$a \geq |W|-1 = |V'|-1 = \frac{n-\lceil n/2\rceil + 1}{2} - 1 \geq \frac{n}{4} - 1.$$
+Indeed, because $v^*$ is smaller than each other vertex in $W$, we know that $$a \geq |W|-1 = |V'|-1 = \frac{n-\lceil n/2\rceil + 1}{2} - 1 \geq \frac{n}{4} - 1.$$
 
-Moreover, there is a vertex $w \in V'$ that is in the same column as $v^*$.
-  The situation is depicted in Figure~\ref{fig:seedlem1}.
+
+If $v = v^*$, then since $v\in V'$, we know that $b\geq \frac{\lceil n/2\rceil-1}{2}\geq \frac{n}{4} - 1$.
+Otherwise, there is a vertex $w \in V'$ that is in the same column as $v^*$.
+  This situation is depicted in Figure~\ref{fig:seedlem1}.
   \begin{figure}[htbp] 
   	\centering
   	\includegraphics[scale=0.7]{seedlemma_fig1.pdf}
@@ -236,7 +235,7 @@ If $w \succeq v$, then because $v \succeq v^*$ we have due to transitivity that 
 \end{proof}
 
 \begin{corollary}\label{corollary: n/4 indegree}
- Let $M = \max\{m,n\}$. Given a grid $K_{m} \times K_{n}$, we can find a vertex with \indegree $(a,b)$ with $a \geq \frac{m}{4} - 1$ and  $b \geq \frac{n}{4} - 1$ using $\mathcal{O}(M)$ vertex queries.
+ Let $M = \max\{m,n\}$. Given a grid $K_{m} \times K_{n}$, we can find a vertex with \indegree $[a,b]$ with $a \geq \frac{m}{4} - 1$ and  $b \geq \frac{n}{4} - 1$ using $\mathcal{O}(M)$ vertex queries.
 \end{corollary}
 
 \begin{proof}
@@ -263,7 +262,7 @@ If $w \succeq v$, then because $v \succeq v^*$ we have due to transitivity that 
 
 \section{Hitting the wall}
 
-Given a vertex $v = (x_v, y_v)$ with \indegree $[a, b]$ in a grid \LB{I suggest to use $[a,b]$ for the \indegree since we may use $(x_v, y_v)$ for the coordinates representing a vertex $v$ as in this case} USO $G$, let $I_v\subseteq [m]$ be the set of indices such that  $I_v \times \{y_v\}$ is the set of all vertices with an outgoing horizontal edge to $v$. Analogously, $J_v\subseteq [n]$ is the set of indices such that $\{x_v\}\times J_v$ is the set of all vertices with an outgoing vertical edge to~$v$. Notice that $|I_v| = a$ while $|J_v| = b$.
+Given a vertex $v = (x_v, y_v)$ with \indegree $[a, b]$ in a grid USO $G$, let $I_v\subseteq [m]$ be the set of indices such that  $I_v \times \{y_v\}$ is the set of all vertices with an outgoing horizontal edge to $v$. Analogously, $J_v\subseteq [n]$ is the set of indices such that $\{x_v\}\times J_v$ is the set of all vertices with an outgoing vertical edge to~$v$. Notice that $|I_v| = a$ while $|J_v| = b$.
 
 \begin{lemma}\label{lemma:Sink of dominated grid}
 Given a vertex  $v = (x_v, y_v)$ in a grid USO $G$, $v$ is the sink of the $I_v\times J_v$-grid.
@@ -274,23 +273,23 @@ Since $x_v\in I_v$ and $y_v\in J_v$ and by the definition of $I_v$ and $J_v$, we
 Because we assumed that $z$ is smaller than $v$, by transitivity we know that both $u$ and $w$ are also smaller than $z$. Therefore, both $z$ and $v$ are sinks of the $\{x_v, x_z\}\times\{y_v,y_z\}$-grid---a contradiction to the USO property that comes from assuming that $z$ is smaller than $v$. Therefore, $v$ is the sink of the $I_v\times J_v$-grid.
 \end{proof}
 
-We say that the $I_v\times J_v$-grid is \emph{dominated} by $v$ in~$G$.
+In the settings of the previous lemma, we say that the $I_v\times J_v$-grid is \emph{dominated} by $v$ in~$G$.
 
-\begin{lemma}
-[USO-Lemma]
+\begin{lemma}[USO-Lemma]\label{lemma:USO-Lemma}
+
 Given an $[m]\times[n]$-grid USO $G$ and sets $I, I'\subset [m]$ and $J,J'\subset [n]$ such that $I\cap I' = \emptyset = J\cap J'$. If $u$ is the sink of the $I\times J$-grid while $v$ is the sink of the $I'\times J'$-grid such that $v$ is smaller than $u$, then $v$ is either smaller than the sink of the $I\times J'$-grid or smaller than the sink of the $I'\times J$-grid (maybe smaller than both).
 \end{lemma}
 \begin{proof}
 Let $t = (x_t, y_t)$ and $s = (x_s, y_s)$ be the sinks of the $I\times J'$-grid and the $I'\times J$-grid, respectively.
 Assume for a contradiction that $v = (x_v, y_v)$ is larger than both $t$ and $s$. 
-Let $p = (x_s, y_t)$ and $q = (x_t, y_s)$ be the other two vertices of the $\{x_s, x_t\}\times\{y_s, y_t\}$-grid. 
+Let $p = (x_s, y_t)$ and $q = (x_t, y_s)$ be the other two vertices of the $\{x_s, x_t\}\times\{y_s, y_t\}$-grid, i.e., the smallest subgrid containing $s$ and $t$. 
 Because $x_s \in I'$ and $y_t\in J'$, $p$ is in the $I'\times J'$-grid and hence, $v$ is smaller than $p$. Since $t$ and $s$ are both smaller than $v$, by transitivity we know that both $t$ and $s$ are smaller than $p$. 
 Analogously, since $q$ is in the $I\times J$-grid, it is larger than $u$ and hence larger than $v$. Therefore, by transitivity, we know that both $t$ and $s$ are smaller than $q$. That is, both $t$ and $s$ are sinks of the $\{x_s, x_t\}\times\{y_s, y_t\}$-grid---a contradiction that comes from assuming that both $t$ and $s$ are smaller than $v$.
 Therefore, $v$ is smaller than either $t$ or $s$.
 \end{proof}
 
 \subsection{Finding the sink}
-The idea of our algorithm is the following: Using Lemma~\ref{corollary: n/4 indegree}, by Lemma~\ref{lemma:Sink of dominated grid}, this vertex dominates already a subgrid with at least $n^2/16$ of the vertices. However, this is not enough so we use Lemma~\ref{lemma:Constant fraction improvement} to find a smaller vertex that dominates a larger subgrid. By repeating this process a logarithmic number of times, we end up with a vertex whose dominated subgrid spans a strip of the original grid containing at least one eight of the vertices. This leaves us with another (non-square) grid where we can repeat our algorithm. The key result to this process is described in the next lemma.
+The idea of our algorithm is the following: Using Lemma~\ref{corollary: n/4 indegree}, we find a vertex which dominates already a subgrid with at least $n^2/16$ of the vertices  by Lemma~\ref{lemma:Sink of dominated grid}. However, this is not enough so we use Lemma~\ref{lemma:Constant fraction improvement} below to find a smaller vertex that dominates a ``larger'' subgrid. By repeating this process a logarithmic number of times, we end up with a vertex whose dominated subgrid spans a strip of the original grid containing at least one eight of the vertices. This leaves us with another (non-square) grid where we can repeat our algorithm recureively. The key result to this process is described in the next lemma.
 
 
 \begin{lemma}\label{lemma:Constant fraction improvement}
@@ -321,13 +320,11 @@ For each $1\leq i\leq \rho$, let $G_i$ be the $A_i\times \overline{J_v}$-grid. T
 For each $G_i$, use Corollary~\ref{corollary: n/4 indegree} to compute a vertex $s_i$ having \indegree at least $[a,b]$ in $G_i$, where $a,b \geq k/4$ (the \indegree of $s_i$ in $G$ may be larger).
 By Corollary~\ref{corollary: n/4 indegree}, this requires $O(k)$ vertex queries. Since we have $\rho$ grids, after $O(k\rho) = O(m)$ vertex queries we can compute each of $s_1, \ldots, s_\rho$.
  
-<<<<<<< Updated upstream
-Consider the $I_{s_i}\times J_{s_j}$-subgrid dominated by $s_i$ in $G_i$, where $|I_{s_i}|, |J_{s_i}| \geq k/4$. Given any $i\neq j$, notice that the set $I_{s_i}$ and $I_{s_j}$ are not necessarily disjoint whereas $J_{s_i}\cap J_{s_j} = \emptyset$; see Figure~\ref{fig:Expansion Lemma 1}.
-=======
-Consider the $I_{s_i}\times J_{s_j}$-subgrid dominated by $s_i$ in $G_i$, where $|I_{s_i}|, |J_{s_i}| \geq k/4$ and $I_{s_i}\subseteq A_i$ while $J_{s_i}\subseteq \overline{J_v}$. Given any $i\neq j$, notice that the set $J_{s_i}$ and $J_{s_j}$ are not necessarily disjoint whereas $I_{s_i}\cap I_{s_j} = \emptyset$; see Figure~\ref{fig:Expansion Lemma 1}.
->>>>>>> Stashed changes
 
-By the USO-Lemma~\ref{}, we know that $s_i$ is smaller than each vertex in either the $I_v\times J_{s_i}$-grid or the $I_{s_i}\times J_v$-grid. This yields two cases:
+Consider the $I_{s_i}\times J_{s_j}$-subgrid dominated by $s_i$ in $G_i$, where $|I_{s_i}|, |J_{s_i}| \geq k/4$ and $I_{s_i}\subseteq A_i$ while $J_{s_i}\subseteq \overline{J_v}$. 
+Given any $i\neq j$, notice that the set $J_{s_i}$ and $J_{s_j}$ are not necessarily disjoint whereas $I_{s_i}\cap I_{s_j} = \emptyset$; see Figure~\ref{fig:Expansion Lemma 1}.
+
+By Lemma~\ref{lemma:USO-Lemma}, we know that $s_i$ is smaller than each vertex in either the $I_v\times J_{s_i}$-grid or the $I_{s_i}\times J_v$-grid. This yields two cases:
 
 \textbf{Case 1:} If there exists $1\leq i \leq \rho$ such that
 $s_i$ is smaller than each vertex in the $I_v\times J_{s_i}$-grid, then let $W =  \{x_{s_i}\} \times (J_v\cup J_{s_i})$ be a set of at least $\beta n + k/4$ vertices, where $s_i = (x_{s_i}, y_{s_i})$; see Figure~\ref{fig:Expansion Case 1}. 
