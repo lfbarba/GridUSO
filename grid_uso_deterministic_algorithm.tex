@@ -165,12 +165,11 @@ from $G$.
 
 \section{The sink-finding algorithm}
 
-In a grid USO $G$, the \emph{\indegree} of a vertex $v \in G$ is an ordered pair $\ind (v) \in \{0,1,\ldots,|X|-1\}\times \{0,1,\ldots,|Y|-1\}$ which specifies the number of incoming horizontal and vertical edges of $v$ respectively. 
-
 We define a partial order of vertices in a grid unique sink orientation $G$ as follows. For any two vertices $v,w \in G$ consider the smallest subgrid containing both $v$ and $w$. We say that $w \succeq v$ if there is a path from $w$ to $v$ in this subgrid. As the grid USO is acyclic, this defines a partial order on the vertices. Note that the sink of the grid is the unique minimal vertex with respect to this ordering. 
 
 Note that two vertices may not be $\succeq$-comparable in the smallest subgrid containing them. Thus, we consider the transitive closure of this relation and say that a vertex $w$ is \emph{larger} than $v$ (or $v$ is smaller than $w$) if there is a sequence $w = v_1, v_2, \ldots, v_k = v$ of $G$ such that $v_i \succeq v_{i+1}$, for each $1\leq i\leq k-1$.
 
+In a grid USO $G$, the \emph{\indegree} of a vertex $v \in G$ is an ordered pair $\ind (v) \in \{0,1,\ldots,|X|-1\}\times \{0,1,\ldots,|Y|-1\}$ which specifies the number of incoming horizontal and vertical edges of $v$ respectively. 
 
 
 \begin{lemma}
@@ -178,14 +177,34 @@ Note that two vertices may not be $\succeq$-comparable in the smallest subgrid c
 \end{lemma}
 
 \begin{proof}
-  We will first describe an algorithm that queries certain vertices and at least one them will have the required \indegree. After the explaining the algorithm we proceed to prove that it does what we claim.
+The algorithm we describe queries a linear number of vertices of the grid before finding a vertex with the required \indegree. 
+After explaining the algorithm we prove its correctness.
   
-  The algorithm proceeds as follows. First, query the diagonal vertices $D = \{v_1,\ldots, v_n\}$ where $v_i = (i,i)$. If one of the vertices in $D$ has the required \indegree, we are done. If not, assume that when $j > i$, then $v_i \succeq v_j$; Otherwise rename the vertices. Define $V = \{v_{\lceil n/2 \rceil},\ldots,v_n\} \subseteq D$ and label the vertices in $V$ as horizontal or vertical, if the majority of incoming edges for the corresponding vertex are horizontal or vertical respectively. Assuming that there are more vertical vertices (if not, change the role of the coordiantes) let $V' \subseteq V$ be the set of all vertical vertices in $V$. Additionally, let $v \in V'$ be a minimal vertex in $V'$ with respect to the order $\succeq$. The second set of vertices queried will be those that are in the same row as $v$ and in the same column as some other vertex from $V'$. We claim that afterwards one of the queried vertices will have the required \indegree.
+The algorithm works as follows. First, query the diagonal vertices $D = \{v_1,\ldots, v_n\}$ where $v_i = (i,i)$. If one of the vertices in $D$ has the required \indegree, we are done. If not, assume without loss of generality that $v_i \succeq v_j$ whenever $j > i$; otherwise rename the vertices. We call this the \emph{index-order assumption}.
+
+
+Define $V = \{v_{\lceil n/2 \rceil},\ldots,v_n\} \subseteq D$.
+Label the vertices in $V$ as \emph{horizontal} (\emph{resp.} \emph{vertical}), if the majority of incoming edges for the corresponding vertex are horizontal (\emph{resp.}vertical). 
+Assume without loss of generality that there are more vertical vertices in $V$; otherwise change the role of the coordinates. 
+Let $V' \subseteq V$ be the set of all vertical vertices in $V$.
+ Additionally, let $v$ be a minimal vertex of $V'$, i.e., for each $u\in V'$ either $u\succeq v$, or $u$ and $v$ are incomparable. 
+
+Let $I'$ be the set of indices containing the first coordinate of each vertex in $V'$.
+Assume that $v = (x_v, y_v)$ and let $W = I'\times \{y_v\}$ be the set of vertices in the same row as $v$ and in the same column as some other vertex from $V'$.
+To conclude, the algorithm queries each vertex in $W$.
+It is clear from the description above that the number of vertices queried so far is $|D| + |W| = \mathcal{O}(n)$. 
+We claim that one of the queried vertices will have the required \indegree.
   
-  It is clear from the description above that the number of vertices queried is $\mathcal{O}(n)$. What is left to show is the claim of finding a vertex with sufficiently large \indegree. Towards that end, note that every diagonal vertex $v_i \in D$ has at least $i - 1$ incoming edges. This follows from our assumption that the indices of the vertices respect the partial order $\succeq$ when reversed: For every $v_i$ and all $v_j$ with $j < i$ we have that either $v_j \succeq v_i$ or they are incomparable, but in both cases there is one incoming edge to $v_i$ in the $2\times 2$ subgrid containing $v_i$ and $v_j$. 
+To prove our claim, note that every diagonal vertex $v_i \in D$ has at least $i - 1$ incoming edges. This follows from the index-order assumption: For each $j < i$, we have that either $v_j \succeq v_i$ or they are incomparable. Thus, regardless of the case we can guarantee the existence of at least one incoming edge to $v_i$ in the $2\times 2$ subgrid containing $v_i$ and $v_j$. 
   
-  It follows that in the set $V$ every vertex has at least $\lceil n/2 \rceil - 1$ incoming edges. Also, every vertex in $V'$ has at least $\frac{\lceil n/2\rceil-1}{2}$ incoming vertical edges and $|V'| \geq \frac{n-\lceil n/2\rceil + 1}{2} \geq \frac{n}{4}$. Recall that $v$ was some minimal vertex in $V'$. 
-  After quering all the vertices that are in the same row as $v$ and in the same column with some vertex from $V'$, we let $v^*$ be the sink of the $|V'|\times 1$ subgrid formed by these evaluated vertices (including $v$). Let $[a,b]$ be the \indegree of $v^*$. We claim that $a, b \geq \frac{n}{4} - 1$. Firstly, Note that $v^*$ has incoming edges from all of the other vertices in the $|V'|\times 1$ subgrid we evaluated, so $a \geq |V'|-1 \geq \frac{n-\lceil n/2\rceil + 1}{2} - 1 \geq \frac{n}{4} - 1$. Secondly, there is a vertex $w \in V'$ that is in the same column as $v^*$.
+Therefore, each vertex of $V$ has at least $\lceil n/2 \rceil - 1$ incoming edges. 
+Moreover, each vertex in $V'$ has at least $\frac{\lceil n/2\rceil-1}{2}$ incoming vertical edges and $|V'| \geq \frac{n-\lceil n/2\rceil + 1}{2} \geq \frac{n}{4}$. 
+Recall that $v$ is a minimal vertex in $V'$. 
+
+Let $v^*$ be the sink of $W$ obtained after querying each vertex in this set (including $v$). Let $[a,b]$ be the \indegree of $v^*$. We claim that $a, b \geq \frac{n}{4} - 1$. 
+Because $v^*$ is smaller than each vertex in $W$, we know that $$a \geq |W|-1 = |V'|-1 = \frac{n-\lceil n/2\rceil + 1}{2} - 1 \geq \frac{n}{4} - 1.$$
+
+Moreover, there is a vertex $w \in V'$ that is in the same column as $v^*$.
   The situation is depicted in Figure~\ref{fig:seedlem1}.
   \begin{figure}[htbp] 
   	\centering
@@ -193,7 +212,13 @@ Note that two vertices may not be $\succeq$-comparable in the smallest subgrid c
   	\caption{In this figure only a subset of the edges of the grid appears. The vertices that are marked with discs are the ones evaluated.} 
   	\label{fig:seedlem1}
   \end{figure}
-   If we can show that there is an edge from $w$ to $v^*$, then by acyclicity $v^*$ has at least one more incoming vertical edge as compared to $v$, therefore establishing that $b \geq \frac{\lceil n/2\rceil-1}{2} + 1 \geq \frac{n}{4} \geq \frac{n}{4} - 1$. To show that there is an edge from $w$ to $v^*$ there are two cases. In the first case $w \succeq v$ and because $v \succeq v^*$ we have due to transitivity that $v \succeq v^*$. In the second case $w$ and $v$ are incomparable. Then, as the edge between $w$ and $v^*$ is  oriented towards $v^*$ the only possibility for $w$ and $w$ to be incomparable is that there is an edge from $w$ to $v^*$. We give illustrations of the two cases in Figure~\ref{fig:seedlem2}; the proof is finished. 
+   If we can show that there is an edge from $w$ to $v^*$, then by acyclicity $v^*$ has at least one more incoming vertical edge as compared to $w$, therefore establishing that $b \geq \frac{\lceil n/2\rceil-1}{2} + 1 \geq \frac{n}{4} \geq \frac{n}{4} - 1$. 
+   
+   Because $v$ is a minimal vertex in $V'$, either $w\succeq v$, or $v$ and $w$ are incomparable. 
+   To show that there is an edge from $w$ to $v^*$ we study these two cases: 
+   
+If $w \succeq v$, then because $v \succeq v^*$ we have due to transitivity that $w \succeq v^*$. 
+  Otherwise, $w$ and $v$ are incomparable. In this case, since $v^*$ is smaller than $v$, we know that the edge connecting $v$ and $v^*$ is  oriented towards $v^*$. Therefore, the only possibility for $v$ and $w$ to be incomparable is that there is an edge from $w$ to $v^*$. We give illustrations of the two cases in Figure~\ref{fig:seedlem2}. Thus regardless of the case, there is an edge from $w$ to $v^*$ which concludes the proof.   
    \begin{figure}[htbp] 
        \centering
        \begin{subfigure}[b]{0.4\textwidth}
