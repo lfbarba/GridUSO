@@ -297,93 +297,40 @@ Given an $[m]\times[n]$-grid USO $G$ and sets $I, I'\subset [m]$ and $J,J'\subse
 
 
 \subsection{Finding the sink}
-The idea of our algorithm is the following: Using Lemma~\ref{corollary: n/4 indegree}, we find a vertex which dominates already a subgrid with at least $n^2/16$ of the vertices  by Lemma~\ref{lemma:Sink of dominated grid}. However, this is not enough so we use Lemma~\ref{lemma:Constant fraction improvement} below to find a smaller vertex that dominates a ``larger'' subgrid. By repeating this process a logarithmic number of times, we end up with a vertex whose dominated subgrid spans a strip of the original grid containing at least one eight of the vertices. This leaves us with another (non-square) grid where we can repeat our algorithm recureively. The key result to this process is described in the next lemma.
+The idea of our algorithm is the following: Using Lemma~\ref{corollary: n/4 indegree}, we find a vertex which dominates already a subgrid with at least $n^2/16$ of the vertices  by Lemma~\ref{lemma:Sink of dominated grid}. However, this is not enough so we use Lemma~\ref{lemma:Constant fraction improvement} below to find a smaller vertex that dominates a ``larger'' subgrid. By repeating this process a logarithmic number of times, we end up with a vertex whose dominated subgrid spans a strip of the original grid containing at least one fourth of the vertices. This leaves us with another (non-square) grid where we can repeat our algorithm recureively. The key result to this process is described in the next lemma.
 
 
 \begin{lemma}\label{lemma:Constant fraction improvement}
 Let $G$ be an $[m]\times[n]$-grid USO. 
-Given a vertex $v$ with \indegree $[\alpha m, \beta n]$ such that $0 < \alpha, \beta < 1$, we can compute another vertex with \indegree $[a,b]$ where either $a\geq \frac{1+7\alpha}{8}m$ and $b \geq \beta n$, or $a \geq \alpha m$ and $b \geq \frac{1 + 7\beta}{8}n$. This process requires $O(M)$ vertex queries, where $M = \max\{m,n\}$.
+Given a vertex $v$ with \indegree $[\alpha m, \beta n]$ such that $0 < \alpha, \beta < 1$, we can compute another vertex with \indegree $[a,b]$ where either $a\geq \frac{1+3\alpha}{4}m$ and $b \geq \beta n$, or $a \geq \alpha m$ and $b \geq \frac{1 + 3\beta}{4}n$. This process requires $O(M)$ vertex queries, where $M = \max\{m,n\}$.
 \end{lemma}
 
 \begin{proof}
-Assume that $(1-\alpha) m \geq (1-\beta)n$, the other case is analogous. 
-Let $\rho = \lfloor \frac{(1-\alpha)m}{(1-\beta)n} \rfloor$.
-We consider $\rho$ square grids defined as follows. 
+Assume that $(1-\alpha) m \geq (1-\beta)n$, the other case is analogous. Consider the  $I_v\times J_v$-subgrid dominated by $v$ and 
+notice that $|I_v| = \alpha m + 1$ while $|J_v| = \beta n + 1$. 
 
-Consider the  $I_v\times J_v$-subgrid dominated by $v$ and 
-notice that $|I_v| = \alpha m + 1$ while $|J_v| = \beta n + 1$.
+Let $\overline{I_v} = [m]\setminus I_v$, $\overline{J_v} = [n]\setminus J_v$ and consider the subgrid $\widetilde{G} = \overline{I_v} \times \overline{J_v}$; See Figure~\ref{fig:expansion}. Use Corollary~\ref{corollary: n/4 indegree} to compute a vertex $s$ having \indegree at least $[a,b]$ in $\widetilde{G}$, where $a \geq |\overline{I_v}|/4 - 1$ and $b \geq |\overline{J_v}|/4 - 1$ (the \indegree of $s$ in $G$ may be larger).
+This takes $O(M)$ vertex queries. Notice that $v \succeq s$.
 
-Let $\overline{I_v} = [m]\setminus I_v$ and $\overline{J_v} = [n]\setminus J_v$.
-Let $A_1, \ldots, A_\rho$ be a partition of $\overline{I_v}$ into $\rho$ pairwise disjoint subsets of indices such that each has size $k = (1-\beta)n$, except maybe for the last one which contains at most $2k-1$ indices.
-For each $1\leq i\leq \rho$, let $G_i$ be the $A_i\times \overline{J_v}$-grid. That is, we define $\rho$ pairwise-disjoint $(k, k)$-subgrids of $G$; see Figure~\ref{fig:Expansion Lemma 1}.
+Consider the $I_{s}\times J_{s}$-subgrid dominated by $s$ in $\widetilde{G}$, where $|I_{s}| = a + 1, |J_{s}| = b + 1$ and $I_{s}\subseteq \overline{I_v}$ while $J_{s}\subseteq \overline{J_v}$. By Lemma~\ref{lemma:USO-Lemma}, we know that $s$ is smaller than each vertex in either $I_v\times J_{s}$-grid or the $I_{s}\times J_v$-grid (or both). 
 
-\begin{figure}[tb]
+Assume first that $s$ is smaller than each vertex in the $I_v\times J_{s}$-grid. Then let $W =  \{x_{s}\} \times (J_v\cup J_{s})$ be a set of $(\beta n + 1) + (b + 1)$ vertices, where $s = (x_{s}, y_{s})$; see Figure~\ref{fig:expansion}. 
+
+\begin{figure}[h]
 \centering
 \includegraphics{expansion_lemma_fig1.pdf}
 %[width=1\textwidth]
 \caption{\small }
-\label{fig:Expansion Lemma 1}
-\end{figure}
-
-For each $G_i$, use Corollary~\ref{corollary: n/4 indegree} to compute a vertex $s_i$ having \indegree at least $[a,b]$ in $G_i$, where $a,b \geq k/4 - 1$ (the \indegree of $s_i$ in $G$ may be larger).
-By Corollary~\ref{corollary: n/4 indegree}, this requires $O(k)$ vertex queries. Since we have $\rho$ grids, with $O(k\rho) = O(m)$ vertex queries we can compute each of $s_1, \ldots, s_\rho$.
- 
-
-Consider the $I_{s_i}\times J_{s_i}$-subgrid dominated by $s_i$ in $G_i$, where $|I_{s_i}|, |J_{s_i}| \geq k/4$ and $I_{s_i}\subseteq A_i$ while $J_{s_i}\subseteq \overline{J_v}$. 
-Given any $i\neq j$, notice that the set $J_{s_i}$ and $J_{s_j}$ are not necessarily disjoint whereas $I_{s_i}\cap I_{s_j} = \emptyset$; see Figure~\ref{fig:Expansion Lemma 1}.
-
-By Lemma~\ref{lemma:USO-Lemma}, we know that $s_i$ is smaller than each vertex in either the $I_v\times J_{s_i}$-grid or the $I_{s_i}\times J_v$-grid. This yields two cases:
-
-\textbf{Case 1:} If there exists $1\leq i \leq \rho$ such that
-$s_i$ is smaller than each vertex in the $I_v\times J_{s_i}$-grid, then let $W =  \{x_{s_i}\} \times (J_v\cup J_{s_i})$ be a set of at least $\beta n + k/4$ vertices, where $s_i = (x_{s_i}, y_{s_i})$; see Figure~\ref{fig:Expansion Case 1}. 
-
-\begin{figure}[h]
-\centering
-\includegraphics{expansion_lemma_Case1.pdf}
-%[width=1\textwidth]
-\caption{\small }
-\label{fig:Expansion Case 1}
+\label{fig:expansion}
 \end{figure}
 
 Let $z$ be the sink of $W$. Note that we can compute $z$ after querying each vertex of $W$, i.e., after $O(n)$ vertex queries. Assume that $z$ has \indegree $[a_z, b_z]$. 
-Because $z$ is smaller than $s_i$, $z$ is also smaller than every vertex in the $I_v\times J_{s_i}$-grid. Moreover, since $s_i$ is smaller than $v$, we know that $z$ is also smaller than $v$ and hence, $z$ is smaller than every vertex in the $I_v\times J_v$-grid.
-Consequently, $z$ is smaller than every vertex in the $I_v\times (J_v\cup J_{s_i})$-grid, i.e., $a_z\geq |I_v| \geq \alpha m$.
+Because $z$ is smaller than $s$, $z$ is also smaller than every vertex in the $I_v\times J_{s}$-grid. Moreover, since $s$ is smaller than $v$, we know that $z$ is also smaller than $v$ and hence, $z$ is smaller than every vertex in the $I_v\times J_v$-grid.
+Consequently, $z$ is smaller than every vertex in the $(I_v\cup x_s)\times (J_v\cup J_{s})$-grid, i.e., $a_z\geq |I_v| \geq \alpha m$.
 Because $z$ is the sink of $W$, we know that
- $$b_z \geq |W| = \beta n + k/4 = \beta n + \frac{(1-\beta)}{4}n = \frac{1 + 3\beta}{4}n\geq \frac{1 + 7\beta}{8}n.$$
+ $$b_z \geq |W| - 1 = \beta n + b + 1 \geq  \beta n + \frac{|\overline{J_v}|}{4} = \frac{1 + 3\beta}{4}n.$$
 
-
-\textbf{Case 2:} If for each $1\leq i\leq \rho$ $s_i$ is smaller than each vertex in the $I_{s_i}\times J_v$-grid, then we want to compute a vertex that is smaller than each vertex in $S = \{s_1, \ldots, s_\rho\}$.
-To this end, let $t_1 = s_1$.
-For each $2\leq i\leq \rho$, let $t_{i+1}$ be the sink of the smallest subgrid containing $t_i$ and $s_{i+1}$. Note that we can compute $t_{i+1}$ with a constant number of vertex queries.
-Thus, after $O(\rho)$ vertex queries, we obtain a vertex $t = t_\rho$, such that $t$ is smaller than $s_i$, for each $1\leq i\leq \rho$. Notice that $t$ lies in the same row as some $s_j\in S$ and in the same column as some $s_h\in S$, for some $1\leq j,h\leq \rho$; see Figure~\ref{fig:Expansion Case 2}. 
-
-\begin{figure}[h]
-\centering
-\includegraphics{expansion_lemma_fig2.pdf}
-%[width=1\textwidth]
-\caption{\small }
-\label{fig:Expansion Case 2}
-\end{figure}
-
-Consider the following set $$W = \left(I_v\cup \left(\bigcup_{i=1}^\rho I_{s_i}\right)\right)\times \{y_t\},$$
-where $t = (x_t, y_t)$.
-Let $z$ be the sink of $W$ and let $(a_z, b_z)$ denote the \indegree of $z$.
-
-Because $z$ is the sink of $W$, we infer that 
-$$a_z \geq |W|  = |I_v| + \sum_{i=1}^\rho |I_{s_i}| \geq
-\alpha m + \rho k/4  = \alpha m +  \left\lfloor \frac{(1-\alpha)m}{(1-\beta)n} \right\rfloor \frac{(1-\beta) n}{4}.$$
-
-Since we assumed that $(1 - \alpha) m > (1-\beta) n$, and by the properties of the floor function, we know that $$(1 - \alpha) m \geq \left \lfloor \frac{(1-\alpha)m}{(1-\beta)n} \right \rfloor (1-\beta)n \geq \frac{(1 - \alpha) m}{2} \ .$$
-
-Consequently, 
-$$a_z \geq \alpha m + \frac{(1-\alpha)m}{8} = \frac{(1 + 7\alpha) m}{8}.$$
-
-Since $z$ is smaller than $t$, and 
-because each $s_i$ is smaller than each vertex in the $I_{s_i}\times J_v$-grid, $z$ is also smaller than each vertex in the $I_{s_i}\times J_v$-grid, for each $1\leq i\leq \rho$. 
-Moreover, because $z$ is smaller than $v$, $z$ is also smaller than each vertex in the $I_v\times J_v$-grid.
-Thus, if $z = (x_z, y_z)$, then $z$ is smaller than each vertex in $\{x_z\}\times J_v$, i.e., $b_z \geq |J_v| \geq \beta n$; see Figure~\ref{fig:Expansion Case 2}.
-
-Therefore, regardless of the case, we can always guarantee the existence of a vertex $z$ with \indegree $[a_z,b_z]$ such that either $a_z\geq \frac{1+7\alpha}{8}m$ and $b_z \geq \beta n$, or $a_z \geq \alpha m$ and $b_z \geq \frac{1 + 7\beta}{8}n$.
+If $s$ is larger than the vertices in the $I_{s}\times J_v$-grid, then the same argument applies, but exchanging the roles of the coordinates. Therefore, regardless of the case, we can always guarantee the existence of a vertex $z$ with \indegree $[a_z,b_z]$ such that either $a_z\geq \frac{1+3\alpha}{4}m$ and $b_z \geq \beta n$, or $a_z \geq \alpha m$ and $b_z \geq \frac{1 + 3\beta}{4}n$ and we can find $z$ in time $\mathcal{O}(M)$.
 \end{proof}
 
 
