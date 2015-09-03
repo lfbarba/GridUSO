@@ -122,17 +122,22 @@ Our results are:
 
 When designing algorithms for grids, at some point one will typically want to
 partition the grid into blocks.
-Such a partition into blocks forms itself a grid;
-we will see below how to define an induced orientation on it.
+If such a partition into blocks forms itself a grid,
+then we define an induced orientation on it.
 An example of such an induced unique sink orientation is shown in figure
 \ref{fig:induced}.
 
-Let $G = K_X \times K_Y$ be an oriented grid,
+Formally, let $G = K_X \times K_Y$ be an oriented grid,
 and let $A$ and $B$ be partitions of $X$ and $Y$, respectively.
 We study the grid $H = K_A \times K_B$.
-For every vertex $x = (a,b)$ of $H$, $a \times b$ is a subgrid of $G$, and we
-denote this subgrid by $G(x)$ to emphasize that it inherits an orientation
-from $G$.
+For every vertex $x = (a,b)$ of $H$, let $G(x)$ (or simply $G(a,b)$)
+denote the $a \times b$-subgrid of $G$ oriented as follows:
+Given two adjacent vertices $x$ and $y$ of $H$, we say that $x\succeq y$ if the sink of $G(x)$ has at least one outgoing edge to a vertex of $G(y)$. We say that is orientation is \emph{induced} on $H$ by $G$.
+
+\begin{lemma}
+The orientation of $H$ induced by $G$ is a unique sink orientation.
+\end{lemma}
+
 
 \begin{lemma}
     The following are equivalent for all $x \in H$ and $t \in G(x)$.
@@ -172,7 +177,7 @@ Note that two vertices may not be $\succeq$-comparable in the smallest subgrid c
 In a grid USO $G$, the \emph{\indegree} of a vertex $v \in G$ is an ordered pair $[a_v, b_v] \in \{0,1,\ldots,|X|-1\}\times \{0,1,\ldots,|Y|-1\}$ where $a_v$ and $b_v$ specify the number of incoming horizontal  and vertical edges of $v$, respectively.
 
 \begin{lemma}
- Given an $n\times n$ grid USO we can find a vertex with a \indegree $[a,b]$ satisfying $a, b \geq \frac{n}{4} - 1$ by using $\mathcal{O}(n)$ vertex queries.
+ Given an $(n, n)$-grid USO we can find a vertex with a \indegree $[a,b]$ satisfying $a, b \geq \frac{n}{4} - 1$ by using $\mathcal{O}(n)$ vertex queries.
 \end{lemma}
 
 \begin{proof}
@@ -180,7 +185,7 @@ The algorithm we describe queries a linear number of vertices of the grid before
 After explaining the algorithm we prove its correctness.
   
 The algorithm works as follows. First, query the diagonal vertices $D = \{v_1,\ldots, v_n\}$ where $v_i = (i,i)$. If one of the vertices in $D$ has the required \indegree, we are done. If not, assume without loss of generality that $v_i \succeq v_j$ whenever $j > i$; otherwise rename the vertices. 
-With this assumption, we claim that every diagonal vertex $v_i \in D$ has at least $i - 1$ incoming edges. Indeed, for each $j < i$, we have that either $v_j \succeq v_i$ or they are incomparable. Thus, regardless of the case we can guarantee the existence of at least one incoming edge to $v_i$ in the $2\times 2$ subgrid containing $v_i$ and $v_j$. 
+With this assumption, we claim that every diagonal vertex $v_i \in D$ has at least $i - 1$ incoming edges. Indeed, for each $j < i$, we have that either $v_j \succeq v_i$ or they are incomparable. Thus, regardless of the case we can guarantee the existence of at least one incoming edge to $v_i$ in the $(2, 2)$-subgrid containing $v_i$ and $v_j$. 
 
 Let $V = \{v_{\lceil n/2 \rceil},\ldots,v_n\} \subseteq D$.
 Label the vertices in $V$ as \emph{horizontal}  or \emph{vertical}, if the majority of incoming edges for the corresponding vertex are horizontal  or vertical, respectively. 
@@ -240,9 +245,7 @@ If $w \succeq v$, then because $v \succeq v^*$ we have due to transitivity that 
 
 \begin{proof}
  Use the product construction and divide the columns into blocks of size $\frac{m}{n}$.
- 
  %Without loss of generality assume that $m \geq n$. Assume also for the ease of description that $n$ divides $m$. We will deal with this assumption in the end. Divide the columns into $n$ blocks of size $\frac{m}{n}$. More specifically, partition $[m]$ into $n$ parts $I_1, \ldots, I_n \subseteq [m]$ with $|I_j| = \frac{m}{n}$ for all $j = 1,\ldots, n$. 
- 
  %We are going to consider the subgrids of the form $K_{I_j}\times K_{\{j\}}$. Notice that each subgrid is a fraction of a different row and consists of $\frac{m}{n}$ vertices. We query all the vertices in these subgrids for a total of $m$ vertex queries therefore finding also the sink $s_j$ in each subgrid $K_{I_j}\times K_{\{j\}}$. Consider any linear extension of the partial order induced by the relation $\succeq$ on the set $\{s_1, \ldots, s_n\}$. We can assume that the order of the indices coincides with the linear extension, otherwise just rename them. Notice that $s_j$ has at least $j\cdot\frac{m}{n} - 1$ incoming edges (to see that, compare $s_j$ with all the vertices in the subgrids whose sinks are $s_1,\ldots,s_{j-1}$ and the subgrid containing $s_j$). Consider the set $S = \{s_{ n/2 },\ldots, s_n\}$ \JN{We need to somehow deal with parity of $n$.}. Assume that for at least half of the $s_j$'s the majority of the incoming edges are vertical (the horizontal case is similar and easier) and let $S' \subseteq S$ be the set of such $S_j$'s. That is, every $s_j \in S'$ has at least $\frac{1}{2}\left(j\cdot\frac{m}{n} - 1\right)$ vertical incoming edges. Now $|S'| \geq \frac{n}{4}$ and every vertex has at least $\frac{1}{2}\left(\frac{n}{2}\cdot\frac{m}{n} - 1\right) = \frac{m}{4}-\frac{1}{2}$ many incoming vertical edges.
 \end{proof}
 
@@ -260,7 +263,7 @@ If $w \succeq v$, then because $v \succeq v^*$ we have due to transitivity that 
 % The problem we are looking at is that of finding the global sink of a USO over $(K_n)^d$. The USO is given by an oracle that for any given vertex reveals the orientations of the edges adjacent to the vertex. The question is, what is the least number of these vertex queries needed to find the unique global sink? Just knowing its location is not sufficient, but we also require that the sink is evaluated. This requirement will prove useful when developing an algorithm.
 
 
-\section{Hitting the wall}
+\subsection{Hitting the wall}
 
 Given a vertex $v = (x_v, y_v)$ with \indegree $[a, b]$ in a grid USO $G$, let $I_v\subseteq [m]$ be the set of indices such that  $I_v \times \{y_v\}$ is the set of all vertices with an outgoing horizontal edge to $v$. Analogously, $J_v\subseteq [n]$ is the set of indices such that $\{x_v\}\times J_v$ is the set of all vertices with an outgoing vertical edge to~$v$. Notice that $|I_v| = a$ while $|J_v| = b$.
 
@@ -307,7 +310,7 @@ notice that $|I_v| = \alpha m$ while $|J_v| = \beta n$.
 
 Let $\overline{I_v} = [m]\setminus I_v$ and $\overline{J_v} = [n]\setminus J_v$.
 Let $A_1, \ldots, A_\rho$ be a partition of $\overline{I_v}$ into $\rho$ pairwise disjoint subsets of indices such that each has size $k = (1-\beta)n$, except maybe for the last one which contains at most $2k-1$ indices.
-For each $1\leq i\leq \rho$, let $G_i$ be the $A_i\times \overline{J_v}$-grid. That is, we define $\rho$ $k\times k$ pairwise-disjoint square subgrids of $G$; see Figure~\ref{fig:Expansion Lemma 1}.
+For each $1\leq i\leq \rho$, let $G_i$ be the $A_i\times \overline{J_v}$-grid. That is, we define $\rho$ pairwise-disjoint $(k, k)$-subgrids of $G$; see Figure~\ref{fig:Expansion Lemma 1}.
 
 \begin{figure}[tb]
 \centering
@@ -391,27 +394,55 @@ Since each application of Lemma~\ref{lemma:Constant fraction improvement} requir
 Assume without loss of generality that $a_z = m-c$. The case when $b_z = n-c$ is analogous. 
 Consider the  $I_z\times J_z$-subgrid dominated by $z$ and 
 notice that $|I_z| = m-c$ while $|J_z| \geq \beta n$. 
-Let $\overline{I_z} = [m] \setminus I_z$ and note that $|\overline{I_z}| = c$. Therefore, we can find the sink $w$ of the $\overline{I_z}\times J_z$-grid by querying each of its vertices. This process requires $O(|J_z|) = O(n)$ queries.  After that, the smallest element among $z$ and $w$ is the sink of the $[m]\times J_z$-grid, i.e., it has \indegree $(m, |J_z|)$, where $|J_z|  \geq \beta n$.
+Let $\overline{I_z} = [m] \setminus I_z$ and note that $|\overline{I_z}| = c$. Therefore, we can find the sink $w$ of the $\overline{I_z}\times J_z$-grid by querying each of its vertices. This process requires $O(|J_z|) = O(n)$ queries.  After that, the smallest element among $z$ and $w$ is the sink of the $[m]\times J_z$-grid, i.e., it has \indegree $[m, |J_z|]$, where $|J_z|  \geq \beta n$.
 \end{proof}
 
+We are ready now to state our main result.
+
+\begin{theorem}\label{theorem:Sink algorithm}
+ Let $M = \max\{m,n\}$. The sink of an $[m]\times[n]$-grid USO can be found after $\mathcal{O}(M(\log M)^2)$ vertex queries.
+\end{theorem}
+\begin{proof}
 Using  Corollaries~\ref{corollary: n/4 indegree} and~\ref{corollary:Expansion to the wall}, we can find a vertex $v$ with \indegree $[a,b]$ where either $a = m$ and $b \geq  n/4$, or $a \geq  m/4$ and $b  = n$. Assume without loss of generality that $a = m$ while $b\geq  n/4$, the other case is analogous. Recall that computing $v$ requires $O((n + m) \log (n+m))$ vertex queries.
 
 Consider the $I_v\times J_v$-grid dominated by $v$ and 
 notice that $|I_v| = m$ while $|J_v| \geq n/4$. Let $\overline{J_v} = [n]\setminus J_v$.
 
 By Lemma~\ref{lemma:Sink of dominated grid}, $v$ is the sink $s_1$ of the $[m] \times J_v$-grid. Thus, we can recursively compute the sink $s_2$ of the $[m]\times \overline{J_v}$-grid and compare it with $s_1$. Then, the smallest among $s_1$ and $s_2$ is the sink of the whole grid.
-That is, we can discard a constant fraction of the grid in each iteration of this recursive algorithm. Therefore, we obtain the following result.
+That is, we can discard a constant fraction of the grid in each iteration of this recursive algorithm. Therefore, after $O(\log (n + m))$ rounds, we end up with either a constant number of rows or a constant number of columns. At this points, we can query all the vertices that remain to find the sink. This final step requires then $O(n + m)$ vertex queries yielding our result.
+\end{proof}
 
-\begin{theorem}\label{theorem:Sink algorithm}
- Let $M = \max\{m,n\}$. The sink of an $[m]\times[n]$-grid USO can be found after $\mathcal{O}(M(\log M)^2)$ vertex queries.
-\end{theorem}
  
 \section{A deterministic lower bound}
-In this section, we prove that any deterministic algorithm needs at least $m+n-1$ vertex evaluations to solve the $(m,n)$-grid USO. We say that a vertical edge 
+
+Given an $(m, n)$-grid USO $G$, we use the following adversarial argument to show a lower bound of $n + m -1$ on the number of vertex queries required to find the sink of $G$.
+We begin with a simple argument to lower bound the number of vertex queries to find the sink of a single row of $G$.
+
+\begin{lemma}\label{lem:kx1}
+Every deterministic algorithm needs $m$ queries to find the sink of a $(m,1)$-grid USO. 
+\end{lemma}
+\begin{proof}
+Let $v_i$ denote the vertex evaluated at the $i$-th query by any sink-finding algorithm, for $i=1,\ldots, m$. At evaluation of $v_1$ we answer with the source. Then, at every vertex 
+we answer with all edges that are not yet defined to be outgoing. Then, $v_i$ has $i-1$ incoming edges, already evaluated from the previous evaluations. 
+Therefore, $v_i$ has $m-i$ outgoing edges. At the $(m-1)$-th iteration the vertex $v_{m-1}$ will have one outgoing edge which will point to $v_m$.
+The algorithm then needs to also evaluate $v_m$ (which will be the sink) for a total of $m$ queries. 
+\end{proof}
+
+Let $A$ be an optimal sink-finding algorithm. We say that $A$ \emph{explores} a row of $G$ whenever it queries a vertex in this row for the first time.
+Each time $A$ explores an unexplored row, we label this row with the smallest unused label from the set $\{1, \ldots, n\}$. Moreover, we assign an arbitrary order to the vertices in this row and reveal any queried horizontal edge in this row according to this order. For the vertical edges between explored rows, we simply follow the rule that a vertex in the row labeled $i$ is always smaller than any vertex in the row labeled $j$, for any $i > j$. Additionally, a vertex in a labeled row is always larger than any vertex in an unexplored row. In oder words, we determine a lexicographical total order on the vertices of the gird. One can think of each vertex in an explored row as having two coordinates: the first being the label of its row, and the second the rank of this vertex in its row.
+Since this defines a total order on the vertices of $G$, the revealed edges are always consistent with a unique sink orientation.
+
+Because vertices in unexplored rows are always smaller, the sink of $G$ lies always in an unexplored row throughout the execution of $A$. Therefore, $A$ requires at least $n$ vertex queries before querying the first vertex in the row $r$ containing the sink. Once $A$ has queried the first vertex in $r$, it has still to find the maximum among its $m$ vertices. 
+By Lemma~\ref{lem:kx1} this requires at least $m$ vertex queries of which the algorithm has performed exactly one. Thus, $m-1$ additional vertex queries are needed to find the sink. That is, $A$ requires at least $n+m-1$ vertex queries to find the sink of $G$. 
+
+
+\section{Other lower bound}
+
+In this section, we prove that any deterministic sink-finding algorithm needs at least $m+n-1$ vertex evaluations to solve the $(m,n)$-grid USO. We say that a vertical edge 
 is oriented \emph{upwards} to mean that it is oriented from the vertex in the lower to the vertex in the higher row\AT{Should the definition of upwards be with the main set of definitions?}.  
 
 \begin{lemma}[Merge]\label{lem:merge}
-Consider two grid USOs: the $(m,n_1)$-grid $G_1$ of dimension and the $(m,n_2)$-grid $G_2$. The orientation of the $(m, n_1+n_2)$-grid, that has  
+Consider two grid USOs: the $(m,n_1)$-grid $G_1$ and the $(m,n_2)$-grid $G_2$. The orientation of the $(m, n_1+n_2)$-grid, that has  
 $G_1$ embedded in the upper $n_1$ rows and $G_2$ embedded in the bottom $n_2$ rows and such that all vertical edges connecting $G_1$ 
 and $G_2$ go upwards, is a grid USO\AT{This lemma should be able to take some generalization.}.
 \end{lemma}
@@ -425,7 +456,7 @@ unique sink which will lie in $G_1$.
 Every deterministic algorithm needs $m$ queries to find the sink of a $(m,1)$-grid USO. 
 \end{lemma}
 \begin{proof}
-Let $v_i$ denote the vertex evaluated at the $i$th query, for $i=1,\ldots, m$. At evaluation of $v_1$ we answer with the source. Then, at every vertex 
+Let $v_i$ denote the vertex evaluated at the $i$-th query, for $i=1,\ldots, m$. At evaluation of $v_1$ we answer with the source. Then, at every vertex 
 we answer with all edges that are not yet defined to be outgoing. Then, $v_i$ will have $i-1$ edges, already evaluated from the previous evaluations, which will 
 be incoming. Thus, it will have $m-i$ outgoing edges. At the $(m-1)$th iteration the vertex $v_{m-1}$ will have one outgoing edge which will point to $v_m$.
 The algorithm then needs to also evaluate $v_m$ (which will be the sink) for a total of $m$ queries. 
@@ -435,7 +466,7 @@ The algorithm then needs to also evaluate $v_m$ (which will be the sink) for a t
 Every deterministic algorithm needs at least $m+n-1$ queries to find the sink of a $(m,n)$-grid USO. 
 \end{theorem}
 \begin{proof}
-Again, let $v_i$ denote the vertex evaluated at the $i$th query, now for $i=1,\ldots, n$. Let $\og_m$ be the all-forward orientation of the $(m,1)$-grid. 
+Again, let $v_i$ denote the vertex evaluated at the $i$-th query, for $i=1,\ldots, n$. Let $\og_m$ be the all-forward orientation of the $(m,1)$-grid. 
 That is, all arrows point towards the right. 
 W.l.o.g. we assume that $v_1$ is the vertex 
 at the bottom left corner which is the source of the grid USO. 
@@ -474,7 +505,6 @@ In total, at least $m+n-1$.
 \subsection{$(4 , 4)$-grids}
 
 \section{Higher-dimensional grids}
-
 
 
 \bibliographystyle{unsrtnat}
