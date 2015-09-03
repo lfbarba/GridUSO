@@ -42,7 +42,7 @@
 \begin{abstract}
     \noindent
     We study unique sink orientations of so-called grids
-    (cartesian products of complete graphs).
+    (Cartesian products of complete graphs).
     Our main contribution is a deterministic algorithm which finds the sink in
     two-dimensional grid USOs using $O(N (\log N)^2)$ vertex queries.
 \end{abstract}
@@ -56,7 +56,7 @@ Given two finite sets $X$ and $Y$,
 the \emph{$X \times Y$-grid} is the product graph $G = K_X \times K_Y$.
 It is also called an \emph{$(m,n)$-grid}, where $m = |X|$ and $n = |Y|$ denote
 the cardinalities of the index sets.
-See figure \ref{fig:examplegrid} for an example of a grid.
+See figure \ref{fig:examplegrid} for an example of a grid. \JN{Should we draw all the edges in some picture to avoid confusion with other notions of grids that people might have? We could then say that for convenience and ease of presentation we don't draw all the edges in the figures later on.}
 
 Explicitly, the vertex set of the graph $G$ is $X \times Y$, and two
 vertices $v,w \in X \times Y$ are adjacent if and only if they differ in
@@ -67,7 +67,7 @@ $Y$-coordinate.
 
 An induced subgraph of a grid is called a \emph{subgrid} if it is itself a grid.
 The subgrids of $G$ are exactly those induced subgraphs whose vertex set is a
-cartesian product $I \times J$, for some $I \subseteq X$ and $J \subseteq Y$.
+Cartesian product $I \times J$, for some $I \subseteq X$ and $J \subseteq Y$.
 If the graph $G$ is oriented then its subgrids inherit an orientation.
 
   \begin{figure}[htbp] 
@@ -172,7 +172,7 @@ The orientation of $H$ induced by $G$ is a unique sink orientation.
 
 We define a partial order of vertices in a grid unique sink orientation $G$ as follows. For any two vertices $v,w \in G$ consider the smallest subgrid containing both $v$ and $w$. We say that $w \succeq v$ if there is a path from $w$ to $v$ in this subgrid. As the grid USO is acyclic, this defines a partial order on the vertices. Note that the sink of the grid is the unique minimal vertex with respect to this ordering. 
 
-Note that two vertices may not be $\succeq$-comparable in the smallest subgrid containing them. Thus, we consider the transitive closure of this relation and say that a vertex $w$ is \emph{larger} than $v$ (or $v$ is smaller than $w$) if there is a sequence $w = v_1, v_2, \ldots, v_k = v$ of $G$ such that $v_i \succeq v_{i+1}$, for each $1\leq i\leq k-1$.
+Note that two vertices may not be $\succeq$-comparable in the smallest subgrid containing them. Thus\JN{after the transitive closure they might still be incomparable}, we consider the transitive closure of this relation and say that a vertex $w$ is \emph{larger} than $v$ (or $v$ is smaller than $w$) if there is a sequence $w = v_1, v_2, \ldots, v_k = v$ of $G$ such that $v_i \succeq v_{i+1}$, for each $1\leq i\leq k-1$.
 
 In a grid USO $G$, the \emph{\indegree} of a vertex $v \in G$ is an ordered pair $[a_v, b_v] \in \{0,1,\ldots,|X|-1\}\times \{0,1,\ldots,|Y|-1\}$ where $a_v$ and $b_v$ specify the number of incoming horizontal  and vertical edges of $v$, respectively.
 
@@ -200,7 +200,7 @@ It is clear from the description above that the number of vertices queried so fa
 We claim that one of the queried vertices will have the required \indegree.
 
 To prove our claim, recall that every diagonal vertex $v_i \in D$ has at least $i - 1$ incoming edges.  
-Therefore, each vertex of $V$ has at least $\lceil n/2 \rceil - 1$ incoming edges. 
+Therefore, each vertex of $V'$ has at least $\lceil n/2 \rceil - 1$ incoming edges. 
 Moreover, each vertex in $V'$ has at least $\frac{\lceil n/2\rceil-1}{2}$ incoming vertical edges and $|V'| \geq \frac{n-\lceil n/2\rceil + 1}{2} \geq \frac{n}{4}$. 
 
 Let $v^*$ be the sink of $W$ obtained after querying each vertex in this set (including $v$). Let $[a,b]$ be the \indegree of $v^*$. We claim that $a, b \geq \frac{n}{4} - 1$. 
@@ -265,15 +265,16 @@ If $w \succeq v$, then because $v \succeq v^*$ we have due to transitivity that 
 
 \subsection{Hitting the wall}
 
-Given a vertex $v = (x_v, y_v)$ with \indegree $[a, b]$ in a grid USO $G$, let $I_v\subseteq [m]$ be the set of indices such that  $I_v \times \{y_v\}$ is the set of all vertices with an outgoing horizontal edge to $v$. Analogously, $J_v\subseteq [n]$ is the set of indices such that $\{x_v\}\times J_v$ is the set of all vertices with an outgoing vertical edge to~$v$. Notice that $|I_v| = a$ while $|J_v| = b$.
+Given a vertex $v = (x_v, y_v)$ with \indegree $[a, b]$ in a grid USO $G$, let $I_v\subseteq [m]$ be the set of indices such that  $I_v \times \{y_v\}$ is the set of all vertices with an outgoing horizontal edge to $v$ with $v$ included in this set. Analogously, $J_v\subseteq [n]$ is the set of indices such that $\{x_v\}\times J_v$ is the set of all vertices with an outgoing vertical edge to~$v$ (including $v$). Notice that $|I_v| = a + 1$ while $|J_v| = b + 1$.
 
 \begin{lemma}\label{lemma:Sink of dominated grid}
 Given a vertex  $v = (x_v, y_v)$ in a grid USO $G$, $v$ is the sink of the $I_v\times J_v$-grid.
 \end{lemma}
 \begin{proof}
-Assume for a contradiction that there is a vertex $z = (x_z, y_z)$ of the $I_v\times J_v$-grid such that $z$ is smaller than $v$. Let $u = (x_z, y_v)$ and $w = (x_v, y_z)$ the other two vertices of the $\{x_v, x_z\}\times\{y_v,y_z\}$-grid.
-Since $x_v\in I_v$ and $y_v\in J_v$ and by the definition of $I_v$ and $J_v$, we know that $v$ is smaller than both $u$ and~$w$.
-Because we assumed that $z$ is smaller than $v$, by transitivity we know that both $u$ and $w$ are also smaller than $z$. Therefore, both $z$ and $v$ are sinks of the $\{x_v, x_z\}\times\{y_v,y_z\}$-grid---a contradiction to the USO property that comes from assuming that $z$ is smaller than $v$. Therefore, $v$ is the sink of the $I_v\times J_v$-grid.
+Vertex $v$ has only incoming edges in the $I_v\times J_v$-grid and is therefore the unique sink of this subgrid of $G$. 
+%Assume for a contradiction that there is a vertex $z = (x_z, y_z)$ of the $I_v\times J_v$-grid such that $z$ is smaller than $v$. Let $u = (x_z, y_v)$ and $w = (x_v, y_z)$ the other two vertices of the $\{x_v, x_z\}\times\{y_v,y_z\}$-grid.
+%Since $x_v\in I_v$ and $y_v\in J_v$ and by the definition of $I_v$ and $J_v$, we know that $v$ is smaller than both $u$ and~$w$.
+%Because we assumed that $z$ is smaller than $v$, by transitivity we know that both $u$ and $w$ are also smaller than $z$. Therefore, both $z$ and $v$ are sinks of the $\{x_v, x_z\}\times\{y_v,y_z\}$-grid---a contradiction to the USO property that comes from assuming that $z$ is smaller than $v$. Therefore, $v$ is the sink of the $I_v\times J_v$-grid.
 \end{proof}
 
 In the settings of the previous lemma, we say that the $I_v\times J_v$-grid is \emph{dominated} by $v$ in~$G$.
@@ -306,7 +307,7 @@ Let $\rho = \lfloor \frac{(1-\alpha)m}{(1-\beta)n} \rfloor$.
 We consider $\rho$ square grids defined as follows. 
 
 Consider the  $I_v\times J_v$-subgrid dominated by $v$ and 
-notice that $|I_v| = \alpha m$ while $|J_v| = \beta n$.
+notice that $|I_v| = \alpha m + 1$ while $|J_v| = \beta n + 1$.
 
 Let $\overline{I_v} = [m]\setminus I_v$ and $\overline{J_v} = [n]\setminus J_v$.
 Let $A_1, \ldots, A_\rho$ be a partition of $\overline{I_v}$ into $\rho$ pairwise disjoint subsets of indices such that each has size $k = (1-\beta)n$, except maybe for the last one which contains at most $2k-1$ indices.
@@ -320,11 +321,11 @@ For each $1\leq i\leq \rho$, let $G_i$ be the $A_i\times \overline{J_v}$-grid. T
 \label{fig:Expansion Lemma 1}
 \end{figure}
 
-For each $G_i$, use Corollary~\ref{corollary: n/4 indegree} to compute a vertex $s_i$ having \indegree at least $[a,b]$ in $G_i$, where $a,b \geq k/4$ (the \indegree of $s_i$ in $G$ may be larger).
-By Corollary~\ref{corollary: n/4 indegree}, this requires $O(k)$ vertex queries. Since we have $\rho$ grids, after $O(k\rho) = O(m)$ vertex queries we can compute each of $s_1, \ldots, s_\rho$.
+For each $G_i$, use Corollary~\ref{corollary: n/4 indegree} to compute a vertex $s_i$ having \indegree at least $[a,b]$ in $G_i$, where $a,b \geq k/4 - 1$ (the \indegree of $s_i$ in $G$ may be larger).
+By Corollary~\ref{corollary: n/4 indegree}, this requires $O(k)$ vertex queries. Since we have $\rho$ grids, with $O(k\rho) = O(m)$ vertex queries we can compute each of $s_1, \ldots, s_\rho$.
  
 
-Consider the $I_{s_i}\times J_{s_j}$-subgrid dominated by $s_i$ in $G_i$, where $|I_{s_i}|, |J_{s_i}| \geq k/4$ and $I_{s_i}\subseteq A_i$ while $J_{s_i}\subseteq \overline{J_v}$. 
+Consider the $I_{s_i}\times J_{s_i}$-subgrid dominated by $s_i$ in $G_i$, where $|I_{s_i}|, |J_{s_i}| \geq k/4$ and $I_{s_i}\subseteq A_i$ while $J_{s_i}\subseteq \overline{J_v}$. 
 Given any $i\neq j$, notice that the set $J_{s_i}$ and $J_{s_j}$ are not necessarily disjoint whereas $I_{s_i}\cap I_{s_j} = \emptyset$; see Figure~\ref{fig:Expansion Lemma 1}.
 
 By Lemma~\ref{lemma:USO-Lemma}, we know that $s_i$ is smaller than each vertex in either the $I_v\times J_{s_i}$-grid or the $I_{s_i}\times J_v$-grid. This yields two cases:
@@ -342,7 +343,7 @@ $s_i$ is smaller than each vertex in the $I_v\times J_{s_i}$-grid, then let $W =
 
 Let $z$ be the sink of $W$. Note that we can compute $z$ after querying each vertex of $W$, i.e., after $O(n)$ vertex queries. Assume that $z$ has \indegree $[a_z, b_z]$. 
 Because $z$ is smaller than $s_i$, $z$ is also smaller than every vertex in the $I_v\times J_{s_i}$-grid. Moreover, since $s_i$ is smaller than $v$, we know that $z$ is also smaller than $v$ and hence, $z$ is smaller than every vertex in the $I_v\times J_v$-grid.
-Consequently, $z$ is smaller than every vertex in the $I_v\times (J_v\cup J_{s_i})$-grid, i.e., $a_z\geq |I_v| = \alpha m$.
+Consequently, $z$ is smaller than every vertex in the $I_v\times (J_v\cup J_{s_i})$-grid, i.e., $a_z\geq |I_v| \geq \alpha m$.
 Because $z$ is the sink of $W$, we know that
  $$b_z \geq |W| = \beta n + k/4 = \beta n + \frac{(1-\beta)}{4}n = \frac{1 + 3\beta}{4}n\geq \frac{1 + 7\beta}{8}n.$$
 
