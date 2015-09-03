@@ -134,39 +134,51 @@ For every vertex $x = (a,b)$ of $H$, let $G(x)$ (or simply $G(a,b)$)
 denote the $a \times b$-subgrid of $G$ oriented as follows:
 Given two adjacent vertices $x$ and $y$ of $H$, we say that $x\succeq y$ if the sink of $G(x)$ has at least one outgoing edge to a vertex of $G(y)$. We say that is orientation is \emph{induced} on $H$ by $G$.
 
-\begin{lemma}
-The orientation of $H$ induced by $G$ is a unique sink orientation.
+\begin{lemma}[USO-Lemma]\label{lemma:USO-Lemma}
+Let $G = K_X \times K_Y$ be an oriented grid,
+and let $A$ and $B$ be partitions of $X$ and $Y$, respectively.
+The orientation of the grid $H = K_A \times K_B$ induced by $G$ is a unique sink orientation.
 \end{lemma}
+\begin{proof}
+Note that it suffices to prove that every $(2,2)$-subgrid of $H$ has a unique sink orientation. Indeed, if $H$ has at least two sinks, then any $(2,2)$-subgrid containing them has no unique sink orientation.
 
+Let $a, a'\in A$ and $b,b'\in B$. Let $F$ be the $\{a,a'\}\times\{b, b'\}$-subgrid of~$H$.
+Note that $F$ consists of four vertices being $(a,b), (a', b), (a, b')$ and $(a', b')$.
+We claim that $F$ has a unique sink orientation. 
+To prove this claim, we need to show that $F$ has exactly one sink.
+We first show that $F$ has at most one sink.
+To this end, assume for a contradiction that $F$ has more than one sink.
+Since these sinks cannot be adjacent, $F$ can have at most two sinks.
+Assume without loss of generality that $(a',b)$ and $(a, b')$ are the sinks of $H$.
+Therefore, $(a, b)$ (and analogously $(a', b')$) has its edges oriented towards both $(a',b)$ and $(a, b')$.
 
-\begin{lemma}
-    The following are equivalent for all $x \in H$ and $t \in G(x)$.
-        \begin{enumerate}[(i)]
-            \item
-                $t$ is a sink in $G$.
-            \item
-                $t$ is a sink in $G(x)$, and for every $y \in N_H(x)$ and
-                every $v \in G(y) \cap N_G(t)$ there is the directed edge
-                $v \to t$.
-        \end{enumerate}
-\end{lemma}
+Let $s_{a,b}, s_{a, b'}, s_{a'b'}$ and $s_{a', b}$ be the sinks of $G(a,b), G(a,b'), G(a',b')$ and $G(a',b)$, respectively.
+By the definition of the orientation of $H$, we know that $s_{a,b}$ has at least one outgoing edge to a vertex in $G(a, b')$ and another to a vertex in $G(a', b)$. Thus $s_{a,b}$ is smaller than both $s_{a,b'}$ and $s_{a',b}$ by transitivity. Analogously, we can show that $s_{a',b'}$ is also smaller than both $s_{a,b'}$ and~$s_{a',b}$. 
 
-\begin{lemma}
-    \label{lemma:induced}
-    If the orientation of $G$ is a unique sink orientation,
-    then the following defines a unique sink orientation on $H$:
-    Let $x$ and $x'$ be neighbours in $H$, and let $t$ denote the sink of
-    $G(x)$.
-    We draw an arc $x' \to x$ if and only if for all
-    $v \in G(x') \cap N_G(t)$ we have $v \to t$.
-\end{lemma}
+Consider the $(2,2)$-subgrid of $G$ containing both $s_{a,b'}$ and~$s_{a',b}$. Note that $s_{a,b'}$ and~$s_{a',b}$ are not adjacent in this grid. Let $p$ and $q$, be the other two vertices of this grid, where $p\in G(a, b)$ while $q\in G(a', b')$; see Figure~\ref{}.
+Because $p$ is smaller than $s_{a, b}$, we conclude that $p$ is also smaller than both $s_{a,b'}$ and~$s_{a',b}$. Analogously, since $q$ is smaller than $s_{a',b'}$, we know that $q$ is also smaller than $s_{a,b'}$ and~$s_{a',b}$. That is, the $(2,2)$-subgrid of $G$ containing both $s_{a,b'}$ and~$s_{a',b}$ has two sinks---a contradiction to the unique sink orientation of $G$ which comes from assuming that $F$ had at least two sinks.
+Therefore $F$ has at most one sink.
 
-\begin{definition}
-    Given a USO of $G = K_X \times K_Y$ and partitions $A,B$ of the index sets
-    $X,Y$, the orientation of $H = K_A \times K_B$
-    as defined in Lemma \ref{lemma:induced} is called the \emph{unique
-    sink orientation induced by $G$ on $H$}.
-\end{definition}
+To show that $F$ has a USO, we need only to prove that $F$ has no cycles.
+If there is a cycle $(a,b)\succeq (a', b) \succeq (a', b') \succeq (a, b') \succeq (a,b)$, then
+this induces a cycle among $s_{a,b}, s_{a, b'}, s_{a'b'}$ and $s_{a', b}$ contradicting the USO of $G$. Consequently, $F$ has a unique sink orientation.
+\end{proof}
+
+\begin{corollary}
+Let $G = K_X \times K_Y$ be an oriented grid,
+and let $A$ and $B$ be partitions of $X$ and $Y$, respectively.
+If $(a,b)$ is the sink of the grid $H = K_A \times K_B$, then the sink of $G(a,b)$ is the sink of $G$.
+\end{corollary}
+\begin{proof}
+Let $s_{a,b}$ be the sink of $G(a, b)$ and let $s_G$ denote the sink of $G$.
+We claim that $s_G = s_{a,b}$.
+Assume for a contradiction that $s_{a,b}\neq s_G$.
+Note that $s_G$ does not belong to $G(a,b)$ as $s_{a,b}$ is its sink.
+Therefore, $s_G$ is the sink of $G(a', b')$ for some $a'\in A, b'\in B$.
+
+Consider the smallest subgrid in $H$ containing both $(a,b)$ and $(a', b')$. 
+Since Lemma~\ref{lemma:USO-Lemma} guarantees that $(a', b')$ is not the sink of this subgrid, there is at least one outgoing edge from $(a', b')$ to another vertex. Thus, by the definition of the orientation of $H$, there is an outgoing edge going from the sink of $G(a', b')$, i.e., an outgoing edge from $s_G$---a contradiction since $s_G$ is the sink of $G$ and has no outgoing edges. Therefore, $s_G = s_{a,b}$.
+\end{proof}
 
 \section{The sink-finding algorithm}
 
@@ -278,18 +290,10 @@ Because we assumed that $z$ is smaller than $v$, by transitivity we know that bo
 
 In the settings of the previous lemma, we say that the $I_v\times J_v$-grid is \emph{dominated} by $v$ in~$G$.
 
-\begin{lemma}[USO-Lemma]\label{lemma:USO-Lemma}
-
-Given an $[m]\times[n]$-grid USO $G$ and sets $I, I'\subset [m]$ and $J,J'\subset [n]$ such that $I\cap I' = \emptyset = J\cap J'$. If $u$ is the sink of the $I\times J$-grid while $v$ is the sink of the $I'\times J'$-grid such that $v$ is smaller than $u$, then $v$ is either smaller than the sink of the $I\times J'$-grid or smaller than the sink of the $I'\times J$-grid (maybe smaller than both).
+\begin{lemma}
+Given an $[m]\times[n]$-grid USO $G$ and sets $I, I'\subset [m]$ and $J,J'\subset [n]$ such that $I\cap I' = \emptyset = J\cap J'$. If $u$ is the sink of the $I\times J$-subgrid while $v$ is the sink of the $I'\times J'$-subgrid such that $v$ is smaller than $u$, then $v$ is either smaller than the sink of the $I\times J'$-grid or smaller than the sink of the $I'\times J$-grid (maybe smaller than both).
 \end{lemma}
-\begin{proof}
-Let $t = (x_t, y_t)$ and $s = (x_s, y_s)$ be the sinks of the $I\times J'$-grid and the $I'\times J$-grid, respectively.
-Assume for a contradiction that $v = (x_v, y_v)$ is larger than both $t$ and $s$. 
-Let $p = (x_s, y_t)$ and $q = (x_t, y_s)$ be the other two vertices of the $\{x_s, x_t\}\times\{y_s, y_t\}$-grid, i.e., the smallest subgrid containing $s$ and $t$. 
-Because $x_s \in I'$ and $y_t\in J'$, $p$ is in the $I'\times J'$-grid and hence, $v$ is smaller than $p$. Since $t$ and $s$ are both smaller than $v$, by transitivity we know that both $t$ and $s$ are smaller than $p$. 
-Analogously, since $q$ is in the $I\times J$-grid, it is larger than $u$ and hence larger than $v$. Therefore, by transitivity, we know that both $t$ and $s$ are smaller than $q$. That is, both $t$ and $s$ are sinks of the $\{x_s, x_t\}\times\{y_s, y_t\}$-grid---a contradiction that comes from assuming that both $t$ and $s$ are smaller than $v$.
-Therefore, $v$ is smaller than either $t$ or $s$.
-\end{proof}
+
 
 \subsection{Finding the sink}
 The idea of our algorithm is the following: Using Lemma~\ref{corollary: n/4 indegree}, we find a vertex which dominates already a subgrid with at least $n^2/16$ of the vertices  by Lemma~\ref{lemma:Sink of dominated grid}. However, this is not enough so we use Lemma~\ref{lemma:Constant fraction improvement} below to find a smaller vertex that dominates a ``larger'' subgrid. By repeating this process a logarithmic number of times, we end up with a vertex whose dominated subgrid spans a strip of the original grid containing at least one eight of the vertices. This leaves us with another (non-square) grid where we can repeat our algorithm recureively. The key result to this process is described in the next lemma.
@@ -429,7 +433,7 @@ The algorithm then needs to also evaluate $v_m$ (which will be the sink) for a t
 \end{proof}
 
 Let $A$ be an optimal sink-finding algorithm. We say that $A$ \emph{explores} a row of $G$ whenever it queries a vertex in this row for the first time.
-Each time $A$ explores an unexplored row, we label this row with the smallest unused label from the set $\{1, \ldots, n\}$. Moreover, we assign an arbitrary order to the vertices in this row and reveal any queried horizontal edge in this row according to this order. For the vertical edges between explored rows, we simply follow the rule that a vertex in the row labeled $i$ is always smaller than any vertex in the row labeled $j$, for any $i > j$. Additionally, a vertex in a labeled row is always larger than any vertex in an unexplored row. In oder words, we determine a lexicographical total order on the vertices of the gird. One can think of each vertex in an explored row as having two coordinates: the first being the label of its row, and the second the rank of this vertex in its row.
+Each time $A$ explores an unexplored row, we label this row with the smallest unused label from the set $\{1, \ldots, n\}$. Moreover, we assign an arbitrary order to the vertices in this row and reveal any queried horizontal edge in this row according to this order. For the vertical edges between explored rows, we simply follow the rule that a vertex in the row labeled $i$ is always smaller than any vertex in the row labeled $j$, for any $i > j$. Additionally, a vertex in a labeled row is always larger than any vertex in an unexplored row. In other words, we determine a lexicographical total order on the vertices of the gird. One can think of each vertex in an explored row as having two coordinates: the first being the label of its row, and the second the rank of this vertex in its row.
 Since this defines a total order on the vertices of $G$, the revealed edges are always consistent with a unique sink orientation.
 
 Because vertices in unexplored rows are always smaller, the sink of $G$ lies always in an unexplored row throughout the execution of $A$. Therefore, $A$ requires at least $n$ vertex queries before querying the first vertex in the row $r$ containing the sink. Once $A$ has queried the first vertex in $r$, it has still to find the maximum among its $m$ vertices. 
