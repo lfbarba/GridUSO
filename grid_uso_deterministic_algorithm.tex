@@ -34,6 +34,9 @@
 \newcommand{\indegree}{refined in-degree\xspace}
 \newcommand{\ind}{\ensuremath{\mathrm{ind}}}
 \newcommand{\og}{\overrightarrow{G}}
+\newcommand{\A}{\ensuremath{\mathcal A}}
+\newcommand{\B}{\ensuremath{\mathcal B}}
+\newcommand{\s}[1]{\ensuremath{s_{\scriptscriptstyle#1}}}
 
 \begin{document}
 
@@ -153,14 +156,14 @@ When designing algorithms for grids, at some point one will typically want to
 partition the grid into blocks.
 If such a partition into blocks forms itself a grid,
 then we define an induced orientation on it.
-An example of such an induced unique sink orientation is shown in figure
-\ref{fig:induced}.
+An example of such an induced unique sink orientation is shown in Figure~\ref{fig:InducedUSO}.
+
 
 Formally, let $G = K_X \times K_Y$ be a grid USO,
-and let $A$ and $B$ be partitions of $X$ and $Y$, respectively.
-We study the grid $H = K_A \times K_B$.
-For every vertex $x = (a,b)$ of $H$, where $a\in A$ and $b \in B$, let $G(x)$ (or simply $G(a,b)$)
-denote the $a \times b$-subgrid of $G$. 
+and let $\A$ and $\B$ be partitions of $X$ and $Y$, respectively.
+Let $H = K_\A \times K_\B$ be the \emph{$\A$-$\B$-partition grid} of $G$.
+For every vertex $x = (A,B)$ of $H$, where $A\in \A$ and $B \in \B$, let $G(x)$ (or simply $G(A,B)$)
+denote the $A \times B$-subgrid of $G$. 
 The edge between two adjacent vertices $x$ and $y$ of $H$ is oriented towards $y$ if the sink of $G(x)$ has at least one outgoing edge to a vertex of $G(y)$ in the original grid $G$. 
 This orientation is well defined, because if the sink of $G(y)$ had an edge towards some vertex of $G(x)$, there would be a cycle in $G$. 
 Furthermore, there is always at least one such outgoing edge from one of the sinks as otherwise an appropriately chosen subgrid of $G$ would have two sinks. 
@@ -168,14 +171,14 @@ We say that is orientation is \emph{induced} on $H$ by $G$.
 
 \begin{lemma}[USO-Lemma]\label{lemma:USO-Lemma}
 Let $G = K_X \times K_Y$ be a grid unique sink orientation,
-and let $A$ and $B$ be partitions of $X$ and $Y$, respectively.
-The orientation of the grid $H = K_A \times K_B$ induced by $G$ is a unique sink orientation.
+and let $\A$ and $\B$ be partitions of $X$ and $Y$, respectively.
+The orientation of the $\A$-$\B$-partition grid $H = K_\A \times K_\B$ induced by $G$ is a unique sink orientation.
 \end{lemma}
 \begin{proof}
 Note that it suffices to prove that every $(2,2)$-subgrid of $H$ has a unique sink orientation. Indeed, if $H$ has at least two sinks, then any $(2,2)$-subgrid containing them has no unique sink orientation.
 
-Let $a, a'\in A$ and $b,b'\in B$. Let $F$ be the $\{a,a'\}\times\{b, b'\}$-subgrid of~$H$.
-Note that $F$ consists of four vertices being $(a,b), (a', b), (a, b')$ and $(a', b')$.
+Let $A, A'\in \A$ and $B,B'\in \B$. Let $F$ be the $\{A,A'\}\times\{B, B'\}$-subgrid of~$H$.
+Note that $F$ consists of four vertices being $(A,B), (A', B), (A, B')$ and $(A', B')$.
 We claim that $F$ has a unique sink orientation. 
 To prove this claim, we need to show that $F$ has exactly one sink.
 We first show that $F$ has at most one sink.
@@ -185,12 +188,12 @@ To this end, we need to show that $F$ has exactly one sink.
 We first show that $F$ has at most one sink. We then show that $F$ cannot have cycles and has hence exactly one sink.
 
 Assume for a contradiction that $F$ has more than one sink.
-Since these sinks cannot be adjacent, $F$ can have at most two sinks. Assume without loss of generality that $(a',b)$ and $(a, b')$ are the sinks of $H$.
-Therefore, $(a, b)$ (and analogously $(a', b')$) has its edges oriented towards both $(a',b)$ and $(a, b')$.
-Let $s_{a,b}, s_{a, b'}, s_{a'b'}$ and $s_{a', b}$ be the sinks of $G(a,b), G(a,b'), G(a',b')$ and $G(a',b)$, respectively. 
-By the definition of the orientation of $H$, we know that $s_{a,b}$ has at least one outgoing edge to a vertex in $G(a, b')$ and another to a vertex in $G(a', b)$. 
-Thus $s_{a,b}$ is smaller than both $s_{a,b'}$ and $s_{a',b}$ by transitivity. 
-Analogously, we can show that $s_{a',b'}$ is also smaller than both $s_{a,b'}$ and~$s_{a',b}$. 
+Since these sinks cannot be adjacent, $F$ can have at most two sinks. Assume without loss of generality that $(A',B)$ and $(A, B')$ are the sinks of $H$.
+Therefore, $(A, B)$ (and analogously $(A', B')$) has its edges oriented towards both $(A',B)$ and $(A, B')$.
+Let $\s{A,B}, \s{A,B'}, \s{A',B'}$ and $\s{A',B}$ be the sinks of $G(A,B), G(A,B'), G(A',B')$ and $G(A',B)$, respectively. 
+By the definition of the orientation of $H$, we know that $\s{A,B}$ has at least one outgoing edge to a vertex in $G(A, B')$ and another to a vertex in $G(A', B)$. 
+Thus $\s{A,B}$ is smaller than both $\s{A,B'}$ and $\s{A',B}$ by transitivity. 
+Analogously, we can show that $\s{A',B'}$ is also smaller than both $\s{A,B'}$ and~$\s{A',B}$. 
 
 \begin{figure}[h]
 \centering
@@ -200,37 +203,38 @@ Analogously, we can show that $s_{a',b'}$ is also smaller than both $s_{a,b'}$ a
 \label{fig:InducedUSO}
 \end{figure}
 
-Consider the $(2,2)$-subgrid of $G$ containing both $s_{a,b'}$ and~$s_{a',b}$. 
-Note that $s_{a,b'}$ and~$s_{a',b}$ are not adjacent in this grid. 
-Let $p$ and $q$, be the other two vertices of this grid, where $p\in G(a, b)$ while $q\in G(a', b')$; see Figure~\ref{fig:InducedUSO}.
-Because $p$ is smaller than $s_{a, b}$, we conclude that $p$ is also smaller than both $s_{a,b'}$ and~$s_{a',b}$. 
-Analogously, since $q$ is smaller than $s_{a',b'}$, we know that $q$ is also smaller than $s_{a,b'}$ and~$s_{a',b}$. 
-That is, the $(2,2)$-subgrid of $G$ containing both $s_{a,b'}$ and~$s_{a',b}$ has two sinks---a contradiction to the unique sink orientation of $G$ which comes from assuming that $F$ had at least two sinks.
+Consider the $(2,2)$-subgrid of $G$ containing both $\s{A,B'}$ and~$\s{A',B}$. 
+Note that $\s{A,B'}$ and~$\s{A',B}$ are not adjacent in this grid. 
+Let $p$ and $q$, be the other two vertices of this grid, where $p\in G(A, B)$ while $q\in G(A', B')$; see Figure~\ref{fig:InducedUSO}.
+Because $p$ is smaller than $\s{A, B}$, we conclude that $p$ is also smaller than both $\s{A,B'}$ and~$\s{A',B}$. 
+Analogously, since $q$ is smaller than $\s{A',B'}$, we know that $q$ is also smaller than $\s{A,B'}$ and~$\s{A',B}$. 
+That is, the $(2,2)$-subgrid of $G$ containing both $\s{A,B'}$ and~$\s{A',B}$ has two sinks---a contradiction to the unique sink orientation of $G$ which comes from assuming that $F$ had at least two sinks.
 
 Therefore $F$ has at most one sink.
 
 To show that $F$ has a USO, we need only to prove that $F$ has no cycles.
-If there is a cycle $(a,b)\succeq (a', b) \succeq (a', b') \succeq (a, b') \succeq (a,b)$ in $F$, then
-this induces a cycle among $s_{a,b}, s_{a, b'}, s_{a'b'}$ and $s_{a', b}$ contradicting the USO of $G$. Consequently, $F$ has a unique sink orientation.
+If there is a cycle $(A,B)\succeq (A', B) \succeq (A', B') \succeq (A, B') \succeq (A,B)$ in $F$, then
+this induces a cycle among $\s{A,B}, \s{A, B'}, \s{A',B'}$ and $\s{A', B}$ contradicting the USO of $G$. Consequently, $F$ has a unique sink orientation.
 \end{proof}
 
 \begin{theorem}
 \label{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink}
-Let $G = K_X \times K_Y$ be a grid USO,
-and let $A$ and $B$ be partitions of $X$ and $Y$, respectively.
-If $(a,b)$ is the sink of the grid $H = K_A \times K_B$, then the sink of $G(a,b)$ is the sink of $G$.
+
+Let $G = K_X \times K_Y$ be an oriented grid,
+and let $\A$ and $\B$ be partitions of $X$ and $Y$, respectively.
+If $(A,B)$ is the sink of the grid $H = K_\A \times K_\B$, then the sink of $G(A,B)$ is the sink of $G$.
 \end{theorem}
 \begin{proof}
-Let $s_{a,b}$ be the sink of $G(a, b)$ and let $s_G$ denote the sink of $G$.
-We claim that $s_G = s_{a,b}$.
-Assume for a contradiction that $s_{a,b}\neq s_G$.
-Note that $s_G$ does not belong to $G(a,b)$ as $s_{a,b}$ is its sink.
-Therefore, $s_G$ is the sink of $G(a', b')$ for some $a'\in A, b'\in B$.
+Let $\s{A,B}$ be the sink of $G(A,B)$ and let $\s{G}$ denote the sink of $G$.
+We claim that $\s{G} = \s{A,B}$.
+Assume for a contradiction that $\s{A,B}\neq \s{G}$.
+Note that $\s{G}$ does not belong to $G(A,B)$ as $\s{A,B}$ is its sink.
+Therefore, $\s{G}$ is the sink of $G(A', B')$ for some $A'\in \A, B'\in \B$.
 
-Consider the smallest subgrid in $H$ containing both $(a,b)$ and $(a', b')$. 
-Since Lemma~\ref{lemma:USO-Lemma} guarantees that $(a', b')$ is not the sink of this subgrid, there is at least one outgoing edge from $(a', b')$ to another vertex.
-Thus, by the definition of the orientation of $H$, there is an outgoing edge going from the sink of $G(a', b')$, i.e., an outgoing edge from $s_G$---a contradiction since $s_G$ is the sink of $G$ and has no outgoing edges. 
-Therefore, $s_G = s_{a,b}$.
+Consider the smallest subgrid in $H$ containing both $(A,B)$ and $(A', B')$. 
+Since Lemma~\ref{lemma:USO-Lemma} guarantees that $(A',B')$ is not the sink of this subgrid, there is at least one outgoing edge from $(A',B')$ to another vertex.
+Thus, by the definition of the orientation of $H$, there is an outgoing edge going from the sink of $G(A',B')$, i.e., an outgoing edge from $\s{G}$---a contradiction since $\s{G}$ is the sink of $G$ and has no outgoing edges. 
+Therefore, $\s{G} = \s{A,B}$.
 \end{proof}
 
 
@@ -384,7 +388,7 @@ $I_{s}\subseteq \overline{I_v}$ while $J_{s}\subseteq \overline{J_v}$.
 By Lemma~\ref{lemma:USO-Lemma}, 
 we know that $s$ is smaller than the sink of either
 $I_v\times J_{s}$-grid or $I_{s}\times J_v$-grid (or maybe both).
-Otherwise, the $(2,2)$-grid USO $H = G_{\{I_v, I_s\}}\times G_{\{J_v, J_s\}}$ would have two sinks.
+Otherwise, the $(2,2)$-grid USO $H = K_{\{I_v, I_s\}}\times K_{\{J_v, J_s\}}$ would have two sinks.
 
 Assume first that $s$ is smaller than each vertex in the $I_v\times J_{s}$-grid. Then let $W =  \{x_{s}\} \times (J_v\cup J_{s})$ be a set of $(\beta n + 1) + (b + 1)$ vertices, where $s = (x_{s}, y_{s})$; see Figure~\ref{fig:expansion}. 
 
@@ -452,12 +456,17 @@ Therefore, $v_i$ has $m-i$ outgoing edges. At the $(m-1)$-th iteration the verte
 The algorithm then needs to also evaluate $v_m$ (which will be the sink) for a total of $m$ queries. 
 \end{proof}
 
+\begin{theorem} \label{thm:lowerbound}
+Every deterministic algorithm needs at least $m+n-1$ queries to find the sink of a $(m,n)$-grid USO. 
+\end{theorem}
+\begin{proof}
 Let $A$ be an optimal sink-finding algorithm. We say that $A$ \emph{explores} a row of $G$ whenever it queries a vertex in this row for the first time.
 Each time $A$ explores an unexplored row, we label this row with the smallest unused label from the set $\{1, \ldots, n\}$. Moreover, we assign an arbitrary order to the vertices in this row and reveal any queried horizontal edge in this row according to this order. For the vertical edges between explored rows, we simply follow the rule that a vertex in the row labeled $i$ is always smaller than any vertex in the row labeled $j$, for any $i > j$. Additionally, a vertex in a labeled row is always larger than any vertex in an unexplored row. In other words, we determine a lexicographical total order on the vertices of the gird. One can think of each vertex in an explored row as having two coordinates: the first being the label of its row, and the second the rank of this vertex in its row.
 Since this defines a total order on the vertices of $G$, the revealed edges are always consistent with a unique sink orientation.
 
 Because vertices in unexplored rows are always smaller, the sink of $G$ lies always in an unexplored row throughout the execution of $A$. Therefore, $A$ requires at least $n$ vertex queries before querying the first vertex in the row $r$ containing the sink. Once $A$ has queried the first vertex in $r$, it has still to find the maximum among its $m$ vertices. 
 By Lemma~\ref{lem:kx1} this requires at least $m$ vertex queries of which the algorithm has performed exactly one. Thus, $m-1$ additional vertex queries are needed to find the sink. That is, $A$ requires at least $n+m-1$ vertex queries to find the sink of $G$. 
+\end{proof}
 
 
 \section{Other lower bound}
