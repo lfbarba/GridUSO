@@ -133,9 +133,15 @@ Our results are:
  \JN{Prove this ourselves or refer to somewhere?}
 \end{proof}
 
-We define a partial order of vertices in a grid unique sink orientation $G$ as follows. For any two vertices $v,w \in G$ consider the smallest subgrid containing both $v$ and $w$. We say that $w \succeq v$ if there is a path from $w$ to $v$ in this subgrid. As the grid USO is acyclic, this defines a partial order on the vertices. Note that the sink of the grid is the unique minimal vertex with respect to this ordering. 
+We define a partial order of vertices in a grid unique sink orientation $G$ as follows. 
+For any two vertices $v,w \in G$ consider the smallest subgrid containing both $v$ and $w$. 
+We say that $w \succeq v$ if there is a path from $w$ to $v$ in this subgrid. 
+As the grid USO is acyclic, this defines a partial order on the vertices. 
+Note that the sink of the grid is the unique minimal vertex with respect to this ordering. 
 
-Note that two vertices may not be $\succeq$-comparable in the smallest subgrid containing them. There could still be a path between the two vertices. Thus\JN{after the transitive closure they might still be incomparable}, we consider the transitive closure of this relation and say that a vertex $w$ is \emph{larger} than $v$ (or $v$ is smaller than $w$) if there is a sequence $w = v_1, v_2, \ldots, v_k = v$ of $G$ such that $v_i \succeq v_{i+1}$, for each $1\leq i\leq k-1$.
+Note that two vertices may not be $\succeq$-comparable in the smallest subgrid containing them. 
+There could still be a path between the two vertices. 
+Thus\JN{after the transitive closure they might still be incomparable}, we consider the transitive closure of this relation and say that a vertex $w$ is \emph{larger} than $v$ (or $v$ is smaller than $w$) if there is a sequence $w = v_1, v_2, \ldots, v_k = v$ of $G$ such that $v_i \succeq v_{i+1}$, for each $1\leq i\leq k-1$.
 
 In a grid USO $G$, the \emph{\indegree} of a vertex $v \in G$ is an ordered pair $[a_v, b_v] \in \{0,1,\ldots,|X|-1\}\times \{0,1,\ldots,|Y|-1\}$ where $a_v$ and $b_v$ specify the number of incoming horizontal  and vertical edges of $v$, respectively.
 
@@ -155,7 +161,10 @@ and let $A$ and $B$ be partitions of $X$ and $Y$, respectively.
 We study the grid $H = K_A \times K_B$.
 For every vertex $x = (a,b)$ of $H$, where $a\in A$ and $b \in B$, let $G(x)$ (or simply $G(a,b)$)
 denote the $a \times b$-subgrid of $G$. 
-The edge between two adjacent vertices $x$ and $y$ of $H$ is oriented towards $y$ if the sink of $G(x)$ has at least one outgoing edge to a vertex of $G(y)$ in the original grid $G$. This orientation is well defined, because if the sink of $G(y)$ had an edge towards some vertex of $G(x)$, there would be a cycle in $G$. Furthermore, there is always at least one such outgoing edge from one of the sinks as otherwise an appropriately chosen subgrid of $G$ would have two sinks. We say that is orientation is \emph{induced} on $H$ by $G$.
+The edge between two adjacent vertices $x$ and $y$ of $H$ is oriented towards $y$ if the sink of $G(x)$ has at least one outgoing edge to a vertex of $G(y)$ in the original grid $G$. 
+This orientation is well defined, because if the sink of $G(y)$ had an edge towards some vertex of $G(x)$, there would be a cycle in $G$. 
+Furthermore, there is always at least one such outgoing edge from one of the sinks as otherwise an appropriately chosen subgrid of $G$ would have two sinks. 
+We say that is orientation is \emph{induced} on $H$ by $G$.
 
 \begin{lemma}[USO-Lemma]\label{lemma:USO-Lemma}
 Let $G = K_X \times K_Y$ be a grid unique sink orientation,
@@ -182,18 +191,24 @@ Assume without loss of generality that $(a',b)$ and $(a, b')$ are the sinks of $
 Therefore, $(a, b)$ (and analogously $(a', b')$) has its edges oriented towards both $(a',b)$ and $(a, b')$.
 
 Let $s_{a,b}, s_{a, b'}, s_{a'b'}$ and $s_{a', b}$ be the sinks of $G(a,b), G(a,b'), G(a',b')$ and $G(a',b)$, respectively.
-By the definition of the orientation of $H$, we know that $s_{a,b}$ has at least one outgoing edge to a vertex in $G(a, b')$ and another to a vertex in $G(a', b)$. Thus $s_{a,b}$ is smaller than both $s_{a,b'}$ and $s_{a',b}$ by transitivity. Analogously, we can show that $s_{a',b'}$ is also smaller than both $s_{a,b'}$ and~$s_{a',b}$. 
+By the definition of the orientation of $H$, we know that $s_{a,b}$ has at least one outgoing edge to a vertex in $G(a, b')$ and another to a vertex in $G(a', b)$. 
+Thus $s_{a,b}$ is smaller than both $s_{a,b'}$ and $s_{a',b}$ by transitivity. 
+Analogously, we can show that $s_{a',b'}$ is also smaller than both $s_{a,b'}$ and~$s_{a',b}$. 
 
-% \begin{figure}[h]
-% \centering
-% \includegraphics{inducedUSO.pdf}
-% %[width=1\textwidth]
-% \caption{\small }
-% \label{fig:InducedUSO}
-% \end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics{InducedUSO.pdf}
+%[width=1\textwidth]
+\caption{\small }
+\label{fig:InducedUSO}
+\end{figure}
 
-Consider the $(2,2)$-subgrid of $G$ containing both $s_{a,b'}$ and~$s_{a',b}$. Note that $s_{a,b'}$ and~$s_{a',b}$ are not adjacent in this grid. Let $p$ and $q$, be the other two vertices of this grid, where $p\in G(a, b)$ while $q\in G(a', b')$; see Figure~\ref{fig:InducedUSO}.
-Because $p$ is smaller than $s_{a, b}$, we conclude that $p$ is also smaller than both $s_{a,b'}$ and~$s_{a',b}$. Analogously, since $q$ is smaller than $s_{a',b'}$, we know that $q$ is also smaller than $s_{a,b'}$ and~$s_{a',b}$. That is, the $(2,2)$-subgrid of $G$ containing both $s_{a,b'}$ and~$s_{a',b}$ has two sinks---a contradiction to the unique sink orientation of $G$ which comes from assuming that $F$ had at least two sinks.
+Consider the $(2,2)$-subgrid of $G$ containing both $s_{a,b'}$ and~$s_{a',b}$. 
+Note that $s_{a,b'}$ and~$s_{a',b}$ are not adjacent in this grid. 
+Let $p$ and $q$, be the other two vertices of this grid, where $p\in G(a, b)$ while $q\in G(a', b')$; see Figure~\ref{fig:InducedUSO}.
+Because $p$ is smaller than $s_{a, b}$, we conclude that $p$ is also smaller than both $s_{a,b'}$ and~$s_{a',b}$. 
+Analogously, since $q$ is smaller than $s_{a',b'}$, we know that $q$ is also smaller than $s_{a,b'}$ and~$s_{a',b}$. 
+That is, the $(2,2)$-subgrid of $G$ containing both $s_{a,b'}$ and~$s_{a',b}$ has two sinks---a contradiction to the unique sink orientation of $G$ which comes from assuming that $F$ had at least two sinks.
 Therefore $F$ has at most one sink.
 
 To show that $F$ has a USO, we need only to prove that $F$ has no cycles.
@@ -215,7 +230,9 @@ Note that $s_G$ does not belong to $G(a,b)$ as $s_{a,b}$ is its sink.
 Therefore, $s_G$ is the sink of $G(a', b')$ for some $a'\in A, b'\in B$.
 
 Consider the smallest subgrid in $H$ containing both $(a,b)$ and $(a', b')$. 
-Since Lemma~\ref{lemma:USO-Lemma} guarantees that $(a', b')$ is not the sink of this subgrid, there is at least one outgoing edge from $(a', b')$ to another vertex. Thus, by the definition of the orientation of $H$, there is an outgoing edge going from the sink of $G(a', b')$, i.e., an outgoing edge from $s_G$---a contradiction since $s_G$ is the sink of $G$ and has no outgoing edges. Therefore, $s_G = s_{a,b}$.
+Since Lemma~\ref{lemma:USO-Lemma} guarantees that $(a', b')$ is not the sink of this subgrid, there is at least one outgoing edge from $(a', b')$ to another vertex.
+Thus, by the definition of the orientation of $H$, there is an outgoing edge going from the sink of $G(a', b')$, i.e., an outgoing edge from $s_G$---a contradiction since $s_G$ is the sink of $G$ and has no outgoing edges. 
+Therefore, $s_G = s_{a,b}$.
 \end{proof}
 
 \section{The sink-finding algorithm}
@@ -268,7 +285,10 @@ Otherwise, there is a vertex $w \in V'$ that is in the same column as $v^*$.
    To show that there is an edge from $w$ to $v^*$ we study these two cases: 
    
 If $w \succeq v$, then because $v \succeq v^*$ we have due to transitivity that $w \succeq v^*$. 
-  Otherwise, $w$ and $v$ are incomparable. In this case, since $v^*$ is smaller than $v$, we know that the edge connecting $v$ and $v^*$ is  oriented towards $v^*$. Therefore, the only possibility for $v$ and $w$ to be incomparable is that there is an edge from $w$ to $v^*$. We give illustrations of the two cases in Figure~\ref{fig:seedlem2}. Thus regardless of the case, there is an edge from $w$ to $v^*$ which concludes the proof.   
+  Otherwise, $w$ and $v$ are incomparable. In this case, since $v^*$ is smaller than $v$, we know that the edge connecting $v$ and $v^*$ is  oriented towards $v^*$. 
+  Therefore, the only possibility for $v$ and $w$ to be incomparable is that there is an edge from $w$ to $v^*$. 
+  We give illustrations of the two cases in Figure~\ref{fig:seedlem2}. 
+  Thus regardless of the case, there is an edge from $w$ to $v^*$ which concludes the proof.   
    \begin{figure}[htbp] 
        \centering
        \begin{subfigure}[b]{0.4\textwidth}
@@ -286,13 +306,19 @@ If $w \succeq v$, then because $v \succeq v^*$ we have due to transitivity that 
 \end{proof}
 
 \begin{corollary}\label{corollary: n/4 indegree}
-  Given an $[m]\times [n]$ grid USO $G$, we can find a vertex with \indegree $[a,b]$ with $a \geq \frac{m}{4} - 1$ and  $b \geq \frac{n}{4} - 1$ using $\mathcal{O}(M)$ vertex queries where $M = \max\{m,n\}$.
+  Given an $[m]\times [n]$ grid USO $G$, we can find a vertex with \indegree $[a,b]$ with $a \geq \frac{m}{8} - 1$ and  $b \geq \frac{n}{8} - 1$ using $\mathcal{O}(M)$ vertex queries where $M = \max\{m,n\}$.
 \end{corollary}
 
 \begin{proof}
- Assume without loss of generality that $m \geq n$. We will partition $[m]$ into $n$ blocks, then apply Lemma \ref{lem:seed_lemma_for_square_matrices} on the induced orientation, and conclude using Corollary \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} that this will give us the desired result. 
+ Assume without loss of generality that $m \geq n$. 
+ We will partition $[m]$ into $n$ blocks, then apply Lemma \ref{lem:seed_lemma_for_square_matrices} on the induced orientation, and conclude using Theorem \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} that this will give us the desired result. 
  
- Partition $[m]$ into $n$ blocks, each of size either $\lfloor \frac{m}{n} \rfloor$ or $\lceil \frac{m}{n} \rceil$. Let $A = \{A_1,\ldots,A_n\}$ be the blocks in the partition and let $H = K_A\times K_{[n]}$ be the grid with an induced orientation inherited from $G$. Use Lemma \ref{lem:seed_lemma_for_square_matrices} to find a vertex $v$ of $H$ with \indegree [a,b] in $H$ satisfying $a \geq \frac{n}{4} - 1$ and $b \geq \frac{n}{4} - 1$. Note, that in each vertex query of $H$ we need to find the sink of a $(|A_i|,1)$-grid for some $i$. The total number of queries used is therefore $\mathcal{O}(\frac{m}{n}\cdot n) = \mathcal{O}(m)$ as required. As $v$ has at least $\frac{n}{4} - 1$ horizontal incoming edges in $H$, each of which is a $(|A_i|,1)$-grid in $G$, by Corollary \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} $v$ has at least $(\frac{n}{4} - 1)\cdot\lfloor \frac{m}{n} \rfloor + \lfloor \frac{m}{n} \rfloor - 1$ incoming edges in $G$.
+ Partition $[m]$ into $n$ blocks, each of size either $\lfloor \frac{m}{n} \rfloor$ or $\lceil \frac{m}{n} \rceil$. 
+ Let $A = \{A_1,\ldots,A_n\}$ be the blocks in the partition and let $H = K_A\times K_{[n]}$ be the grid with an induced orientation inherited from $G$. 
+ Use Lemma \ref{lem:seed_lemma_for_square_matrices} to find a vertex $v$ of $H$ with \indegree [a,b] in $H$ satisfying $a \geq \frac{n}{4} - 1$ and $b \geq \frac{n}{4} - 1$. 
+ Note, that in each vertex query of $H$ we need to find the sink of a $(|A_i|,1)$-grid for some $i$. 
+ The total number of queries used is therefore $\mathcal{O}(\frac{m}{n}\cdot n) = \mathcal{O}(m)$ as required. 
+ As $v$ has at least $\frac{n}{4} - 1$ horizontal incoming edges in $H$, each of which is a $(|A_i|,1)$-grid in $G$, by Corollary \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} $v$ has at least $(\frac{n}{4} - 1)\cdot\lfloor \frac{m}{n} \rfloor + \lfloor \frac{m}{n} \rfloor - 1 \geq \frac{m}{8} - 1$ incoming edges in $G$. Vertex $v$ also has atleast $\frac{n}{4} - 1 \geq \frac{n}{8} - 1$ incoming vertical edges. This concludes the proof.
 \end{proof}
 
 
@@ -339,14 +365,14 @@ The idea of our algorithm is the following: Using Theorem~\ref{theorem: n/4 inde
 
 \begin{lemma}\label{lemma:Constant fraction improvement}
 Let $G$ be an $[m]\times[n]$-grid USO. 
-Given a vertex $v$ with \indegree $[\alpha m, \beta n]$ such that $0 < \alpha, \beta < 1$, we can compute another vertex with \indegree $[a,b]$ where either $a\geq \frac{1+3\alpha}{4}m$ and $b \geq \beta n$, or $a \geq \alpha m$ and $b \geq \frac{1 + 3\beta}{4}n$. This process requires $O(M)$ vertex queries, where $M = \max\{m,n\}$.
+Given a vertex $v$ with \indegree $[\alpha m, \beta n]$ such that $0 < \alpha, \beta < 1$, we can compute another vertex with \indegree $[a,b]$ where either $a\geq \frac{1+7\alpha}{8}m$ and $b \geq \beta n$, or $a \geq \alpha m$ and $b \geq \frac{1 + 7\beta}{8}n$. This process requires $O(M)$ vertex queries, where $M = \max\{m,n\}$.
 \end{lemma}
 
 \begin{proof}
 Assume that $(1-\alpha) m \geq (1-\beta)n$, the other case is analogous. Consider the  $I_v\times J_v$-subgrid dominated by $v$ and 
 notice that $|I_v| = \alpha m + 1$ while $|J_v| = \beta n + 1$. 
 
-Let $\overline{I_v} = [m]\setminus I_v$, $\overline{J_v} = [n]\setminus J_v$ and consider the subgrid $\widetilde{G} = \overline{I_v} \times \overline{J_v}$; See Figure~\ref{fig:expansion}. Use Theorem~\ref{theorem: n/4 indegree} to compute a vertex $s$ having \indegree at least $[a,b]$ in $\widetilde{G}$, where $a \geq |\overline{I_v}|/4 - 1$ and $b \geq |\overline{J_v}|/4 - 1$ (the \indegree of $s$ in $G$ may be larger).
+Let $\overline{I_v} = [m]\setminus I_v$, $\overline{J_v} = [n]\setminus J_v$ and consider the subgrid $\widetilde{G} = \overline{I_v} \times \overline{J_v}$; See Figure~\ref{fig:expansion}. Use Corollary~\ref{corollary: n/4 indegree} to compute a vertex $s$ having \indegree at least $[a,b]$ in $\widetilde{G}$, where $a \geq |\overline{I_v}|/8 - 1$ and $b \geq |\overline{J_v}|/8 - 1$ (the \indegree of $s$ in $G$ may be larger).
 This takes $O(M)$ vertex queries. Notice that $v \succeq s$.
 
 Consider the $I_{s}\times J_{s}$-subgrid dominated by $s$ in $\widetilde{G}$, where $|I_{s}| = a + 1, |J_{s}| = b + 1$ and $I_{s}\subseteq \overline{I_v}$ while $J_{s}\subseteq \overline{J_v}$. By Lemma~\ref{lemma:USO-Lemma}, we know that $s$ is smaller than each vertex in either $I_v\times J_{s}$-grid or the $I_{s}\times J_v$-grid (or both). 
@@ -365,9 +391,9 @@ Let $z$ be the sink of $W$. Note that we can compute $z$ after querying each ver
 Because $z$ is smaller than $s$, $z$ is also smaller than every vertex in the $I_v\times J_{s}$-grid. Moreover, since $s$ is smaller than $v$, we know that $z$ is also smaller than $v$ and hence, $z$ is smaller than every vertex in the $I_v\times J_v$-grid.
 Consequently, $z$ is smaller than every vertex in the $(I_v\cup x_s)\times (J_v\cup J_{s})$-grid, i.e., $a_z\geq |I_v| \geq \alpha m$.
 Because $z$ is the sink of $W$, we know that
- $$b_z \geq |W| - 1 = \beta n + b + 1 \geq  \beta n + \frac{|\overline{J_v}|}{4} = \frac{1 + 3\beta}{4}n.$$
+ $$b_z \geq |W| - 1 = \beta n + b + 1 \geq  \beta n + \frac{|\overline{J_v}|}{8} = \frac{1 + 7\beta}{8}n.$$
 
-If $s$ is larger than the vertices in the $I_{s}\times J_v$-grid, then the same argument applies, but exchanging the roles of the coordinates. Therefore, regardless of the case, we can always guarantee the existence of a vertex $z$ with \indegree $[a_z,b_z]$ such that either $a_z\geq \frac{1+3\alpha}{4}m$ and $b_z \geq \beta n$, or $a_z \geq \alpha m$ and $b_z \geq \frac{1 + 3\beta}{4}n$ and we can find $z$ in time $\mathcal{O}(M)$.
+If $s$ is larger than the vertices in the $I_{s}\times J_v$-grid, then the same argument applies, but exchanging the roles of the coordinates. Therefore, regardless of the case, we can always guarantee the existence of a vertex $z$ with \indegree $[a_z,b_z]$ such that either $a_z\geq \frac{1+7\alpha}{8}m$ and $b_z \geq \beta n$, or $a_z \geq \alpha m$ and $b_z \geq \frac{1 + 7\beta}{8}n$ and we can find $z$ in time $\mathcal{O}(M)$.
 \end{proof}
 
 
