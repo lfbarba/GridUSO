@@ -216,7 +216,7 @@ this induces a cycle among $s_{a,b}, s_{a, b'}, s_{a'b'}$ and $s_{a', b}$ contra
 
 \begin{theorem}
 \label{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink}
-Let $G = K_X \times K_Y$ be an oriented grid,
+Let $G = K_X \times K_Y$ be a grid USO,
 and let $A$ and $B$ be partitions of $X$ and $Y$, respectively.
 If $(a,b)$ is the sink of the grid $H = K_A \times K_B$, then the sink of $G(a,b)$ is the sink of $G$.
 \end{theorem}
@@ -237,6 +237,18 @@ Therefore, $s_G = s_{a,b}$.
 
 \section{The sink-finding algorithm}
 
+Consider the following algorithmic approach to finding the sink of an ($n$,$n$)-grid USO. 
+Assume that we are able to find in $\mathcal{O}(n)$ time a vertex $v$ that has \indegree $[a,b]$ with $a,b \geq \frac{n}{2}$.
+We could then partition the grid into 4 equally sized square subgrids so that $v$ is the sink of one of the subgrids.
+The next step would be to find the sink of the subgrid opposite to the partition containing $v$ in the induced (2,2)-grid. 
+By Theorem \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} we could thereafter discard one subgrid out of consideration and possibly still find the sink of one subgrid. 
+If one finds the sinks of the subgrids recursively, one would get the recursion
+\begin{align*}
+ T(n) = 2T\left(\frac{n}{2}\right) + \mathcal{O}(n)
+\end{align*}
+where $T(n)$ is the number of vertex queries needed to find the sink of an $(n,n)$-grid. By the master theorem we would have that $T(n) = \mathcal{O}(n\log n)$. Unfortunately we were unable to find a vertex of that quality (even though picking a constant number of random vertices would allow us to find one). 
+
+In this section we will describe an approach inspired by the above discussion. Finding a vertex with 
 
 \begin{lemma}
 \label{lem:seed_lemma_for_square_matrices}
