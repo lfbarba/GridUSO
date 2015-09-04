@@ -90,6 +90,7 @@ In this paper, we study the following question: how many vertex queries suffice 
 %\end{lemma}
 
 
+
 \subsection{Summary of results}
 
 We assume that a unique sink orientation of an $(m,n)$-grid $G$ is given to
@@ -118,7 +119,23 @@ Our results are:
         \end{itemize}
 \end{itemize}
 
-\section{Induced USOs}
+\section{Grid USO properties}
+
+\subsection{Basic properties}
+
+\JN{I put this here, but maybe we find a better place for it. As we use acyclicity a lot, we should prove it.}
+
+\begin{lemma}
+ Grid unique sink orientations are acyclic.
+\end{lemma}
+
+\begin{proof}
+ 
+\end{proof}
+
+
+
+\subsection{Induced USOs}
 
 When designing algorithms for grids, at some point one will typically want to
 partition the grid into blocks.
@@ -130,9 +147,9 @@ An example of such an induced unique sink orientation is shown in figure
 Formally, let $G = K_X \times K_Y$ be an oriented grid,
 and let $A$ and $B$ be partitions of $X$ and $Y$, respectively.
 We study the grid $H = K_A \times K_B$.
-For every vertex $x = (a,b)$ of $H$, let $G(x)$ (or simply $G(a,b)$)
-denote the $a \times b$-subgrid of $G$ oriented as follows:
-Given two adjacent vertices $x$ and $y$ of $H$, we say that $x\succeq y$ if the sink of $G(x)$ has at least one outgoing edge to a vertex of $G(y)$. We say that is orientation is \emph{induced} on $H$ by $G$.
+For every vertex $x = (a,b)$ of $H$, where $a\in A$ and $b \in B$, let $G(x)$ (or simply $G(a,b)$)
+denote the $a \times b$-subgrid of $G$. 
+The edge between two adjacent vertices $x$ and $y$ of $H$ is oriented towards $y$ if the sink of $G(x)$ has at least one outgoing edge to a vertex of $G(y)$ in the original grid $G$. This orientation is well defined, because if the sink of $G(y)$ had an edge towards some vertex of $G(x)$, there would be a cycle in $G$.  We say that is orientation is \emph{induced} on $H$ by $G$.
 
 \begin{lemma}[USO-Lemma]\label{lemma:USO-Lemma}
 Let $G = K_X \times K_Y$ be an oriented grid,
@@ -184,7 +201,7 @@ Since Lemma~\ref{lemma:USO-Lemma} guarantees that $(a', b')$ is not the sink of 
 
 We define a partial order of vertices in a grid unique sink orientation $G$ as follows. For any two vertices $v,w \in G$ consider the smallest subgrid containing both $v$ and $w$. We say that $w \succeq v$ if there is a path from $w$ to $v$ in this subgrid. As the grid USO is acyclic, this defines a partial order on the vertices. Note that the sink of the grid is the unique minimal vertex with respect to this ordering. 
 
-Note that two vertices may not be $\succeq$-comparable in the smallest subgrid containing them. Thus\JN{after the transitive closure they might still be incomparable}, we consider the transitive closure of this relation and say that a vertex $w$ is \emph{larger} than $v$ (or $v$ is smaller than $w$) if there is a sequence $w = v_1, v_2, \ldots, v_k = v$ of $G$ such that $v_i \succeq v_{i+1}$, for each $1\leq i\leq k-1$.
+Note that two vertices may not be $\succeq$-comparable in the smallest subgrid containing them. There could still be a path between the two vertices. Thus\JN{after the transitive closure they might still be incomparable}, we consider the transitive closure of this relation and say that a vertex $w$ is \emph{larger} than $v$ (or $v$ is smaller than $w$) if there is a sequence $w = v_1, v_2, \ldots, v_k = v$ of $G$ such that $v_i \succeq v_{i+1}$, for each $1\leq i\leq k-1$.
 
 In a grid USO $G$, the \emph{\indegree} of a vertex $v \in G$ is an ordered pair $[a_v, b_v] \in \{0,1,\ldots,|X|-1\}\times \{0,1,\ldots,|Y|-1\}$ where $a_v$ and $b_v$ specify the number of incoming horizontal  and vertical edges of $v$, respectively.
 
@@ -206,7 +223,7 @@ Let $V' \subseteq V$ be the set of all vertical vertices in $V$ and notice that 
  Additionally, let $v$ be a minimal vertex of $V'$, i.e., for each $u\in V'$ either $u\succeq v$, or $u$ and $v$ are incomparable. 
 
 Let $I'$ be the set of indices containing the first coordinate of each vertex in~$V'$.
-Assume that $v = (x_v, y_v)$ and let $W = I'\times \{y_v\}$ be the set of vertices in the same row as $v$ and in the same column as some other vertex from $V'$.
+Assume that $v = (x_v, y_v)$ and let $W = I'\times \{y_v\}$ be the set of vertices in the same row as $v$ and in the same column as some vertex from $V'$.
 To conclude, the algorithm queries each vertex in $W$.
 It is clear from the description above that the number of vertices queried so far is $|D| + |W| = \mathcal{O}(n)$. 
 We claim that one of the queried vertices will have the required \indegree.
