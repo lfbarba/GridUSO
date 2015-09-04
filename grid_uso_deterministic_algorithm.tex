@@ -171,27 +171,42 @@ We claim that $F$ has a unique sink orientation.
 To prove this claim, we need to show that $F$ has exactly one sink.
 We first show that $F$ has at most one sink.
 To this end, assume for a contradiction that $F$ has more than one sink.
+Note that it suffices to prove that $F$ has a USO to complete the proof of the lemma. 
+To this end, we need to show that $F$ has exactly one sink.
+We first show that $F$ has at most one sink. We then show that $F$ cannot have cycles and has hence exactly one sink.
+
+Assume for a contradiction that $F$ has more than one sink.
+Since these sinks cannot be adjacent, $F$ can have at most two sinks.
+
 Assume without loss of generality that $(a',b)$ and $(a, b')$ are the sinks of $H$.
 Therefore, $(a, b)$ (and analogously $(a', b')$) has its edges oriented towards both $(a',b)$ and $(a, b')$.
 
 Let $s_{a,b}, s_{a, b'}, s_{a'b'}$ and $s_{a', b}$ be the sinks of $G(a,b), G(a,b'), G(a',b')$ and $G(a',b)$, respectively.
 By the definition of the orientation of $H$, we know that $s_{a,b}$ has at least one outgoing edge to a vertex in $G(a, b')$ and another to a vertex in $G(a', b)$. Thus $s_{a,b}$ is smaller than both $s_{a,b'}$ and $s_{a',b}$ by transitivity. Analogously, we can show that $s_{a',b'}$ is also smaller than both $s_{a,b'}$ and~$s_{a',b}$. 
 
-Consider the $(2,2)$-subgrid of $G$ containing both $s_{a,b'}$ and~$s_{a',b}$. Note that $s_{a,b'}$ and~$s_{a',b}$ are not adjacent in this grid. Let $p$ and $q$, be the other two vertices of this grid, where $p\in G(a, b)$ while $q\in G(a', b')$; see Figure~\ref{}.
+% \begin{figure}[h]
+% \centering
+% \includegraphics{inducedUSO.pdf}
+% %[width=1\textwidth]
+% \caption{\small }
+% \label{fig:InducedUSO}
+% \end{figure}
+
+Consider the $(2,2)$-subgrid of $G$ containing both $s_{a,b'}$ and~$s_{a',b}$. Note that $s_{a,b'}$ and~$s_{a',b}$ are not adjacent in this grid. Let $p$ and $q$, be the other two vertices of this grid, where $p\in G(a, b)$ while $q\in G(a', b')$; see Figure~\ref{fig:InducedUSO}.
 Because $p$ is smaller than $s_{a, b}$, we conclude that $p$ is also smaller than both $s_{a,b'}$ and~$s_{a',b}$. Analogously, since $q$ is smaller than $s_{a',b'}$, we know that $q$ is also smaller than $s_{a,b'}$ and~$s_{a',b}$. That is, the $(2,2)$-subgrid of $G$ containing both $s_{a,b'}$ and~$s_{a',b}$ has two sinks---a contradiction to the unique sink orientation of $G$ which comes from assuming that $F$ had at least two sinks.
 Therefore $F$ has at most one sink.
 
 To show that $F$ has a USO, we need only to prove that $F$ has no cycles.
-If there is a cycle $(a,b)\succeq (a', b) \succeq (a', b') \succeq (a, b') \succeq (a,b)$, then
+If there is a cycle $(a,b)\succeq (a', b) \succeq (a', b') \succeq (a, b') \succeq (a,b)$ in $F$, then
 this induces a cycle among $s_{a,b}, s_{a, b'}, s_{a'b'}$ and $s_{a', b}$ contradicting the USO of $G$. Consequently, $F$ has a unique sink orientation.
 \end{proof}
 
-\begin{corollary}
-\label{cor:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink}
-Let $G = K_X \times K_Y$ be a grid unique sink orientation,
+\begin{theorem}
+\label{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink}
+Let $G = K_X \times K_Y$ be an oriented grid,
 and let $A$ and $B$ be partitions of $X$ and $Y$, respectively.
 If $(a,b)$ is the sink of the grid $H = K_A \times K_B$, then the sink of $G(a,b)$ is the sink of $G$.
-\end{corollary}
+\end{theorem}
 \begin{proof}
 Let $s_{a,b}$ be the sink of $G(a, b)$ and let $s_G$ denote the sink of $G$.
 We claim that $s_G = s_{a,b}$.
@@ -204,7 +219,6 @@ Since Lemma~\ref{lemma:USO-Lemma} guarantees that $(a', b')$ is not the sink of 
 \end{proof}
 
 \section{The sink-finding algorithm}
-
 
 
 \begin{lemma}
@@ -276,11 +290,10 @@ If $w \succeq v$, then because $v \succeq v^*$ we have due to transitivity that 
 \end{corollary}
 
 \begin{proof}
- Assume without loss of generality that $m \geq n$. We will partition $[m]$ into $n$ blocks, then apply Lemma \ref{lem:seed_lemma_for_square_matrices} on the induced orientation, and conclude using Corollary \ref{cor:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} that this will give us the desired result. 
+ Assume without loss of generality that $m \geq n$. We will partition $[m]$ into $n$ blocks, then apply Lemma \ref{lem:seed_lemma_for_square_matrices} on the induced orientation, and conclude using Corollary \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} that this will give us the desired result. 
  
- Partition $[m]$ into $n$ blocks, each of size either $\lfloor \frac{m}{n} \rfloor$ or $\lceil \frac{m}{n} \rceil$. Let $A = \{A_1,\ldots,A_n\}$ be the blocks in the partition and let $H = K_A\times K_{[n]}$ be the grid with an induced orientation inherited from $G$. Use Lemma \ref{lem:seed_lemma_for_square_matrices} to find a vertex $v$ of $H$ with \indegree [a,b] in $H$ satisfying $a \geq \frac{n}{4} - 1$ and $b \geq \frac{n}{4} - 1$. Note, that in each vertex query of $H$ we need to find the sink of a $(|A_i|,1)$-grid for some $i$. The total number of queries used is therefore $\mathcal{O}(\frac{m}{n}\cdot n) = \mathcal{O}(m)$ as required. As $v$ has at least $\frac{n}{4} - 1$ horizontal incoming edges in $H$, each of which is a $(|A_i|,1)$-grid in $G$, by Corollary \ref{cor:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} $v$ has at least $(\frac{n}{4} - 1)\cdot\lfloor \frac{m}{n} \rfloor + \lfloor \frac{m}{n} \rfloor - 1$ incoming edges in $G$.
+ Partition $[m]$ into $n$ blocks, each of size either $\lfloor \frac{m}{n} \rfloor$ or $\lceil \frac{m}{n} \rceil$. Let $A = \{A_1,\ldots,A_n\}$ be the blocks in the partition and let $H = K_A\times K_{[n]}$ be the grid with an induced orientation inherited from $G$. Use Lemma \ref{lem:seed_lemma_for_square_matrices} to find a vertex $v$ of $H$ with \indegree [a,b] in $H$ satisfying $a \geq \frac{n}{4} - 1$ and $b \geq \frac{n}{4} - 1$. Note, that in each vertex query of $H$ we need to find the sink of a $(|A_i|,1)$-grid for some $i$. The total number of queries used is therefore $\mathcal{O}(\frac{m}{n}\cdot n) = \mathcal{O}(m)$ as required. As $v$ has at least $\frac{n}{4} - 1$ horizontal incoming edges in $H$, each of which is a $(|A_i|,1)$-grid in $G$, by Corollary \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} $v$ has at least $(\frac{n}{4} - 1)\cdot\lfloor \frac{m}{n} \rfloor + \lfloor \frac{m}{n} \rfloor - 1$ incoming edges in $G$.
 \end{proof}
-
 
 
 %if every induced directed subgraph that is attained by fixing or limiting the range of some coordinates of the vertices has a unique sink. More specifically, we require this property to hold for subgraphs that are attained by taking $d$ nonempty index sets $\emptyset \not= J_i \subseteq \mathbb{Z}_n, i = 1,\ldots,d$ and considering the induced subgraph over the vertices $\{(a_1,\ldots, a_d) \in V \: : \:  a_i \in J_i \: \forall i = 1,\ldots, d \}$. If each $J_i$ is the whole of $\mathbb{Z}_n$ or a singleton, we call the resulting induced subgraph a \emph{face}. The dimension $d' \in \{0,1,\ldots, d\}$ of the face is the number of index sets that are the whole of $\mathbb{Z}_n$. Note that a face of $(K_n)^d$ of dimension $d'$ is isomorphic to $(K_n)^{d'}$. Any face can be compactly written as a vector $(v_1,\ldots,v_d) \in \left(\mathbb{Z}_{n} \cup \{*\}\right)^d$ where $v_i$ matches the only element of $J_i$ when $J_i$ is a singleton and $v_i$ is $*$ otherwise. Unless otherwise clear, one should also specify what $n$ is when talking of faces. This concept of a face is a natural generalization from the $d$-cube $(K_2)^d$ for which the faces we defined correspond to the faces of the $d$-cube in the geometric sense.
@@ -297,13 +310,13 @@ If $w \succeq v$, then because $v \succeq v^*$ we have due to transitivity that 
 
 \subsection{Hitting the wall}
 
-Given a vertex $v = (x_v, y_v)$ with \indegree $[a, b]$ in a grid USO $G$, let $I_v\subseteq [m]$ be the set of indices such that  $I_v \times \{y_v\}$ is the set of all vertices with an outgoing horizontal edge to $v$ with $v$ included in this set. Analogously, $J_v\subseteq [n]$ is the set of indices such that $\{x_v\}\times J_v$ is the set of all vertices with an outgoing vertical edge to~$v$ (including $v$). Notice that $|I_v| = a + 1$ while $|J_v| = b + 1$.
+Given a vertex $v = (x_v, y_v)$ with \indegree $[a, b]$ in an  $[m]\times [n]$-grid USO, let $I_v\subseteq [m]$ be the set of indices such that  $I_v \times \{y_v\}$ is the set of all vertices with an outgoing horizontal edge to $v$ with $v$ included in this set. Analogously, $J_v\subseteq [n]$ is the set of indices such that $\{x_v\}\times J_v$ is the set of all vertices with an outgoing vertical edge to~$v$ (including $v$). Notice that $|I_v| = a + 1$ while $|J_v| = b + 1$.
 
-\begin{lemma}\label{lemma:Sink of dominated grid}
-Given a vertex  $v = (x_v, y_v)$ in a grid USO $G$, $v$ is the sink of the $I_v\times J_v$-grid.
-\end{lemma}
+\begin{observation}\label{Obs:Sink of dominated grid}
+Given a vertex  $v = (x_v, y_v)$ in a grid USO, $v$ is the sink of the $I_v\times J_v$-grid.
+\end{observation}
 \begin{proof}
-Vertex $v$ has only incoming edges in the $I_v\times J_v$-grid and is therefore the unique sink of this subgrid of $G$. 
+Vertex $v$ has only incoming edges in the $I_v\times J_v$-grid and is therefore the unique sink of this subgrid. 
 %Assume for a contradiction that there is a vertex $z = (x_z, y_z)$ of the $I_v\times J_v$-grid such that $z$ is smaller than $v$. Let $u = (x_z, y_v)$ and $w = (x_v, y_z)$ the other two vertices of the $\{x_v, x_z\}\times\{y_v,y_z\}$-grid.
 %Since $x_v\in I_v$ and $y_v\in J_v$ and by the definition of $I_v$ and $J_v$, we know that $v$ is smaller than both $u$ and~$w$.
 %Because we assumed that $z$ is smaller than $v$, by transitivity we know that both $u$ and $w$ are also smaller than $z$. Therefore, both $z$ and $v$ are sinks of the $\{x_v, x_z\}\times\{y_v,y_z\}$-grid---a contradiction to the USO property that comes from assuming that $z$ is smaller than $v$. Therefore, $v$ is the sink of the $I_v\times J_v$-grid.
@@ -314,10 +327,13 @@ In the settings of the previous lemma, we say that the $I_v\times J_v$-grid is \
 \begin{lemma}
 Given an $[m]\times[n]$-grid USO $G$ and sets $I, I'\subset [m]$ and $J,J'\subset [n]$ such that $I\cap I' = \emptyset = J\cap J'$. If $u$ is the sink of the $I\times J$-subgrid while $v$ is the sink of the $I'\times J'$-subgrid such that $v$ is smaller than $u$, then $v$ is either smaller than the sink of the $I\times J'$-grid or smaller than the sink of the $I'\times J$-grid (maybe smaller than both).
 \end{lemma}
+\begin{proof}
+Consider the $I\cup I'\times J\cup J'$-grid and the partitions $\mathcal A = \{I, I'\}$ and $\mathcal B = \{J, J'\}$ of its sets of indices. Since the gird $H = G_{\mathcal A}\times G_{\mathcal B}$ has an induced USO from $G$, it has a unique sink. Since $u$ is the sink of $G(I, J)$ and is smaller than $v$, $(I,J)$ cannot be the sink of $H$.
+\end{proof}
 
 
 \subsection{Finding the sink}
-The idea of our algorithm is the following: Using Lemma~\ref{corollary: n/4 indegree}, we find a vertex which dominates already a subgrid with at least $n^2/16$ of the vertices  by Lemma~\ref{lemma:Sink of dominated grid}. However, this is not enough so we use Lemma~\ref{lemma:Constant fraction improvement} below to find a smaller vertex that dominates a ``larger'' subgrid. By repeating this process a logarithmic number of times, we end up with a vertex whose dominated subgrid spans a strip of the original grid containing at least one fourth of the vertices. This leaves us with another (non-square) grid where we can repeat our algorithm recureively. The key result to this process is described in the next lemma.
+The idea of our algorithm is the following: Using Theorem~\ref{theorem: n/4 indegree}, we find a vertex which dominates already a subgrid with at least $n^2/16$ of the vertices  by Observation~\ref{Obs:Sink of dominated grid}. However, this is not enough so we use Lemma~\ref{lemma:Constant fraction improvement} below to find a smaller vertex that dominates a ``larger'' subgrid. By repeating this process a logarithmic number of times, we end up with a vertex whose dominated subgrid spans a strip of the original grid containing at least one fourth of the vertices. This leaves us with another (non-square) grid where we can repeat our algorithm recureively. The key result to this process is described in the next lemma.
 
 
 \begin{lemma}\label{lemma:Constant fraction improvement}
@@ -329,7 +345,7 @@ Given a vertex $v$ with \indegree $[\alpha m, \beta n]$ such that $0 < \alpha, \
 Assume that $(1-\alpha) m \geq (1-\beta)n$, the other case is analogous. Consider the  $I_v\times J_v$-subgrid dominated by $v$ and 
 notice that $|I_v| = \alpha m + 1$ while $|J_v| = \beta n + 1$. 
 
-Let $\overline{I_v} = [m]\setminus I_v$, $\overline{J_v} = [n]\setminus J_v$ and consider the subgrid $\widetilde{G} = \overline{I_v} \times \overline{J_v}$; See Figure~\ref{fig:expansion}. Use Corollary~\ref{corollary: n/4 indegree} to compute a vertex $s$ having \indegree at least $[a,b]$ in $\widetilde{G}$, where $a \geq |\overline{I_v}|/4 - 1$ and $b \geq |\overline{J_v}|/4 - 1$ (the \indegree of $s$ in $G$ may be larger).
+Let $\overline{I_v} = [m]\setminus I_v$, $\overline{J_v} = [n]\setminus J_v$ and consider the subgrid $\widetilde{G} = \overline{I_v} \times \overline{J_v}$; See Figure~\ref{fig:expansion}. Use Theorem~\ref{theorem: n/4 indegree} to compute a vertex $s$ having \indegree at least $[a,b]$ in $\widetilde{G}$, where $a \geq |\overline{I_v}|/4 - 1$ and $b \geq |\overline{J_v}|/4 - 1$ (the \indegree of $s$ in $G$ may be larger).
 This takes $O(M)$ vertex queries. Notice that $v \succeq s$.
 
 Consider the $I_{s}\times J_{s}$-subgrid dominated by $s$ in $\widetilde{G}$, where $|I_{s}| = a + 1, |J_{s}| = b + 1$ and $I_{s}\subseteq \overline{I_v}$ while $J_{s}\subseteq \overline{J_v}$. By Lemma~\ref{lemma:USO-Lemma}, we know that $s$ is smaller than each vertex in either $I_v\times J_{s}$-grid or the $I_{s}\times J_v$-grid (or both). 
@@ -375,12 +391,12 @@ We are ready now to state our main result.
  Let $M = \max\{m,n\}$. The sink of an $[m]\times[n]$-grid USO can be found after $\mathcal{O}(M(\log M)^2)$ vertex queries.
 \end{theorem}
 \begin{proof}
-Using  Corollaries~\ref{corollary: n/4 indegree} and~\ref{corollary:Expansion to the wall}, we can find a vertex $v$ with \indegree $[a,b]$ where either $a = m$ and $b \geq  n/4$, or $a \geq  m/4$ and $b  = n$. Assume without loss of generality that $a = m$ while $b\geq  n/4$, the other case is analogous. Recall that computing $v$ requires $O((n + m) \log (n+m))$ vertex queries.
+Using  Theorem~\ref{theorem: n/4 indegree} and Corollary~\ref{corollary:Expansion to the wall}, we can find a vertex $v$ with \indegree $[a,b]$ where either $a = m$ and $b \geq  n/4$, or $a \geq  m/4$ and $b  = n$. Assume without loss of generality that $a = m$ while $b\geq  n/4$, the other case is analogous. Recall that computing $v$ requires $O((n + m) \log (n+m))$ vertex queries.
 
 Consider the $I_v\times J_v$-grid dominated by $v$ and 
 notice that $|I_v| = m$ while $|J_v| \geq n/4$. Let $\overline{J_v} = [n]\setminus J_v$.
 
-By Lemma~\ref{lemma:Sink of dominated grid}, $v$ is the sink $s_1$ of the $[m] \times J_v$-grid. Thus, we can recursively compute the sink $s_2$ of the $[m]\times \overline{J_v}$-grid and compare it with $s_1$. Then, the smallest among $s_1$ and $s_2$ is the sink of the whole grid.
+By Observation~\ref{Obs:Sink of dominated grid}, $v$ is the sink $s_1$ of the $[m] \times J_v$-grid. Thus, we can recursively compute the sink $s_2$ of the $[m]\times \overline{J_v}$-grid and compare it with $s_1$. Then, the smallest among $s_1$ and $s_2$ is the sink of the whole grid.
 That is, we can discard a constant fraction of the grid in each iteration of this recursive algorithm. Therefore, after $O(\log (n + m))$ rounds, we end up with either a constant number of rows or a constant number of columns. At this points, we can query all the vertices that remain to find the sink. This final step requires then $O(n + m)$ vertex queries yielding our result.
 \end{proof}
 
