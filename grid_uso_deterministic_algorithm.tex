@@ -185,12 +185,9 @@ To this end, we need to show that $F$ has exactly one sink.
 We first show that $F$ has at most one sink. We then show that $F$ cannot have cycles and has hence exactly one sink.
 
 Assume for a contradiction that $F$ has more than one sink.
-Since these sinks cannot be adjacent, $F$ can have at most two sinks.
-
-Assume without loss of generality that $(a',b)$ and $(a, b')$ are the sinks of $H$.
+Since these sinks cannot be adjacent, $F$ can have at most two sinks. Assume without loss of generality that $(a',b)$ and $(a, b')$ are the sinks of $H$.
 Therefore, $(a, b)$ (and analogously $(a', b')$) has its edges oriented towards both $(a',b)$ and $(a, b')$.
-
-Let $s_{a,b}, s_{a, b'}, s_{a'b'}$ and $s_{a', b}$ be the sinks of $G(a,b), G(a,b'), G(a',b')$ and $G(a',b)$, respectively.
+Let $s_{a,b}, s_{a, b'}, s_{a'b'}$ and $s_{a', b}$ be the sinks of $G(a,b), G(a,b'), G(a',b')$ and $G(a',b)$, respectively. 
 By the definition of the orientation of $H$, we know that $s_{a,b}$ has at least one outgoing edge to a vertex in $G(a, b')$ and another to a vertex in $G(a', b)$. 
 Thus $s_{a,b}$ is smaller than both $s_{a,b'}$ and $s_{a',b}$ by transitivity. 
 Analogously, we can show that $s_{a',b'}$ is also smaller than both $s_{a,b'}$ and~$s_{a',b}$. 
@@ -209,6 +206,7 @@ Let $p$ and $q$, be the other two vertices of this grid, where $p\in G(a, b)$ wh
 Because $p$ is smaller than $s_{a, b}$, we conclude that $p$ is also smaller than both $s_{a,b'}$ and~$s_{a',b}$. 
 Analogously, since $q$ is smaller than $s_{a',b'}$, we know that $q$ is also smaller than $s_{a,b'}$ and~$s_{a',b}$. 
 That is, the $(2,2)$-subgrid of $G$ containing both $s_{a,b'}$ and~$s_{a',b}$ has two sinks---a contradiction to the unique sink orientation of $G$ which comes from assuming that $F$ had at least two sinks.
+
 Therefore $F$ has at most one sink.
 
 To show that $F$ has a USO, we need only to prove that $F$ has no cycles.
@@ -360,7 +358,7 @@ Consider the $I\cup I'\times J\cup J'$-grid and the partitions $\mathcal A = \{I
 
 
 \subsection{Finding the sink}
-The idea of our algorithm is the following: Using Theorem~\ref{theorem: n/4 indegree}, we find a vertex which dominates already a subgrid with at least $n^2/16$ of the vertices  by Observation~\ref{Obs:Sink of dominated grid}. However, this is not enough so we use Lemma~\ref{lemma:Constant fraction improvement} below to find a smaller vertex that dominates a ``larger'' subgrid. By repeating this process a logarithmic number of times, we end up with a vertex whose dominated subgrid spans a strip of the original grid containing at least one fourth of the vertices. This leaves us with another (non-square) grid where we can repeat our algorithm recureively. The key result to this process is described in the next lemma.
+The idea of our algorithm is the following: Using Theorem~\ref{corollary: n/4 indegree}, we find a vertex which dominates already a subgrid with at least $n^2/16$ of the vertices  by Observation~\ref{Obs:Sink of dominated grid}. However, this is not enough so we use Lemma~\ref{lemma:Constant fraction improvement} below to find a smaller vertex that dominates a ``larger'' subgrid. By repeating this process a logarithmic number of times, we end up with a vertex whose dominated subgrid spans a strip of the original grid containing at least one fourth of the vertices. This leaves us with another (non-square) grid where we can repeat our algorithm recureively. The key result to this process is described in the next lemma.
 
 
 \begin{lemma}\label{lemma:Constant fraction improvement}
@@ -372,8 +370,8 @@ Given a vertex $v$ with \indegree $[\alpha m, \beta n]$ such that $0 < \alpha, \
 Assume that $(1-\alpha) m \geq (1-\beta)n$, the other case is analogous. Consider the  $I_v\times J_v$-subgrid dominated by $v$ and 
 notice that $|I_v| = \alpha m + 1$ while $|J_v| = \beta n + 1$. 
 
-Let $\overline{I_v} = [m]\setminus I_v$, $\overline{J_v} = [n]\setminus J_v$ and consider the subgrid $\widetilde{G} = \overline{I_v} \times \overline{J_v}$; See Figure~\ref{fig:expansion}. Use Corollary~\ref{corollary: n/4 indegree} to compute a vertex $s$ having \indegree at least $[a,b]$ in $\widetilde{G}$, where $a \geq |\overline{I_v}|/8 - 1$ and $b \geq |\overline{J_v}|/8 - 1$ (the \indegree of $s$ in $G$ may be larger).
-This takes $O(M)$ vertex queries. Notice that $v \succeq s$.
+Let $\overline{I_v} = [m]\setminus I_v$, $\overline{J_v} = [n]\setminus J_v$ and consider the subgrid $\widetilde{G} = \overline{I_v} \times \overline{J_v}$; See Figure~\ref{fig:expansion}. 
+Use Corollary~\ref{corollary: n/4 indegree} to compute a vertex $s$ having \indegree at least $[a,b]$ in $\widetilde{G}$, where $a \geq |\overline{I_v}|/8 - 1$ and $b \geq |\overline{J_v}|/8 - 1$ (the \indegree of $s$ in $G$ may be larger). This takes $O(M)$ vertex queries. Notice that $v \succeq s$.
 
 Consider the $I_{s}\times J_{s}$-subgrid dominated by $s$ in $\widetilde{G}$, where $|I_{s}| = a + 1, |J_{s}| = b + 1$ and $I_{s}\subseteq \overline{I_v}$ while $J_{s}\subseteq \overline{J_v}$. By Lemma~\ref{lemma:USO-Lemma}, we know that $s$ is smaller than each vertex in either $I_v\times J_{s}$-grid or the $I_{s}\times J_v$-grid (or both). 
 
@@ -418,7 +416,7 @@ We are ready now to state our main result.
  Let $M = \max\{m,n\}$. The sink of an $[m]\times[n]$-grid USO can be found after $\mathcal{O}(M(\log M)^2)$ vertex queries.
 \end{theorem}
 \begin{proof}
-Using  Theorem~\ref{theorem: n/4 indegree} and Corollary~\ref{corollary:Expansion to the wall}, we can find a vertex $v$ with \indegree $[a,b]$ where either $a = m$ and $b \geq  n/4$, or $a \geq  m/4$ and $b  = n$. Assume without loss of generality that $a = m$ while $b\geq  n/4$, the other case is analogous. Recall that computing $v$ requires $O((n + m) \log (n+m))$ vertex queries.
+Using  Theorem~\ref{corollary: n/4 indegree} and Corollary~\ref{corollary:Expansion to the wall}, we can find a vertex $v$ with \indegree $[a,b]$ where either $a = m$ and $b \geq  n/4$, or $a \geq  m/4$ and $b  = n$. Assume without loss of generality that $a = m$ while $b\geq  n/4$, the other case is analogous. Recall that computing $v$ requires $O((n + m) \log (n+m))$ vertex queries.
 
 Consider the $I_v\times J_v$-grid dominated by $v$ and 
 notice that $|I_v| = m$ while $|J_v| \geq n/4$. Let $\overline{J_v} = [n]\setminus J_v$.
