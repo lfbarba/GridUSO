@@ -130,8 +130,14 @@ Our results are:
 \end{lemma}
 
 \begin{proof}
- 
+ \JN{Prove this ourselves or refer to somewhere?}
 \end{proof}
+
+We define a partial order of vertices in a grid unique sink orientation $G$ as follows. For any two vertices $v,w \in G$ consider the smallest subgrid containing both $v$ and $w$. We say that $w \succeq v$ if there is a path from $w$ to $v$ in this subgrid. As the grid USO is acyclic, this defines a partial order on the vertices. Note that the sink of the grid is the unique minimal vertex with respect to this ordering. 
+
+Note that two vertices may not be $\succeq$-comparable in the smallest subgrid containing them. There could still be a path between the two vertices. Thus\JN{after the transitive closure they might still be incomparable}, we consider the transitive closure of this relation and say that a vertex $w$ is \emph{larger} than $v$ (or $v$ is smaller than $w$) if there is a sequence $w = v_1, v_2, \ldots, v_k = v$ of $G$ such that $v_i \succeq v_{i+1}$, for each $1\leq i\leq k-1$.
+
+In a grid USO $G$, the \emph{\indegree} of a vertex $v \in G$ is an ordered pair $[a_v, b_v] \in \{0,1,\ldots,|X|-1\}\times \{0,1,\ldots,|Y|-1\}$ where $a_v$ and $b_v$ specify the number of incoming horizontal  and vertical edges of $v$, respectively.
 
 
 
@@ -144,15 +150,15 @@ then we define an induced orientation on it.
 An example of such an induced unique sink orientation is shown in figure
 \ref{fig:induced}.
 
-Formally, let $G = K_X \times K_Y$ be an oriented grid,
+Formally, let $G = K_X \times K_Y$ be a grid USO,
 and let $A$ and $B$ be partitions of $X$ and $Y$, respectively.
 We study the grid $H = K_A \times K_B$.
 For every vertex $x = (a,b)$ of $H$, where $a\in A$ and $b \in B$, let $G(x)$ (or simply $G(a,b)$)
 denote the $a \times b$-subgrid of $G$. 
-The edge between two adjacent vertices $x$ and $y$ of $H$ is oriented towards $y$ if the sink of $G(x)$ has at least one outgoing edge to a vertex of $G(y)$ in the original grid $G$. This orientation is well defined, because if the sink of $G(y)$ had an edge towards some vertex of $G(x)$, there would be a cycle in $G$.  We say that is orientation is \emph{induced} on $H$ by $G$.
+The edge between two adjacent vertices $x$ and $y$ of $H$ is oriented towards $y$ if the sink of $G(x)$ has at least one outgoing edge to a vertex of $G(y)$ in the original grid $G$. This orientation is well defined, because if the sink of $G(y)$ had an edge towards some vertex of $G(x)$, there would be a cycle in $G$. Furthermore, there is always at least one such outgoing edge from one of the sinks as otherwise an appropriately chosen subgrid of $G$ would have two sinks. We say that is orientation is \emph{induced} on $H$ by $G$.
 
 \begin{lemma}[USO-Lemma]\label{lemma:USO-Lemma}
-Let $G = K_X \times K_Y$ be an oriented grid,
+Let $G = K_X \times K_Y$ be a grid unique sink orientation,
 and let $A$ and $B$ be partitions of $X$ and $Y$, respectively.
 The orientation of the grid $H = K_A \times K_B$ induced by $G$ is a unique sink orientation.
 \end{lemma}
@@ -165,7 +171,6 @@ We claim that $F$ has a unique sink orientation.
 To prove this claim, we need to show that $F$ has exactly one sink.
 We first show that $F$ has at most one sink.
 To this end, assume for a contradiction that $F$ has more than one sink.
-Since these sinks cannot be adjacent, $F$ can have at most two sinks.
 Assume without loss of generality that $(a',b)$ and $(a, b')$ are the sinks of $H$.
 Therefore, $(a, b)$ (and analogously $(a', b')$) has its edges oriented towards both $(a',b)$ and $(a, b')$.
 
@@ -182,7 +187,8 @@ this induces a cycle among $s_{a,b}, s_{a, b'}, s_{a'b'}$ and $s_{a', b}$ contra
 \end{proof}
 
 \begin{corollary}
-Let $G = K_X \times K_Y$ be an oriented grid,
+\label{cor:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink}
+Let $G = K_X \times K_Y$ be a grid unique sink orientation,
 and let $A$ and $B$ be partitions of $X$ and $Y$, respectively.
 If $(a,b)$ is the sink of the grid $H = K_A \times K_B$, then the sink of $G(a,b)$ is the sink of $G$.
 \end{corollary}
@@ -199,13 +205,10 @@ Since Lemma~\ref{lemma:USO-Lemma} guarantees that $(a', b')$ is not the sink of 
 
 \section{The sink-finding algorithm}
 
-We define a partial order of vertices in a grid unique sink orientation $G$ as follows. For any two vertices $v,w \in G$ consider the smallest subgrid containing both $v$ and $w$. We say that $w \succeq v$ if there is a path from $w$ to $v$ in this subgrid. As the grid USO is acyclic, this defines a partial order on the vertices. Note that the sink of the grid is the unique minimal vertex with respect to this ordering. 
 
-Note that two vertices may not be $\succeq$-comparable in the smallest subgrid containing them. There could still be a path between the two vertices. Thus\JN{after the transitive closure they might still be incomparable}, we consider the transitive closure of this relation and say that a vertex $w$ is \emph{larger} than $v$ (or $v$ is smaller than $w$) if there is a sequence $w = v_1, v_2, \ldots, v_k = v$ of $G$ such that $v_i \succeq v_{i+1}$, for each $1\leq i\leq k-1$.
-
-In a grid USO $G$, the \emph{\indegree} of a vertex $v \in G$ is an ordered pair $[a_v, b_v] \in \{0,1,\ldots,|X|-1\}\times \{0,1,\ldots,|Y|-1\}$ where $a_v$ and $b_v$ specify the number of incoming horizontal  and vertical edges of $v$, respectively.
 
 \begin{lemma}
+\label{lem:seed_lemma_for_square_matrices}
  Given an $(n, n)$-grid USO we can find a vertex with a \indegree $[a,b]$ satisfying $a, b \geq \frac{n}{4} - 1$ by using $\mathcal{O}(n)$ vertex queries.
 \end{lemma}
 
@@ -269,13 +272,13 @@ If $w \succeq v$, then because $v \succeq v^*$ we have due to transitivity that 
 \end{proof}
 
 \begin{corollary}\label{corollary: n/4 indegree}
- Let $M = \max\{m,n\}$. Given a grid $K_{m} \times K_{n}$, we can find a vertex with \indegree $[a,b]$ with $a \geq \frac{m}{4} - 1$ and  $b \geq \frac{n}{4} - 1$ using $\mathcal{O}(M)$ vertex queries.
+  Given an $[m]\times [n]$ grid USO $G$, we can find a vertex with \indegree $[a,b]$ with $a \geq \frac{m}{4} - 1$ and  $b \geq \frac{n}{4} - 1$ using $\mathcal{O}(M)$ vertex queries where $M = \max\{m,n\}$.
 \end{corollary}
 
 \begin{proof}
- Use the product construction and divide the columns into blocks of size $\frac{m}{n}$.
- %Without loss of generality assume that $m \geq n$. Assume also for the ease of description that $n$ divides $m$. We will deal with this assumption in the end. Divide the columns into $n$ blocks of size $\frac{m}{n}$. More specifically, partition $[m]$ into $n$ parts $I_1, \ldots, I_n \subseteq [m]$ with $|I_j| = \frac{m}{n}$ for all $j = 1,\ldots, n$. 
- %We are going to consider the subgrids of the form $K_{I_j}\times K_{\{j\}}$. Notice that each subgrid is a fraction of a different row and consists of $\frac{m}{n}$ vertices. We query all the vertices in these subgrids for a total of $m$ vertex queries therefore finding also the sink $s_j$ in each subgrid $K_{I_j}\times K_{\{j\}}$. Consider any linear extension of the partial order induced by the relation $\succeq$ on the set $\{s_1, \ldots, s_n\}$. We can assume that the order of the indices coincides with the linear extension, otherwise just rename them. Notice that $s_j$ has at least $j\cdot\frac{m}{n} - 1$ incoming edges (to see that, compare $s_j$ with all the vertices in the subgrids whose sinks are $s_1,\ldots,s_{j-1}$ and the subgrid containing $s_j$). Consider the set $S = \{s_{ n/2 },\ldots, s_n\}$ \JN{We need to somehow deal with parity of $n$.}. Assume that for at least half of the $s_j$'s the majority of the incoming edges are vertical (the horizontal case is similar and easier) and let $S' \subseteq S$ be the set of such $S_j$'s. That is, every $s_j \in S'$ has at least $\frac{1}{2}\left(j\cdot\frac{m}{n} - 1\right)$ vertical incoming edges. Now $|S'| \geq \frac{n}{4}$ and every vertex has at least $\frac{1}{2}\left(\frac{n}{2}\cdot\frac{m}{n} - 1\right) = \frac{m}{4}-\frac{1}{2}$ many incoming vertical edges.
+ Assume without loss of generality that $m \geq n$. We will partition $[m]$ into $n$ blocks, then apply Lemma \ref{lem:seed_lemma_for_square_matrices} on the induced orientation, and conclude using Corollary \ref{cor:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} that this will give us the desired result. 
+ 
+ Partition $[m]$ into $n$ blocks, each of size either $\lfloor \frac{m}{n} \rfloor$ or $\lceil \frac{m}{n} \rceil$. Let $A = \{A_1,\ldots,A_n\}$ be the blocks in the partition and let $H = K_A\times K_{[n]}$ be the grid with an induced orientation inherited from $G$. Use Lemma \ref{lem:seed_lemma_for_square_matrices} to find a vertex $v$ of $H$ with \indegree [a,b] in $H$ satisfying $a \geq \frac{n}{4} - 1$ and $b \geq \frac{n}{4} - 1$. Note, that in each vertex query of $H$ we need to find the sink of a $(|A_i|,1)$-grid for some $i$. The total number of queries used is therefore $\mathcal{O}(\frac{m}{n}\cdot n) = \mathcal{O}(m)$ as required. As $v$ has at least $\frac{n}{4} - 1$ horizontal incoming edges in $H$, each of which is a $(|A_i|,1)$-grid in $G$, by Corollary \ref{cor:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} $v$ has at least $(\frac{n}{4} - 1)\cdot\lfloor \frac{m}{n} \rfloor + \lfloor \frac{m}{n} \rfloor - 1$ incoming edges in $G$.
 \end{proof}
 
 
