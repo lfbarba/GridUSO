@@ -311,12 +311,12 @@ If $w \succeq v$, then because $v \succeq v^*$ we have due to transitivity that 
  Assume without loss of generality that $m \geq n$. 
  We will partition $[m]$ into $n$ blocks, then apply Lemma \ref{lem:seed_lemma_for_square_matrices} on the induced orientation, and conclude using Theorem \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} that this will give us the desired result. 
  
- Partition $[m]$ into $n$ blocks, each of size either $\lfloor \frac{m}{n} \rfloor$ or $\lceil \frac{m}{n} \rceil$. 
+ Partition $[m]$ into $n$ blocks, each of size either $\left\lfloor \frac{m}{n} \right\rfloor$ or $\left\lceil \frac{m}{n} \right\rceil$. 
  Let $A = \{A_1,\ldots,A_n\}$ be the blocks in the partition and let $H = K_A\times K_{[n]}$ be the grid with an induced orientation inherited from $G$. 
  Use Lemma \ref{lem:seed_lemma_for_square_matrices} to find a vertex $v$ of $H$ with \indegree [a,b] in $H$ satisfying $a \geq \frac{n}{4} - 1$ and $b \geq \frac{n}{4} - 1$. 
- Note, that in each vertex query of $H$ we need to find the sink of a $(|A_i|,1)$-grid for some $i$. 
- The total number of queries used is therefore $\mathcal{O}(\frac{m}{n}\cdot n) = \mathcal{O}(m)$ as required. 
- As $v$ has at least $\frac{n}{4} - 1$ horizontal incoming edges in $H$, each of which is a $(|A_i|,1)$-grid in $G$, by Corollary \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} $v$ has at least $(\frac{n}{4} - 1)\cdot\lfloor \frac{m}{n} \rfloor + \lfloor \frac{m}{n} \rfloor - 1 \geq \frac{m}{8} - 1$ incoming edges in $G$. Vertex $v$ also has atleast $\frac{n}{4} - 1 \geq \frac{n}{8} - 1$ incoming vertical edges. This concludes the proof.
+ Note that in each vertex query of $H$ we need to find the sink of a $(|A_i|,1)$-grid for some $i$. 
+ The total number of queries used is therefore $\mathcal{O}(\frac{m}{n}\cdot n) = \mathcal{O}(m)$ as asserted. 
+ As $v$ has at least $\frac{n}{4} - 1$ horizontal incoming edges in $H$, each of which is a $(|A_i|,1)$-grid in $G$, by Corollary \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} $v$ has at least $$\left(\frac{n}{4} - 1\right)\cdot\left\lfloor \frac{m}{n} \right\rfloor + \left\lfloor \frac{m}{n} \right\rfloor - 1 \geq \frac{m}{8} - 1$$ incoming edges in $G$. Vertex $v$ also has at least $\frac{n}{4} - 1 \geq \frac{n}{8} - 1$ incoming vertical edges which concludes the proof. 
 \end{proof}
 
 
@@ -416,13 +416,13 @@ We are ready now to state our main result.
  Let $M = \max\{m,n\}$. The sink of an $[m]\times[n]$-grid USO can be found after $\mathcal{O}(M(\log M)^2)$ vertex queries.
 \end{theorem}
 \begin{proof}
-Using  Theorem~\ref{corollary: n/4 indegree} and Corollary~\ref{corollary:Expansion to the wall}, we can find a vertex $v$ with \indegree $[a,b]$ where either $a = m$ and $b \geq  n/4$, or $a \geq  m/4$ and $b  = n$. Assume without loss of generality that $a = m$ while $b\geq  n/4$, the other case is analogous. Recall that computing $v$ requires $O((n + m) \log (n+m))$ vertex queries.
+Using  Corollary~\ref{corollary: n/4 indegree} and Corollary~\ref{corollary:Expansion to the wall}, we can find a vertex $v$ with \indegree $[a,b]$ where either $a = m$ and $b \geq  n/8$, or $a \geq  m/8$ and $b  = n$. Assume without loss of generality that $a = m$ while $b\geq  n/8$, the other case is analogous. Recall that computing $v$ requires $O((n + m) \log (n+m))$ vertex queries.
 
 Consider the $I_v\times J_v$-grid dominated by $v$ and 
-notice that $|I_v| = m$ while $|J_v| \geq n/4$. Let $\overline{J_v} = [n]\setminus J_v$.
+notice that $|I_v| = m$ while $|J_v| \geq n/8$. Let $\overline{J_v} = [n]\setminus J_v$.
 
 By Observation~\ref{Obs:Sink of dominated grid}, $v$ is the sink $s_1$ of the $[m] \times J_v$-grid. Thus, we can recursively compute the sink $s_2$ of the $[m]\times \overline{J_v}$-grid and compare it with $s_1$. Then, the smallest among $s_1$ and $s_2$ is the sink of the whole grid.
-That is, we can discard a constant fraction of the grid in each iteration of this recursive algorithm. Therefore, after $O(\log (n + m))$ rounds, we end up with either a constant number of rows or a constant number of columns. At this points, we can query all the vertices that remain to find the sink. This final step requires then $O(n + m)$ vertex queries yielding our result.
+That is, we can discard a constant fraction of the grid in each iteration of this recursive algorithm. Therefore, after $O(\log (n + m))$ rounds, we end up with either a constant number of rows or a constant number of columns. At this point, we can query all the vertices that remain to find the sink. This final step requires then $O(n + m)$ vertex queries yielding our result.
 \end{proof}
 
  
