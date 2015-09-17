@@ -209,7 +209,6 @@ Let $p$ and $q$, be the other two vertices of this grid, where $p\in G(A, B)$ wh
 Because $p$ is smaller than $\s{A, B}$, we conclude that $p$ is also smaller than both $\s{A,B'}$ and~$\s{A',B}$. 
 Analogously, since $q$ is smaller than $\s{A',B'}$, we know that $q$ is also smaller than $\s{A,B'}$ and~$\s{A',B}$. 
 That is, the $(2,2)$-subgrid of $G$ containing both $\s{A,B'}$ and~$\s{A',B}$ has two sinks---a contradiction to the unique sink orientation of $G$ which comes from assuming that $F$ had at least two sinks.
-
 Therefore $F$ has at most one sink.
 
 To show that $F$ has a USO, we need only to prove that $F$ has no cycles.
@@ -222,7 +221,7 @@ this induces a cycle among $\s{A,B}, \s{A, B'}, \s{A',B'}$ and $\s{A', B}$ contr
 
 Let $G = K_X \times K_Y$ be an oriented grid,
 and let $\A$ and $\B$ be partitions of $X$ and $Y$, respectively.
-If $(A,B)$ is the sink of the grid $H = K_\A \times K_\B$, then the sink of $G(A,B)$ is the sink of $G$.
+If $(A,B)$ is the sink of the $\A$-$\B$-partition grid $H = K_\A \times K_\B$, then the sink of $G(A,B)$ is the sink of $G$.
 \end{theorem}
 \begin{proof}
 Let $\s{A,B}$ be the sink of $G(A,B)$ and let $\s{G}$ denote the sink of $G$.
@@ -327,14 +326,16 @@ If $w \succeq v$, then because $v \succeq v^*$ we have due to transitivity that 
 
 \begin{proof}
  Assume without loss of generality that $m \geq n$. 
- We will partition $[m]$ into $n$ blocks, then apply Lemma \ref{lem:seed_lemma_for_square_matrices} on the induced orientation, and conclude using Theorem \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} that this will give us the desired result. 
+ We will partition $[m]$ into $n$ blocks, then apply Lemma \ref{lem:seed_lemma_for_square_matrices} on the induced orientation, and conclude using Theorem \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} that this  gives us the desired result. 
  
- Partition $[m]$ into $n$ blocks, each of size either $\left\lfloor \frac{m}{n} \right\rfloor$ or $\left\lceil \frac{m}{n} \right\rceil$. 
- Let $A = \{A_1,\ldots,A_n\}$ be the blocks in the partition and let $H = K_A\times K_{[n]}$ be the grid with an induced orientation inherited from $G$. 
+  Let $\A$ be a partition of $[m]$ into $n$ blocks, each of size either $\left\lfloor \frac{m}{n} \right\rfloor$ or $\left\lceil \frac{m}{n} \right\rceil$. Let $\B = [n]$ and 
+consider the $\A$-$\B$-partition grid $H = K_\A\times K_\B$ and its induced orientation inherited from $G$. 
  Use Lemma \ref{lem:seed_lemma_for_square_matrices} to find a vertex $v$ of $H$ with \indegree [a,b] in $H$ satisfying $a \geq \frac{n}{4} - 1$ and $b \geq \frac{n}{4} - 1$. 
- Note that in each vertex query of $H$ we need to find the sink of a $(|A_i|,1)$-grid for some $i$. 
- The total number of queries used is therefore $\mathcal{O}(\frac{m}{n}\cdot n) = \mathcal{O}(m)$ as asserted. 
- As $v$ has at least $\frac{n}{4} - 1$ horizontal incoming edges in $H$, each of which is a $(|A_i|,1)$-grid in $G$, by Corollary \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} $v$ has at least $$\left(\frac{n}{4} - 1\right)\cdot\left\lfloor \frac{m}{n} \right\rfloor + \left\lfloor \frac{m}{n} \right\rfloor - 1 \geq \frac{m}{8} - 1$$ incoming edges in $G$. Vertex $v$ also has at least $\frac{n}{4} - 1 \geq \frac{n}{8} - 1$ incoming vertical edges which concludes the proof. 
+ Note that in each vertex query of $H$ we need to find the sink of a $(|A|,1)$-grid for some $A\in \A$. 
+ The total number of vertex queries of $G$ used is therefore $\mathcal{O}(\frac{m}{n}\cdot n) = \mathcal{O}(m)$ as asserted. 
+ Since $v$ has at least $\frac{n}{4} - 1$ horizontal incoming edges in $H$, each of which is a $(|A|,1)$-grid in $G$ for some $A\in \A$, 
+ by Theorem \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} $v$ has at least $$\left(\frac{n}{4} - 1\right)\cdot\left\lfloor \frac{m}{n} \right\rfloor + \left\lfloor \frac{m}{n} \right\rfloor - 1 \geq \frac{m}{8} - 1$$ incoming edges in $G$. 
+ Vertex $v$ also has at least $\frac{n}{4} - 1 \geq \frac{n}{8} - 1$ incoming vertical edges which concludes the proof. 
 \end{proof}
 
 
@@ -364,10 +365,10 @@ Vertex $v$ has only incoming edges in the $I_v\times J_v$-grid and is therefore 
 %Because we assumed that $z$ is smaller than $v$, by transitivity we know that both $u$ and $w$ are also smaller than $z$. Therefore, both $z$ and $v$ are sinks of the $\{x_v, x_z\}\times\{y_v,y_z\}$-grid---a contradiction to the USO property that comes from assuming that $z$ is smaller than $v$. Therefore, $v$ is the sink of the $I_v\times J_v$-grid.
 \end{proof}
 
-In the settings of the previous lemma, we say that the $I_v\times J_v$-grid is \emph{dominated} by $v$ in~$G$.
+In the settings of the previous result, we say that the $I_v\times J_v$-grid is \emph{dominated} by $v$ in~$G$.
 
 \subsection{Finding the sink}
-The idea of our algorithm is the following: Using Theorem~\ref{corollary: n/4 indegree}, we find a vertex which dominates already a subgrid with at least $n^2/16$ of the vertices  by Observation~\ref{Obs:Sink of dominated grid}. However, this is not enough so we use Lemma~\ref{lemma:Constant fraction improvement} below to find a smaller vertex that dominates a ``larger'' subgrid. By repeating this process a logarithmic number of times, we end up with a vertex whose dominated subgrid spans a strip of the original grid containing at least one fourth of the vertices. This leaves us with another (non-square) grid where we can repeat our algorithm recursively. The key result to this process is described in the next lemma.
+The idea of our algorithm is the following: Using Theorem~\ref{corollary: n/4 indegree}, we can find a vertex which dominates already a subgrid with at least $n^2/64$ of the vertices by Observation~\ref{Obs:Sink of dominated grid}. However, this is not enough so we use Lemma~\ref{lemma:Constant fraction improvement} below to find a smaller vertex that dominates a ``larger'' subgrid. By repeating this process a several times, we end up with a vertex whose dominated subgrid spans a whole strip of the original grid containing at least one eight of the vertices. This leaves us with another (non-square) grid where we can repeat our algorithm recursively. The key result to this process is described in the next lemma.
 
 
 \begin{lemma}\label{lemma:Constant fraction improvement}
@@ -431,7 +432,7 @@ We are ready now to state our main result.
  Let $M = \max\{m,n\}$. The sink of an $[m]\times[n]$-grid USO can be found after $\mathcal{O}(M(\log M)^2)$ vertex queries.
 \end{theorem}
 \begin{proof}
-Using  Corollary~\ref{corollary: n/4 indegree} and Corollary~\ref{corollary:Expansion to the wall}, we can find a vertex $v$ with \indegree $[a,b]$ where either $a = m$ and $b \geq  n/8$, or $a \geq  m/8$ and $b  = n$. Assume without loss of generality that $a = m$ while $b\geq  n/8$, the other case is analogous. Recall that computing $v$ requires $O((n + m) \log (n+m))$ vertex queries.
+Using  Corollary~\ref{corollary: n/4 indegree} and Corollary~\ref{corollary:Expansion to the wall}, we can find a vertex $v$ with \indegree $[a,b]$ where either $a = m$ and $b \geq  n/8-1$, or $a \geq  m/8-1$ and $b  = n$. Assume without loss of generality that $a = m$ while $b\geq  n/8-1$, the other case is analogous. Recall that computing $v$ requires $O((n + m) \log (n+m))$ vertex queries.
 
 Consider the $I_v\times J_v$-grid dominated by $v$ and 
 notice that $|I_v| = m$ while $|J_v| \geq n/8$. Let $\overline{J_v} = [n]\setminus J_v$.
