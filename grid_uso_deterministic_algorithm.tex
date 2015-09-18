@@ -374,7 +374,7 @@ Using an oracle call in $G_i$ (initially $i = 0$), find an $(\alpha n, \beta n)$
 Recall that $v_i$ is the sink of the $I_{v_i}\times J_{v_i}$-grid by Observation~\ref{Obs:Sink of dominated grid}.
 Notice that $|I_{v_i}| \geq \alpha m$ while $|J_{v_i}| \geq \beta |B_i|$.
 Let $B_{i+1} = B_i\setminus J_{v_i}$ and let $G_{i+1}$ be the $[m]\times B_{i+1}$-grid. 
-Repeat this procedure with $G_{i+1}$ as long as $|B_i| \leq  \frac{n}{2}$; see Figure~\ref{fig:Climbing Lemma}.
+Repeat this procedure with $G_{i+1}$ as long as $|B_i| \geq  \frac{n}{2}$; see Figure~\ref{fig:Climbing Lemma}.
 
 \begin{figure}[h]
 \centering
@@ -389,7 +389,7 @@ Since $B_{k+1} = B_0\setminus \cup_{i=0}^k J_{v_i}$, we know that $|\cup_{i=0}^k
 
 Let $H$ be the smallest subgrid that contains the vertices $v_0, \ldots, v_k$. Since $k = O(1)$, $H$ consists of a constant number of vertices. Therefore, we can find its sink $s$ using $O(1)$ operations. 
 Assume that $s = (x_s, y_s)$ and let $s'$ be the sink of the $\{x_s\}\times \cup_{i=0}^k J_{v_i}$-subgrid. 
-Assume without loss of generality that $s'$ belongs to the $[m]\times J_{v_i}$-subgrid; see Figure~\ref{fig:Climbing Lemma-2}.
+Let $h$ be such that $s'$ belongs to the $[m]\times J_{v_h}$-subgrid; see Figure~\ref{fig:Climbing Lemma-2}.
 
 \begin{figure}[h]
 \centering
@@ -399,9 +399,9 @@ Assume without loss of generality that $s'$ belongs to the $[m]\times J_{v_i}$-s
 \end{figure}
 
 Let $[a,b]$ be the \indegree of $s'$.
-Recall that $s$ is smaller than $v_i$, hence $s'$ is also smaller than $v_i$.
-Because $v_i$ is the sink of the $I_{v_i}\times J_{v_i}$-grid, $s'$ is smaller than each vertex in the $I_{v_i}\times J_{v_i}$-grid.
-Therefore, at least $|I_{v_i}|$ vertices have outgoing edges to $s_i$ in the row containing $s_i$, i.e., $a\geq |I_{v_i}| \geq \alpha m$.
+Recall that $s$ is smaller than $v_h$, hence $s'$ is also smaller than $v_h$.
+Because $v_h$ is the sink of the $I_{v_h}\times J_{v_h}$-grid, $s'$ is smaller than each vertex in the $I_{v_h}\times J_{v_h}$-grid.
+Therefore, at least $|I_{v_h}|$ vertices have outgoing edges to $s'$ in the row containing $s'$, i.e., $a\geq |I_{v_h}| \geq \alpha m$.
 Moreover, since $s'$ is the sink of the $\{x_s\}\times \cup_{i=0}^k J_{v_i}$-subgrid, $b \geq |\cup_{i=0}^k J_{v_i}|  >  \frac{n}{2}$.
 Consequently, $s'$ is an $(\alpha m,  \frac{n}{2})$-vertex.
 \end{proof}
@@ -411,7 +411,7 @@ Let $G$ be an $[m]\times [n]$-grid USO.
 We can compute an $( \frac{m}{2}, \frac{n}{2})$-vertex using $O(n + m)$ vertex queries.
 \end{corollary}
 \begin{proof}
-Notice that Corollary~\ref{corollary: n/4 indegree} proofs the existence of an $( \frac{1}{8}, \frac{1}{8})$-oracle.
+Notice that Corollary~\ref{corollary: n/4 indegree} proves the existence of an $( \frac{1}{8}, \frac{1}{8})$-oracle.
 We use Lemma~\ref{lemma:Climbing lemma} with the $(\frac{1}{8}, \frac{1}{8})$-oracle as input, to find an $(\frac{m}{8}, \frac{n}{2})$-vertex using only $O(1)$ calls to this $(\frac{1}{8}, \frac{1}{8})$-oracle and $O(n+m)$ additional vertex queries. Since each call to the  $(\frac{1}{8}, \frac{1}{8})$-oracle can be implemented with $O(n+m)$ vertex queries by Corollary~\ref{corollary: n/4 indegree}, the algorithm to find the $(\frac{m}{8}, \frac{n}{2})$-vertex is a $(\frac{1}{8}, \frac{1}{2})$-oracle. 
 Therefore, using again Lemma~\ref{lemma:Climbing lemma} with this $(\frac{1}{8}, \frac{1}{2})$-oracle as input, we can find an $(\frac{m}{2}, \frac{n}{2})$-vertex using $O(1)$ calls to the $(\frac{1}{8}, \frac{1}{2})$-oracle. That is, in total $O(n + m)$ queries suffice to find an $(\frac{m}{2}, \frac{n}{2})$-vertex.
 \end{proof}
@@ -429,7 +429,8 @@ Let $\A = \{A_1, A_2\}$ and $\B = \{B_1, B_2\}$ be partitions of $[m]$ and $[n]$
 
 Let $T(n, m)$ be the number of queries needed to find the sink of an $[m]\times[n]$-grid USO.
 We can find recursively the sink $s$ of the $A_2\times B_2$-subgrid using $T(\frac{n}{2}, \frac{m}{2})$ vertex queries. 
-Since the orientation of the $\A$-$\B$-partition grid $H = K_\A \times K_\B$ induced by $G$ is a unique sink orientation by Lemma~\ref{lemma:USO-Lemma}, after querying $v$ and $s$, we can decide weather the sink of $G$ lies in the $A_1\times B_2$-grid or in the $A_2\times B_1$-grid. Assume without loss of generality that it lies in the $A_1\times B_2$-grid.
+If neither $v$ nor $s$ is the sink of $G$ we proceed as follows.
+Since the orientation of the $\A$-$\B$-partition grid $H = K_\A \times K_\B$ induced by $G$ is a unique sink orientation by Lemma~\ref{lemma:USO-Lemma}, we can decide whether the sink of $G$ lies in the $A_1\times B_2$-grid or in the $A_2\times B_1$-grid after querying $v$ and $s$. Assume without loss of generality that it lies in the $A_1\times B_2$-grid.
 By finding recursively the sink of the $A_1\times B_2$-grid, we find the sink of $G$ by Theorem~\ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink}. In summary, the total number of queries requried to find the sink of $G$ is given by the following recurrence:
 $$T(n, m) = 2\cdot T\left(\frac{n}{2}, \frac{m}{2}\right),$$
 which solves to $T(n, m) = O((n+m) \log (n+m))$ yielding our result.
