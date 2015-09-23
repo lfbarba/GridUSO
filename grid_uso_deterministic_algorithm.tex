@@ -51,6 +51,15 @@
 \end{abstract}
 
 \section{Introduction}
+Summary of who has done what when it comes to grid USOs: 
+
+In \cite{linepointstoc} we find the first reference to grid USOs. The concrete problem they solve is ``One line and $n$ points''. The input is a $n$ points in general position and one vertical line which is disjoint from the points and all intersections of segments connecting pairs of points. The problem is to find the lower most segment connecting a pair of points (one point in each side of the line). This appears to be\AT{Luis will know more here.} a common subprocess of geometric algorithms.  (Note that \cite{linepointstoc} talks about unique sink orientations of grid -even though it does not coin the term- and is a few months before \cite{SW}). They prove that every instance of one line and $n$ points gives rise to a grid USO. In addition, they design an instance of a grid USO that does not come from a one line and $n$ points instance\AT{They also show pseudorealizability but maybe we don't even want to mention that, i.e. look at section 5 of \cite{linepointstoc}}. They give an algorithm for one line and $n$ points which runs in $O(\log^2 n )$ pivot steps. They also give an instance where the algorithm needs $\Omega(\log^2 n )$ many pivot steps. 
+
+In \cite{linepoint} and \cite{falkthesis} they argue that the proofs discussed in the previous paragraph can be translated to the more general grid USO setting. In the settings discussed so far the authors discuss \emph{admissible} grid orientations. Those are unique sink, acyclic and have a forbidden minor; there is no subgrid isomorphic to a specific (3,2)-grid that later was called ``double twist''.
+
+In \cite{grid05} they go further and prove that every admissible grid orientation is induced by a red-bue arrangement of pseudolines (this needs to be discussed further). Moreover, they define the refined index and they prove that the refined index of every grid USO is a bijection. They show that the a grid USO is Holt-Klee if and only if it does not have an induced double twist. 
+
+In \cite{grid08} ...  Finally, they prove that any grid USO is acyclic. 
 
 \subsection{Grids, subgrids and orientations}
 
@@ -59,7 +68,7 @@ Given two finite sets $X$ and $Y$,
 the \emph{$X \times Y$-grid} is the product graph $G = K_X \times K_Y$.
 It is also called an \emph{$(m,n)$-grid}, where $m = |X|$ and $n = |Y|$ denote
 the cardinalities of the index sets.
-See figure \ref{fig:examplegrid} for an example of a grid. \JN{Should we draw all the edges in some picture to avoid confusion with other notions of grids that people might have? We could then say that for convenience and ease of presentation we don't draw all the edges in the figures later on.}
+See figure \ref{fig:examplegrid} for an example of a grid. \JN{Should we draw all the edges in some picture to avoid confusion with other notions of grids that people might have? We could then say that for convenience and ease of presentation we don't draw all the edges in the figures later on. Antonis says YES to this.}
 
 Explicitly, the vertex set of the graph $G$ is $X \times Y$, and two
 vertices $v,w \in X \times Y$ are adjacent if and only if they differ in
@@ -128,7 +137,7 @@ Our results are:
 
 \JN{I put this here, but maybe we find a better place for it. As we use acyclicity a lot, we should prove it.}
 
-\begin{lemma}
+\begin{lemma}[\cite{grid08}]
  Grid unique sink orientations are acyclic.
 \end{lemma}
 
@@ -464,6 +473,6 @@ By Lemma~\ref{lem:kx1} this requires at least $m$ vertex queries of which the al
 \end{proof}
 
 \bibliographystyle{unsrtnat}
-\bibliography{../references.bib}
+\bibliography{griduso}
 
 \end{document}
