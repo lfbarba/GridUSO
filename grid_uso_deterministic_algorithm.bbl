@@ -1,8 +1,64 @@
-\begin{thebibliography}{0}
+\begin{thebibliography}{6}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[G{\"{a}}rtner et~al.(2001)G{\"{a}}rtner, Solymosi, Tschirschnitz,
+  Welzl, and Valtr]{linepointstoc}
+Bernd G{\"{a}}rtner, J{\'{o}}zsef Solymosi, Falk Tschirschnitz, Emo Welzl, and
+  Pavel Valtr.
+\newblock One line and n points.
+\newblock In Jeffrey~Scott Vitter, Paul~G. Spirakis, and Mihalis Yannakakis,
+  editors, \emph{Proceedings on 33rd Annual {ACM} Symposium on Theory of
+  Computing, July 6-8, 2001, Heraklion, Crete, Greece}, pages 306--315. {ACM},
+  2001.
+\newblock ISBN 1-58113-349-9.
+\newblock \doi{10.1145/380752.380814}.
+\newblock URL \url{http://doi.acm.org/10.1145/380752.380814}.
+
+\bibitem[Szab{\'{o}} and Welzl(2001)]{SW}
+Tibor Szab{\'{o}} and Emo Welzl.
+\newblock Unique sink orientations of cubes.
+\newblock In \emph{42nd Annual Symposium on Foundations of Computer Science,
+  {FOCS} 2001, 14-17 October 2001, Las Vegas, Nevada, {USA}}, pages 547--555,
+  2001.
+\newblock \doi{10.1109/SFCS.2001.959931}.
+\newblock URL \url{http://dx.doi.org/10.1109/SFCS.2001.959931}.
+
+\bibitem[G\"{a}rtner et~al.(2003)G\"{a}rtner, Tschirschnitz, Welzl, Solymosi,
+  and Valtr]{linepoint}
+Bernd G\"{a}rtner, Falk Tschirschnitz, Emo Welzl, J\'{o}zsef Solymosi, and
+  Pavel Valtr.
+\newblock One line and n points.
+\newblock \emph{Random Structures \& Algorithms}, 23\penalty0 (4):\penalty0
+  453--471, 2003.
+\newblock ISSN 1098-2418.
+\newblock \doi{10.1002/rsa.10099}.
+\newblock URL \url{http://dx.doi.org/10.1002/rsa.10099}.
+
+\bibitem[Tschirschnitz(2003)]{falkthesis}
+Falk Tschirschnitz.
+\newblock \emph{LP-related Properties of Polytopes with Few Facets}.
+\newblock PhD thesis, ETH Z\"urich, 2003.
+
+\bibitem[Felsner et~al.(2005)Felsner, G\"{a}rtner, and Tschirschnitz]{grid05}
+Stefan Felsner, Bernd G\"{a}rtner, and Falk Tschirschnitz.
+\newblock Grid orientations, (d,d + 2)-polytopes, and arrangements of
+  pseudolines.
+\newblock \emph{Discrete \& Computational Geometry}, 34\penalty0 (3):\penalty0
+  411--437, 2005.
+\newblock ISSN 0179-5376.
+\newblock \doi{10.1007/s00454-005-1187-x}.
+\newblock URL \url{http://dx.doi.org/10.1007/s00454-005-1187-x}.
+
+\bibitem[G\"{a}rtner et~al.(2008)G\"{a}rtner, Jr.~Morris, and R\"{u}st]{grid08}
+Bernd G\"{a}rtner, Walter~D. Jr.~Morris, and Leo R\"{u}st.
+\newblock Unique sink orientations of grids.
+\newblock \emph{Algorithmica}, 51\penalty0 (2):\penalty0 200--235, 2008.
+\newblock ISSN 0178-4617.
+\newblock \doi{10.1007/s00453-007-9090-x}.
+\newblock URL \url{http://dx.doi.org/10.1007/s00453-007-9090-x}.
 
 \end{thebibliography}
