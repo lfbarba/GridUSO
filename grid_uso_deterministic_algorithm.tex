@@ -53,11 +53,11 @@
 \section{Introduction}
 Summary of who has done what when it comes to grid USOs. In the text below grid means 2-dimensional unless explicitly mentioned otherwise.
 
-In \cite{linepointstoc} we find the first reference to grid USOs. The concrete problem they solve is ``One line and $n$ points''. The input is $n$ points in general position and one vertical line which is disjoint from the points and all intersections of segments connecting pairs of points. The problem is to find the lower most segment connecting a pair of points (one point in each side of the line). This appears to be\AT{Luis will know more here.} a common subprocess of geometric algorithms.  (Note that \cite{linepointstoc} talks about unique sink orientations of grid -even though it does not coin the term- and is a few months before \cite{SW}). They prove that every instance of one line and $n$ points gives rise to a grid USO. In addition, they design an instance of a grid USO that does not come from a one line and $n$ points instance\AT{They also show pseudorealizability but maybe we don't even want to mention that, i.e. look at section 5 of \cite{linepointstoc}}. They give a randomized algorithm (which is essentially equivalent to Random Edge) for one line and $n$ points which runs in $O(\log^2 n )$ pivot steps. They also give an instance where the algorithm needs $\Omega(\log^2 n )$ many pivot steps. 
+In \cite{linepointstoc} we find the first reference to grid USOs. The concrete problem they solve is ``One line and $n$ points''. The input is $n$ points in general position and one vertical line which is disjoint from the points and all intersections of segments connecting pairs of points. The problem is to find the lower most segment connecting a pair of points (one point in each side of the line). This appears to be\AT{Luis will know more here.} a common subprocess of geometric algorithms.  (Note that \cite{linepointstoc} talks about unique sink orientations of grid -even though it does not coin the term- and is a few months before \cite{SW}). They prove that every instance of one line and $n$ points gives rise to a grid USO. In addition, they design an instance of a grid USO that does not come from a one line and $n$ points instance\AT{They also show pseudorealizability but maybe we don't even want to mention that, i.e. look at section 5 of \cite{linepointstoc}}. They give a randomized algorithm (which is essentially equivalent to Random Edge) for one line and $n$ points which runs in $O(\log^2 n )$ pivot steps. They also give an instance where the algorithm needs $O(\log^2 n )$ many pivot steps. 
 
 In \cite{linepoint} and \cite{falkthesis} they argue that the proofs discussed in \cite{linepointstoc}, mentioned in the previous paragraph, can be translated to the more general grid USO setting. So far all the results have been about \emph{admissible} grid orientations. Those are unique sink, acyclic and have a forbidden minor; there is no subgrid isomorphic to a specific (3,2)-grid that later was called ``double twist''.
 
-In \cite{grid05} they go further and prove that every admissible grid orientation is induced by a red-bue arrangement of pseudolines (this needs to be discussed further). Moreover, they define the refined index and they prove that the refined index of every grid USO is a bijection. They show that the a grid USO is Holt-Klee if and only if it does not have an induced double twist. In addition, they generalize the result of \cite{linepoint} to conclude that Random Edge needs at most $O(\log(n+1)\log(m+1))$ pivot steps to find the sink of any Holt-Klee grid USO and any starting vertex. Finally, they argue that there are at least $2^{\Omega(n^2)}$ different admissible (Holt-Klee) (n,m)-grid USO.
+In \cite{grid05} they go further and prove that every admissible grid orientation is induced by a red-bue arrangement of pseudolines (this needs to be discussed further). Moreover, they define the refined index and they prove that the refined index of every grid USO is a bijection. They show that the a grid USO is Holt-Klee if and only if it does not have an induced double twist. In addition, they generalize the result of \cite{linepoint} to conclude that Random Edge needs at most $O(\log(n+1)\log(m+1))$ pivot steps to find the sink of any Holt-Klee grid USO and any starting vertex. Finally, they argue that there are at least $2^{O(n^2)}$ different admissible (Holt-Klee) (n,m)-grid USO.
 
 In \cite{grid08}, they study large dimension grid USO as general models that arise from solving PGLCP (to be defined?). They give a randomized product algorithm (similar in spirit to the one introduced in \cite{SW} for cube USO) and prove that for fixed dimension it runs in polylogarithmic time. Namely, for the 2-dimensional case it runs in time $O(\ln^2 n)$, thus matching the upper bound for admissible grid orientations. Finally, they prove that any grid USO is acyclic.
 
@@ -137,6 +137,8 @@ Our results are:
 
 \subsection{Basic properties}
 
+We start by stating basic properties of grid unique sink orientations. 
+
 \begin{lemma}[\cite{grid08}]
  Grid unique sink orientations are acyclic.
 \end{lemma}
@@ -153,7 +155,7 @@ Note that the sink of the grid is the unique minimal vertex with respect to this
 
 Note that two vertices may not be $\succeq$-comparable in the smallest subgrid containing them. 
 There could still be a path between the two vertices. 
-Thus\JN{after the transitive closure they might still be incomparable}, we consider the transitive closure of this relation and say that a vertex $w$ is \emph{larger} than $v$ (or $v$ is smaller than $w$) if there is a sequence $w = v_1, v_2, \ldots, v_k = v$ of $G$ such that $v_i \succeq v_{i+1}$, for each $1\leq i\leq k-1$.
+Thus, we consider the transitive closure of this relation and say that a vertex $w$ is \emph{larger} than $v$ (or $v$ is smaller than $w$) if there is a sequence $w = v_1, v_2, \ldots, v_k = v$ of $G$ such that $v_i \succeq v_{i+1}$, for each $1\leq i\leq k-1$.
 
 In a grid USO $G$, the \emph{\indegree} of a vertex $v \in G$ is an ordered pair $[a_v, b_v] \in \{0,1,\ldots,|X|-1\}\times \{0,1,\ldots,|Y|-1\}$ where $a_v$ and $b_v$ specify the number of incoming horizontal  and vertical edges of $v$, respectively.
 We say that a vertex $v$ with \indegree $[a_v, b_v]$ is a \emph{$(k, t)$-vertex} if $a_v\geq k-1$ while $b_v\geq t-1$.
@@ -254,7 +256,7 @@ If one finds the sinks of the subgrids recursively, one would get the recursion
  T(n) = 2T\left(\frac{n}{2}\right) + O(n)
 \end{align*}
 where $T(n)$ is the number of vertex queries needed to find the sink of an $(n,n)$-grid. By the master theorem we would have that $T(n) = O(n\log n)$. 
-As a first step, we show how to compute an $(\frac{n}{4}, \frac{n}{2})$-vertex of an $(n, n)$-grid. Then, we extend this result to non-square grids. Finally, using this result as a black box, we show how to compute an $(\frac{m}{2}, \frac{n}{2})$-vertex in an $(m,n)$-grid using $O(n+m)$ vertex queries. 
+As a first step, we show how to compute an $(\frac{n}{4}, \frac{n}{4})$-vertex of an $(n, n)$-grid. Then, we extend this result to non-square grids. Finally, using this result as a black box, we show how to compute an $(\frac{m}{2}, \frac{n}{2})$-vertex in an $(m,n)$-grid using $O(n+m)$ vertex queries. 
 
 \begin{lemma}
 \label{lem:seed_lemma_for_square_matrices}
@@ -324,7 +326,7 @@ If $w \succeq v$, then because $v \succeq v^*$ we have due to transitivity that 
 \end{proof}
 
 \begin{corollary}\label{corollary: n/4 indegree}
-  Given an $[m]\times [n]$ grid USO $G$, we can find a vertex with \indegree $[a,b]$ with $a \geq \frac{m}{8} - 1$ and  $b \geq \frac{n}{8} - 1$ using $O(nM)$ vertex queries where $M = \max\{m,n\}$.
+  Given an $[m]\times [n]$ grid USO $G$, we can find a vertex with \indegree $[a,b]$ with $a \geq \frac{m}{8} - 1$ and  $b \geq \frac{n}{8} - 1$ using $O(M)$ vertex queries where $M = \max\{m,n\}$.
 \end{corollary}
 
 \begin{proof}
@@ -335,7 +337,7 @@ If $w \succeq v$, then because $v \succeq v^*$ we have due to transitivity that 
 consider the $\A$-$\B$-partition grid $H = K_\A\times K_\B$ and its induced orientation inherited from $G$. 
  Use Lemma \ref{lem:seed_lemma_for_square_matrices} to find an $(\frac{n}{4}, \frac{n}{4})$-vertex $v$ in $H$. 
  Note that in each vertex query of $H$ we need to find the sink of a $(|A|,1)$-grid for some $A\in \A$. 
- The total number of vertex queries of $G$ used is therefore $O(n\frac{m}{n}\cdot n) = O(nm)$ as asserted. 
+ The total number of vertex queries of $G$ used is therefore $O(\frac{m}{n}\cdot n) = O(m)$ as asserted. 
  Since $v$ has at least $\frac{n}{4} - 1$ horizontal incoming edges in $H$, each of which is a $(|A|,1)$-grid in $G$ for some $A\in \A$, 
  by Theorem \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} $v$ has at least $$\left(\frac{n}{4} - 1\right)\cdot\left\lfloor \frac{m}{n} \right\rfloor + \left\lfloor \frac{m}{n} \right\rfloor - 1 \geq \frac{m}{8} - 1$$ incoming edges in $G$. 
  Vertex $v$ also has at least $\frac{n}{4} - 1 \geq \frac{n}{8} - 1$ incoming vertical edges which concludes the proof. 
