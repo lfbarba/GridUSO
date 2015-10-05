@@ -19,6 +19,8 @@
 \newtheorem{definition}{Definition}
 \newtheorem{corollary}{Corollary}
 \newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Proposition}
+\newtheorem{conjecture}{Conjecture}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Setup margin comments. If you want to ignore them, then comment the other part out.
@@ -37,6 +39,7 @@
 \newcommand{\A}{\ensuremath{\mathcal A}}
 \newcommand{\B}{\ensuremath{\mathcal B}}
 \newcommand{\s}[1]{\ensuremath{s_{\scriptscriptstyle#1}}}
+\newcommand{\USO}{\ensuremath{\mathrm{USO}}}
 
 \begin{document}
 
@@ -53,11 +56,11 @@
 \section{Introduction}
 Summary of who has done what when it comes to grid USOs. In the text below grid means 2-dimensional unless explicitly mentioned otherwise.
 
-In \cite{linepointstoc} we find the first reference to grid USOs. The concrete problem they solve is ``One line and $n$ points''. The input is $n$ points in general position and one vertical line which is disjoint from the points and all intersections of segments connecting pairs of points. The problem is to find the lower most segment connecting a pair of points (one point in each side of the line). This appears to be\AT{Luis will know more here.} a common subprocess of geometric algorithms.  (Note that \cite{linepointstoc} talks about unique sink orientations of grid -even though it does not coin the term- and is a few months before \cite{SW}). They prove that every instance of one line and $n$ points gives rise to a grid USO. In addition, they design an instance of a grid USO that does not come from a one line and $n$ points instance\AT{They also show pseudorealizability but maybe we don't even want to mention that, i.e. look at section 5 of \cite{linepointstoc}}. They give a randomized algorithm (which is essentially equivalent to Random Edge) for one line and $n$ points which runs in $O(\log^2 n )$ pivot steps. They also give an instance where the algorithm needs $O(\log^2 n )$ many pivot steps. 
+In \cite{linepointstoc} we find the first reference to grid USOs. The concrete problem they solve is ``One line and $n$ points''. The input is $n$ points in general position and one vertical line which is disjoint from the points and all intersections of segments connecting pairs of points. The problem is to find the lower most segment connecting a pair of points (one point in each side of the line). This appears to be\AT{Luis will know more here.} a common subprocess of geometric algorithms.  (Note that \cite{linepointstoc} talks about unique sink orientations of grid -even though it does not coin the term- and is a few months before \cite{SW}). They prove that every instance of one line and $n$ points gives rise to a grid USO. In addition, they design an instance of a grid USO that does not come from a one line and $n$ points instance\AT{They also show pseudorealizability but maybe we don't even want to mention that, i.e. look at section 5 of \cite{linepointstoc}}. They give a randomized algorithm (which is essentially equivalent to Random Edge) for one line and $n$ points which runs in $O(\log^2 n )$ pivot steps. They also give an instance where the algorithm needs $\Omega(\log^2 n )$ many pivot steps. 
 
 In \cite{linepoint} and \cite{falkthesis} they argue that the proofs discussed in \cite{linepointstoc}, mentioned in the previous paragraph, can be translated to the more general grid USO setting. So far all the results have been about \emph{admissible} grid orientations. Those are unique sink, acyclic and have a forbidden minor; there is no subgrid isomorphic to a specific (3,2)-grid that later was called ``double twist''.
 
-In \cite{grid05} they go further and prove that every admissible grid orientation is induced by a red-bue arrangement of pseudolines (this needs to be discussed further). Moreover, they define the refined index and they prove that the refined index of every grid USO is a bijection. They show that the a grid USO is Holt-Klee if and only if it does not have an induced double twist. In addition, they generalize the result of \cite{linepoint} to conclude that Random Edge needs at most $O(\log(n+1)\log(m+1))$ pivot steps to find the sink of any Holt-Klee grid USO and any starting vertex. Finally, they argue that there are at least $2^{O(n^2)}$ different admissible (Holt-Klee) (n,m)-grid USO.
+In \cite{grid05} they go further and prove that every admissible grid orientation is induced by a red-bue arrangement of pseudolines (this needs to be discussed further). Moreover, they define the refined index and they prove that the refined index of every grid USO is a bijection. They show that the a grid USO is Holt-Klee if and only if it does not have an induced double twist. In addition, they generalize the result of \cite{linepoint} to conclude that Random Edge needs at most $O(\log(n+1)\log(m+1))$ pivot steps to find the sink of any Holt-Klee grid USO and any starting vertex. Finally, they argue that there is at least $2^{\Omega(n^2)}$ different admissible (Holt-Klee) (n,m)-grid USO.
 
 In \cite{grid08}, they study large dimension grid USO as general models that arise from solving PGLCP (to be defined?). They give a randomized product algorithm (similar in spirit to the one introduced in \cite{SW} for cube USO) and prove that for fixed dimension it runs in polylogarithmic time. Namely, for the 2-dimensional case it runs in time $O(\ln^2 n)$, thus matching the upper bound for admissible grid orientations. Finally, they prove that any grid USO is acyclic.
 
@@ -83,7 +86,7 @@ $Y$-coordinate. The \emph{rows} and \emph{columns} of the grid are defined accor
 An induced subgraph of a grid is called a \emph{subgrid} if it is itself a grid.
 The subgrids of $G$ are exactly those induced subgraphs whose vertex set is a
 Cartesian product $I \times J$, for some $I \subseteq X$ and $J \subseteq Y$.
-If the graph $G$ is oriented, then its subgrids inherit the orientation.
+If the graph $G$ is oriented then its subgrids inherit an orientation.
 
   \begin{figure}[htbp] 
   	\centering
@@ -133,7 +136,7 @@ The rest of this paper is organized as follows. \JN{Do this in the end.}
 
 \subsection{Basic properties}
 
-We start by stating basic properties of grid unique sink orientations. 
+We will start by stating certain basic properties of grid USOs.
 
 \begin{lemma}[\cite{grid08}]
 \label{lemma:acyclicity_lemma}
@@ -162,17 +165,15 @@ Note that the sink of the grid is the unique minimal vertex with respect to this
 
 Note that two vertices may not be $\succeq$-comparable in the smallest subgrid containing them. 
 There could still be a path between the two vertices. 
-Thus, we consider the transitive closure of this relation and say that a vertex $w$ is \emph{larger} than $v$ (or $v$ is smaller than $w$) if there is a sequence $w = v_1, v_2, \ldots, v_k = v$ of $G$ such that $v_i \succeq v_{i+1}$, for each $1\leq i\leq k-1$.
+Thus\JN{after the transitive closure they might still be incomparable}, we consider the transitive closure of this relation and say that a vertex $w$ is \emph{larger} than $v$ (or $v$ is smaller than $w$) if there is a sequence $w = v_1, v_2, \ldots, v_k = v$ of $G$ such that $v_i \succeq v_{i+1}$, for each $1\leq i\leq k-1$.
 
 In a grid USO $G$, the \emph{\indegree} of a vertex $v \in G$ is an ordered pair $[a_v, b_v] \in \{0,1,\ldots,|X|-1\}\times \{0,1,\ldots,|Y|-1\}$ where $a_v$ and $b_v$ specify the number of incoming horizontal  and vertical edges of $v$, respectively.
 We say that a vertex $v$ with \indegree $[a_v, b_v]$ is a \emph{$(k, t)$-vertex} if $a_v\geq k-1$ while $b_v\geq t-1$.
 
-
-
 \subsection{Induced USOs}
 
 When designing algorithms for grids, at some point one will typically want to
-partition the grid into subgrids, or \emph{blocks}.
+partition the grid into blocks.
 If such a partition into blocks forms itself a grid,
 then we define an induced orientation on it.
 To distinguish between the original grid and the induced grid, we refer to the vertices of the induced grid as blocks.
@@ -185,32 +186,30 @@ An example of such an induced unique sink orientation is shown in Figure~\ref{fi
   	\label{fig:example_induced_orientation}
   \end{figure}
 
-\JN{To distinguish between the vertices of the original grid USO and the vertices (subgrids) in the induced orientation, I called them blocks, as already was the case in some places. I try to keep this consistent.}
 Formally, let $G = K_X \times K_Y$ be a grid USO,
 and let $\A$ and $\B$ be partitions of $X$ and $Y$, respectively.
 Let $H = K_\A \times K_\B$ be the \emph{$\A$-$\B$-partition grid} of $G$.
-For every block $x = (A,B)$ of $H$, where $A\in \A$ and $B \in \B$, let $G(x)$ (or simply $G(A,B)$)
+For every vertex $x = (A,B)$ of $H$, where $A\in \A$ and $B \in \B$, let $G(x)$ (or simply $G(A,B)$)
 denote the $A \times B$-subgrid of $G$. 
-The edge between two adjacent blocks $x$ and $y$ of $H$ is oriented towards $y$ if the sink of $G(x)$ has at least one outgoing edge to a vertex of $G(y)$ in the original grid $G$. 
+The edge between two adjacent vertices $x$ and $y$ of $H$ is oriented towards $y$ if the sink of $G(x)$ has at least one outgoing edge to a vertex of $G(y)$ in the original grid $G$. 
 This orientation is well defined, because if the sink of $G(y)$ had an edge towards some vertex of $G(x)$, there would be a cycle in $G$. 
 Furthermore, there is always at least one such outgoing edge from one of the sinks as otherwise an appropriately chosen subgrid of $G$ would have two sinks. 
 We say that is orientation is \emph{induced} on $H$ by $G$.
-
-The following lemma follows already from the results in \cite{grid08}, but we give a proof here.
 
 \begin{lemma}[USO-Lemma]\label{lemma:USO-Lemma}
 Let $G = K_X \times K_Y$ be a grid unique sink orientation,
 and let $\A$ and $\B$ be partitions of $X$ and $Y$, respectively.
 The orientation of the $\A$-$\B$-partition grid $H = K_\A \times K_\B$ induced by $G$ is a unique sink orientation.
 \end{lemma}
+
 \begin{proof}
-Note that to prove that a grid orientation is a unique sink orientation it is sufficient to check that all $(2,2)$-subgrids have a unique sink orientation. Indeed, if some subgrid has two sinks, then the $(2,2)$ subgrid containing the two sinks wouldn't be a unique sink orientation.
+Note that it suffices to prove that every $(2,2)$-subgrid of $H$ has a unique sink orientation. Indeed, if $H$ has at least two sinks, then any $(2,2)$-subgrid containing them has no unique sink orientation.
 
 Let $A, A'\in \A$ and $B,B'\in \B$. Let $F$ be the $\{A,A'\}\times\{B, B'\}$-subgrid of~$H$.
-Note that $F$ consists of four blocks being $(A,B), (A', B), (A, B')$ and $(A', B')$. Let $\s{A,B}, \s{A',B}, \s{A,B'}$ and $\s{A',B'}$ denote the respective sinks of the blocks.
-We claim that $F$ has a unique sink orientation and by the above remark this will prove the lemma. 
-%To prove this claim, we need to show that $F$ has exactly one sink.
-%We first show that $F$ has at most one sink.
+Note that $F$ consists of four vertices being $(A,B), (A', B), (A, B')$ and $(A', B')$. Let their respective sinks be $s_{A,B}$,$s_{A',B}$,$s_{A,B'}$ and $s_{A',B'}$.
+We claim that $F$ has a unique sink orientation. 
+To prove this claim, we need to show that $F$ has exactly one sink.
+We first show that $F$ has at most one sink and then show that it cannot have cycles and therefore has exactly one sink.
 
 Assume for a contradiction that $F$ has more than one sink.
 Because these sinks cannot be adjacent, $F$ has two sinks and without loss of generality they are the blocks $(A,B')$ and $(A', B)$. Consider the $(2,2)$ subgrid in $G$ that contains the vertices $\s{A,B'}$ and $\s{A',B}$. By assumption, and from the way the induced orientation was constructed, this subgrid has two sinks which is a contradiction to $G$ being a unique sink orientation. See Figure~\ref{fig:InducedUSOtwosinks} for an example. Therefore we conclude that $F$ has at most one sink. 
@@ -227,7 +226,6 @@ It remains to show that $F$ has at least one sink. The only way for $F$ to have 
 \qquad\qquad
 \begin{subfigure}[t]{0.45\textwidth}
 \includegraphics{product_lemma_cycle.pdf}
-%[width=1\textwidth]
 \caption{\small If the induced USO F had a cycle, there would be a cycle in the original grid $G$.}
 \label{fig:InducedUSOcycle}
 \end{subfigure}
@@ -251,8 +249,8 @@ Assume for a contradiction that $\s{A,B}\neq \s{G}$.
 Note that $\s{G}$ does not belong to $G(A,B)$ as $\s{A,B}$ is its sink.
 Therefore, $\s{G}$ is the sink of $G(A', B')$ for some $A'\in \A, B'\in \B$.
 
-Consider the smallest subgrid in $H$ containing both the blocks $(A,B)$ and $(A', B')$. 
-Since Lemma~\ref{lemma:USO-Lemma} guarantees that $(A',B')$ is not the sink of this subgrid, there is at least one outgoing edge from $(A',B')$ to another block.
+Consider the smallest subgrid in $H$ containing both $(A,B)$ and $(A', B')$. 
+Since Lemma~\ref{lemma:USO-Lemma} guarantees that $(A',B')$ is not the sink of this subgrid, there is at least one outgoing edge from $(A',B')$ to another vertex.
 Thus, by the definition of the orientation of $H$, there is an outgoing edge going from the sink of $G(A',B')$, i.e., an outgoing edge from $\s{G}$---a contradiction since $\s{G}$ is the sink of $G$ and has no outgoing edges. 
 Therefore, $\s{G} = \s{A,B}$.
 \end{proof}
@@ -262,20 +260,20 @@ Therefore, $\s{G} = \s{A,B}$.
 \section{The sink-finding algorithm}
 
 Consider the following algorithmic approach to finding the sink of an ($n$,$n$)-grid USO. 
-Assume that we are able to find in $O(n)$ time a $(\frac{n}{2}, \frac{n}{2})$-vertex $v$.
+Assume that we are able to find in $\mathcal{O}(n)$ time a $(\frac{n}{2}, \frac{n}{2})$-vertex $v$.
 We could then partition the grid into 4 equally sized square subgrids so that $v$ is the sink of one of the subgrids.
 The next step would be to find the sink of the subgrid opposite to the partition containing $v$ in the induced (2,2)-grid. 
 By Theorem \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} we could thereafter discard one subgrid out of consideration and possibly still find the sink of one subgrid. 
 If one finds the sinks of the subgrids recursively, one would get the recursion
 \begin{align*}
- T(n) = 2T\left(\frac{n}{2}\right) + O(n)
+ T(n) = 2T\left(\frac{n}{2}\right) + \mathcal{O}(n)
 \end{align*}
-where $T(n)$ is the number of vertex queries needed to find the sink of an $(n,n)$-grid. By the master theorem we would have that $T(n) = O(n\log n)$. 
-As a first step, we show how to compute an $(\frac{n}{4}, \frac{n}{4})$-vertex of an $(n, n)$-grid. Then, we extend this result to non-square grids. Finally, using this result as a black box, we show how to compute an $(\frac{m}{2}, \frac{n}{2})$-vertex in an $(m,n)$-grid using $O(n+m)$ vertex queries. 
+where $T(n)$ is the number of vertex queries needed to find the sink of an $(n,n)$-grid. By the master theorem we would have that $T(n) = \mathcal{O}(n\log n)$. 
+As a first step, we show how to compute an $(\frac{n}{4}, \frac{n}{2})$-vertex of an $(n, n)$-grid. Then, we extend this result to non-square grids. Finally, using this result as a black box, we show how to compute an $(\frac{m}{2}, \frac{n}{2})$-vertex in an $(m,n)$-grid using $O(n+m)$ vertex queries. 
 
 \begin{lemma}
 \label{lem:seed_lemma_for_square_matrices}
- Given an $(n, n)$-grid USO we can find a $(\frac{n}{4}, \frac{n}{4})$-vertex using $O(n)$ vertex queries.
+ Given an $(n, n)$-grid USO we can find a $(\frac{n}{4}, \frac{n}{4})$-vertex using $\mathcal{O}(n)$ vertex queries.
 \end{lemma}
 
 \begin{proof}
@@ -294,7 +292,7 @@ Let $V' \subseteq V$ be the set of all vertical vertices in $V$ and notice that 
 Let $I'$ be the set of indices containing the first coordinate of each vertex in~$V'$.
 Assume that $v = (x_v, y_v)$ and let $W = I'\times \{y_v\}$ be the set of vertices in the same row as $v$ and in the same column as some vertex from $V'$.
 To conclude, the algorithm queries each vertex in $W$.
-It is clear from the description above that the number of vertices queried so far is $|D| + |W| = O(n)$. 
+It is clear from the description above that the number of vertices queried so far is $|D| + |W| = \mathcal{O}(n)$. 
 We claim that one of the queried vertices will have the required \indegree.
 
 To prove our claim, recall that every diagonal vertex $v_i \in D$ has at least $i - 1$ incoming edges.  
@@ -341,7 +339,7 @@ If $w \succeq v$, then because $v \succeq v^*$ we have due to transitivity that 
 \end{proof}
 
 \begin{corollary}\label{corollary: n/4 indegree}
-  Given an $[m]\times [n]$ grid USO $G$, we can find a vertex with \indegree $[a,b]$ with $a \geq \frac{m}{8} - 1$ and  $b \geq \frac{n}{8} - 1$ using $O(M)$ vertex queries where $M = \max\{m,n\}$.
+  Given an $[m]\times [n]$ grid USO $G$, we can find a vertex with \indegree $[a,b]$ with $a \geq \frac{m}{8} - 1$ and  $b \geq \frac{n}{8} - 1$ using $\mathcal{O}(M)$ vertex queries where $M = \max\{m,n\}$.
 \end{corollary}
 
 \begin{proof}
@@ -352,7 +350,7 @@ If $w \succeq v$, then because $v \succeq v^*$ we have due to transitivity that 
 consider the $\A$-$\B$-partition grid $H = K_\A\times K_\B$ and its induced orientation inherited from $G$. 
  Use Lemma \ref{lem:seed_lemma_for_square_matrices} to find an $(\frac{n}{4}, \frac{n}{4})$-vertex $v$ in $H$. 
  Note that in each vertex query of $H$ we need to find the sink of a $(|A|,1)$-grid for some $A\in \A$. 
- The total number of vertex queries of $G$ used is therefore $O(\frac{m}{n}\cdot n) = O(m)$ as asserted. 
+ The total number of vertex queries of $G$ used is therefore $\mathcal{O}(\frac{m}{n}\cdot n) = \mathcal{O}(m)$ as asserted. 
  Since $v$ has at least $\frac{n}{4} - 1$ horizontal incoming edges in $H$, each of which is a $(|A|,1)$-grid in $G$ for some $A\in \A$, 
  by Theorem \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} $v$ has at least $$\left(\frac{n}{4} - 1\right)\cdot\left\lfloor \frac{m}{n} \right\rfloor + \left\lfloor \frac{m}{n} \right\rfloor - 1 \geq \frac{m}{8} - 1$$ incoming edges in $G$. 
  Vertex $v$ also has at least $\frac{n}{4} - 1 \geq \frac{n}{8} - 1$ incoming vertical edges which concludes the proof. 
@@ -390,7 +388,7 @@ Given an $(\alpha, \beta)$-oracle such that $0 < \alpha, \beta  < 1$, we can fin
 \begin{proof}
 We show how to find an $(\alpha m,  \frac{n}{2})$-vertex. The procedure to find an $( \frac{m}{2}, \beta n)$-vertex is analogous.
 Let $B_0 = [n]$ and let $G_0$ be the $[m]\times B_0$-grid, i.e., $G = G_0$.
-Using an oracle call in $G_i$ (initially $i = 0$), find an $(\alpha m, \beta |B_i|)$-vertex $v_i$ in $G_i$. 
+Using an oracle call in $G_i$ (initially $i = 0$), find an $(\alpha n, \beta n)$-vertex $v_i$ in $G_i$. 
 Recall that $v_i$ is the sink of the $I_{v_i}\times J_{v_i}$-grid by Observation~\ref{Obs:Sink of dominated grid}.
 Notice that $|I_{v_i}| \geq \alpha m$ while $|J_{v_i}| \geq \beta |B_i|$.
 Let $B_{i+1} = B_i\setminus J_{v_i}$ and let $G_{i+1}$ be the $[m]\times B_{i+1}$-grid. 
@@ -399,7 +397,7 @@ Repeat this procedure with $G_{i+1}$ as long as $|B_i| \geq  \frac{n}{2}$; see F
 \begin{figure}[h]
 \centering
 \includegraphics[width=1\textwidth]{ClimbingLemma.pdf}
-\caption{\small Illustration for the proof of Lemma \ref{lemma:Climbing lemma}. Each $v_i$ is an $(\alpha m), \beta |B_i|)$-vertex. After $k = O(1)$ iterations $|\cup_{i=0}^k J_{v_i}| >  \frac{n}{2}$.}
+\caption{\small }
 \label{fig:Climbing Lemma}
 \end{figure}
 
@@ -414,7 +412,7 @@ Let $h$ be such that $s'$ belongs to the $[m]\times J_{v_h}$-subgrid; see Figure
 \begin{figure}[h]
 \centering
 \includegraphics[width=1\textwidth]{ClimbingLemma-2.pdf}
-\caption{\small Illustration of the latter part of the proof of Lemma \ref{lemma:Climbing lemma}. In this figure $h=0$. Because $s'$ is smaller than $v_0$, $s'$ has at least as many horizontal incoming edges as $v_0$ which is at least $\alpha m$. Because $s'$ is the sink of a $(1,|\cup_{i=0}^k J_{v_i}|)$-subgrid, there are at least $\frac{n}{2}$ incoming vertical edges to $s'$.}
+\caption{\small }
 \label{fig:Climbing Lemma-2}
 \end{figure}
 
@@ -439,7 +437,7 @@ Therefore, using again Lemma~\ref{lemma:Climbing lemma} with this $(\frac{1}{8},
 
 We are ready to state our main result. 
 \begin{theorem}\label{theorem:Sink algorithm}
- Let $M = \max\{m,n\}$. The sink of an $[m]\times[n]$-grid USO can be found after $O(M\log M)$ vertex queries.
+ Let $M = \max\{m,n\}$. The sink of an $[m]\times[n]$-grid USO can be found after $\mathcal{O}(M(\log M))$ vertex queries.
 \end{theorem}
 \begin{proof}
 Use Corollary~\ref{corollary: (m/2,n/2) indegree} to find an $(\frac{m}{2}, \frac{n}{2})$-vertex $v$. 
@@ -452,7 +450,7 @@ We can find recursively the sink $s$ of the $A_2\times B_2$-subgrid using $T(\fr
 If neither $v$ nor $s$ is the sink of $G$ we proceed as follows.
 Since the orientation of the $\A$-$\B$-partition grid $H = K_\A \times K_\B$ induced by $G$ is a unique sink orientation by Lemma~\ref{lemma:USO-Lemma}, we can decide whether the sink of $G$ lies in the $A_1\times B_2$-grid or in the $A_2\times B_1$-grid after querying $v$ and $s$. Assume without loss of generality that it lies in the $A_1\times B_2$-grid.
 By finding recursively the sink of the $A_1\times B_2$-grid, we find the sink of $G$ by Theorem~\ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink}. In summary, the total number of queries requried to find the sink of $G$ is given by the following recurrence:
-$$T(n, m) = 2\cdot T\left(\frac{n}{2}, \frac{m}{2}\right) + O(n+m),$$
+$$T(n, m) = 2\cdot T\left(\frac{n}{2}, \frac{m}{2}\right),$$
 which solves to $T(n, m) = O((n+m) \log (n+m))$ yielding our result.
 \end{proof}
  
@@ -499,7 +497,161 @@ The next theorem shows that if one wants to improve the lower bound of Theorem~\
  This strategy works because no matter in which direction the USO is combed, at every step we discard  one or more of the irrelevant rows or columns. For example, if the USO is combed in rows, then in at most $n$ queries we will be at a vertex that has only horiontal outgoing edges. That is, we have found the row where the sink is in. In the next $m-1$ all queries will be in that row so that in the required number of queries we have found the sink.
 \end{proof}
 
+\section{Counting grid USOs}
+Let $\USO(m,n)$ denote the set of unique sink orientations of the grid
+$K_m \times K_n$ ($m,n \in \mathbb{N}$).
+How does its cardinality, $\#\USO(m,n)$, behave asymptotically?
 
+\paragraph{Combed orientations.}
+Given any acyclic orientation $u_0 \in \USO(1,n)$ and acyclic orientations
+$u_1,\dots,u_n \in \USO(m,1)$, we can define an element
+\[ f(u_0,u_1,\dots,u_m) \in \USO(m,n), \]
+which we call a \emph{combed} orientation:
+We orient its $i$th column according to $u_i$, $i \in [m]$, and thus have
+described all vertical edge orientations; furthermore we orient a horizontal
+edge $\{ (i,j), (i,j') \}$ according to the orientation of the edge
+$\{ j,j' \}$ in $u_0$, ignoring the row index $i$.
+This always defines a unique sink orientation.
+
+\begin{prop}
+    There are injections
+    \begin{align*}
+        &
+        \USO(1,n) \times \bigl( \USO(m,1) \bigr)^n
+        \\
+        ~~\stackrel{f}{\longrightarrow}~~
+        &
+        \USO(m,n)
+        \\
+        ~~\stackrel{g}{\longrightarrow}~~
+        &
+        \bigl( \USO(1,n) \bigr)^m \times \bigl( \USO(m,1) \bigr)^n .
+    \end{align*}
+\end{prop}
+
+\begin{proof}
+    The map $f$ has been described in the preceding paragraph; the reader may
+    verify that it is a well-defined injection.
+
+    The map $g$ is simply defined in terms of rows and columns:
+    \[ g(u) = (u_1, \dots, u_m, u'_1, \dots, u'_n) \]
+    where $u_i$ denotes the orientation of the $i$th row of $u$, and $u'_j$ is
+    the orientation of the $j$th column.
+    This map is clearly injective: after all, every edge of the grid occurs in
+    some row or column.
+\end{proof}
+
+Note that $\USO(m,1)$ is in bijection with the set of total orderings of $m$
+elements, and hence has cardinality $m!$; similarly, $\#\USO(1,n) = n!$.
+The proposition thus abstracts into the following bounds.
+
+\begin{corollary}
+    \label{cor:num-USO-mn}
+    The number of unique sink orientations of the grid
+    $K_m \times K_n$ satisfies
+    \[
+        n! m!^n ~\le~ \#\USO(m,n) ~\le~ n!^m m!^n.
+    \]
+\end{corollary}
+
+\noindent
+We analyze the asymptotic behaviour of these bounds for square grids, where
+$m=n$.
+
+\begin{lemma}
+    \label{lem:asymptotics-USO-mn}
+    The following asymptotic equivalences hold.
+    \[
+        n!^{n+1} ~\sim~
+            \exp \left[
+                (n+1) n \ln \frac{n}{e} ~+~ \frac{1}{2} (n+1) \ln (2 \pi n) ~+~ \frac{1}{12}
+            \right],
+    \]
+    \[
+        n!^{2n} ~\sim~
+        \exp \left[
+            2n^2 \ln \frac{n}{e} ~+~ n \ln (2 \pi n) ~+~ \frac{1}{6}
+        \right].
+    \]
+\end{lemma}
+
+\begin{proof}
+    The lemma follows from Stirling's well-known inequalities for the factorial,
+    \[
+        e ^ \frac{1}{12n+1}
+        ~\le~
+        \frac{ n! }{ \sqrt{2 \pi n} ~ \left( \frac{n}{e} \right) ^ n }
+        ~\le~
+        e ^ \frac{1}{12n} .
+    \]
+    For example, in order to prove the first equivalence of the lemma, raise
+    these inequalities to the power of $n+1$ and multiply with
+    $e ^ { -1\,/\,12 }$ to find
+    \begin{align*}
+        e ^ \frac{11}{144n+12}
+        ~\le~
+        \frac{ n!^{n+1} }{ \exp \left[
+                                    (n+1) n \ln \frac{n}{e} ~+~
+                                    \frac{1}{2} (n+1) \ln (2 \pi n)
+                                    ~+~ \frac{1}{12} \right] }
+        ~\le~
+        1
+    \end{align*}
+    and note that the left-hand side and the right-hand side both converge to $1$
+    as $n \to \infty$.
+\end{proof}
+
+\begin{conjecture}
+    For some constant $c > 0$,
+    \[
+        \#\USO(n,n) ~\sim~ \exp\left[ c n^2 \log n + o(n^2 \log n) \right].
+    \]
+\end{conjecture}
+
+\noindent
+If the conjecture is true then we know from corollary \ref{cor:num-USO-mn} and
+lemma \ref{lem:asymptotics-USO-mn} that the constant satisifies $1 \le c \le
+2$; but we are not sure at this point what its exact value might be.
+
+Meanwhile we can have a look at the asymptotics of $\#\USO(k,n)$ when $k$ is
+fixed.
+
+\begin{prop}
+    \label{prop:asymptotics-USO-kn}
+    For every natural number $k$ we have the following asymptotic
+    equivalence with respect to $n \to \infty$:
+    \[
+        \#\USO(k,n) ~\sim~ \exp\left[
+            k n \ln \frac{n}{e} + \lambda_k(n)
+        \right]
+    \]
+    where $\lambda_k$ is some positive function whose growth (with respect to
+    $n$) is at least logarithmic, but at most linear.
+\end{prop}
+
+\begin{proof}
+    We analyze again the bounds of corollary \ref{cor:num-USO-mn},
+    \[
+        k! n!^k ~\le~ \#\USO(k,n) ~\le~ k!^n n!^k.
+    \]
+    The lower bound is, by Stirling's formula, asymptotically equivalent to
+    \[
+        k! \sqrt{2 \pi n} ^ k \left( \frac{n}{e} \right)^{kn}
+        ~=~
+        \exp \left[
+            kn \ln \frac{n}{e} ~+~ \ln (k!) ~+~ \frac{k}{2} \ln {2 \pi n}
+        \right];
+    \]
+    and for the upper bound we find the expression
+    \[
+        k! ^ n \sqrt{2 \pi n} ^ k \left( \frac{n}{e} \right) ^ {kn}
+        ~=~
+        \exp \left[
+            k n \ln \frac{n}{e} ~+~ \ln (k!) \cdot n ~+~ \frac{k}{2} \ln 2 \pi n
+        \right].
+    \]
+    The proposition now follows.
+\end{proof}
 
 \bibliographystyle{unsrtnat}
 \bibliography{griduso}
