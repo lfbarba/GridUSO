@@ -144,6 +144,17 @@ We will start by stating certain basic properties of grid USOs.
  Grid unique sink orientations are acyclic.
 \end{lemma}
 
+A useful property of grids is that one can test whether an orientation is a unique sink orientation by only looking at small subgrids as stated by the next proposition.
+
+\begin{prop}
+\label{prop:subgrid_uso_check}
+ An orientation of a grid is a unique sink orientation if and only if it is acyclic and every $(2, 2)$-subgrid is a unique sink orientation.
+\end{prop}
+
+\begin{proof}
+ One direction is evident: If a grid orientation is a unique sink orientation, then every $(2,2)$-subgrid is also a unique sink orientation and by Lemma \ref{lemma:acyclicity_lemma} the orientation is acyclic. For the other direction note that every $(1,k)$-subgrid and $(k,1)$-subgrid is a unique sink orientation due to acyclicity. Having two sinks in any other subgrid would mean that the smallest subgrid containing them was a $(2,2)$-subgrid. But this subgrid would then not have a unique sink orientation which is a contradiction. Therefore no subgrid has more than one sink. Acyclicity proves the existence of one sink in each subgrid and the statement follows.
+\end{proof}
+
 We define a partial order of vertices in a grid unique sink orientation $G$ as follows. 
 For any two vertices $v,w \in G$ consider the smallest subgrid containing both $v$ and $w$. 
 We say that $w \succeq v$ if there is a path from $w$ to $v$ in this subgrid. 
@@ -169,7 +180,7 @@ An example of an induced unique sink orientation is shown in Figure~\ref{fig:exa
   \begin{figure}[htbp] 
   	\centering
   	\includegraphics[scale=1.5]{induced_orientation_ex.pdf}
-  	\caption{\small On the left side of the figure there is a $(3,3)$-grid USO whose $X$-coordinates and $Y$-coordinates have been partitioned into 2 parts of cardinalities two and one. This induces four blocks as highlighted in bold and blue. The induced orientation with respect to these blocks is shown on the right.} 
+  	\caption{\small On the left side of the figure there is a $(3,3)$-grid USO whose $X$-coordinates and $Y$-coordinates have been partitioned into 2 parts of cardinalities two and one. This induces four blocks as highlighted in bold and blue. The induced orientation with respect to these blocks is shown on the right and the edges contributing are also shown in the original grid.} 
   	\label{fig:example_induced_orientation}
   \end{figure}
 
@@ -190,18 +201,17 @@ The orientation of the $\A$-$\B$-partition grid $H = K_\A \times K_\B$ induced b
 \end{lemma}
 
 \begin{proof}
-Note that it suffices to prove that every $(2,2)$-subgrid of $H$ has a unique sink orientation. Indeed, if $H$ has at least two sinks, then any $(2,2)$-subgrid containing them has no unique sink orientation.
-
 Let $A, A'\in \A$ and $B,B'\in \B$. Let $F$ be the $\{A,A'\}\times\{B, B'\}$-subgrid of~$H$.
 Note that $F$ consists of four blocks being $(A,B), (A', B), (A, B')$ and $(A', B')$. Let their respective sinks be $s_{A,B}$,$s_{A',B}$,$s_{A,B'}$ and $s_{A',B'}$.
-We claim that $F$ has a unique sink orientation. 
-With the above remark, proving this claim establishes the result.
-We first show that $F$ has at most one sink and then show that it cannot have cycles and therefore has exactly one sink.
+By Proposition \ref{prop:subgrid_uso_check} it is enough to check that the orientation of $F$ is a unique sink orientation and that $H$ is acyclic.
+We first show that $F$ has at most one sink and then show that it cannot have cycles and therefore has exactly one sink. Lastly we show that $H$ can not have cycles.
 
 Assume for a contradiction that $F$ has more than one sink.
 Because these sinks cannot be adjacent, $F$ has two sinks and without loss of generality they are the blocks $(A,B')$ and $(A', B)$. Consider the $(2,2)$ subgrid in $G$ that contains the vertices $\s{A,B'}$ and $\s{A',B}$. By assumption, and from the way the induced orientation was constructed, this subgrid has two sinks which is a contradiction to $G$ being a unique sink orientation. See Figure~\ref{fig:InducedUSOtwosinks} for an example. Therefore we conclude that $F$ has at most one sink. 
 
-It remains to show that $F$ has at least one sink. The only way for $F$ to have no sink is if there is a cycle in $F$. Such a cycle would induce a cycle in $G$: starting from the sink of one of the blocks of $H$, move along an edge to another block and then again to the sink of the new block and repeat until we reach the sink of the block we started from. This works because there is always such an outgoing edge between blocks when $F$ is cyclic --- which implies an outgoing edge in the original grid --- and there is always a path within a block from any vertex to the sink of the block due to Lemma \ref{lemma:acyclicity_lemma}. Such a cycle is illustrated in Figure~\ref{fig:InducedUSOcycle}. We conclude that $F$ can't have a cycle and as a conclusion $F$ will have exactly one sink.
+Next to show is that $F$ has at least one sink. The only way for $F$ to have no sink is if there is a cycle in $F$. Such a cycle would induce a cycle in $G$: starting from the sink of one of the blocks of $H$, move along an edge to another block and then again to the sink of the new block and repeat until we reach the sink of the block we started from. This works because there is always such an outgoing edge between blocks when $F$ is cyclic --- which implies an outgoing edge in the original grid --- and there is always a path within a block from any vertex to the sink of the block due to Lemma \ref{lemma:acyclicity_lemma}. Such a cycle is illustrated in Figure~\ref{fig:InducedUSOcycle}. We conclude that $F$ can't have a cycle and therefore $F$ will have exactly one sink.
+
+To see that $H$ is acyclic one only needs to repeat the same argument as for $F$. That is, a cycle in $H$ would imply a cycle in $G$. This concludes the proof.
 
 \begin{figure}
 \begin{subfigure}[t]{0.45\textwidth}
