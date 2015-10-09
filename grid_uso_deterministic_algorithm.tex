@@ -47,10 +47,10 @@
 
 \begin{abstract}
     \noindent
-    We study unique sink orientations of so-called grids
-    (Cartesian products of complete graphs).
-    Our main contribution is a deterministic algorithm which finds the sink in
-    two-dimensional grid USOs using $O(N (\log N)^2)$ vertex queries.
+    We study unique sink orientations of grids, which for us are Cartesian products of two complete graphs. 
+    Our main contributions are a deterministic algorithm which finds the sink in
+    two-dimensional grid USOs using $O(N \log N)$ vertex queries and a deterministic algorithm using $O(N^{\log_4 7})$ edge queries for an $N \times N$ grid. 
+    Unique 
 \end{abstract}
 
 \section{Introduction}
@@ -64,7 +64,37 @@ In \cite{grid05} they go further and prove that every admissible grid orientatio
 
 In \cite{grid08}, they study large dimension grid USO as general models that arise from solving PGLCP (to be defined?). They give a randomized product algorithm (similar in spirit to the one introduced in \cite{SW} for cube USO) and prove that for fixed dimension it runs in polylogarithmic time. Namely, for the 2-dimensional case it runs in time $O(\ln^2 n)$, thus matching the upper bound for admissible grid orientations. Finally, they prove that any grid USO is acyclic.
 
-Note that it the complexity of Random Edge on general grid USO remains open.
+Note that the complexity of Random Edge on general grid USO remains open.
+
+\subsection{Summary of results}
+
+Given a grid USO the algorithmic task is to find the global sink. 
+We assume that the orientations of the edges are given by means of a \emph{vertex oracle} which supports \emph{vertex queries} of the form: given a vertex of the grid, reveal the orientations of the edges adjacent to this vertex.
+
+A \emph{sink-finding algorithm for the $(m,n)$-grid} is any procedure which eventually queries the sink of $G$.
+In this paper we pursue the following question:
+\begin{quote}
+    Among all deterministic sink-finding algorithms $\cal A$ for the
+    $(m,n)$-grid, what is the minimum number of queries that $\cal A$ must ask
+    in the worst case?
+\end{quote}
+Throughout the paper we will denote this number by $t(m,n)$.
+Our results are:
+
+\begin{itemize}
+    \item
+        $t(m,n) \in O(M \log M)$, where $M = m+n$. (Theorem~\ref{theorem:Sink algorithm})
+    \item
+        $t(m,n) \ge m+n-1$ (Theorem \ref{thm:lowerbound}), and this is optimal for $(i,i)$-grids with $i = 2, 3, 4$. 
+    \item The number of different $(m,n)$-grid USOs is $\textnormal{e}^{\Theta(mn\log M)}$ where the constant in the exponent is between one and two and $M = \max \{m,n\}$. (Theorem ??)
+\end{itemize}
+
+\subsection{Outline}
+
+The rest of this paper is organized as follows. We start by defining terminology and basic properties of grids in Section \ref{section:grid_uso_properties}. Section \ref{section:the_sink_finding_algorithm} contains our main result which is stated as Theorem \ref{theorem:Sink algorithm}. In Section \ref{section:a_deterministic_lower_bound} we give a deterministic lower bound result and in Section \ref{section:counting_unique_sink_orientations} we count the number of unique sink orientations.
+
+\section{Grid USO properties}
+\label{section:grid_uso_properties}
 
 \subsection{Grids, subgrids and orientations}
 
@@ -105,35 +135,6 @@ for short, if all its non-empty subgrids have a unique sink. For simplicity, we 
 % Let $G$ be an $X\times Y$-grid USO for some sets $X$ and $Y$ and let $A \subset 2^X$ and $B \subset 2^Y$ be partitions of $X$ and $Y$, respectively. Let $H$ be an $A\times B$-grid. \JN{See Malte's 4$\times$4 lower bound for a possible way to define this.}
 %\end{lemma}
 
-
-
-\subsection{Summary of results}
-
-Given a grid USO the algorithmic task is to find the global sink. 
-We assume that the orientations of the edges are given by means of a \emph{vertex oracle} which supports \emph{vertex queries} of the form: given a vertex of the grid, reveal the orientations of the edges adjacent to this vertex.
-
-A \emph{sink-finding algorithm for the $(m,n)$-grid} is any procedure which eventually queries the sink of $G$.
-In this paper we pursue the following question:
-\begin{quote}
-    Among all deterministic sink-finding algorithms $\cal A$ for the
-    $(m,n)$-grid, what is the minimum number of queries that $\cal A$ must ask
-    in the worst case?
-\end{quote}
-Throughout the paper we will denote this number by $t(m,n)$.
-Our results are:
-
-\begin{itemize}
-    \item
-        $t(m,n) \in O(M \log M)$, where $M = m+n$. (Theorem~\ref{theorem:Sink algorithm})
-    \item
-        $t(m,n) \ge m+n-1$ (Theorem \ref{thm:lowerbound}), and this is optimal for $(i,i)$-grids with $i = 2, 3, 4$. 
-    \item The number of different $(m,n)$-grid USOs is $\textnormal{e}^{\Theta(mn\log M)}$ where the constant in the exponent is between one and two and $M = \max \{m,n\}$. (Theorem ??)
-\end{itemize}
-
-The rest of this paper is organized as follows. \JN{Do this in the end.}
-
-\section{Grid USO properties}
-
 \subsection{Basic properties}
 
 We will start by stating certain basic properties of grid USOs.
@@ -143,25 +144,11 @@ We will start by stating certain basic properties of grid USOs.
  Grid unique sink orientations are acyclic.
 \end{lemma}
 
-\begin{proof}
- We will prove the statement by induction, but before that we observe two properties:
- (i) Every (1,$n$)-grid and every ($m$,1)-grid is acyclic. 
- (ii) If $C$ is a directed cycle in some grid USO $G$ so that $C$ has minimal length among all cycles in $G$, then $C$ visits at most two vertices in any row and in any column of the grid.
- The first  property follows from the definition of a unique sink orientation and the second can be seen with a simple case analysis; If it was not the case, one could find a cycle of smaller length, contradicting the minimality of $C$ or property (i). 
- \JN{There are only a few cases, maybe one should write them.}
- 
- Note that is suffices to prove the statement for all square grids and then the statement follows for general grids easily: if $C$ is a minimal cycle in a ($m$,$n$)-grid with $m\geq n$, say, then by the above property (ii) the cycle visits only the vertices inside an $(n,n)$-subgrid of the original grid.
- 
- We will now prove the statement for square grids by induction on the size of the grid. Assume that the statement holds for all square grids of size $n$ or smaller. Let $G$ be a $(n+1,n+1)$-grid USO. Assume on the contrary that it was cyclic and let $C$ be a minimal cycle in $G$. If $C$ does not visit every row and column of $G$, then by property (ii) it is contained in an $(n, n)$-subgrid, contradicting the induction assumption. 
- 
- Therefore $C$ visits every row and column of $G$ and has length exactly $2n$. \JN{Showing the rest turned out to be more complicated than I first thought. I'm still looking for a simple argument.}
-\end{proof}
-
 We define a partial order of vertices in a grid unique sink orientation $G$ as follows. 
 For any two vertices $v,w \in G$ consider the smallest subgrid containing both $v$ and $w$. 
 We say that $w \succeq v$ if there is a path from $w$ to $v$ in this subgrid. 
 Because by Lemma \ref{lemma:acyclicity_lemma} grid USOs are acyclic, this defines a partial order on the vertices. 
-Note that the sink of the grid is the unique minimal vertex with respect to this ordering. 
+The sink of the grid is the unique minimal vertex with respect to this ordering. 
 
 Note that two vertices may not be $\succeq$-comparable in the smallest subgrid containing them. 
 There could still be a path between the two vertices. 
@@ -173,11 +160,11 @@ We say that a vertex $v$ with \indegree $[a_v, b_v]$ is a \emph{$(k, t)$-vertex}
 \subsection{Induced USOs}
 
 When designing algorithms for grids, at some point one will typically want to
-partition the grid into blocks.
-If such a partition into blocks forms itself a grid,
-then we define an induced orientation on it.
+partition the grid into subgrid.
+Such a partition into subgrids forms itself a grid in a natural way,
+and we define a unique sink orientation on the induced grid.
 To distinguish between the original grid and the induced grid, we refer to the vertices of the induced grid as blocks.
-An example of such an induced unique sink orientation is shown in Figure~\ref{fig:example_induced_orientation}.
+An example of an induced unique sink orientation is shown in Figure~\ref{fig:example_induced_orientation}.
 
   \begin{figure}[htbp] 
   	\centering
@@ -206,15 +193,15 @@ The orientation of the $\A$-$\B$-partition grid $H = K_\A \times K_\B$ induced b
 Note that it suffices to prove that every $(2,2)$-subgrid of $H$ has a unique sink orientation. Indeed, if $H$ has at least two sinks, then any $(2,2)$-subgrid containing them has no unique sink orientation.
 
 Let $A, A'\in \A$ and $B,B'\in \B$. Let $F$ be the $\{A,A'\}\times\{B, B'\}$-subgrid of~$H$.
-Note that $F$ consists of four vertices being $(A,B), (A', B), (A, B')$ and $(A', B')$. Let their respective sinks be $s_{A,B}$,$s_{A',B}$,$s_{A,B'}$ and $s_{A',B'}$.
+Note that $F$ consists of four blocks being $(A,B), (A', B), (A, B')$ and $(A', B')$. Let their respective sinks be $s_{A,B}$,$s_{A',B}$,$s_{A,B'}$ and $s_{A',B'}$.
 We claim that $F$ has a unique sink orientation. 
-To prove this claim, we need to show that $F$ has exactly one sink.
+With the above remark, proving this claim establishes the result.
 We first show that $F$ has at most one sink and then show that it cannot have cycles and therefore has exactly one sink.
 
 Assume for a contradiction that $F$ has more than one sink.
 Because these sinks cannot be adjacent, $F$ has two sinks and without loss of generality they are the blocks $(A,B')$ and $(A', B)$. Consider the $(2,2)$ subgrid in $G$ that contains the vertices $\s{A,B'}$ and $\s{A',B}$. By assumption, and from the way the induced orientation was constructed, this subgrid has two sinks which is a contradiction to $G$ being a unique sink orientation. See Figure~\ref{fig:InducedUSOtwosinks} for an example. Therefore we conclude that $F$ has at most one sink. 
 
-It remains to show that $F$ has at least one sink. The only way for $F$ to have no sink is if there is a cycle in $F$. Such a cycle would induce a cycle in $G$: starting from the sink of one of the blocks of $H$, move along an edge to another block and then again to the sink of the new block and repeat until we reach the sink of the block we started from. This works because there is always such an outgoing edge between blocks when $F$ is cyclic and there is always a path within a block from any vertex to the sink of the block. This cycle is illustrated in Figure~\ref{fig:InducedUSOcycle} Therefore $F$ can't have a cycle and as a conclusion $F$ will have exactly one sink.
+It remains to show that $F$ has at least one sink. The only way for $F$ to have no sink is if there is a cycle in $F$. Such a cycle would induce a cycle in $G$: starting from the sink of one of the blocks of $H$, move along an edge to another block and then again to the sink of the new block and repeat until we reach the sink of the block we started from. This works because there is always such an outgoing edge between blocks when $F$ is cyclic --- which implies an outgoing edge in the original grid --- and there is always a path within a block from any vertex to the sink of the block due to Lemma \ref{lemma:acyclicity_lemma}. Such a cycle is illustrated in Figure~\ref{fig:InducedUSOcycle}. We conclude that $F$ can't have a cycle and as a conclusion $F$ will have exactly one sink.
 
 \begin{figure}
 \begin{subfigure}[t]{0.45\textwidth}
@@ -258,8 +245,9 @@ Therefore, $\s{G} = \s{A,B}$.
 
 
 \section{The sink-finding algorithm}
+\label{section:the_sink_finding_algorithm}
 
-Consider the following algorithmic approach to finding the sink of an ($n$,$n$)-grid USO. 
+Consider the following algorithmic approach to finding the sink of an ($n$,$n$)-grid USO deterministically. 
 Assume that we are able to find in $\mathcal{O}(n)$ time a $(\frac{n}{2}, \frac{n}{2})$-vertex $v$.
 We could then partition the grid into 4 equally sized square subgrids so that $v$ is the sink of one of the subgrids.
 The next step would be to find the sink of the subgrid opposite to the partition containing $v$ in the induced (2,2)-grid. 
@@ -273,7 +261,7 @@ As a first step, we show how to compute an $(\frac{n}{4}, \frac{n}{2})$-vertex o
 
 \begin{lemma}
 \label{lem:seed_lemma_for_square_matrices}
- Given an $(n, n)$-grid USO we can find a $(\frac{n}{4}, \frac{n}{4})$-vertex using $\mathcal{O}(n)$ vertex queries.
+ Given an $[n]\times [n]$ grid USO we can find an $(\frac{n}{4}, \frac{n}{4})$-vertex using $\mathcal{O}(n)$ vertex queries.
 \end{lemma}
 
 \begin{proof}
@@ -316,8 +304,7 @@ Otherwise, there is a vertex $w \in V'$ that is in the same column as $v^*$.
    
    Because $v$ is a minimal vertex in $V'$, either $w\succeq v$, or $v$ and $w$ are incomparable. 
    To show that there is an edge from $w$ to $v^*$ we study these two cases: 
-   
-If $w \succeq v$, then because $v \succeq v^*$ we have due to transitivity that $w \succeq v^*$. 
+   If $w \succeq v$, then because $v \succeq v^*$ we have due to transitivity that $w \succeq v^*$. 
   Otherwise, $w$ and $v$ are incomparable. In this case, since $v^*$ is smaller than $v$, we know that the edge connecting $v$ and $v^*$ is  oriented towards $v^*$. 
   Therefore, the only possibility for $v$ and $w$ to be incomparable is that there is an edge from $w$ to $v^*$. 
   We give illustrations of the two cases in Figure~\ref{fig:seedlem2}. 
@@ -445,16 +432,17 @@ Recall that $v$ is the sink of the $I_v\times J_v$-grid by Observation~\ref{Obs:
 Let $A_2= [m]\setminus A_1$ and $B_2 = [n]\setminus B_1$.
 Let $\A = \{A_1, A_2\}$ and $\B = \{B_1, B_2\}$ be partitions of $[m]$ and $[n]$, respectively.
 
-Let $T(n, m)$ be the number of queries needed to find the sink of an $[m]\times[n]$-grid USO.
-We can find recursively the sink $s$ of the $A_2\times B_2$-subgrid using $T(\frac{n}{2}, \frac{m}{2})$ vertex queries. 
+Let $T(m, n)$ be the number of queries needed to find the sink of an $[m]\times[n]$-grid USO.
+We can find recursively the sink $s$ of the $A_2\times B_2$-subgrid using $T(\frac{m}{2}, \frac{n}{2})$ vertex queries. 
 If neither $v$ nor $s$ is the sink of $G$ we proceed as follows.
 Since the orientation of the $\A$-$\B$-partition grid $H = K_\A \times K_\B$ induced by $G$ is a unique sink orientation by Lemma~\ref{lemma:USO-Lemma}, we can decide whether the sink of $G$ lies in the $A_1\times B_2$-grid or in the $A_2\times B_1$-grid after querying $v$ and $s$. Assume without loss of generality that it lies in the $A_1\times B_2$-grid.
 By finding recursively the sink of the $A_1\times B_2$-grid, we find the sink of $G$ by Theorem~\ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink}. In summary, the total number of queries requried to find the sink of $G$ is given by the following recurrence:
-$$T(n, m) = 2\cdot T\left(\frac{n}{2}, \frac{m}{2}\right),$$
-which solves to $T(n, m) = O((n+m) \log (n+m))$ yielding our result.
+$$T(m, n) = 2\cdot T\left(\frac{m}{2}, \frac{n}{2}\right) + O(n+m),$$
+which solves to $T(m, n) = O((n+m) \log (n+m))$ yielding our result.
 \end{proof}
  
 \section{A deterministic lower bound}
+\label{section:a_deterministic_lower_bound}
 
 Given an $(m, n)$-grid USO $G$, we use the following adversarial argument to show a lower bound of $n + m -1$ on the number of vertex queries required to find the sink of $G$.
 We begin with a simple argument to lower bound the number of vertex queries to find the sink of a single row of $G$.
@@ -488,7 +476,6 @@ The next theorem shows that if one wants to improve the lower bound of Theorem~\
 \begin{theorem}
  The sink of a combed $(m,n)$-grid USO can be found by using $n+m-1$ vertex queries.
 \end{theorem}
-\JN{This kind of a jumping algorithm could be a good candidate for an efficient algorithm, maybe even linear time. I have a proof to show that jumping to the antipodal vertex takes at most $O(n^{4/3})$ queries, but this margin is too small to write it down :D}
 
 \begin{proof}
  If we know that the grid is combed in rows or columns, then the same approach used by the adversary player in the proof of Theorem~\ref{thm:lowerbound} will work. 
@@ -498,6 +485,9 @@ The next theorem shows that if one wants to improve the lower bound of Theorem~\
 \end{proof}
 
 \section{Counting grid USOs}
+\label{section:counting_unique_sink_orientations}
+
+
 Let $\USO(m,n)$ denote the set of unique sink orientations of the grid
 $K_m \times K_n$ ($m,n \in \mathbb{N}$).
 How does its cardinality, $\#\USO(m,n)$, behave asymptotically?
