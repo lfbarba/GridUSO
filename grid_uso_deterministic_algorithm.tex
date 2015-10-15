@@ -46,6 +46,7 @@
 \newcommand{\timeEdge}{\ensuremath{t_\mathrm{e}}}
 \newcommand{\timeVertex}{\ensuremath{t_\mathrm{v}}}
 \newcommand{\e}{\ensuremath{\mathrm{e}}}
+\newcommand{\RR}{\ensuremath{\mathbb{R}}}
 
 \begin{document}
 
@@ -63,7 +64,7 @@
 
 \section{Introduction}
 
-\subsection{Summary of who has done what when it comes to grid USOs}
+\subsection{[Summary of who has done what when it comes to grid USOs]}
 
 In the text below grid means 2-dimensional unless explicitly mentioned otherwise.
 
@@ -76,6 +77,22 @@ In \cite{grid05} they go further and prove that every admissible grid orientatio
 In \cite{grid08}, they study large dimension grid USO as general models that arise from solving PGLCP (to be defined?). They give a randomized product algorithm (similar in spirit to the one introduced in \cite{SW} for cube USO) and prove that for fixed dimension it runs in polylogarithmic time. Namely, for the 2-dimensional case it runs in time $O(\ln^2 n)$, thus matching the upper bound for admissible grid orientations. Finally, they prove that any grid USO is acyclic.
 
 Note that the complexity of Random Edge on general grid USO remains open.
+
+\subsection{[short motivation]}
+
+Unique sink orientations of grids, as introduced in \cite{linepointstoc},
+are a graph-theoretic model for a specific class of linear programs.
+Namely, assume that the feasible region of a given linear program is a
+simple polytope of dimension $d$ that has exactly $d+2$ facets.
+The graph $G$ underlying such a polytope is isomorphic to a Cartesian product
+of two complete graphs, $G = K_m \times K_n$.
+(A proof of this theorem can be found in \cite{grid05}.)
+
+Let $f : \RR^d \to \RR$ denote the objective function of the linear program.
+Assuming general position, one can orient $G$ such that for every oriented
+edge $u \to v$ we have $f(u) > f(v)$.
+Minimizing the function $f$ on the polytope thus corresponds to finding the
+unique sink of $G$.
 
 \subsection{Summary of results}
 
