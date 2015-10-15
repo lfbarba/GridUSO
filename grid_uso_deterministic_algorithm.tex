@@ -12,7 +12,10 @@
 \usepackage{hyperref}
 
 \title{Grid USO algorithms}
-\author{Antonis, Bernd, Jerri, Luis, Malte}
+\author{Antonis Thomas \\ \small ETH Zürich \and
+        Jerri Nummenpalo \\ \small ETH Zürich \and
+        Luis Barba \\ \small ULB / Carleton University \and
+        Malte Milatz \\ \small ETH Zürich}
 
 \newtheorem{observation}{Observation}
 \newtheorem{lemma}{Lemma}
@@ -40,6 +43,9 @@
 \newcommand{\B}{\ensuremath{\mathcal B}}
 \newcommand{\s}[1]{\ensuremath{s_{\scriptscriptstyle#1}}}
 \newcommand{\USO}{\ensuremath{\mathrm{USO}}}
+\newcommand{\timeEdge}{\ensuremath{t_\mathrm{e}}}
+\newcommand{\timeVertex}{\ensuremath{t_\mathrm{v}}}
+\newcommand{\e}{\ensuremath{\mathrm{e}}}
 
 \begin{document}
 
@@ -47,14 +53,19 @@
 
 \begin{abstract}
     \noindent
-    We study unique sink orientations of grids, which for us are Cartesian products of two complete graphs. 
-    Our main contributions are a deterministic algorithm which finds the sink in
-    two-dimensional grid USOs using $O(N \log N)$ vertex queries and a deterministic algorithm using $O(N^{\log_4 7})$ edge queries for an $N \times N$ grid. 
-    Unique 
+    We study unique sink orientations (USOs) of \emph{grids}, which for us are
+    Cartesian products of two complete graphs.
+    We show that the sink in a grid USO can be found deterministically using
+    $O(N \log N)$ vertex queries, or using $O(N^{\log_4 7})$ edge queries.
+    On the other hand we argue that a linear number of queries is necessary.
+    Furthermore we analyze the number of grid USOs.
 \end{abstract}
 
 \section{Introduction}
-Summary of who has done what when it comes to grid USOs. In the text below grid means 2-dimensional unless explicitly mentioned otherwise.
+
+\subsection{Summary of who has done what when it comes to grid USOs}
+
+In the text below grid means 2-dimensional unless explicitly mentioned otherwise.
 
 In \cite{linepointstoc} we find the first reference to grid USOs. The concrete problem they solve is ``One line and $n$ points''. The input is $n$ points in general position and one vertical line which is disjoint from the points and all intersections of segments connecting pairs of points. The problem is to find the lower most segment connecting a pair of points (one point in each side of the line). This appears to be\AT{Luis will know more here.} a common subprocess of geometric algorithms.  (Note that \cite{linepointstoc} talks about unique sink orientations of grid -even though it does not coin the term- and is a few months before \cite{SW}). They prove that every instance of one line and $n$ points gives rise to a grid USO. In addition, they design an instance of a grid USO that does not come from a one line and $n$ points instance\AT{They also show pseudorealizability but maybe we don't even want to mention that, i.e. look at section 5 of \cite{linepointstoc}}. They give a randomized algorithm (which is essentially equivalent to Random Edge) for one line and $n$ points which runs in $O(\log^2 n )$ pivot steps. They also give an instance where the algorithm needs $\Omega(\log^2 n )$ many pivot steps. 
 
@@ -68,26 +79,46 @@ Note that the complexity of Random Edge on general grid USO remains open.
 
 \subsection{Summary of results}
 
-Given a grid USO the algorithmic task is to find the global sink. 
-We assume that the orientations of the edges are given by means of a \emph{vertex oracle} which supports \emph{vertex queries} of the form: given a vertex of the grid, reveal the orientations of the edges adjacent to this vertex.
+Given a unique sink orientation of the $(m,n)$-grid $G$, the algorithmic task
+is to find its sink. 
+We consider two different settings:
+\begin{enumerate}[\quad (1)]
+    \item
+        The algorithm accesses the grid $G$ by means of an \emph{edge oracle}
+        which, when queried about an edge of $G$, reveals its orientation.
+        The goal of the algorithm is to report the sink of $G$.
 
-A \emph{sink-finding algorithm for the $(m,n)$-grid} is any procedure which eventually queries the sink of $G$.
-In this paper we pursue the following question:
+    \item
+        The algorithm accesses the grid $G$ by means of a \emph{vertex oracle}
+        which, when queried about a vertex of $G$, reveals the orientations of
+        the edges adjacent to this vertex.
+        The goal of the algorithm is to query the sink of $G$.
+
+\end{enumerate}
+For both problems we restrict our attention to deterministic algorithms, and
+we pursue the following question:
 \begin{quote}
-    Among all deterministic sink-finding algorithms $\cal A$ for the
-    $(m,n)$-grid, what is the minimum number of queries that $\cal A$ must ask
-    in the worst case?
+    Among all deterministic algorithms for problem (1) or (2), respectively,
+    what is the minimum number of queries that the algorithm must ask in the
+    worst case?
 \end{quote}
-Throughout the paper we will denote this number by $t(m,n)$.
+We will denote this number by $\timeEdge(m,n)$ and
+$\timeVertex(m,n)$, respectively.
+Let furthermore $N = m + n$.
 Our results are:
 
 \begin{itemize}
     \item
-        $t(m,n) \in O(M \log M)$, where $M = m+n$. (Theorem~\ref{theorem:Sink algorithm})
+        $\timeVertex(m,n) \in O(N \log N)$. (Theorem~\ref{theorem:Sink algorithm})
     \item
-        $t(m,n) \ge m+n-1$ (Theorem \ref{thm:lowerbound}), and this is optimal for $(i,i)$-grids with $i = 2, 3, 4$. 
-    \item The number of different $(m,n)$-grid USOs is $\textnormal{e}^{\Theta(mn\log M)}$ where the constant in the exponent is between one and two and $M = \max \{m,n\}$. (Theorem ??)
+        $\timeVertex(m,n) \ge m+n-1$ (Theorem \ref{thm:lowerbound}), and this is optimal for $(i,i)$-grids with $i = 2, 3, 4$. 
+    \item
+        $\timeEdge(m,n) \in O(N ^ { \log_4(7) })$ (Theorem ??).
+    \item
+        $\timeEdge(m,n) \in \Omega(N)$ (Theorem ??).
 \end{itemize}
+We also show that the number of unique sink orientations of the $(n,n)$-grid
+is $\e^{ \Theta(n^2 \log n) }$ (Theorem ??).
 
 \subsection{Outline}
 
