@@ -130,19 +130,19 @@ Our results are:
     \item
         $\timeVertex(N) \in O(N \log N)$. (Theorem~\ref{theorem:Sink algorithm})
     \item
-        $\timeVertex(N) \ge N-1$ (Theorem \ref{thm:lowerbound}), and this is
-        optimal when $m = n \le 4$ (Theorem \ref{thm:smallGrids}).
+        $\timeVertex(N) \ge N-1$ (theorem \ref{thm:lowerbound}), and this is
+        optimal when $m = n \le 4$ (theorem \ref{thm:smallGrids}).
     \item
-        $\timeEdge(N) \in O(N ^ { \log_4(7) })$ (Theorem ??).
+        $\timeEdge(N) \in O(N ^ { \log_4(7) })$ (theorem ??).
     \item
-        $\timeEdge(N) \in \Omega(N)$ (Theorem ??).
+        $\timeEdge(N) \in \Omega(N)$ (theorem ??).
 \end{itemize}
 We also show that the number of unique sink orientations of the $(n,n)$-grid
-is $\e^{ \Theta(n^2 \log n) }$ (Theorem \ref{thm:asymptotics-USO-nn}).
+is $\e^{ \Theta(n^2 \log n) }$ (theorem \ref{thm:asymptotics-USO-nn}).
 
 \subsection{Outline}
 
-The rest of this paper is organized as follows. We start by defining terminology and basic properties of grids in Section \ref{section:grid_uso_properties}. Section \ref{section:the_sink_finding_algorithm} contains our main result which is stated as Theorem \ref{theorem:Sink algorithm}. In Section \ref{section:a_deterministic_lower_bound} we give a deterministic lower bound result and in Section \ref{section:counting_unique_sink_orientations} we count the number of unique sink orientations.
+The rest of this paper is organized as follows. We start by defining terminology and basic properties of grids in Section \ref{section:grid_uso_properties}. Section \ref{section:the_sink_finding_algorithm} contains our main result which is stated as theorem \ref{theorem:Sink algorithm}. In Section \ref{section:a_deterministic_lower_bound} we give a deterministic lower bound result and in Section \ref{section:counting_unique_sink_orientations} we count the number of unique sink orientations.
 
 \section{Grid USO properties}
 \label{section:grid_uso_properties}
@@ -312,7 +312,7 @@ Consider the following algorithmic approach to finding the sink of an ($n$,$n$)-
 Assume that we are able to find in $\mathcal{O}(n)$ time a $(\frac{n}{2}, \frac{n}{2})$-vertex $v$.
 We could then partition the grid into 4 equally sized square subgrids so that $v$ is the sink of one of the subgrids.
 The next step would be to find the sink of the subgrid opposite to the partition containing $v$ in the induced (2,2)-grid. 
-By Theorem \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} we could thereafter discard one subgrid out of consideration and possibly still find the sink of one subgrid. 
+By theorem \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} we could thereafter discard one subgrid out of consideration and possibly still find the sink of one subgrid.
 If one finds the sinks of the subgrids recursively, one would get the recursion
 \begin{align*}
  T(n) = 2T\left(\frac{n}{2}\right) + \mathcal{O}(n)
@@ -392,7 +392,7 @@ Otherwise, there is a vertex $w \in V'$ that is in the same column as $v^*$.
 
 \begin{proof}
  Assume without loss of generality that $m \geq n$. 
- We will partition $[m]$ into $n$ blocks, then apply Lemma \ref{lem:seed_lemma_for_square_matrices} on the induced orientation, and conclude using Theorem \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} that this  gives us the desired result. 
+ We will partition $[m]$ into $n$ blocks, then apply Lemma \ref{lem:seed_lemma_for_square_matrices} on the induced orientation, and conclude using theorem \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} that this  gives us the desired result.
  
   Let $\A$ be a partition of $[m]$ into $n$ blocks, each of size either $\left\lfloor \frac{m}{n} \right\rfloor$ or $\left\lceil \frac{m}{n} \right\rceil$. Let $\B = [n]$ and 
 consider the $\A$-$\B$-partition grid $H = K_\A\times K_\B$ and its induced orientation inherited from $G$. 
@@ -400,7 +400,7 @@ consider the $\A$-$\B$-partition grid $H = K_\A\times K_\B$ and its induced orie
  Note that in each vertex query of $H$ we need to find the sink of a $(|A|,1)$-grid for some $A\in \A$. 
  The total number of vertex queries of $G$ used is therefore $\mathcal{O}(\frac{m}{n}\cdot n) = \mathcal{O}(m)$ as asserted. 
  Since $v$ has at least $\frac{n}{4} - 1$ horizontal incoming edges in $H$, each of which is a $(|A|,1)$-grid in $G$ for some $A\in \A$, 
- by Theorem \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} $v$ has at least $$\left(\frac{n}{4} - 1\right)\cdot\left\lfloor \frac{m}{n} \right\rfloor + \left\lfloor \frac{m}{n} \right\rfloor - 1 \geq \frac{m}{8} - 1$$ incoming edges in $G$. 
+ by theorem \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} $v$ has at least $$\left(\frac{n}{4} - 1\right)\cdot\left\lfloor \frac{m}{n} \right\rfloor + \left\lfloor \frac{m}{n} \right\rfloor - 1 \geq \frac{m}{8} - 1$$ incoming edges in $G$.
  Vertex $v$ also has at least $\frac{n}{4} - 1 \geq \frac{n}{8} - 1$ incoming vertical edges which concludes the proof. 
 \end{proof}
 
@@ -497,7 +497,7 @@ Let $T(m, n)$ be the number of queries needed to find the sink of an $[m]\times[
 We can find recursively the sink $s$ of the $A_2\times B_2$-subgrid using $T(\frac{m}{2}, \frac{n}{2})$ vertex queries. 
 If neither $v$ nor $s$ is the sink of $G$ we proceed as follows.
 Since the orientation of the $\A$-$\B$-partition grid $H = K_\A \times K_\B$ induced by $G$ is a unique sink orientation by Lemma~\ref{lemma:USO-Lemma}, we can decide whether the sink of $G$ lies in the $A_1\times B_2$-grid or in the $A_2\times B_1$-grid after querying $v$ and $s$. Assume without loss of generality that it lies in the $A_1\times B_2$-grid.
-By finding recursively the sink of the $A_1\times B_2$-grid, we find the sink of $G$ by Theorem~\ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink}. In summary, the total number of queries requried to find the sink of $G$ is given by the following recurrence:
+By finding recursively the sink of the $A_1\times B_2$-grid, we find the sink of $G$ by theorem~\ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink}. In summary, the total number of queries requried to find the sink of $G$ is given by the following recurrence:
 $$T(m, n) = 2\cdot T\left(\frac{m}{2}, \frac{n}{2}\right) + O(n+m),$$
 which solves to $T(m, n) = O((n+m) \log (n+m))$ yielding our result.
 \end{proof}
@@ -531,15 +531,15 @@ By Lemma~\ref{lem:kx1} this requires at least $m$ vertex queries of which the al
 \end{proof}
 
 A unique sink orientation is called \emph{combed} in rows (columns) if the orientation of all the edges between the vertices of any two rows (columns) are the same. 
-A combed USO is combed either in the rows or in the columns. The unique sink orientation arising in the proof of Theorem~\ref{thm:lowerbound} is an example of a USO that is combed in the rows. 
-The next theorem shows that if one wants to improve the lower bound of Theorem~\ref{thm:lowerbound}, it is not sufficient to consider only combed USOs.
+A combed USO is combed either in the rows or in the columns. The unique sink orientation arising in the proof of theorem~\ref{thm:lowerbound} is an example of a USO that is combed in the rows.
+The next theorem shows that if one wants to improve the lower bound of theorem~\ref{thm:lowerbound}, it is not sufficient to consider only combed USOs.
 
 \begin{theorem}
  The sink of a combed $(m,n)$-grid USO can be found by using $n+m-1$ vertex queries.
 \end{theorem}
 
 \begin{proof}
- If we know that the grid is combed in rows or columns, then the same approach used by the adversary player in the proof of Theorem~\ref{thm:lowerbound} will work. 
+ If we know that the grid is combed in rows or columns, then the same approach used by the adversary player in the proof of theorem~\ref{thm:lowerbound} will work.
  If we don't know the direction of the combing, there is a strategy that will find the sink within the required number of steps: after querying a vertex, the next vertex to be checked is the one that is the furthest away from the current vertex within the subgrid that is spanned by the edges leaving the curent vertex. 
  
  This strategy works because no matter in which direction the USO is combed, at every step we discard  one or more of the irrelevant rows or columns. For example, if the USO is combed in rows, then in at most $n$ queries we will be at a vertex that has only horiontal outgoing edges. That is, we have found the row where the sink is in. In the next $m-1$ all queries will be in that row so that in the required number of queries we have found the sink.
