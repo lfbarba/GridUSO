@@ -10,6 +10,7 @@
 \usepackage{graphicx}
 \usepackage{subcaption}
 \usepackage{hyperref}
+\usepackage{xypic}
 
 \title{Grid USO algorithms}
 \author{Antonis Thomas \\ \small ETH Zürich \and
@@ -43,10 +44,12 @@
 \newcommand{\B}{\ensuremath{\mathcal B}}
 \newcommand{\s}[1]{\ensuremath{s_{\scriptscriptstyle#1}}}
 \newcommand{\USO}{\ensuremath{\mathrm{USO}}}
-\newcommand{\timeEdge}{\ensuremath{t_\mathrm{e}}}
-\newcommand{\timeVertex}{\ensuremath{t_\mathrm{v}}}
+\newcommand{\timeEdge}{\ensuremath{T_\mathrm{E}}}
+\newcommand{\timeVertex}{\ensuremath{T_\mathrm{V}}}
 \newcommand{\e}{\ensuremath{\mathrm{e}}}
 \newcommand{\RR}{\ensuremath{\mathbb{R}}}
+\newcommand{\Sym}{\ensuremath{\mathfrak{S}}}
+\newcommand{\Tr}{\ensuremath{\mathrm{Tr}}}
 
 \begin{document}
 
@@ -96,8 +99,8 @@ unique sink of $G$.
 
 \subsection{Summary of results}
 
-Given a unique sink orientation of the $(m,n)$-grid $G$, the algorithmic task
-is to find its sink. 
+Given a unique sink orientation of the grid $G = K_m \times K_n$, the
+algorithmic task is to find its sink.
 We consider two different settings:
 \begin{enumerate}[\quad (1)]
     \item
@@ -119,23 +122,23 @@ we pursue the following question:
     what is the minimum number of queries that the algorithm must ask in the
     worst case?
 \end{quote}
-We will denote this number by $\timeEdge(m,n)$ and
-$\timeVertex(m,n)$, respectively.
-Let furthermore $N = m + n$.
+We will denote this number by $\timeEdge(N)$ and
+$\timeVertex(N)$, respectively, where $N := m + n$.
 Our results are:
 
 \begin{itemize}
     \item
-        $\timeVertex(m,n) \in O(N \log N)$. (Theorem~\ref{theorem:Sink algorithm})
+        $\timeVertex(N) \in O(N \log N)$. (Theorem~\ref{theorem:Sink algorithm})
     \item
-        $\timeVertex(m,n) \ge m+n-1$ (Theorem \ref{thm:lowerbound}), and this is optimal for $(i,i)$-grids with $i = 2, 3, 4$. 
+        $\timeVertex(N) \ge N-1$ (Theorem \ref{thm:lowerbound}), and this is
+        optimal when $m = n \le 4$ (Theorem \ref{thm:smallGrids}).
     \item
-        $\timeEdge(m,n) \in O(N ^ { \log_4(7) })$ (Theorem ??).
+        $\timeEdge(N) \in O(N ^ { \log_4(7) })$ (Theorem ??).
     \item
-        $\timeEdge(m,n) \in \Omega(N)$ (Theorem ??).
+        $\timeEdge(N) \in \Omega(N)$ (Theorem ??).
 \end{itemize}
 We also show that the number of unique sink orientations of the $(n,n)$-grid
-is $\e^{ \Theta(n^2 \log n) }$ (Theorem ??).
+is $\e^{ \Theta(n^2 \log n) }$ (Theorem \ref{thm:asymptotics-USO-nn}).
 
 \subsection{Outline}
 
@@ -301,8 +304,8 @@ Therefore, $\s{G} = \s{A,B}$.
 \end{proof}
 
 
-
-\section{The sink-finding algorithm}
+\section{The vertex oracle model}
+\subsection{The sink-finding algorithm}
 \label{section:the_sink_finding_algorithm}
 
 Consider the following algorithmic approach to finding the sink of an ($n$,$n$)-grid USO deterministically. 
@@ -413,7 +416,7 @@ consider the $\A$-$\B$-partition grid $H = K_\A\times K_\B$ and its induced orie
 % 
 % The problem we are looking at is that of finding the global sink of a USO over $(K_n)^d$. The USO is given by an oracle that for any given vertex reveals the orientations of the edges adjacent to the vertex. The question is, what is the least number of these vertex queries needed to find the unique global sink? Just knowing its location is not sufficient, but we also require that the sink is evaluated. This requirement will prove useful when developing an algorithm.
 
-\subsection{Finding a $(\frac{n}{2}, \frac{n}{2})$-vertex}
+\subsubsection{Finding a $(\frac{n}{2}, \frac{n}{2})$-vertex}
 
 Given an $(a, b)$-vertex $v = (x_v, y_v)$ in an $[m]\times [n]$-grid USO, let $I_v\subseteq [m]$ be the set of indices such that  $I_v \times \{y_v\}$ is the set of all vertices with an outgoing horizontal edge to $v$ with $v$ included in this set. Analogously, $J_v\subseteq [n]$ is the set of indices such that $\{x_v\}\times J_v$ is the set of all vertices with an outgoing vertical edge to~$v$ (including $v$). Notice that $|I_v| = a$ while $|J_v| = b$.
 
@@ -499,7 +502,7 @@ $$T(m, n) = 2\cdot T\left(\frac{m}{2}, \frac{n}{2}\right) + O(n+m),$$
 which solves to $T(m, n) = O((n+m) \log (n+m))$ yielding our result.
 \end{proof}
  
-\section{A deterministic lower bound}
+\subsection{A deterministic lower bound}
 \label{section:a_deterministic_lower_bound}
 
 Given an $(m, n)$-grid USO $G$, we use the following adversarial argument to show a lower bound of $n + m -1$ on the number of vertex queries required to find the sink of $G$.
@@ -541,6 +544,274 @@ The next theorem shows that if one wants to improve the lower bound of Theorem~\
  
  This strategy works because no matter in which direction the USO is combed, at every step we discard  one or more of the irrelevant rows or columns. For example, if the USO is combed in rows, then in at most $n$ queries we will be at a vertex that has only horiontal outgoing edges. That is, we have found the row where the sink is in. In the next $m-1$ all queries will be in that row so that in the required number of queries we have found the sink.
 \end{proof}
+
+
+\subsection{Optimality of the lower bound for small grids}
+
+We now write $\timeVertex(m,n)$ for the minimum number of queries that a
+deterministic algorithm must ask in the worst case to find and query the sink
+in a grid $G = K_m \times K_n$.
+Here we analyze some small cases:
+\begin{theorem}
+    \label{thm:smallGrids}
+    Let $n \le 4$. Then $\timeVertex(n,n) = 2n-1$.
+\end{theorem}
+Thus we will find that for the cases covered by the theorem, the lower bound
+in theorem \ref{thm:lowerbound} is tight.
+
+We omit the proofs for the cases $n = 1,2,3$. Namely,
+\begin{itemize}
+    \item
+        if $n \le 2$ then the graph $G = K_n \times K_n$ coincides with the
+        ``$n$-cube'', already discussed to large extents in the USO
+        literature;
+    \item
+        and if $n = 3$ then the proof is similar to the case $n=4$, but much
+        simpler.
+\end{itemize}
+The rest of this subsection will thus be concerned with the following
+proposition, whose proof will settle theorem \ref{thm:smallGrids}.
+
+\begin{prop}
+    \label{prop:4:7}
+    There is a deterministic algorithm which queries the sink in a
+    $(4,4)$-grid USO and which uses at most 7 vertex queries.
+\end{prop}
+
+For the description of the algorithm we introduce some terminology:
+An edge of the grid has been \emph{discovered} if an incident vertex has been
+queried.
+At any step of the algorithm, a vertex of the grid can be either \emph{alive}
+or \emph{dead}.
+These adjectives obey the following rules:
+\begin{itemize}
+    \item
+        In the very beginning, every vertex is alive; and in the very end, the
+        sink is the only vertex that is still alive.
+
+    \item
+        A vertex changes its state at most once.
+        In other words, a vertex can die, but it cannot come to life again.
+\end{itemize}
+We begin by stipulating two obvious conditions under which we let a vertex die:
+\begin{enumerate}
+    \item
+        An edge $u \to v$ is discovered. At this moment the vertex $u$ dies.
+
+    \item
+        The sink is queried. If at this moment there are still any other
+        vertices alive, they die instantly.
+\end{enumerate}
+
+\begin{lemma}
+    Let $(i,j)$ and $(k,l)$ be vertices of the grid that have already been
+    queried, $i \neq k$, $j \neq l$.
+    Then among the two vertices $(i,l)$ and $(k,j)$, at least one is dead.
+
+    \label{lem:rectangle}
+\end{lemma}
+
+\begin{proof}
+    The four vertices $(i,j)$, $(k,j)$, $(k,l)$, $(i,l)$ form a subgrid, a
+    rectangle.
+    The four edges of this rectangle have been discovered, and the rectangle
+    contains a unique sink: hence, according to condition 1, at least three
+    corners of the rectangle have died.
+\end{proof}
+
+\begin{lemma}
+    \label{lem:kill}
+    Let $i \neq k$, $j \neq l$.
+    Assume that
+    \begin{itemize}
+        \item the vertex $(i,j)$ has been queried,
+        \item the vertex $(k,l)$ has died \emph{from condition 1}.
+    \end{itemize}
+    Then for one of the two vertices $(i,l)$ and $(k,j)$ it is already known
+    that it cannot be the sink: and thus our algorithm is allowed to ``kill''
+    this vertex, unless it has already died before.
+\end{lemma}
+
+\begin{proof}
+    By lemma \ref{lem:rectangle} we can assume that $(k,l)$ has not been
+    queried.
+    Now assume furthermore that neither $(i,l)$ nor $(k,j)$ is dead.
+
+    Then we have already discovered the edges $(i,j) \to (i,l)$ and $(i,j) \to
+    (k,j)$.
+    Since $(k,l)$ has died from condition 1, there must be a discovered edge
+    $(k,l) \to u$ for some incident vertex $u$.
+    We will assume without loss of generality that $u$ lies in the same row as
+    $(k,l)$, and also that $u \neq (k,j)$:
+    \begin{align*}
+        \xymatrix{
+            (i,j) \ar[d] \ar[r] & (i,l)
+            \\
+            (k,j) & (k,l) \ar[r] & u
+        }
+    \end{align*}
+    We have assumed that $(k,l)$ has not been queried; then $u$ must have been
+    queried so as to discover the edge $(k,l) \to u$.
+    Hence, $u \to (k,j)$, for otherwise $(k,j)$ would already have died.
+    This implies $(k,l) \to (k,j)$ due to acyclicity (cf.~lemma
+    \ref{lemma:acyclicity_lemma}).
+    But then $(k,j)$ is the unique sink of the subgrid
+    $\{i,k\} \times \{j,l\}$,
+    and thus $(i,l)$ cannot be a sink.
+\end{proof}
+
+\begin{lemma}
+    \label{lem:diag10}
+    If the four vertices on the diagonal of the $(4,4)$-grid have already
+    been queried, then at least 10 vertices have died.
+\end{lemma}
+
+\begin{proof}
+    Follows from lemma \ref{lem:rectangle}.
+\end{proof}
+
+Motivated by lemma \ref{lem:diag10}, our algorithm will start out by querying
+the four vertices on the diagonal.
+Having done this, let us characterize the resulting situation by putting some
+labels on the vertices of the grid:
+\begin{itemize}
+    \item
+        The four vertices of the diagonal we label by ``$0$'', so that we
+        remember that we have already queried them.
+    \item
+        The further 6 dead vertices from lemma \ref{lem:diag10} we label
+        ``$+$''.
+    \item
+        If we put a ``$+$'' on vertex $(i,j)$, then we put a ``$-$'' on vertex
+        $(j,i)$, be it dead or alive.
+\end{itemize}
+A grid thus labelled can e.\,g.~look like so:
+\begin{align*}
+    \begin{pmatrix}
+        0 & - & - & +
+        \\
+        + & 0 & - & -
+        \\
+        + & + & 0 & -
+        \\
+        - & + & + & 0
+    \end{pmatrix}
+\end{align*}
+Every such labelling is nothing but an antisymmetric $4 \times 4$-matrix with
+entries in $\{0,+,-\}$, and with no zero entries except on the diagonal.
+Let $X$ be the set of such matrices: we have $|X| = 2^6$.
+Since we are not very keen on discussing each of these cases individually, we
+will use the symmetry of the situation:
+
+Let $G$ be the group $\Sym_2 \times \Sym_4$ and denote the generator of
+$\Sym_2$ by $\tau$.
+Let $G$ act on $X$ by
+\begin{align*}
+    (\tau,M) ~&\mapsto~ M^\Tr   && (M \in X),
+    \\
+    (\sigma,M) ~&\mapsto~ P_\sigma \, M \, P_\sigma^\Tr
+            && (\sigma \in \Sym_4,~ M \in X).
+\end{align*}
+Here $P_\sigma$ denotes, for a permutation $\sigma \in \Sym_4$, the
+permutation matrix determined by $P_\sigma e_i = e_{\sigma(i)}$, $i \in
+\{1,2,3,4\}$.
+Whenever two matrices are in the same orbit, they describe analogous cases for
+our proof.
+A quick computer search reveals that a system of representatives for our group
+action is given by
+\begin{align*}
+    A =
+        \begin{pmatrix}
+            0 & - & - & -
+            \\
+            + & 0 & - & -
+            \\
+            + & + & 0 & -
+            \\
+            + & + & + & 0
+        \end{pmatrix},
+    \qquad
+    B =
+        \begin{pmatrix}
+            0 & - & - & +
+            \\
+            + & 0 & - & -
+            \\
+            + & + & 0 & -
+            \\
+            - & + & + & 0
+        \end{pmatrix},
+    \qquad
+    C =
+        \begin{pmatrix}
+            0 & - & - & -
+            \\
+            + & 0 & - & +
+            \\
+            + & + & 0 & -
+            \\
+            + & - & + & 0
+        \end{pmatrix}.
+\end{align*}
+
+The theorem now follows from the
+\begin{lemma}
+    In each of the cases $A$, $B$, $C$ listed above, we can query the sink
+    using at most another three vertex queries.
+\end{lemma}
+
+\begin{proof}[Proof of case $A$]
+    The next (fifth) vertex that we query is the one in the upper right
+    corner, $(1,4)$.
+    By lemma \ref{lem:kill} we can now ``kill'' at least one vertex from
+    the set $\{ (1,2), (3,4) \}$.
+    Furthermore, by lemma \ref{lem:rectangle}, at least one vertex each from
+    the following sets is dead: $\{ (1,2), (2,4) \}$
+    and $\{ (1,3), (3,4) \}$.
+    This leaves us with one of the following situations, where the ``$=$''
+    marks the vertices that we have just recognized to be dead:
+    \begin{align*}
+        \begin{pmatrix}
+            0 & = & = & 0
+            \\
+            + & 0 & - & -
+            \\
+            + & + & 0 & -
+            \\
+            + & + & + & 0
+        \end{pmatrix},
+        \quad
+        \begin{pmatrix}
+            0 & = & - & 0
+            \\
+            + & 0 & - & -
+            \\
+            + & + & 0 & =
+            \\
+            + & + & + & 0
+        \end{pmatrix},
+        \quad
+        \begin{pmatrix}
+            0 & - & - & 0
+            \\
+            + & 0 & - & =
+            \\
+            + & + & 0 & =
+            \\
+            + & + & + & 0
+        \end{pmatrix}.
+    \end{align*}
+    In every case the vertices which are still alive (which we know to be a
+    subset of the vertices marked ``--'') are contained in a
+    square, one corner of which has already been queried.
+    By lemma \ref{lem:rectangle} the sink of the square can be queried using
+    at most two further queries, for a total of seven vertex queries.
+    ---
+    We omit the proof for case $B$ and case $C$; in each case we proceed in a
+    similar fashion.
+\end{proof}
+
+\section{The edge query model}
 
 \section{Counting grid USOs}
 \label{section:counting_unique_sink_orientations}
@@ -607,7 +878,7 @@ We analyze the asymptotic behaviour of these bounds for square grids, where
 $m=n$.
 
 \begin{lemma}
-    \label{lem:asymptotics-USO-mn}
+    \label{lem:asymptotics-USO-nn}
     The following asymptotic equivalences hold.
     \[
         n!^{n+1} ~\sim~
@@ -649,6 +920,15 @@ $m=n$.
     as $n \to \infty$.
 \end{proof}
 
+One can summarize corollary \ref{cor:num-USO-mn} and lemma
+\ref{lem:asymptotics-USO-nn} as in the following theorem.
+
+\begin{theorem}
+    \label{thm:asymptotics-USO-nn}
+    The number of unique sink orientations of the square grid $K_n \times K_n$
+    is $\e ^ { \Theta(n^2 \log n) }$.
+\end{theorem}
+
 \begin{conjecture}
     For some constant $c > 0$,
     \[
@@ -658,7 +938,7 @@ $m=n$.
 
 \noindent
 If the conjecture is true then we know from corollary \ref{cor:num-USO-mn} and
-lemma \ref{lem:asymptotics-USO-mn} that the constant satisifies $1 \le c \le
+lemma \ref{lem:asymptotics-USO-nn} that the constant satisifies $1 \le c \le
 2$; but we are not sure at this point what its exact value might be.
 
 Meanwhile we can have a look at the asymptotics of $\#\USO(k,n)$ when $k$ is
