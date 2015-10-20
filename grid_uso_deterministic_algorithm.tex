@@ -50,6 +50,7 @@
 \newcommand{\RR}{\ensuremath{\mathbb{R}}}
 \newcommand{\Sym}{\ensuremath{\mathfrak{S}}}
 \newcommand{\Tr}{\ensuremath{\mathrm{Tr}}}
+\newcommand{\sink}{\ensuremath{\mathrm{sink}}}
 
 \begin{document}
 
@@ -828,7 +829,69 @@ The theorem now follows from the
 
 \section{The edge oracle model}
 
+In this section we study an easier data model, so as to expand the potential
+applications of our investigations.
+In the \emph{edge oracle model} considered here, the algorithm accesses the
+grid $G = K_m \times K_n$ by means of an \emph{edge oracle} which can tell us
+the orientation of any given edge.
+Recall that we write $\timeEdge(N)$ for the required number of edge queries,
+$N = m+n$.
 
+By an adversary argument similar to the one used for theorem
+\ref{thm:lowerbound},
+\[
+    \timeEdge(N) \in \Omega(N).
+\]
+On the other hand, a vertex query can clearly be simulated using $O(N)$ edge
+queries, so that we have $\timeEdge(N) \in O(N^2 \log N)$ as an immediate
+corollary of theorem \ref{theorem:Sink algorithm}.
+But we can improve on that:
+
+\begin{theorem}
+    \[
+        \timeEdge(N) \in O(N ^ {\log_4(7)}),~ \log_4(7) \approx 1.40.
+    \]
+\end{theorem}
+
+\begin{proof}
+    We describe a sink-finding algorithm which uses
+    $T(N) \in O(N ^ {\log_4(7)})$ edge queries.
+
+    Given the grid $G = K_m \times K_n$, let $A \subseteq 2 ^ {[m]}$ and
+    $B \subseteq 2 ^ {[n]}$ be partitions of the index sets such that
+    $|A| = |B| = 4$, $|a| \le \frac{m}{4}+1$ for all $a \in A$, and $|b| \le
+    \frac{n}{4} + 1$ for all $b \in B$.
+
+    Consider the induced unique sink orientation on the grid
+    $H = K_A \times K_B$, and let $v$ be a vertex of $H$.
+    We claim that we can find out the orientations of the edges adjacent to
+    $v$ (thus simulating a vertex query on $H$)
+    and at the same time determine the sink of $G(v)$ using
+    $T(\frac{n}{4}) + O(n)$ edge queries.
+    Then, using theorem \ref{thm:smallGrids} to tell us \emph{which} vertex
+    queries to simulate, we will have found $\sink(H)$ as well as
+    $\sink(G) = \sink(G(\sink(H)))$ (cf.~theorem
+    \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink})
+    after at most
+    \[
+        T(N) \le 7 \cdot \left( T \left( \frac{N}{4} \right) + O(N) \right)
+    \]
+    edge queries, and the theorem follows by the ``master theorem'' applied to
+    this recurrence.
+
+    Finally, to see why the claim is true, first observe that we can find the
+    sink $s = (s_1,s_2)$ of $G(v)$ using a recursive call on the subgrid
+    $G(v)$, which explains the term $T \left( \frac{n}{4} \right)$.
+    Afterwards we can indeed find out the orientations of the six edges
+    adjacent to $v$ by querying the edges in the set
+    \[
+        \bigl\{~ \{ s,(s_1,y) \} ~:~ y \notin s_2 ~\bigr\}
+        ~\cup~
+        \bigl\{~ \{ s,(x,s_2) \} ~:~ x \notin s_1 ~\bigr\};
+    \]
+    this is only a linear number of edges, so they account for the $O(N)$
+    term in the claim.
+\end{proof}
 
 \section{Counting grid USOs}
 \label{section:counting_unique_sink_orientations}
