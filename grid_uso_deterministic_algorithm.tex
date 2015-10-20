@@ -215,6 +215,9 @@ A useful property of grids is that one can test whether an orientation is a uniq
 \end{proof}
 
 We define a partial order of vertices in a grid unique sink orientation $G$ as follows. 
+\MM{This is not a partial order: it is not transitive. You'll want to decide
+    whether you want the transitive closure or not, and stick to one
+    definition.}
 For any two vertices $v,w \in G$ consider the smallest subgrid containing both $v$ and $w$. 
 We say that $w \succeq v$ if there is a path from $w$ to $v$ in this subgrid. 
 Because by Lemma \ref{lemma:acyclicity_lemma} grid USOs are acyclic, this defines a partial order on the vertices. 
@@ -223,6 +226,8 @@ The sink of the grid is the unique minimal vertex with respect to this ordering.
 Note that two vertices may not be $\succeq$-comparable in the smallest subgrid containing them. 
 There could still be a path between the two vertices. 
 Thus\JN{after the transitive closure they might still be incomparable}, we consider the transitive closure of this relation and say that a vertex $w$ is \emph{larger} than $v$ (or $v$ is smaller than $w$) if there is a sequence $w = v_1, v_2, \ldots, v_k = v$ of $G$ such that $v_i \succeq v_{i+1}$, for each $1\leq i\leq k-1$.
+
+\MM{Shouldn't all this be moved to section \ref{section:the_sink_finding_algorithm}?}
 
 In a grid USO $G$, the \emph{\indegree} of a vertex $v \in G$ is an ordered pair $[a_v, b_v] \in \{0,1,\ldots,|X|-1\}\times \{0,1,\ldots,|Y|-1\}$ where $a_v$ and $b_v$ specify the number of incoming horizontal  and vertical edges of $v$, respectively.
 We say that a vertex $v$ with \indegree $[a_v, b_v]$ is a \emph{$(k, t)$-vertex} if $a_v\geq k-1$ while $b_v\geq t-1$.
@@ -375,6 +380,9 @@ Otherwise, there is a vertex $w \in V'$ that is in the same column as $v^*$.
    
    Because $v$ is a minimal vertex in $V'$, either $w\succeq v$, or $v$ and $w$ are incomparable. 
    To show that there is an edge from $w$ to $v^*$ we study these two cases: 
+   \MM{If I'm following this correctly, then the case distinction is
+   unnecessary. An edge $v^* \to w$ would immediately contradict $v
+   \not\succeq w$.}
    If $w \succeq v$, then because $v \succeq v^*$ we have due to transitivity that $w \succeq v^*$. 
   Otherwise, $w$ and $v$ are incomparable. In this case, since $v^*$ is smaller than $v$, we know that the edge connecting $v$ and $v^*$ is  oriented towards $v^*$. 
   Therefore, the only possibility for $v$ and $w$ to be incomparable is that there is an edge from $w$ to $v^*$. 
