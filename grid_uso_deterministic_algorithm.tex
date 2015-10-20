@@ -856,18 +856,21 @@ But we can improve on that:
 \begin{proof}
     We describe a sink-finding algorithm which uses
     $T(N) \in O(N ^ {\log_4(7)})$ edge queries.
+    Without loss of generality we will assume that $m$ is a power of $4$, and
+    $m=n$ (otherwise we can use an embedding argument).
 
-    Given the grid $G = K_m \times K_n$, let $A \subseteq 2 ^ {[m]}$ and
-    $B \subseteq 2 ^ {[n]}$ be partitions of the index sets such that
-    $|A| = |B| = 4$, $|a| \le \frac{m}{4}+1$ for all $a \in A$, and $|b| \le
-    \frac{n}{4} + 1$ for all $b \in B$.
-
+    Given the grid $G = K_m \times K_m$, let $A \subseteq 2 ^ {[m]}$
+    be a partition of the index set such that
+    $|A| = 4$ and $|a| \le \frac{m}{4}$ for all $a \in A$.
     Consider the induced unique sink orientation on the grid
-    $H = K_A \times K_B$, and let $v$ be a vertex of $H$.
+    $H = K_A \times K_A$, and let $v$ be a vertex of $H$.
     We claim that we can find out the orientations of the edges adjacent to
     $v$ (thus simulating a vertex query on $H$)
     and at the same time determine the sink of $G(v)$ using
-    $T(\frac{n}{4}) + O(n)$ edge queries.
+    \[
+        T \left( \frac{N}{4} \right) + O(N)
+    \]
+    edge queries.
     Then, using theorem \ref{thm:smallGrids} to tell us \emph{which} vertex
     queries to simulate, we will have found $\sink(H)$ as well as
     $\sink(G) = \sink(G(\sink(H)))$ (cf.~theorem
@@ -881,7 +884,7 @@ But we can improve on that:
 
     Finally, to see why the claim is true, first observe that we can find the
     sink $s = (s_1,s_2)$ of $G(v)$ using a recursive call on the subgrid
-    $G(v)$, which explains the term $T \left( \frac{n}{4} \right)$.
+    $G(v)$, which explains the term $T(N/4)$.
     Afterwards we can indeed find out the orientations of the six edges
     adjacent to $v$ by querying the edges in the set
     \[
