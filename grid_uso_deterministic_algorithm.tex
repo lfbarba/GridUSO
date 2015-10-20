@@ -685,17 +685,10 @@ We begin by stipulating two obvious conditions under which we let a vertex die:
     and thus $(i,l)$ cannot be a sink.
 \end{proof}
 
-\begin{lemma}
-    \label{lem:diag10}
-    If the four vertices on the diagonal of the $(4,4)$-grid have already
-    been queried, then at least 10 vertices have died.
-\end{lemma}
-
-\begin{proof}
-    Follows from lemma \ref{lem:rectangle}.
-\end{proof}
-
-Motivated by lemma \ref{lem:diag10}, our algorithm will start out by querying
+As a consequence of lemma \ref{lem:rectangle} we can observe that,
+if the four vertices on the diagonal of the $(4,4)$-grid have already
+been queried, then at least 10 vertices have died.
+Motivated by this observation, our algorithm will start out by querying
 the four vertices on the diagonal.
 Having done this, let us characterize the resulting situation by putting some
 labels on the vertices of the grid:
@@ -704,7 +697,7 @@ labels on the vertices of the grid:
         The four vertices of the diagonal we label by ``$0$'', so that we
         remember that we have already queried them.
     \item
-        The further 6 dead vertices from lemma \ref{lem:diag10} we label
+        The 6 vertices that died according to lemma \ref{lem:rectangle} we label
         ``$+$''.
     \item
         If we put a ``$+$'' on vertex $(i,j)$, then we put a ``$-$'' on vertex
@@ -1052,27 +1045,7 @@ fixed.
 \end{prop}
 
 \begin{proof}
-    We analyze again the bounds of corollary \ref{cor:num-USO-mn},
-    \[
-        k! n!^k ~\le~ \#\USO(k,n) ~\le~ k!^n n!^k.
-    \]
-    The lower bound is, by Stirling's formula, asymptotically equivalent to
-    \[
-        k! \sqrt{2 \pi n} ^ k \left( \frac{n}{e} \right)^{kn}
-        ~=~
-        \exp \left[
-            kn \ln \frac{n}{e} ~+~ \ln (k!) ~+~ \frac{k}{2} \ln {2 \pi n}
-        \right];
-    \]
-    and for the upper bound we find the expression
-    \[
-        k! ^ n \sqrt{2 \pi n} ^ k \left( \frac{n}{e} \right) ^ {kn}
-        ~=~
-        \exp \left[
-            k n \ln \frac{n}{e} ~+~ \ln (k!) \cdot n ~+~ \frac{k}{2} \ln 2 \pi n
-        \right].
-    \]
-    The proposition now follows.
+    Follows from corollary \ref{cor:num-USO-mn} and Stirling's formula.
 \end{proof}
 
 \bibliographystyle{unsrtnat}
