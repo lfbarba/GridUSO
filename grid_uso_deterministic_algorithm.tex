@@ -505,14 +505,27 @@ which solves to $T(m, n) = O((n+m) \log (n+m))$ yielding our result.
 \subsection{A deterministic lower bound}
 \label{section:a_deterministic_lower_bound}
 
-Given an $(m, n)$-grid USO $G$, we use the following adversarial argument to show a lower bound of $n + m -1$ on the number of vertex queries required to find the sink of $G$.
-We begin with a simple argument to lower bound the number of vertex queries to find the sink of a single row of $G$.
+We give a linear lower bound on the number of vertex queries required to find
+the sink of an $(m,n)$-grid USO.
+More precisely, we will see that
+\[
+    \timeVertex(N) \ge N-1
+\]
+where, as before, $N = m+n$.
+
+We begin with the case $n=1$, where the grid consists of a single row:
 
 \begin{lemma}\label{lem:kx1}
-Every deterministic algorithm needs $m$ queries to find the sink of a $(m,1)$-grid USO. 
+Every deterministic algorithm needs $m$ queries to find the sink of an $(m,1)$-grid USO.
 \end{lemma}
 \begin{proof}
-Let $v_i$ denote the vertex evaluated at the $i$-th query by any sink-finding algorithm, for $i=1,\ldots, m$. At evaluation of $v_1$ we answer with the source. Then, at every vertex 
+    The proof proceeds by an adversary argument.
+    We thus consider a game played between the algorithm (who successively
+    queries vertices) and the adversary (who answers the queries),
+    and we claim that the adversary has a strategy which allows him to enforce
+    that the algorithm does not query the sink before the $m$th query.
+
+Let $v_i$ denote the vertex evaluated at the $i$-th query, for $i=1,\ldots, m$. At evaluation of $v_1$ we answer with the source. Then, at every vertex
 we answer with all edges that are not yet defined to be outgoing. Then, $v_i$ has $i-1$ incoming edges, already evaluated from the previous evaluations. 
 Therefore, $v_i$ has $m-i$ outgoing edges. At the $(m-1)$-th iteration the vertex $v_{m-1}$ will have one outgoing edge which will point to $v_m$.
 The algorithm then needs to also evaluate $v_m$ (which will be the sink) for a total of $m$ queries. 
@@ -522,7 +535,9 @@ The algorithm then needs to also evaluate $v_m$ (which will be the sink) for a t
 Every deterministic algorithm needs at least $m+n-1$ queries to find the sink of a $(m,n)$-grid USO. 
 \end{theorem}
 \begin{proof}
-Let $A$ be an optimal sink-finding algorithm. We say that $A$ \emph{explores} a row of $G$ whenever it queries a vertex in this row for the first time.
+    This proof again proceeds by an adversary argument.
+
+Let $A$ be a sink-finding algorithm. We say that $A$ \emph{explores} a row of $G$ whenever it queries a vertex in this row for the first time.
 Each time $A$ explores an unexplored row, we label this row with the smallest unused label from the set $\{1, \ldots, n\}$. Moreover, we assign an arbitrary order to the vertices in this row and reveal any queried horizontal edge in this row according to this order. For the vertical edges between explored rows, we simply follow the rule that a vertex in the row labeled $i$ is always smaller than any vertex in the row labeled $j$, for any $i > j$. Additionally, a vertex in a labeled row is always larger than any vertex in an unexplored row. In other words, we determine a lexicographical total order on the vertices of the gird. One can think of each vertex in an explored row as having two coordinates: the first being the label of its row, and the second the rank of this vertex in its row.
 Since this defines a total order on the vertices of $G$, the revealed edges are always consistent with a unique sink orientation.
 
@@ -811,7 +826,9 @@ The theorem now follows from the
     similar fashion.
 \end{proof}
 
-\section{The edge query model}
+\section{The edge oracle model}
+
+
 
 \section{Counting grid USOs}
 \label{section:counting_unique_sink_orientations}
