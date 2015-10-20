@@ -129,21 +129,28 @@ Our results are:
 
 \begin{itemize}
     \item
-        $\timeVertex(N) \in O(N \log N)$. (Theorem~\ref{theorem:Sink algorithm})
+        $\timeVertex(N) \in O(N \log N)$ (theorem~\ref{theorem:Sink algorithm}).
     \item
-        $\timeVertex(N) \ge N-1$ (theorem \ref{thm:lowerbound}), and this is
-        optimal when $m = n \le 4$ (theorem \ref{thm:smallGrids}).
+        $\timeVertex(N) \ge N-1$ (theorem \ref{thm:lowerbound}), and this
+        inequality becomes an equality when $m = n \le 4$
+        (theorem \ref{thm:smallGrids}).
     \item
-        $\timeEdge(N) \in O(N ^ { \log_4(7) })$ (theorem ??).
-    \item
-        $\timeEdge(N) \in \Omega(N)$ (theorem ??).
+        $\timeEdge(N) \in O(N ^ { \log_4(7) })$ (theorem \ref{thm:timeEdge}),
+        and $\timeEdge(N) \in \Omega(N)$.
 \end{itemize}
-We also show that the number of unique sink orientations of the $(n,n)$-grid
+We also show that the number of unique sink orientations of $K_n \times K_n$
 is $\e^{ \Theta(n^2 \log n) }$ (theorem \ref{thm:asymptotics-USO-nn}).
 
 \subsection{Outline}
 
-The rest of this paper is organized as follows. We start by defining terminology and basic properties of grids in Section \ref{section:grid_uso_properties}. Section \ref{section:the_sink_finding_algorithm} contains our main result which is stated as theorem \ref{theorem:Sink algorithm}. In Section \ref{section:a_deterministic_lower_bound} we give a deterministic lower bound result and in Section \ref{section:counting_unique_sink_orientations} we count the number of unique sink orientations.
+The rest of this paper is organized as follows.
+We start by defining terminology and basic properties of grids in Section \ref{section:grid_uso_properties}.
+Section \ref{section:The vertex oracle model} assumes the vertex oracle model;
+it contains our main result (theorem \ref{theorem:Sink algorithm})
+as well as our lower bound.
+Section \ref{section:The edge oracle model}, on the other hand, assumes the
+edge oracle model.
+In Section \ref{section:counting_unique_sink_orientations} we count the number of unique sink orientations.
 
 \section{Grid USO properties}
 \label{section:grid_uso_properties}
@@ -306,6 +313,8 @@ Therefore, $\s{G} = \s{A,B}$.
 
 
 \section{The vertex oracle model}
+\label{section:The vertex oracle model}
+
 \subsection{The sink-finding algorithm}
 \label{section:the_sink_finding_algorithm}
 
@@ -828,6 +837,7 @@ The theorem now follows from the
 \end{proof}
 
 \section{The edge oracle model}
+\label{section:The edge oracle model}
 
 In this section we study an easier data model, so as to expand the potential
 applications of our investigations.
@@ -848,6 +858,7 @@ corollary of theorem \ref{theorem:Sink algorithm}.
 But we can improve on that:
 
 \begin{theorem}
+    \label{thm:timeEdge}
     \[
         \timeEdge(N) \in O(N ^ {\log_4(7)}),~ \log_4(7) \approx 1.40.
     \]
