@@ -1,30 +1,27 @@
-\documentclass[a4paper,10pt]{article}
+\documentclass[runningheads,a4paper]{llncs}
 \usepackage[utf8]{inputenc}
-%\usepackage{../outlines_pkg/outlines}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{amsthm}
 \usepackage{enumerate}
-\usepackage[square,sort,numbers]{natbib}
 \usepackage{xspace}
 \usepackage{graphicx}
 \usepackage{subcaption}
 \usepackage{hyperref}
 \usepackage{xypic}
 
-\title{Grid USO algorithms}
-\author{Antonis Thomas \\ \small ETH Zürich \and
-        Jerri Nummenpalo \\ \small ETH Zürich \and
-        Luis Barba \\ \small ULB / Carleton University \and
-        Malte Milatz \\ \small ETH Zürich}
+%\title{Grid USO algorithms}
+%\author{Antonis Thomas \\ \small ETH Zürich \and
+   %     Jerri Nummenpalo \\ \small ETH Zürich \and
+   %     Luis Barba \\ \small ULB / Carleton University \and
+   %     Malte Milatz \\ \small ETH Zürich}
 
 \newtheorem{observation}{Observation}
-\newtheorem{lemma}{Lemma}
-\newtheorem{definition}{Definition}
-\newtheorem{corollary}{Corollary}
-\newtheorem{theorem}{Theorem}
-\newtheorem{prop}{Proposition}
-\newtheorem{conjecture}{Conjecture}
+%\newtheorem{lemma}{Lemma}
+%\newtheorem{definition}{Definition}
+%\newtheorem{corollary}{Corollary}
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{prop}{Proposition}
+%\newtheorem{conjecture}{Conjecture}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Setup margin comments. If you want to ignore them, then comment the other part out.
@@ -54,16 +51,54 @@
 
 \begin{document}
 
-\maketitle 
+\mainmatter  % start of an individual contribution
+
+% first the title is needed
+\title{Algorithms for Grid Unique sink orientations}
+
+% a short form should be given in case it is too long for the running head
+%\titlerunning{}
+
+% the name(s) of the author(s) follow(s) next
+%
+% NB: Chinese authors should write their first names(s) in front of
+% their surnames. This ensures that the names appear correctly in
+% the running heads and the author index.
+%
+\author{Luis Barba\thanks{Possible thanks to someone.}\inst{1} \and Malte Milatz\inst{2} \and Jerri Nummenpalo\inst{2} \and Antonis Thomas\inst{2}}%
+
+%
+\authorrunning{Grid USO algorithms}
+% (feature abused for this document to repeat the title also on left hand pages)
+
+% the affiliations are given next; don't give your e-mail address
+% unless you accept that it will be published
+\institute{Luis' affiliations \url{possible_url} 
+\and
+ETH Z{\"u}rich, Department of Computer Science \\
+CH-8092 Z{\"u}rich, Switzerland
+}
+
+%
+% NB: a more complex sample for affiliations and the mapping to the
+% corresponding authors can be found in the file "llncs.dem"
+% (search for the string "\mainmatter" where a contribution starts).
+% "llncs.dem" accompanies the document class "llncs.cls".
+%
+
+%\toctitle{Lecture Notes in Computer Science}
+%\tocauthor{Authors' Instructions}
+\maketitle
 
 \begin{abstract}
-    \noindent
+\noindent
     We study unique sink orientations (USOs) of \emph{grids}, which for us are
     Cartesian products of two complete graphs.
     We show that the sink in a grid USO can be found deterministically using
     $O(N \log N)$ vertex queries, or using $O(N^{\log_4 7})$ edge queries.
     On the other hand we argue that a linear number of queries is necessary.
     Furthermore we analyze the number of grid USOs.
+    \keywords{Unique sink orientation}
 \end{abstract}
 
 \section{Introduction}
@@ -205,13 +240,16 @@ We will start by stating certain basic properties of grid USOs.
 
 A useful property of grids is that one can test whether an orientation is a unique sink orientation by only looking at small subgrids as stated by the next proposition.
 
-\begin{prop}
+\begin{proposition}
 \label{prop:subgrid_uso_check}
  An orientation of a grid is a unique sink orientation if and only if it is acyclic and every $(2, 2)$-subgrid is a unique sink orientation.
-\end{prop}
+\end{proposition}
 
 \begin{proof}
- One direction is evident: If a grid orientation is a unique sink orientation, then every $(2,2)$-subgrid is also a unique sink orientation and by Lemma \ref{lemma:acyclicity_lemma} the orientation is acyclic. For the other direction note that every $(1,k)$-subgrid and $(k,1)$-subgrid is a unique sink orientation due to acyclicity. Having two sinks in any other subgrid would mean that the smallest subgrid containing them was a $(2,2)$-subgrid. But this subgrid would then not have a unique sink orientation which is a contradiction. Therefore no subgrid has more than one sink. Acyclicity proves the existence of one sink in each subgrid and the statement follows.
+ One direction is evident: If a grid orientation is a unique sink orientation, then every $(2,2)$-subgrid is also a unique sink orientation and by Lemma \ref{lemma:acyclicity_lemma} the orientation is acyclic. 
+ For the other direction note that every $(1,k)$-subgrid and $(k,1)$-subgrid is a unique sink orientation due to acyclicity. 
+ If there were two sinks in any other subgrid, then we could find a $(2,2)$-subgrid that was not a unique sink orientation which would contradict the assumption.
+ Acyclicity proves the existence of one sink in each subgrid and the statement follows. \qed
 \end{proof}
 
 We define a partial order of vertices in a grid unique sink orientation $G$ as follows. 
@@ -605,11 +643,11 @@ We omit the proofs for the cases $n = 1,2,3$. Namely,
 The rest of this subsection will thus be concerned with the following
 proposition, whose proof will settle theorem \ref{thm:smallGrids}.
 
-\begin{prop}
+\begin{proposition}
     \label{prop:4:7}
     There is a deterministic algorithm which queries the sink in a
     $(4,4)$-grid USO and which uses at most 7 vertex queries.
-\end{prop}
+\end{proposition}
 
 For the description of the algorithm we introduce some terminology:
 An edge of the grid has been \emph{discovered} if an incident vertex has been
@@ -927,7 +965,7 @@ edge $\{ (i,j), (i,j') \}$ according to the orientation of the edge
 $\{ j,j' \}$ in $u_0$, ignoring the row index $i$.
 This always defines a unique sink orientation.
 
-\begin{prop}
+\begin{proposition}
     There are injections
     \begin{align*}
         &
@@ -941,7 +979,7 @@ This always defines a unique sink orientation.
         &
         \bigl( \USO(1,n) \bigr)^m \times \bigl( \USO(m,1) \bigr)^n .
     \end{align*}
-\end{prop}
+\end{proposition}
 
 \begin{proof}
     The map $f$ has been described in the preceding paragraph; the reader may
@@ -1039,7 +1077,7 @@ lemma \ref{lem:asymptotics-USO-nn} that the constant satisifies $1 \le c \le
 Meanwhile we can have a look at the asymptotics of $\#\USO(k,n)$ when $k$ is
 fixed.
 
-\begin{prop}
+\begin{proposition}
     \label{prop:asymptotics-USO-kn}
     For every natural number $k$ we have the following asymptotic
     equivalence with respect to $n \to \infty$:
@@ -1050,13 +1088,13 @@ fixed.
     \]
     where $\lambda_k$ is some positive function whose growth (with respect to
     $n$) is at least logarithmic, but at most linear.
-\end{prop}
+\end{proposition}
 
 \begin{proof}
     Follows from corollary \ref{cor:num-USO-mn} and Stirling's formula.
 \end{proof}
 
-\bibliographystyle{unsrtnat}
+\bibliographystyle{plain}
 \bibliography{griduso}
 
 \end{document}
