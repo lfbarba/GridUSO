@@ -48,6 +48,7 @@
 \newcommand{\Sym}{\ensuremath{\mathfrak{S}}}
 \newcommand{\Tr}{\ensuremath{\mathrm{Tr}}}
 \newcommand{\sink}{\ensuremath{\mathrm{sink}}}
+\newcommand{\join}{\mbox{join}\xspace}
 
 \begin{document}
 
@@ -117,7 +118,7 @@ In \cite{grid08}, they study large dimension grid USO as general models that ari
 
 Note that the complexity of Random Edge on general grid USO remains open.
 
-\subsection{[short motivation]}
+\subsection{[Short Motivation]}
 
 Unique sink orientations of grids, as introduced in \cite{linepointstoc},
 are a graph-theoretic model for a specific class of linear programs.
@@ -133,7 +134,7 @@ edge $u \to v$ we have $f(u) > f(v)$.
 Minimizing the function $f$ on the polytope thus corresponds to finding the
 unique sink of $G$.
 
-\subsection{Summary of results}
+\subsection{Summary of Results}
 
 Given a unique sink orientation of the grid $G = K_m \times K_n$, the
 algorithmic task is to find its sink.
@@ -181,16 +182,16 @@ is $\e^{ \Theta(n^2 \log n) }$ (theorem \ref{thm:asymptotics-USO-nn}).
 The rest of this paper is organized as follows.
 We start by defining terminology and basic properties of grids in Section \ref{section:grid_uso_properties}.
 Section \ref{section:The vertex oracle model} assumes the vertex oracle model;
-it contains our main result (theorem \ref{theorem:Sink algorithm})
+it contains our main result (Theorem \ref{theorem:Sink algorithm})
 as well as our lower bound.
 Section \ref{section:The edge oracle model}, on the other hand, assumes the
 edge oracle model.
 In Section \ref{section:counting_unique_sink_orientations} we count the number of unique sink orientations.
 
-\section{Grid USO properties}
+\section{Grid USO Properties}
 \label{section:grid_uso_properties}
 
-\subsection{Grids, subgrids and orientations}
+\subsection{Grids, Subgrids and Orientations}
 
 We write $K_X$ for the complete graph on a given vertex set $X$.
 Given two finite sets $X$ and $Y$,
@@ -229,7 +230,7 @@ for short, if all its non-empty subgrids have a unique sink. For simplicity, we 
 % Let $G$ be an $X\times Y$-grid USO for some sets $X$ and $Y$ and let $A \subset 2^X$ and $B \subset 2^Y$ be partitions of $X$ and $Y$, respectively. Let $H$ be an $A\times B$-grid. \JN{See Malte's 4$\times$4 lower bound for a possible way to define this.}
 %\end{lemma}
 
-\subsection{Basic properties}
+\subsection{Basic Properties}
 
 We will start by stating certain basic properties of grid USOs.
 
@@ -251,24 +252,6 @@ A useful property of grids is that one can test whether an orientation is a uniq
  If there were two sinks in any other subgrid, then we could find a $(2,2)$-subgrid that was not a unique sink orientation which would contradict the assumption.
  Acyclicity proves the existence of one sink in each subgrid and the statement follows. \qed
 \end{proof}
-
-We define a partial order of vertices in a grid unique sink orientation $G$ as follows. 
-\MM{This is not a partial order: it is not transitive. You'll want to decide
-    whether you want the transitive closure or not, and stick to one
-    definition.}
-For any two vertices $v,w \in G$ consider the smallest subgrid containing both $v$ and $w$. 
-We say that $w \succeq v$ if there is a path from $w$ to $v$ in this subgrid. 
-Because by Lemma \ref{lemma:acyclicity_lemma} grid USOs are acyclic, this defines a partial order on the vertices. 
-The sink of the grid is the unique minimal vertex with respect to this ordering. 
-
-Note that two vertices may not be $\succeq$-comparable in the smallest subgrid containing them. 
-There could still be a path between the two vertices. 
-Thus\JN{after the transitive closure they might still be incomparable}, we consider the transitive closure of this relation and say that a vertex $w$ is \emph{larger} than $v$ (or $v$ is smaller than $w$) if there is a sequence $w = v_1, v_2, \ldots, v_k = v$ of $G$ such that $v_i \succeq v_{i+1}$, for each $1\leq i\leq k-1$.
-
-\MM{Shouldn't all this be moved to section \ref{section:the_sink_finding_algorithm}?}
-
-In a grid USO $G$, the \emph{\indegree} of a vertex $v \in G$ is an ordered pair $[a_v, b_v] \in \{0,1,\ldots,|X|-1\}\times \{0,1,\ldots,|Y|-1\}$ where $a_v$ and $b_v$ specify the number of incoming horizontal  and vertical edges of $v$, respectively.
-We say that a vertex $v$ with \indegree $[a_v, b_v]$ is a \emph{$(k, t)$-vertex} if $a_v\geq k-1$ while $b_v\geq t-1$.
 
 \subsection{Induced USOs}
 
@@ -313,7 +296,7 @@ Because these sinks cannot be adjacent, $F$ has two sinks and without loss of ge
 
 Next to show is that $F$ has at least one sink. The only way for $F$ to have no sink is if there is a cycle in $F$. Such a cycle would induce a cycle in $G$: starting from the sink of one of the blocks of $H$, move along an edge to another block and then again to the sink of the new block and repeat until we reach the sink of the block we started from. This works because there is always such an outgoing edge between blocks when $F$ is cyclic --- which implies an outgoing edge in the original grid --- and there is always a path within a block from any vertex to the sink of the block due to Lemma \ref{lemma:acyclicity_lemma}. Such a cycle is illustrated in Figure~\ref{fig:InducedUSOcycle}. We conclude that $F$ can't have a cycle and therefore $F$ will have exactly one sink.
 
-To see that $H$ is acyclic one only needs to repeat the same argument as for $F$. That is, a cycle in $H$ would imply a cycle in $G$. This concludes the proof.
+To see that $H$ is acyclic one only needs to repeat the same argument as for $F$. That is, a cycle in $H$ would imply a cycle in $G$. This concludes the proof. \qed
 
 \begin{figure}
 \begin{subfigure}[t]{0.45\textwidth}
@@ -351,15 +334,27 @@ Therefore, $\s{G}$ is the sink of $G(A', B')$ for some $A'\in \A, B'\in \B$.
 Consider the smallest subgrid in $H$ containing both $(A,B)$ and $(A', B')$. 
 Since Lemma~\ref{lemma:USO-Lemma} guarantees that $(A',B')$ is not the sink of this subgrid, there is at least one outgoing edge from $(A',B')$ to another vertex.
 Thus, by the definition of the orientation of $H$, there is an outgoing edge going from the sink of $G(A',B')$, i.e., an outgoing edge from $\s{G}$---a contradiction since $\s{G}$ is the sink of $G$ and has no outgoing edges. 
-Therefore, $\s{G} = \s{A,B}$.
+Therefore, $\s{G} = \s{A,B}$. \qed
 \end{proof}
 
 
-\section{The vertex oracle model}
+\section{The Vertex Oracle Model}
 \label{section:The vertex oracle model}
 
-\subsection{The sink-finding algorithm}
+\subsection{The Sink-finding Algorithm}
 \label{section:the_sink_finding_algorithm}
+
+Before explaining the algorithm we introduce some notation. We define a partial order of vertices in a grid unique sink orientation $G$ as follows. 
+For any two vertices $v,w \in G$ we say that $w \succeq v$ if there is a directed path from $w$ to $v$ within the grid $G$. In words, we say that $w$ is \emph{larger} than $v$ (or $v$ is \emph{smaller} than $w$).
+Because by Lemma \ref{lemma:acyclicity_lemma} grid USOs are acyclic, this partial order is well defined.
+The sink of the grid USO is the unique minimal vertex with respect to this ordering. For $v,w \in G$ we also define an operation called \emph{\join} so that \join($v,w$) is the vertex that is the sink in the smallest subcube containing $v$ and $w$. Note that $v,w \succeq \join(v,w)$. For sets of vertices $V$, $\join(V)$ denotes the set of vertices of the grid to which there is a path from all vertices in $V$. More formally $\join(V) = \{w \in G \: | \: v \succeq w \:\: \forall v \in V \}$. Given some set of vertices $V$ we can compute some $w \in \join(V)$ with $\mathcal{O}(|V|)$ vertex queries: just repeatedly apply the $\join$ operation on vertices from $V$.
+
+%Note that two vertices may not be $\succeq$-comparable in the smallest subgrid containing them. 
+%There could still be a path between the two vertices. 
+%Thus\JN{after the transitive closure they might still be incomparable}, we consider the transitive closure of this relation and say that a vertex $w$ is \emph{larger} than $v$ (or $v$ is smaller than $w$) if there is a sequence $w = v_1, v_2, \ldots, v_k = v$ of $G$ such that $v_i \succeq v_{i+1}$, for each $1\leq i\leq k-1$.
+
+In an ($m,n$)-grid USO $G$, the \emph{\indegree} of a vertex $v \in G$ is an ordered pair $[a_v, b_v] \in \{0,1,\ldots,m-1\}\times \{0,1,\ldots,n-1\}$ where $a_v$ and $b_v$ specify the number of incoming horizontal  and vertical edges of $v$, respectively.
+We say that a vertex $v$ with \indegree $[a_v, b_v]$ is a \emph{$(k, t)$-vertex} if $a_v\geq k-1$ while $b_v\geq t-1$.
 
 Consider the following algorithmic approach to finding the sink of an ($n$,$n$)-grid USO deterministically. 
 Assume that we are able to find in $\mathcal{O}(n)$ time a $(\frac{n}{2}, \frac{n}{2})$-vertex $v$.
@@ -371,7 +366,7 @@ If one finds the sinks of the subgrids recursively, one would get the recursion
  T(n) = 2T\left(\frac{n}{2}\right) + \mathcal{O}(n)
 \end{align*}
 where $T(n)$ is the number of vertex queries needed to find the sink of an $(n,n)$-grid. By the master theorem we would have that $T(n) = \mathcal{O}(n\log n)$. 
-As a first step, we show how to compute an $(\frac{n}{4}, \frac{n}{2})$-vertex of an $(n, n)$-grid. Then, we extend this result to non-square grids. Finally, using this result as a black box, we show how to compute an $(\frac{m}{2}, \frac{n}{2})$-vertex in an $(m,n)$-grid using $O(n+m)$ vertex queries. 
+As a first step, we show how to compute an $(\frac{n}{4}, \frac{n}{4})$-vertex of an $(n, n)$-grid. Then, we extend this result to non-square grids. Finally, using these results as a black box, we show how to compute an $(\frac{m}{2}, \frac{n}{2})$-vertex in an $(m,n)$-grid using $O(n+m)$ vertex queries in total and then conclude with our main result in Theorem \ref{theorem:Sink algorithm}. 
 
 \begin{lemma}
 \label{lem:seed_lemma_for_square_matrices}
@@ -382,19 +377,27 @@ As a first step, we show how to compute an $(\frac{n}{4}, \frac{n}{2})$-vertex o
 The algorithm we describe queries a linear number of vertices of the grid before finding a vertex with the required \indegree. 
 After explaining the algorithm we prove its correctness.
   
-The algorithm works as follows. First, query the diagonal vertices $D = \{v_1,\ldots, v_n\}$ where $v_i = (i,i)$. If one of the vertices in $D$ has the required \indegree, we are done. If not, assume without loss of generality that $v_i \succeq v_j$ whenever $j > i$; otherwise rename the vertices. 
-With this assumption, we claim that every diagonal vertex $v_i \in D$ has at least $i - 1$ incoming edges. Indeed, for each $j < i$, we have that either $v_j \succeq v_i$ or they are incomparable. Thus, regardless of the case we can guarantee the existence of at least one incoming edge to $v_i$ in the $(2, 2)$-subgrid containing $v_i$ and $v_j$. 
+The algorithm works as follows. First, query the diagonal vertices $D = \{v_1,\ldots, v_n\}$ where $v_i = (i,i)$. textnormal
+If one of the vertices in $D$ has the required \indegree, we are done. 
+If not, observe that we can assume (by sorting and renaming) that vertex $v_i$ has at least $i-1$ incoming edges. 
+The existence of such an ordering is easy to see: any linear extension of $\succeq$ will work. Just consider the $(2,2)$-subgrids induced by pairs of distinct vertices $v_i,v_j \in D$. 
+%assume without loss of generality that $v_i \succeq v_j$ whenever $j > i$; otherwise rename the vertices. 
+%With this assumption, we claim that every diagonal vertex $v_i \in D$ has at least $i - 1$ incoming edges. 
+%Indeed, for each $j < i$, we have that either $v_j \succeq v_i$ or they are incomparable. 
+%Thus, regardless of the case we can guarantee the existence of at least one incoming edge to $v_i$ in the $(2, 2)$-subgrid containing $v_i$ and $v_j$. 
 
 Let $V = \{v_{\lceil \frac{n}{2} \rceil},\ldots,v_n\} \subseteq D$.
 Label the vertices in $V$ as \emph{horizontal}  or \emph{vertical}, if the majority of incoming edges for the corresponding vertex are horizontal  or vertical, respectively. 
 Assume without loss of generality that there are more vertical vertices in $V$; otherwise change the role of the coordinates. 
 Let $V' \subseteq V$ be the set of all vertical vertices in $V$ and notice that $|V'| \geq |V|/2$.
- Additionally, let $v$ be a minimal vertex of $V'$, i.e., for each $u\in V'$ either $u\succeq v$, or $u$ and $v$ are incomparable. 
+%Additionally, let $v \in V'$ be such that for each $u\in V'$ either 
 
-Let $I'$ be the set of indices containing the first coordinate of each vertex in~$V'$.
+
+Let $v \in \join(V')$ be a vertex obtained after repeatedly applying the \join operation on vertices of $V'$ in any order. 
+Note that $v' \succeq v$ for every $v' \in V'$. Let $I'$ be the set of indices containing the first coordinate of each vertex in~$V'$. 
 Assume that $v = (x_v, y_v)$ and let $W = I'\times \{y_v\}$ be the set of vertices in the same row as $v$ and in the same column as some vertex from $V'$.
 To conclude, the algorithm queries each vertex in $W$.
-It is clear from the description above that the number of vertices queried so far is $|D| + |W| = \mathcal{O}(n)$. 
+It is clear from the description above that the number of vertices queried so far is $\mathcal{O}(n)$. 
 We claim that one of the queried vertices will have the required \indegree.
 
 To prove our claim, recall that every diagonal vertex $v_i \in D$ has at least $i - 1$ incoming edges.  
@@ -406,41 +409,44 @@ Indeed, because $v^*$ is smaller than each other vertex in $W$, we know that $$a
 
 
 If $v = v^*$, then since $v\in V'$, we know that $b\geq \frac{\lceil \frac{n}{2}\rceil-1}{2}\geq \frac{n}{4} - 1$.
-Otherwise, there is a vertex $w \in V'$ that is in the same column as $v^*$.
-  This situation is depicted in Figure~\ref{fig:seedlem1}.
-  \begin{figure}[htbp] 
-  	\centering
-  	\includegraphics[scale=0.7]{seedlemma_fig1.pdf}
-  	\caption{In this figure only a subset of the edges of the grid appears. The vertices that are marked with discs are the ones evaluated.} 
-  	\label{fig:seedlem1}
-  \end{figure}
-   If we can show that there is an edge from $w$ to $v^*$, then by acyclicity $v^*$ has at least one more incoming vertical edge as compared to $w$, therefore establishing that $b \geq \frac{\lceil \frac{n}{2}\rceil-1}{2} + 1 \geq \frac{n}{4} \geq \frac{n}{4} - 1$ and showing that$v^*$ is an $(\frac{n}{4}, \frac{n}{4})$-vertex. 
+Otherwise, there is a vertex $v' \in V'$ that is in the same column as $v^*$. Due to the \join operation there is a path from $w$ to $v$ and further to $v^*$. Therefore by acyclicity the edge between $v'$ and $v^*$ is oriented towards $v^*$ and $v^*$ has more incoming vertical edges than $v'$ also because of acyclicity. Therefore we establish that $b \geq \frac{\lceil \frac{n}{2}\rceil-1}{2} + 1 \geq \frac{n}{4} \geq \frac{n}{4} - 1$ which shows that $v^*$ is an $(\frac{n}{4}, \frac{n}{4})$-vertex. \qed
+
+  %This situation is depicted in Figure~\ref{fig:seedlem1}.
+  %\begin{figure}[htbp] 
+  %	\centering
+  %	\includegraphics[scale=0.7]{seedlemma_fig1.pdf}
+  %	\caption{In this figure only a subset of the edges of the grid appears. The vertices that are marked with discs are the ones evaluated.} 
+  %	\label{fig:seedlem1}
+  %\end{figure}
+   %If we can show that there is an edge from $w$ to $v^*$, then by acyclicity $v^*$ has at least one more incoming vertical edge as compared to $w$, therefore establishing that $b \geq \frac{\lceil \frac{n}{2}\rceil-1}{2} + 1 \geq \frac{n}{4} \geq \frac{n}{4} - 1$ and showing that$v^*$ is an $(\frac{n}{4}, \frac{n}{4})$-vertex. 
    
-   Because $v$ is a minimal vertex in $V'$, either $w\succeq v$, or $v$ and $w$ are incomparable. 
-   To show that there is an edge from $w$ to $v^*$ we study these two cases: 
-   \MM{If I'm following this correctly, then the case distinction is
-   unnecessary. An edge $v^* \to w$ would immediately contradict $v
-   \not\succeq w$.}
-   If $w \succeq v$, then because $v \succeq v^*$ we have due to transitivity that $w \succeq v^*$. 
-  Otherwise, $w$ and $v$ are incomparable. In this case, since $v^*$ is smaller than $v$, we know that the edge connecting $v$ and $v^*$ is  oriented towards $v^*$. 
-  Therefore, the only possibility for $v$ and $w$ to be incomparable is that there is an edge from $w$ to $v^*$. 
-  We give illustrations of the two cases in Figure~\ref{fig:seedlem2}. 
-  Thus regardless of the case, there is an edge from $w$ to $v^*$ which concludes the proof.   
-   \begin{figure}[htbp] 
-       \centering
-       \begin{subfigure}[b]{0.4\textwidth}
-           \includegraphics[scale = 0.7]{seedlemma_fig2_cas1.pdf}
-           \caption{$w \succeq v$}
-       \end{subfigure}
-       \qquad \qquad
-       \begin{subfigure}[b]{0.4\textwidth}
-           \includegraphics[scale = 0.7]{seedlemma_fig2_cas2.pdf}
-           \caption{$v$ and $w$ are incomparable}
-       \end{subfigure}
-       \caption{Illustrations of the two cases. }
-       \label{fig:seedlem2}
-   \end{figure}
+   %Because $v$ is a minimal vertex in $V'$, either $w\succeq v$, or $v$ and $w$ are incomparable. 
+   %To show that there is an edge from $w$ to $v^*$ we study these two cases: 
+   %\MM{If I'm following this correctly, then the case distinction is
+   %unnecessary. An edge $v^* \to w$ would immediately contradict $v
+   %\not\succeq w$.}
+   %If $w \succeq v$, then because $v \succeq v^*$ we have due to transitivity that $w \succeq v^*$. 
+  %Otherwise, $w$ and $v$ are incomparable. In this case, since $v^*$ is smaller than $v$, we know %that the edge connecting $v$ and $v^*$ is  oriented towards $v^*$. 
+  %Therefore, the only possibility for $v$ and $w$ to be incomparable is that there is an edge from $w$ to $v^*$. 
+  %We give illustrations of the two cases in Figure~\ref{fig:seedlem2}. 
+  %Thus regardless of the case, there is an edge from $w$ to $v^*$ which concludes the proof. \qed  
+  % \begin{figure}[htbp] 
+  %     \centering
+  %     \begin{subfigure}[b]{0.4\textwidth}
+  %         \includegraphics[scale = 0.7]{seedlemma_fig2_cas1.pdf}
+  %         \caption{$w \succeq v$}
+  %     \end{subfigure}
+  %     \qquad \qquad
+  %     \begin{subfigure}[b]{0.4\textwidth}
+  %         \includegraphics[scale = 0.7]{seedlemma_fig2_cas2.pdf}
+  %         \caption{$v$ and $w$ are incomparable}
+  %     \end{subfigure}
+  %     \caption{Illustrations of the two cases. }
+  %     \label{fig:seedlem2}
+ %  \end{figure}
 \end{proof}
+
+The following corollary extends the previous lemma to non-square grids.
 
 \begin{corollary}\label{corollary: n/4 indegree}
   Given an $[m]\times [n]$ grid USO $G$, we can find a vertex with \indegree $[a,b]$ with $a \geq \frac{m}{8} - 1$ and  $b \geq \frac{n}{8} - 1$ using $\mathcal{O}(M)$ vertex queries where $M = \max\{m,n\}$.
@@ -457,7 +463,7 @@ consider the $\A$-$\B$-partition grid $H = K_\A\times K_\B$ and its induced orie
  The total number of vertex queries of $G$ used is therefore $\mathcal{O}(\frac{m}{n}\cdot n) = \mathcal{O}(m)$ as asserted. 
  Since $v$ has at least $\frac{n}{4} - 1$ horizontal incoming edges in $H$, each of which is a $(|A|,1)$-grid in $G$ for some $A\in \A$, 
  by theorem \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} $v$ has at least $$\left(\frac{n}{4} - 1\right)\cdot\left\lfloor \frac{m}{n} \right\rfloor + \left\lfloor \frac{m}{n} \right\rfloor - 1 \geq \frac{m}{8} - 1$$ incoming edges in $G$.
- Vertex $v$ also has at least $\frac{n}{4} - 1 \geq \frac{n}{8} - 1$ incoming vertical edges which concludes the proof. 
+ Vertex $v$ also has at least $\frac{n}{4} - 1 \geq \frac{n}{8} - 1$ incoming vertical edges which concludes the proof. \qed
 \end{proof}
 
 
@@ -480,7 +486,7 @@ Given an $(a, b)$-vertex $v = (x_v, y_v)$ in an $[m]\times [n]$-grid USO, let $I
 Given a vertex  $v = (x_v, y_v)$ in a grid USO, $v$ is the sink of the $I_v\times J_v$-grid.
 \end{observation}
 \begin{proof}
-Vertex $v$ has only incoming edges in the $I_v\times J_v$-grid and is therefore the unique sink of this subgrid. 
+Vertex $v$ has only incoming edges in the $I_v\times J_v$-grid and is therefore the unique sink of this subgrid. \qed
 \end{proof}
 
 An \emph{$(\alpha, \beta)$-oracle} is an algorithm that, given a $(m, n)$-grid USO as input, can find an $(\alpha m, \beta n)$-vertex $v$ using $O(n + m)$ queries.
@@ -525,7 +531,7 @@ Recall that $s$ is smaller than $v_h$, hence $s'$ is also smaller than $v_h$.
 Because $v_h$ is the sink of the $I_{v_h}\times J_{v_h}$-grid, $s'$ is smaller than each vertex in the $I_{v_h}\times J_{v_h}$-grid.
 Therefore, at least $|I_{v_h}|$ vertices have outgoing edges to $s'$ in the row containing $s'$, i.e., $a\geq |I_{v_h}| \geq \alpha m$.
 Moreover, since $s'$ is the sink of the $\{x_s\}\times \cup_{i=0}^k J_{v_i}$-subgrid, $b \geq |\cup_{i=0}^k J_{v_i}|  >  \frac{n}{2}$.
-Consequently, $s'$ is an $(\alpha m,  \frac{n}{2})$-vertex.
+Consequently, $s'$ is an $(\alpha m,  \frac{n}{2})$-vertex. \qed
 \end{proof}
 
 \begin{corollary}\label{corollary: (m/2,n/2) indegree}
@@ -535,7 +541,7 @@ We can compute an $( \frac{m}{2}, \frac{n}{2})$-vertex using $O(n + m)$ vertex q
 \begin{proof}
 Notice that Corollary~\ref{corollary: n/4 indegree} proves the existence of an $( \frac{1}{8}, \frac{1}{8})$-oracle.
 We use Lemma~\ref{lemma:Climbing lemma} with the $(\frac{1}{8}, \frac{1}{8})$-oracle as input, to find an $(\frac{m}{8}, \frac{n}{2})$-vertex using only $O(1)$ calls to this $(\frac{1}{8}, \frac{1}{8})$-oracle and $O(n+m)$ additional vertex queries. Since each call to the  $(\frac{1}{8}, \frac{1}{8})$-oracle can be implemented with $O(n+m)$ vertex queries by Corollary~\ref{corollary: n/4 indegree}, the algorithm to find the $(\frac{m}{8}, \frac{n}{2})$-vertex is a $(\frac{1}{8}, \frac{1}{2})$-oracle. 
-Therefore, using again Lemma~\ref{lemma:Climbing lemma} with this $(\frac{1}{8}, \frac{1}{2})$-oracle as input, we can find an $(\frac{m}{2}, \frac{n}{2})$-vertex using $O(1)$ calls to the $(\frac{1}{8}, \frac{1}{2})$-oracle. That is, in total $O(n + m)$ queries suffice to find an $(\frac{m}{2}, \frac{n}{2})$-vertex.
+Therefore, using again Lemma~\ref{lemma:Climbing lemma} with this $(\frac{1}{8}, \frac{1}{2})$-oracle as input, we can find an $(\frac{m}{2}, \frac{n}{2})$-vertex using $O(1)$ calls to the $(\frac{1}{8}, \frac{1}{2})$-oracle. That is, in total $O(n + m)$ queries suffice to find an $(\frac{m}{2}, \frac{n}{2})$-vertex. \qed
 \end{proof}
 
 
@@ -555,10 +561,10 @@ If neither $v$ nor $s$ is the sink of $G$ we proceed as follows.
 Since the orientation of the $\A$-$\B$-partition grid $H = K_\A \times K_\B$ induced by $G$ is a unique sink orientation by Lemma~\ref{lemma:USO-Lemma}, we can decide whether the sink of $G$ lies in the $A_1\times B_2$-grid or in the $A_2\times B_1$-grid after querying $v$ and $s$. Assume without loss of generality that it lies in the $A_1\times B_2$-grid.
 By finding recursively the sink of the $A_1\times B_2$-grid, we find the sink of $G$ by theorem~\ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink}. In summary, the total number of queries requried to find the sink of $G$ is given by the following recurrence:
 $$T(m, n) = 2\cdot T\left(\frac{m}{2}, \frac{n}{2}\right) + O(n+m),$$
-which solves to $T(m, n) = O((n+m) \log (n+m))$ yielding our result.
+which solves to $T(m, n) = O((n+m) \log (n+m))$ yielding our result. \qed
 \end{proof}
  
-\subsection{A deterministic lower bound}
+\subsection{A Deterministic Lower Bound}
 \label{section:a_deterministic_lower_bound}
 
 We give a linear lower bound on the number of vertex queries required to find
@@ -584,7 +590,7 @@ Every deterministic algorithm needs $m$ queries to find the sink of an $(m,1)$-g
 Let $v_i$ denote the vertex evaluated at the $i$-th query, for $i=1,\ldots, m$. At evaluation of $v_1$ we answer with the source. Then, at every vertex
 we answer with all edges that are not yet defined to be outgoing. Then, $v_i$ has $i-1$ incoming edges, already evaluated from the previous evaluations. 
 Therefore, $v_i$ has $m-i$ outgoing edges. At the $(m-1)$-th iteration the vertex $v_{m-1}$ will have one outgoing edge which will point to $v_m$.
-The algorithm then needs to also evaluate $v_m$ (which will be the sink) for a total of $m$ queries. 
+The algorithm then needs to also evaluate $v_m$ (which will be the sink) for a total of $m$ queries. \qed 
 \end{proof}
 
 \begin{theorem} \label{thm:lowerbound}
@@ -598,7 +604,7 @@ Each time $A$ explores an unexplored row, we label this row with the smallest un
 Since this defines a total order on the vertices of $G$, the revealed edges are always consistent with a unique sink orientation.
 
 Because vertices in unexplored rows are always smaller, the sink of $G$ lies always in an unexplored row throughout the execution of $A$. Therefore, $A$ requires at least $n$ vertex queries before querying the first vertex in the row $r$ containing the sink. Once $A$ has queried the first vertex in $r$, it has still to find the maximum among its $m$ vertices. 
-By Lemma~\ref{lem:kx1} this requires at least $m$ vertex queries of which the algorithm has performed exactly one. Thus, $m-1$ additional vertex queries are needed to find the sink. That is, $A$ requires at least $n+m-1$ vertex queries to find the sink of $G$. 
+By Lemma~\ref{lem:kx1} this requires at least $m$ vertex queries of which the algorithm has performed exactly one. Thus, $m-1$ additional vertex queries are needed to find the sink. That is, $A$ requires at least $n+m-1$ vertex queries to find the sink of $G$. \qed
 \end{proof}
 
 A unique sink orientation is called \emph{combed} in rows (columns) if the orientation of all the edges between the vertices of any two rows (columns) are the same. 
@@ -613,11 +619,11 @@ The next theorem shows that if one wants to improve the lower bound of theorem~\
  If we know that the grid is combed in rows or columns, then the same approach used by the adversary player in the proof of theorem~\ref{thm:lowerbound} will work.
  If we don't know the direction of the combing, there is a strategy that will find the sink within the required number of steps: after querying a vertex, the next vertex to be checked is the one that is the furthest away from the current vertex within the subgrid that is spanned by the edges leaving the curent vertex. 
  
- This strategy works because no matter in which direction the USO is combed, at every step we discard  one or more of the irrelevant rows or columns. For example, if the USO is combed in rows, then in at most $n$ queries we will be at a vertex that has only horiontal outgoing edges. That is, we have found the row where the sink is in. In the next $m-1$ all queries will be in that row so that in the required number of queries we have found the sink.
+ This strategy works because no matter in which direction the USO is combed, at every step we discard  one or more of the irrelevant rows or columns. For example, if the USO is combed in rows, then in at most $n$ queries we will be at a vertex that has only horiontal outgoing edges. That is, we have found the row where the sink is in. In the next $m-1$ all queries will be in that row so that in the required number of queries we have found the sink. \qed
 \end{proof}
 
 
-\subsection{Optimality of the lower bound for small grids}
+\subsection{Optimality of the Lower Bound for Small Grids}
 
 We now write $\timeVertex(m,n)$ for the minimum number of queries that a
 deterministic algorithm must ask in the worst case to find and query the sink
@@ -687,7 +693,7 @@ We begin by stipulating two obvious conditions under which we let a vertex die:
     rectangle.
     The four edges of this rectangle have been discovered, and the rectangle
     contains a unique sink: hence, according to condition 1, at least three
-    corners of the rectangle have died.
+    corners of the rectangle have died. \qed
 \end{proof}
 
 \begin{lemma}
@@ -728,7 +734,7 @@ We begin by stipulating two obvious conditions under which we let a vertex die:
     \ref{lemma:acyclicity_lemma}).
     But then $(k,j)$ is the unique sink of the subgrid
     $\{i,k\} \times \{j,l\}$,
-    and thus $(i,l)$ cannot be a sink.
+    and thus $(i,l)$ cannot be a sink. \qed
 \end{proof}
 
 As a consequence of lemma \ref{lem:rectangle} we can observe that,
@@ -872,10 +878,10 @@ The theorem now follows from the
     at most two further queries, for a total of seven vertex queries.
     ---
     We omit the proof for case $B$ and case $C$; in each case we proceed in a
-    similar fashion.
+    similar fashion. \qed
 \end{proof}
 
-\section{The edge oracle model}
+\section{The Edge Oracle Model}
 \label{section:The edge oracle model}
 
 In this section we study an easier data model, so as to expand the potential
@@ -943,10 +949,10 @@ But we can improve on that:
         \bigl\{~ \{ s,(x,s_2) \} ~:~ x \notin s_1 ~\bigr\};
     \]
     this is only a linear number of edges, so they account for the $O(N)$
-    term in the claim.
+    term in the claim. \qed
 \end{proof}
 
-\section{Counting grid USOs}
+\section{Counting Grid USOs}
 \label{section:counting_unique_sink_orientations}
 
 
@@ -954,7 +960,7 @@ Let $\USO(m,n)$ denote the set of unique sink orientations of the grid
 $K_m \times K_n$ ($m,n \in \mathbb{N}$).
 How does its cardinality, $\#\USO(m,n)$, behave asymptotically?
 
-\paragraph{Combed orientations.}
+\paragraph{Combed Orientations.}
 Given any acyclic orientation $u_0 \in \USO(1,n)$ and acyclic orientations
 $u_1,\dots,u_n \in \USO(m,1)$, we can define an element
 \[ f(u_0,u_1,\dots,u_m) \in \USO(m,n), \]
@@ -990,7 +996,7 @@ This always defines a unique sink orientation.
     where $u_i$ denotes the orientation of the $i$th row of $u$, and $u'_j$ is
     the orientation of the $j$th column.
     This map is clearly injective: after all, every edge of the grid occurs in
-    some row or column.
+    some row or column. \qed
 \end{proof}
 
 Note that $\USO(m,1)$ is in bijection with the set of total orderings of $m$
@@ -1050,7 +1056,7 @@ $m=n$.
         1
     \end{align*}
     and note that the left-hand side and the right-hand side both converge to $1$
-    as $n \to \infty$.
+    as $n \to \infty$. \qed
 \end{proof}
 
 One can summarize corollary \ref{cor:num-USO-mn} and lemma
@@ -1091,7 +1097,7 @@ fixed.
 \end{proposition}
 
 \begin{proof}
-    Follows from corollary \ref{cor:num-USO-mn} and Stirling's formula.
+    Follows from corollary \ref{cor:num-USO-mn} and Stirling's formula. \qed
 \end{proof}
 
 \bibliographystyle{plain}
