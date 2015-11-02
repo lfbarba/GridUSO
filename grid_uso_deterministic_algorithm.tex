@@ -165,24 +165,24 @@ Our results are:
 
 \begin{itemize}
     \item
-        $\timeVertex(N) \in O(N \log N)$ (theorem~\ref{theorem:Sink algorithm}).
+        $\timeVertex(N) \in O(N \log N)$ (Theorem~\ref{theorem:Sink algorithm}).
     \item
-        $\timeVertex(N) \ge N-1$ (theorem \ref{thm:lowerbound}), and this
+        $\timeVertex(N) \ge N-1$ (Theorem~\ref{thm:lowerbound}), and this
         inequality becomes an equality when $m = n \le 4$
         (theorem \ref{thm:smallGrids}).
     \item
-        $\timeEdge(N) \in O(N ^ { \log_4(7) })$ (theorem \ref{thm:timeEdge}),
+        $\timeEdge(N) \in O(N ^ { \log_4(7) })$ (Theorem~\ref{thm:timeEdge}),
         and $\timeEdge(N) \in \Omega(N)$.
 \end{itemize}
 We also show that the number of unique sink orientations of $K_n \times K_n$
-is $\e^{ \Theta(n^2 \log n) }$ (theorem \ref{thm:asymptotics-USO-nn}).
+is $\e^{ \Theta(n^2 \log n) }$ (Theorem~\ref{thm:asymptotics-USO-nn}).
 
 \subsection{Outline}
 
 The rest of this paper is organized as follows.
 We start by defining terminology and basic properties of grids in Section \ref{section:grid_uso_properties}.
 Section \ref{section:The vertex oracle model} assumes the vertex oracle model;
-it contains our main result (Theorem \ref{theorem:Sink algorithm})
+it contains our main result (Theorem~\ref{theorem:Sink algorithm})
 as well as our lower bound.
 Section \ref{section:The edge oracle model}, on the other hand, assumes the
 edge oracle model.
@@ -247,7 +247,7 @@ A useful property of grids is that one can test whether an orientation is a uniq
 \end{proposition}
 
 \begin{proof}
- One direction is evident: If a grid orientation is a unique sink orientation, then every $(2,2)$-subgrid is also a unique sink orientation and by Lemma \ref{lemma:acyclicity_lemma} the orientation is acyclic. 
+ One direction is evident: If a grid orientation is a unique sink orientation, then every $(2,2)$-subgrid is also a unique sink orientation and by Lemma~\ref{lemma:acyclicity_lemma} the orientation is acyclic. 
  For the other direction note that every $(1,k)$-subgrid and $(k,1)$-subgrid is a unique sink orientation due to acyclicity. 
  If there were two sinks in any other subgrid, then we could find a $(2,2)$-subgrid that was not a unique sink orientation which would contradict the assumption.
  Acyclicity proves the existence of one sink in each subgrid and the statement follows. \qed
@@ -294,7 +294,7 @@ We first show that $F$ has at most one sink and then show that it cannot have cy
 Assume for a contradiction that $F$ has more than one sink.
 Because these sinks cannot be adjacent, $F$ has two sinks and without loss of generality they are the blocks $(A,B')$ and $(A', B)$. Consider the $(2,2)$ subgrid in $G$ that contains the vertices $\s{A,B'}$ and $\s{A',B}$. By assumption, and from the way the induced orientation was constructed, this subgrid has two sinks which is a contradiction to $G$ being a unique sink orientation. See Figure~\ref{fig:InducedUSOtwosinks} for an example. Therefore we conclude that $F$ has at most one sink. 
 
-Next to show is that $F$ has at least one sink. The only way for $F$ to have no sink is if there is a cycle in $F$. Such a cycle would induce a cycle in $G$: starting from the sink of one of the blocks of $H$, move along an edge to another block and then again to the sink of the new block and repeat until we reach the sink of the block we started from. This works because there is always such an outgoing edge between blocks when $F$ is cyclic --- which implies an outgoing edge in the original grid --- and there is always a path within a block from any vertex to the sink of the block due to Lemma \ref{lemma:acyclicity_lemma}. Such a cycle is illustrated in Figure~\ref{fig:InducedUSOcycle}. We conclude that $F$ can't have a cycle and therefore $F$ will have exactly one sink.
+Next to show is that $F$ has at least one sink. The only way for $F$ to have no sink is if there is a cycle in $F$. Such a cycle would induce a cycle in $G$: starting from the sink of one of the blocks of $H$, move along an edge to another block and then again to the sink of the new block and repeat until we reach the sink of the block we started from. This works because there is always such an outgoing edge between blocks when $F$ is cyclic --- which implies an outgoing edge in the original grid --- and there is always a path within a block from any vertex to the sink of the block due to Lemma~\ref{lemma:acyclicity_lemma}. Such a cycle is illustrated in Figure~\ref{fig:InducedUSOcycle}. We conclude that $F$ can't have a cycle and therefore $F$ will have exactly one sink.
 
 To see that $H$ is acyclic one only needs to repeat the same argument as for $F$. That is, a cycle in $H$ would imply a cycle in $G$. This concludes the proof. \qed
 
@@ -311,7 +311,7 @@ To see that $H$ is acyclic one only needs to repeat the same argument as for $F$
 \caption{\small If the induced USO F had a cycle, there would be a cycle in the original grid $G$.}
 \label{fig:InducedUSOcycle}
 \end{subfigure}
-\caption{An illustration of the two cases in the proof of Lemma \ref{lemma:USO-Lemma}. Solid arrowed edges represent edges in $G$ and dashed edges represent (directed) paths in $G$.}
+\caption{An illustration of the two cases in the proof of Lemma~\ref{lemma:USO-Lemma}. Solid arrowed edges represent edges in $G$ and dashed edges represent (directed) paths in $G$.}
 \label{fig:inducesUSOboth}
 \end{figure}
 
@@ -346,7 +346,7 @@ Therefore, $\s{G} = \s{A,B}$. \qed
 
 Before explaining the algorithm we introduce some notation. We define a partial order of vertices in a grid unique sink orientation $G$ as follows. 
 For any two vertices $v,w \in G$ we say that $w \succeq v$ if there is a directed path from $w$ to $v$ within the grid $G$. In words, we say that $w$ is \emph{larger} than $v$ (or $v$ is \emph{smaller} than $w$).
-Because by Lemma \ref{lemma:acyclicity_lemma} grid USOs are acyclic, this partial order is well defined.
+Because by Lemma~\ref{lemma:acyclicity_lemma} grid USOs are acyclic, this partial order is well defined.
 The sink of the grid USO is the unique minimal vertex with respect to this ordering. For $v,w \in G$ we also define an operation called \emph{\join} so that \join($v,w$) is the vertex that is the sink in the smallest subcube containing $v$ and $w$. Note that $v,w \succeq \join(v,w)$. For sets of vertices $V$, $\join(V)$ denotes the set of vertices of the grid to which there is a path from all vertices in $V$. More formally $\join(V) = \{w \in G \: | \: v \succeq w \:\: \forall v \in V \}$. Given some set of vertices $V$ we can compute some $w \in \join(V)$ with $\mathcal{O}(|V|)$ vertex queries: just repeatedly apply the $\join$ operation on vertices from $V$.
 
 %Note that two vertices may not be $\succeq$-comparable in the smallest subgrid containing them. 
@@ -360,13 +360,13 @@ Consider the following algorithmic approach to finding the sink of an ($n$,$n$)-
 Assume that we are able to find in $\mathcal{O}(n)$ time a $(\frac{n}{2}, \frac{n}{2})$-vertex $v$.
 We could then partition the grid into 4 equally sized square subgrids so that $v$ is the sink of one of the subgrids.
 The next step would be to find the sink of the subgrid opposite to the partition containing $v$ in the induced (2,2)-grid. 
-By theorem \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} we could thereafter discard one subgrid out of consideration and possibly still find the sink of one subgrid.
+By Theorem~\ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} we could thereafter discard one subgrid out of consideration and possibly still find the sink of one subgrid.
 If one finds the sinks of the subgrids recursively, one would get the recursion
 \begin{align*}
  T(n) = 2T\left(\frac{n}{2}\right) + \mathcal{O}(n)
 \end{align*}
 where $T(n)$ is the number of vertex queries needed to find the sink of an $(n,n)$-grid. By the master theorem we would have that $T(n) = \mathcal{O}(n\log n)$. 
-As a first step, we show how to compute an $(\frac{n}{4}, \frac{n}{4})$-vertex of an $(n, n)$-grid. Then, we extend this result to non-square grids. Finally, using these results as a black box, we show how to compute an $(\frac{m}{2}, \frac{n}{2})$-vertex in an $(m,n)$-grid using $O(n+m)$ vertex queries in total and then conclude with our main result in Theorem \ref{theorem:Sink algorithm}. 
+As a first step, we show how to compute an $(\frac{n}{4}, \frac{n}{4})$-vertex of an $(n, n)$-grid. Then, we extend this result to non-square grids. Finally, using these results as a black box, we show how to compute an $(\frac{m}{2}, \frac{n}{2})$-vertex in an $(m,n)$-grid using $O(n+m)$ vertex queries in total and then conclude with our main result in Theorem~\ref{theorem:Sink algorithm}. 
 
 \begin{lemma}
 \label{lem:seed_lemma_for_square_matrices}
@@ -454,15 +454,15 @@ The following corollary extends the previous lemma to non-square grids.
 
 \begin{proof}
  Assume without loss of generality that $m \geq n$. 
- We will partition $[m]$ into $n$ blocks, then apply Lemma \ref{lem:seed_lemma_for_square_matrices} on the induced orientation, and conclude using theorem \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} that this  gives us the desired result.
+ We will partition $[m]$ into $n$ blocks, then apply Lemma~\ref{lem:seed_lemma_for_square_matrices} on the induced orientation, and conclude using Theorem~\ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} that this  gives us the desired result.
  
   Let $\A$ be a partition of $[m]$ into $n$ blocks, each of size either $\left\lfloor \frac{m}{n} \right\rfloor$ or $\left\lceil \frac{m}{n} \right\rceil$. Let $\B = [n]$ and 
 consider the $\A$-$\B$-partition grid $H = K_\A\times K_\B$ and its induced orientation inherited from $G$. 
- Use Lemma \ref{lem:seed_lemma_for_square_matrices} to find an $(\frac{n}{4}, \frac{n}{4})$-vertex $v$ in $H$. 
+ Use Lemma~\ref{lem:seed_lemma_for_square_matrices} to find an $(\frac{n}{4}, \frac{n}{4})$-vertex $v$ in $H$. 
  Note that in each vertex query of $H$ we need to find the sink of a $(|A|,1)$-grid for some $A\in \A$. 
  The total number of vertex queries of $G$ used is therefore $\mathcal{O}(\frac{m}{n}\cdot n) = \mathcal{O}(m)$ as asserted. 
  Since $v$ has at least $\frac{n}{4} - 1$ horizontal incoming edges in $H$, each of which is a $(|A|,1)$-grid in $G$ for some $A\in \A$, 
- by theorem \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} $v$ has at least $$\left(\frac{n}{4} - 1\right)\cdot\left\lfloor \frac{m}{n} \right\rfloor + \left\lfloor \frac{m}{n} \right\rfloor - 1 \geq \frac{m}{8} - 1$$ incoming edges in $G$.
+ by Theorem~\ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} $v$ has at least $$\left(\frac{n}{4} - 1\right)\cdot\left\lfloor \frac{m}{n} \right\rfloor + \left\lfloor \frac{m}{n} \right\rfloor - 1 \geq \frac{m}{8} - 1$$ incoming edges in $G$.
  Vertex $v$ also has at least $\frac{n}{4} - 1 \geq \frac{n}{8} - 1$ incoming vertical edges which concludes the proof. \qed
 \end{proof}
 
@@ -478,7 +478,7 @@ consider the $\A$-$\B$-partition grid $H = K_\A\times K_\B$ and its induced orie
 % 
 % The problem we are looking at is that of finding the global sink of a USO over $(K_n)^d$. The USO is given by an oracle that for any given vertex reveals the orientations of the edges adjacent to the vertex. The question is, what is the least number of these vertex queries needed to find the unique global sink? Just knowing its location is not sufficient, but we also require that the sink is evaluated. This requirement will prove useful when developing an algorithm.
 
-\subsubsection{Finding a $(\frac{n}{2}, \frac{n}{2})$-vertex}
+\subsubsection{Finding an $(\frac{n}{2}, \frac{n}{2})$-vertex}
 
 Given an $(a, b)$-vertex $v = (x_v, y_v)$ in an $[m]\times [n]$-grid USO, let $I_v\subseteq [m]$ be the set of indices such that  $I_v \times \{y_v\}$ is the set of all vertices with an outgoing horizontal edge to $v$ with $v$ included in this set. Analogously, $J_v\subseteq [n]$ is the set of indices such that $\{x_v\}\times J_v$ is the set of all vertices with an outgoing vertical edge to~$v$ (including $v$). Notice that $|I_v| = a$ while $|J_v| = b$.
 
@@ -489,7 +489,7 @@ Given a vertex  $v = (x_v, y_v)$ in a grid USO, $v$ is the sink of the $I_v\time
 Vertex $v$ has only incoming edges in the $I_v\times J_v$-grid and is therefore the unique sink of this subgrid. \qed
 \end{proof}
 
-An \emph{$(\alpha, \beta)$-oracle} is an algorithm that, given a $(m, n)$-grid USO as input, can find an $(\alpha m, \beta n)$-vertex $v$ using $O(n + m)$ queries.
+An \emph{$(\alpha, \beta)$-oracle} is an algorithm that, given an $(m, n)$-grid USO as input, can find an $(\alpha m, \beta n)$-vertex $v$ using $O(n + m)$ queries.
 
 \begin{lemma}\label{lemma:Climbing lemma}
 Let $G$ be an $[m]\times [n]$-grid USO.
@@ -559,7 +559,7 @@ Let $T(m, n)$ be the number of queries needed to find the sink of an $[m]\times[
 We can find recursively the sink $s$ of the $A_2\times B_2$-subgrid using $T(\frac{m}{2}, \frac{n}{2})$ vertex queries. 
 If neither $v$ nor $s$ is the sink of $G$ we proceed as follows.
 Since the orientation of the $\A$-$\B$-partition grid $H = K_\A \times K_\B$ induced by $G$ is a unique sink orientation by Lemma~\ref{lemma:USO-Lemma}, we can decide whether the sink of $G$ lies in the $A_1\times B_2$-grid or in the $A_2\times B_1$-grid after querying $v$ and $s$. Assume without loss of generality that it lies in the $A_1\times B_2$-grid.
-By finding recursively the sink of the $A_1\times B_2$-grid, we find the sink of $G$ by theorem~\ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink}. In summary, the total number of queries requried to find the sink of $G$ is given by the following recurrence:
+By finding recursively the sink of the $A_1\times B_2$-grid, we find the sink of $G$ by Theorem~\ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink}. In summary, the total number of queries requried to find the sink of $G$ is given by the recurrence
 $$T(m, n) = 2\cdot T\left(\frac{m}{2}, \frac{n}{2}\right) + O(n+m),$$
 which solves to $T(m, n) = O((n+m) \log (n+m))$ yielding our result. \qed
 \end{proof}
@@ -582,12 +582,12 @@ Every deterministic algorithm needs $m$ queries to find the sink of an $(m,1)$-g
 \end{lemma}
 \begin{proof}
     The proof proceeds by an adversary argument.
-    We thus consider a game played between the algorithm (who successively
+    We thus consider a game played between the algorithm (which successively
     queries vertices) and the adversary (who answers the queries),
     and we claim that the adversary has a strategy which allows him to enforce
     that the algorithm does not query the sink before the $m$th query.
 
-Let $v_i$ denote the vertex evaluated at the $i$-th query, for $i=1,\ldots, m$. At evaluation of $v_1$ we answer with the source. Then, at every vertex
+Let $v_i$ denote the vertex evaluated at the $i$-th query, for $i=1,\ldots, m$. At evaluation of $v_1$ we answer with the global source. Then, at every vertex
 we answer with all edges that are not yet defined to be outgoing. Then, $v_i$ has $i-1$ incoming edges, already evaluated from the previous evaluations. 
 Therefore, $v_i$ has $m-i$ outgoing edges. At the $(m-1)$-th iteration the vertex $v_{m-1}$ will have one outgoing edge which will point to $v_m$.
 The algorithm then needs to also evaluate $v_m$ (which will be the sink) for a total of $m$ queries. \qed 
@@ -601,22 +601,22 @@ Every deterministic algorithm needs at least $m+n-1$ queries to find the sink of
 
 Let $A$ be a sink-finding algorithm. We say that $A$ \emph{explores} a row of $G$ whenever it queries a vertex in this row for the first time.
 Each time $A$ explores an unexplored row, we label this row with the smallest unused label from the set $\{1, \ldots, n\}$. Moreover, we assign an arbitrary order to the vertices in this row and reveal any queried horizontal edge in this row according to this order. For the vertical edges between explored rows, we simply follow the rule that a vertex in the row labeled $i$ is always smaller than any vertex in the row labeled $j$, for any $i > j$. Additionally, a vertex in a labeled row is always larger than any vertex in an unexplored row. In other words, we determine a lexicographical total order on the vertices of the gird. One can think of each vertex in an explored row as having two coordinates: the first being the label of its row, and the second the rank of this vertex in its row.
-Since this defines a total order on the vertices of $G$, the revealed edges are always consistent with a unique sink orientation.
+It is easy to check that the answers are consistent with a unique sink orientation.
 
 Because vertices in unexplored rows are always smaller, the sink of $G$ lies always in an unexplored row throughout the execution of $A$. Therefore, $A$ requires at least $n$ vertex queries before querying the first vertex in the row $r$ containing the sink. Once $A$ has queried the first vertex in $r$, it has still to find the maximum among its $m$ vertices. 
 By Lemma~\ref{lem:kx1} this requires at least $m$ vertex queries of which the algorithm has performed exactly one. Thus, $m-1$ additional vertex queries are needed to find the sink. That is, $A$ requires at least $n+m-1$ vertex queries to find the sink of $G$. \qed
 \end{proof}
 
 A unique sink orientation is called \emph{combed} in rows (columns) if the orientation of all the edges between the vertices of any two rows (columns) are the same. 
-A combed USO is combed either in the rows or in the columns. The unique sink orientation arising in the proof of theorem~\ref{thm:lowerbound} is an example of a USO that is combed in the rows.
-The next theorem shows that if one wants to improve the lower bound of theorem~\ref{thm:lowerbound}, it is not sufficient to consider only combed USOs.
+A combed USO is combed either in the rows or in the columns. The unique sink orientation arising in the proof of Theorem~\ref{thm:lowerbound} is an example of a USO that is combed in the rows.
+The next theorem shows that if one wants to improve the lower bound of Theorem~\ref{thm:lowerbound}, it is not sufficient to consider only combed USOs.
 
 \begin{theorem}
  The sink of a combed $(m,n)$-grid USO can be found by using $n+m-1$ vertex queries.
 \end{theorem}
 
 \begin{proof}
- If we know that the grid is combed in rows or columns, then the same approach used by the adversary player in the proof of theorem~\ref{thm:lowerbound} will work.
+ If we know that the grid is combed in rows or columns, then the same approach used by the adversary player in the proof of Theorem~\ref{thm:lowerbound} will work.
  If we don't know the direction of the combing, there is a strategy that will find the sink within the required number of steps: after querying a vertex, the next vertex to be checked is the one that is the furthest away from the current vertex within the subgrid that is spanned by the edges leaving the curent vertex. 
  
  This strategy works because no matter in which direction the USO is combed, at every step we discard  one or more of the irrelevant rows or columns. For example, if the USO is combed in rows, then in at most $n$ queries we will be at a vertex that has only horiontal outgoing edges. That is, we have found the row where the sink is in. In the next $m-1$ all queries will be in that row so that in the required number of queries we have found the sink. \qed
@@ -634,7 +634,7 @@ Here we analyze some small cases:
     Let $n \le 4$. Then $\timeVertex(n,n) = 2n-1$.
 \end{theorem}
 Thus we will find that for the cases covered by the theorem, the lower bound
-in theorem \ref{thm:lowerbound} is tight.
+in Theorem~\ref{thm:lowerbound} is tight.
 
 We omit the proofs for the cases $n = 1,2,3$. Namely,
 \begin{itemize}
@@ -647,7 +647,7 @@ We omit the proofs for the cases $n = 1,2,3$. Namely,
         simpler.
 \end{itemize}
 The rest of this subsection will thus be concerned with the following
-proposition, whose proof will settle theorem \ref{thm:smallGrids}.
+proposition, whose proof will settle Theorem~\ref{thm:smallGrids}.
 
 \begin{proposition}
     \label{prop:4:7}
@@ -892,14 +892,13 @@ the orientation of any given edge.
 Recall that we write $\timeEdge(N)$ for the required number of edge queries,
 $N = m+n$.
 
-By an adversary argument similar to the one used for theorem
-\ref{thm:lowerbound},
+By an adversary argument similar to the one used for Theorem~\ref{thm:lowerbound},
 \[
     \timeEdge(N) \in \Omega(N).
 \]
 On the other hand, a vertex query can clearly be simulated using $O(N)$ edge
 queries, so that we have $\timeEdge(N) \in O(N^2 \log N)$ as an immediate
-corollary of theorem \ref{theorem:Sink algorithm}.
+corollary of Theorem~\ref{theorem:Sink algorithm}.
 But we can improve on that:
 
 \begin{theorem}
@@ -927,9 +926,9 @@ But we can improve on that:
         T \left( \frac{N}{4} \right) + O(N)
     \]
     edge queries.
-    Then, using theorem \ref{thm:smallGrids} to tell us \emph{which} vertex
+    Then, using Theorem~\ref{thm:smallGrids} to tell us \emph{which} vertex
     queries to simulate, we will have found $\sink(H)$ as well as
-    $\sink(G) = \sink(G(\sink(H)))$ (cf.~theorem
+    $\sink(G) = \sink(G(\sink(H)))$ (cf.~Theorem
     \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink})
     after at most
     \[
@@ -1059,7 +1058,7 @@ $m=n$.
     as $n \to \infty$. \qed
 \end{proof}
 
-One can summarize corollary \ref{cor:num-USO-mn} and lemma
+One can summarize Corollary~\ref{cor:num-USO-mn} and lemma
 \ref{lem:asymptotics-USO-nn} as in the following theorem.
 
 \begin{theorem}
@@ -1076,8 +1075,8 @@ One can summarize corollary \ref{cor:num-USO-mn} and lemma
 \end{conjecture}
 
 \noindent
-If the conjecture is true then we know from corollary \ref{cor:num-USO-mn} and
-lemma \ref{lem:asymptotics-USO-nn} that the constant satisifies $1 \le c \le
+If the conjecture is true then we know from Corollary~\ref{cor:num-USO-mn} and
+Lemma~\ref{lem:asymptotics-USO-nn} that the constant satisifies $1 \le c \le
 2$; but we are not sure at this point what its exact value might be.
 
 Meanwhile we can have a look at the asymptotics of $\#\USO(k,n)$ when $k$ is
@@ -1097,7 +1096,7 @@ fixed.
 \end{proposition}
 
 \begin{proof}
-    Follows from corollary \ref{cor:num-USO-mn} and Stirling's formula. \qed
+    Follows from Corollary~\ref{cor:num-USO-mn} and Stirling's formula. \qed
 \end{proof}
 
 \bibliographystyle{plain}
