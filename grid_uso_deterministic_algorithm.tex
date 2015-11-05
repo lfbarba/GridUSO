@@ -2,6 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{color}
 \usepackage{enumerate}
 \usepackage{xspace}
 \usepackage{graphicx}
@@ -951,13 +952,20 @@ How does its cardinality, $\#\USO(m,n)$, behave asymptotically?
 \paragraph{Combed Orientations.}
 Given any acyclic orientation $u_0 \in \USO(1,n)$ and acyclic orientations
 $u_1,\dots,u_n \in \USO(m,1)$, we can define an element
-\[ f(u_0,u_1,\dots,u_m) \in \USO(m,n), \]
+\[ f(u_0;u_1,\dots,u_m) \in \USO(m,n), \]
 which we call a \emph{combed} orientation:
-We orient its $i$th column according to $u_i$, $i \in [m]$, and thus have
-described all vertical edge orientations; furthermore we orient a horizontal
-edge $\{ (i,j), (i,j') \}$ according to the orientation of the edge
-$\{ j,j' \}$ in $u_0$, ignoring the row index $i$.
-This always defines a unique sink orientation.
+We orient every row according to $u_0$; and we orient the $i$th column
+according to $u_i$ ($i = 1,\dots,m$).
+This construction, pictured in Figure \ref{fig:combed}, always defines a
+unique sink orientation.
+
+\begin{figure}
+    \centering
+    \def\svgwidth{200pt}
+    \input{combed.pdf_tex}
+    \caption{A combed orientation.}
+    \label{fig:combed}
+\end{figure}
 
 \begin{proposition}
     There are injections
@@ -978,13 +986,12 @@ This always defines a unique sink orientation.
 \begin{proof}
     The map $f$ has been described in the preceding paragraph; the reader may
     verify that it is a well-defined injection.
-
+    ---
     The map $g$ is simply defined in terms of rows and columns:
     \[ g(u) = (u_1, \dots, u_m, u'_1, \dots, u'_n) \]
     where $u_i$ denotes the orientation of the $i$th row of $u$, and $u'_j$ is
     the orientation of the $j$th column.
-    This map is clearly injective: after all, every edge of the grid occurs in
-    some row or column. \qed
+    \qed
 \end{proof}
 
 Note that $\USO(m,1)$ is in bijection with the set of total orderings of $m$
@@ -1007,18 +1014,13 @@ $m=n$.
 \begin{lemma}
     \label{lem:asymptotics-USO-nn}
     The following asymptotic equivalences hold.
-    \[
-        n!^{n+1} ~\sim~
-            \exp \left[
-                (n+1) n \ln \frac{n}{e} ~+~ \frac{1}{2} (n+1) \ln (2 \pi n) ~+~ \frac{1}{12}
-            \right],
-    \]
-    \[
-        n!^{2n} ~\sim~
-        \exp \left[
-            2n^2 \ln \frac{n}{e} ~+~ n \ln (2 \pi n) ~+~ \frac{1}{6}
-        \right].
-    \]
+    \begin{align*}
+        n!^{n+1} ~&\sim~
+            e ^ { n^2 \ln n ~+~ o(n^2 \ln n) },
+        \\
+        n!^{2n} ~&\sim~
+            e ^ { 2n^2 \ln n ~+~ o(n^2 \ln n) }.
+    \end{align*}
 \end{lemma}
 
 \begin{proof}
@@ -1036,19 +1038,19 @@ $m=n$.
     \begin{align*}
         e ^ \frac{11}{144n+12}
         ~\le~
-        \frac{ n!^{n+1} }{ \exp \left[
+        n!^{n+1} / \exp \left[
                                     (n+1) n \ln \frac{n}{e} ~+~
                                     \frac{1}{2} (n+1) \ln (2 \pi n)
-                                    ~+~ \frac{1}{12} \right] }
+                                    ~+~ \frac{1}{12} \right]
         ~\le~
         1
     \end{align*}
-    and note that the left-hand side and the right-hand side both converge to $1$
-    as $n \to \infty$. \qed
+    and note that the left-hand side converges to $1$ as $n \to \infty$.
+    \qed
 \end{proof}
 
-One can summarize Corollary~\ref{cor:num-USO-mn} and lemma
-\ref{lem:asymptotics-USO-nn} as in the following theorem.
+One can summarize Corollary~\ref{cor:num-USO-mn} and
+Lemma~\ref{lem:asymptotics-USO-nn} as in the following theorem.
 
 \begin{theorem}
     \label{thm:asymptotics-USO-nn}
@@ -1056,20 +1058,7 @@ One can summarize Corollary~\ref{cor:num-USO-mn} and lemma
     is $\e ^ { \Theta(n^2 \log n) }$.
 \end{theorem}
 
-\begin{conjecture}
-    For some constant $c > 0$,
-    \[
-        \#\USO(n,n) ~\sim~ \exp\left[ c n^2 \log n + o(n^2 \log n) \right].
-    \]
-\end{conjecture}
-
-\noindent
-If the conjecture is true then we know from Corollary~\ref{cor:num-USO-mn} and
-Lemma~\ref{lem:asymptotics-USO-nn} that the constant satisifies $1 \le c \le
-2$; but we are not sure at this point what its exact value might be.
-
-Meanwhile we can have a look at the asymptotics of $\#\USO(k,n)$ when $k$ is
-fixed.
+Grids of constant length can easily be counted slightly more precisely:
 
 \begin{proposition}
     \label{prop:asymptotics-USO-kn}
