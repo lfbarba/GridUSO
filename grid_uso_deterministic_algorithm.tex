@@ -196,7 +196,7 @@ If the graph $G$ is oriented then its subgrids inherit an orientation.
   \begin{figure}[htbp] 
   	\centering
   	\includegraphics[scale=1.0]{uso_example.pdf}
-  	\caption{\small On the left an exampe of an (4,3)-grid. A $(3,2)$-subgrid is higlighted in color and displayed separately in the middle. In the subsequent figures we will not draw all the edges, but rather as in the grid displayed on the right where some edges have been omitted. The definition of horizontal and vertical edges is also being displayed.} 
+  	\caption{\small On the left is displayed an exampe of an (4,3)-grid and a $(3,2)$-subgrid is higlighted in light blue. On the right there is a unique sink orientation of a $(3,2)$-grid.} 
   	\label{fig:examplegrid}
   \end{figure}
 
@@ -245,7 +245,7 @@ An example of an induced unique sink orientation is shown in Figure~\ref{fig:exa
   \begin{figure}[htbp] 
   	\centering
   	\includegraphics[scale=1.5]{induced_orientation_ex.pdf}
-  	\caption{\small On the left side of the figure there is a $(3,3)$-grid USO whose $X$-coordinates and $Y$-coordinates have been partitioned into 2 parts of cardinalities two and one. This induces four blocks as highlighted in bold and blue. The induced orientation with respect to these blocks is shown on the right and the edges contributing are also shown in the original grid.} 
+  	\caption{\small On the left side of the figure there is a $(3,3)$-grid USO whose $X$-coordinates and $Y$-coordinates have been partitioned into 2 parts of cardinalities two and one. The induced $(2,2)$-grid USO with respect to these blocks is shown on the right and the edges contributing are also shown in the original grid.} 
   	\label{fig:example_induced_orientation}
   \end{figure}
 
@@ -279,14 +279,14 @@ Next to show is that $F$ has at least one sink. The only way for $F$ to have no 
 To see that $H$ is acyclic one only needs to repeat the same argument as for $F$. That is, a cycle in $H$ would imply a cycle in $G$. This concludes the proof. \qed
 
 \begin{figure}
-\begin{subfigure}[t]{0.45\textwidth}
+\begin{subfigure}[t]{0.47\textwidth}
 \includegraphics{product_lemma_two_sinks.pdf}
 %[width=1\textwidth]
 \caption{\small If the induced grid USO F had two sinks, a (2,2) grid in the original grid $G$ wouldn't have a unique sink.}
 \label{fig:InducedUSOtwosinks}
 \end{subfigure}
 \qquad\qquad
-\begin{subfigure}[t]{0.45\textwidth}
+\begin{subfigure}[t]{0.47\textwidth}
 \includegraphics{product_lemma_cycle.pdf}
 \caption{\small If the induced USO F had a cycle, there would be a cycle in the original grid $G$.}
 \label{fig:InducedUSOcycle}
