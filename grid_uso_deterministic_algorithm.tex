@@ -167,7 +167,7 @@ In this way, there are portions of the grid where no oracle query is performed w
 To fix ideas, imagine splitting an $(n,n)$-grid into four $(n/2, n/2)$-subgrids. 
 In Section~\ref{lemma:USO-Lemma} we show how to find the sink of this grid by recursively solving only three of the four $(n/2, n/2)$-subgrids and discarding the last one. 
 We obtain then a recurrence of the form $T(n) = 3 T(n/2)$ which solves to $T(n) = O(n^{\log 3})$.
-More involved arguments allow us to split the grid into 16 subgrids and find the sink by solving only 7 of them which leads to a deterministic algorithm using $O(n^{\log_4} 7)$ oracle queries.
+More involved arguments allow us to split the grid into 16 subgrids and find the sink by solving only 7 of them which leads to a deterministic algorithm using $O(n^{\log_4 7})$ oracle queries.
 
 In Section~\ref{section:the_sink_finding_algorithm} we focus on the vertex query model and improve upon the above algorithm by using the following idea: Spend a linear number of vertex queries prior to the partition to discard a $(n/2, n/2)$-subgrid that contains one quarter of the total number of vertices. 
 The removal of such a subgrid leaves us with a graph that can be partitioned into three $(n/2, n/2)$-subgrids. 
@@ -178,7 +178,7 @@ To discard the $(n/2, n/2)$-subgrid used in the first part of this algorithm, we
 However, we want the incoming edges of $v$ to be evenly distributed among its horizontal and vertical edges. Using the properties of the grid USO, we are able to show that such a vertex $v$ will be the sink of a large subgrid, namely the smallest subgrid that contains $v$ and each vertex that has an edge towards $v$.
 If the indegree of $v$ is sufficiently large, then this subgrid having $v$ as its sink will contain a quarter of the vertices of the $(n,n)$-grid fulfilling the requirements of our $O(n \log n)$ algorithm.
 
-While the first $O(n^{\log_4} 7)$ algorithm works for both the edge- and the vertex-query models, the second algorithm cannot be extended to the edge-query model.
+While the first $O(n^{\log_4 7})$ algorithm works for both the edge- and the vertex-query models, the second algorithm cannot be extended to the edge-query model.
 \section{Grid USO Properties}\label{section:grid_uso_properties}
 In this section, we introduce the terminology and basic properties of grids. Moreover, we go into the basics of the partition strategy which will be key to our subsequent algorithms.
 
@@ -354,7 +354,7 @@ If one finds the sinks of the subgrids recursively, one would get the recursion
 \begin{align*}
  T(n) = 2T\left(\frac{n}{2}\right) + \mathcal{O}(n)
 \end{align*}
-where $T(n)$ is the number of vertex queries needed to find the sink of an $(n,n)$-grid. By the master theorem we would have that $T(n) = \mathcal{O}(n\log n)$. 
+where $T(n)$ is the number of vertex queries needed to find the sink of an $(n,n)$-grid. By the master theorem this recurrence solves to $T(n) = \mathcal{O}(n\log n)$. 
 As a first step, we show how to compute an $(\frac{n}{4}, \frac{n}{4})$-vertex of an $(n, n)$-grid. Then, we extend this result to non-square grids. Finally, using these results as a black box, we show how to compute an $(\frac{m}{2}, \frac{n}{2})$-vertex in an $(m,n)$-grid using $O(m+n)$ vertex queries in total and then conclude with our main result in Theorem~\ref{theorem:Sink algorithm}. 
 
 \begin{lemma}
