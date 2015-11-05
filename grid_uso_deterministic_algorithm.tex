@@ -122,23 +122,24 @@ unique sink of the grid USO $G$.
 
 It is know that the above problem is equivalent to the \emph{One line and $n$ points} problem in the plane~\cite{linepoint,welzl2001entering}:
 Given $n$ points in general position in the plane and one vertical line $\ell$, find the segment connecting two pairs of points that has the lowest intersection with the given line. 
-We assume that $\ell$ contains non of the given points and that no two segments intersect on $\ell$.
+We assume that $\ell$ contains none of the given points and that no two segments intersect on $\ell$.
 G\"artner et al.~\cite{linepoint} proved that every instance of the one line and $n$ points problem gives rise to special grid orientations, called \emph{Holt-Klee} grid USOs, which are grid USOs with a specific forbidden minor called the ``double twist''.
 In addition, they design an instance of a Holt-Klee grid USO that does not come from a one line and $n$ points instance. 
-The authors interpret the \emph{Random Edge} simplex algorithm in the setting of one line and $n$ points and prove that it finds the lower-most segment using $O(\log^2 n )$ pivot steps. 
-They also provide an instance where this algorithm needs $\Omega(\log^2 n )$ many pivot steps. 
-This algorithm translates to a randomized algorithm to find the sink of a square Holt-Klee grid USO using $O(\log^2 n)$ vertex queries~\cite{falkthesis}. However, no matching lower bound is known for this problem.
+The Holt-Klee condition is important, as it is the only known simple combinatorial condition that can distinguish geometric from abstract induced grid USOs.
 
-Another connection was discovered by G\"artner et al.~\cite{grid05} who showed that every gird HK is induced by a red-blue arrangement of pseudo-lines which, in turn, can be thought as a dual of the one line and $n$ points configuration. 
-In addition, they generalize the result of G\"artner et al.~\cite{linepoint} to conclude that the Random Edge algorithm needs $O(\log n\cdot\log m)$ pivot steps to find the sink of any Holt-Klee grid USO with any starting vertex. 
-Finally, they argue that there are $2^{\Omega(n^2)}$ different Holt-Klee grid USOs.
+An interpretation of the \emph{Random Edge} simplex algorithm in the setting of one line and $n$ points provides a way to find the lower-most segment using $O(\log^2 n )$ pivot steps~\cite{linepoint}. 
+An instance where this algorithm needs $\Omega(\log^2 n )$ many pivot steps is also provided. 
+This algorithm translates to a randomized algorithm to find the sink of a square Holt-Klee grid USO using $O(\log^2 n)$ vertex queries~\cite{falkthesis}. However, a matching lower bound remains elusive.
+
+Another connection was discovered by G\"artner et al.~\cite{grid05} who showed that every Holt-Klee grid USO is induced by a red-blue arrangement of pseudo-lines which, in turn, can be thought as a combinatorial dual of the one line and $n$ points configuration. 
+In addition, they generalize Random Edge algorithm and prove that it also finds the sink of any Holt-Klee grid USO using $O(\log n\cdot\log m)$ pivot steps with any starting vertex. Finally, they argue that there are $2^{\Omega(n^2)}$ different Holt-Klee grid USOs.
 
 G\"artner, Morris and R\"ust~\cite{grid08} studied large dimension grid USO as general models that arise from solving PGLCP. They provide a randomized product algorithm (similar to the one introduced in \cite{SW} for cube USO) and prove that for fixed dimension it runs in polylogarithmic time. 
 In particular, it finds the sink of a 2-dimensional grid USO using $O(\log n \cdot \log m)$ vertex queries which matching the upper bound for Holt-Klee grid USO. In the edge query model, the same algorithm finds the sink of a grid USO using $\Theta(n + m)$ edge queries.
 
 Notice that that any algorithm that finds the sink of a grid USO using edge queries can be applied to solve the following \emph{matrix USO optimization} problem: Find the global minimum of an injective real function defined on a two dimensional matrix USO, where a matrix is USO if each $2\times 2$ sub-matrix has a unique minimum. 
-Therefore, the algorithm from G\"artner, Morris and R\"ust~\cite{grid08} solves the matrix USO optimization problem on a $m\times n$ matrix in $\Theta(m+n)$ time. 
-Similar optimization problems in matrices have been studied with stronger conditions and have several applications in geometric problems~\cite{aggarwal1987geometric,demaine2005optimizing}. 
+Therefore, the randomized algorithm from G\"artner, Morris and R\"ust~\cite{grid08} solves the matrix USO optimization problem on a $m\times n$ matrix in $\Theta(m+n)$ expected time.
+Similar optimization problems in matrices have been studied with stronger conditions and have several applications in geometric problems~\cite{aggarwal1987geometric,demaine2005optimizing,galil1992dynamic,mityagin2003complexity}. 
 While many of these variants can be solved using efficient deterministic algorithm, no non-trivial deterministic algorithm for the matrix USO optimization problem was known prior to this work.
 
 \subsection{Our results}

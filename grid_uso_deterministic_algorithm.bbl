@@ -1,10 +1,25 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{aggarwal1987geometric}
+Alok Aggarwal, Maria~M Klawe, Shlomo Moran, Peter Shor, and Robert Wilber.
+\newblock Geometric applications of a matrix-searching algorithm.
+\newblock {\em Algorithmica}, 2(1-4):195--208, 1987.
+
+\bibitem{demaine2005optimizing}
+Erik~D Demaine and Stefan Langerman.
+\newblock Optimizing a 2d function satisfying unimodality properties.
+\newblock In {\em Algorithms--ESA 2005}, pages 887--898. Springer, 2005.
 
 \bibitem{grid05}
 Stefan Felsner, Bernd G\"{a}rtner, and Falk Tschirschnitz.
 \newblock Grid orientations, (d,d + 2)-polytopes, and arrangements of
   pseudolines.
 \newblock {\em Discrete \& Computational Geometry}, 34(3):411--437, 2005.
+
+\bibitem{galil1992dynamic}
+Zvi Galil and Kunsoo Park.
+\newblock Dynamic programming with convexity, concavity and sparsity.
+\newblock {\em Theoretical Computer Science}, 92(1):49--76, 1992.
 
 \bibitem{grid08}
 Bernd G\"{a}rtner, Walter~D. Jr.~Morris, and Leo R\"{u}st.
@@ -16,6 +31,12 @@ Bernd G\"{a}rtner, Falk Tschirschnitz, Emo Welzl, J\'{o}zsef Solymosi, and
   Pavel Valtr.
 \newblock One line and n points.
 \newblock {\em Random Structures \& Algorithms}, 23(4):453--471, 2003.
+
+\bibitem{mityagin2003complexity}
+Anton Mityagin.
+\newblock On the complexity of finding a local maximum of functions on discrete
+  planar subsets.
+\newblock In {\em STACS 2003}, pages 203--211. Springer, 2003.
 
 \bibitem{SW}
 Tibor Szab{\'{o}} and Emo Welzl.
