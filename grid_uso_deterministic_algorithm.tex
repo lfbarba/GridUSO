@@ -166,8 +166,8 @@ In this way, there are portions of the grid where no oracle query is performed w
 
 To fix ideas, imagine splitting an $(n,n)$-grid into four $(n/2, n/2)$-subgrids. 
 In Section~\ref{lemma:USO-Lemma} we show how to find the sink of this grid by recursively solving only three of the four $(n/2, n/2)$-subgrids and discarding the last one. 
-We obtain then a recurrence of the form $T(n) = 3 T(n/2)$ which solves to $T(n) = O(n^{\log 3})$.
-More involved arguments allow us to split the grid into 16 subgrids and find the sink by solving only 7 of them which leads to a deterministic algorithm using $O(n^{\log_4 7})$ oracle queries.
+We obtain then a recurrence of the form $T(n) = 3 T(n/2)$ which solves to $T(n) = O(n^{\log_2 3})$.
+More involved arguments allow us to split the grid into 16 subgrids and find the sink by solving only 7 of them which leads to a deterministic algorithm using $O(n^{\log_4 7})$ oracle queries. 
 
 In Section~\ref{section:the_sink_finding_algorithm} we focus on the vertex query model and improve upon the above algorithm by using the following idea: Spend a linear number of vertex queries prior to the partition to discard a $(n/2, n/2)$-subgrid that contains one quarter of the total number of vertices. 
 The removal of such a subgrid leaves us with a graph that can be partitioned into three $(n/2, n/2)$-subgrids. 
