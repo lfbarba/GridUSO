@@ -1,58 +1,105 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{13}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem{aggarwal1987geometric}
+\bibitem[Aggarwal et~al.(1987)Aggarwal, Klawe, Moran, Shor, and
+  Wilber]{aggarwal1987geometric}
 Alok Aggarwal, Maria~M Klawe, Shlomo Moran, Peter Shor, and Robert Wilber.
 \newblock Geometric applications of a matrix-searching algorithm.
-\newblock {\em Algorithmica}, 2(1-4):195--208, 1987.
+\newblock \emph{Algorithmica}, 2\penalty0 (1-4):\penalty0 195--208, 1987.
 
-\bibitem{demaine2005optimizing}
+\bibitem[Chazelle and Matousek(1996)]{DBLP:journals/jal/ChazelleM96}
+Bernard Chazelle and Jir{\'{\i}} Matousek.
+\newblock On linear-time deterministic algorithms for optimization problems in
+  fixed dimension.
+\newblock \emph{J. Algorithms}, 21\penalty0 (3):\penalty0 579--597, 1996.
+\newblock \doi{10.1006/jagm.1996.0060}.
+\newblock URL \url{http://dx.doi.org/10.1006/jagm.1996.0060}.
+
+\bibitem[Demaine and Langerman(2005)]{demaine2005optimizing}
 Erik~D Demaine and Stefan Langerman.
 \newblock Optimizing a 2d function satisfying unimodality properties.
-\newblock In {\em Algorithms--ESA 2005}, pages 887--898. Springer, 2005.
+\newblock In \emph{Algorithms--ESA 2005}, pages 887--898. Springer, 2005.
 
-\bibitem{grid05}
+\bibitem[Felsner et~al.(2005)Felsner, G\"{a}rtner, and Tschirschnitz]{grid05}
 Stefan Felsner, Bernd G\"{a}rtner, and Falk Tschirschnitz.
 \newblock Grid orientations, (d,d + 2)-polytopes, and arrangements of
   pseudolines.
-\newblock {\em Discrete \& Computational Geometry}, 34(3):411--437, 2005.
+\newblock \emph{Discrete \& Computational Geometry}, 34\penalty0 (3):\penalty0
+  411--437, 2005.
+\newblock ISSN 0179-5376.
+\newblock \doi{10.1007/s00454-005-1187-x}.
+\newblock URL \url{http://dx.doi.org/10.1007/s00454-005-1187-x}.
 
-\bibitem{galil1992dynamic}
+\bibitem[Galil and Park(1992)]{galil1992dynamic}
 Zvi Galil and Kunsoo Park.
 \newblock Dynamic programming with convexity, concavity and sparsity.
-\newblock {\em Theoretical Computer Science}, 92(1):49--76, 1992.
+\newblock \emph{Theoretical Computer Science}, 92\penalty0 (1):\penalty0
+  49--76, 1992.
 
-\bibitem{grid08}
-Bernd G\"{a}rtner, Walter~D. Jr.~Morris, and Leo R\"{u}st.
-\newblock Unique sink orientations of grids.
-\newblock {\em Algorithmica}, 51(2):200--235, 2008.
-
-\bibitem{linepoint}
+\bibitem[G\"{a}rtner et~al.(2003)G\"{a}rtner, Tschirschnitz, Welzl, Solymosi,
+  and Valtr]{linepoint}
 Bernd G\"{a}rtner, Falk Tschirschnitz, Emo Welzl, J\'{o}zsef Solymosi, and
   Pavel Valtr.
 \newblock One line and n points.
-\newblock {\em Random Structures \& Algorithms}, 23(4):453--471, 2003.
+\newblock \emph{Random Structures \& Algorithms}, 23\penalty0 (4):\penalty0
+  453--471, 2003.
+\newblock ISSN 1098-2418.
+\newblock \doi{10.1002/rsa.10099}.
+\newblock URL \url{http://dx.doi.org/10.1002/rsa.10099}.
 
-\bibitem{mityagin2003complexity}
+\bibitem[G\"{a}rtner et~al.(2008)G\"{a}rtner, Jr.~Morris, and R\"{u}st]{grid08}
+Bernd G\"{a}rtner, Walter~D. Jr.~Morris, and Leo R\"{u}st.
+\newblock Unique sink orientations of grids.
+\newblock \emph{Algorithmica}, 51\penalty0 (2):\penalty0 200--235, 2008.
+\newblock ISSN 0178-4617.
+\newblock \doi{10.1007/s00453-007-9090-x}.
+\newblock URL \url{http://dx.doi.org/10.1007/s00453-007-9090-x}.
+
+\bibitem[G{\"{a}}rtner et~al.(2008)G{\"{a}}rtner, Matousek, R{\"{u}}st, and
+  Skovron]{DBLP:journals/dam/GartnerMRS08}
+Bernd G{\"{a}}rtner, Jirka Matousek, Leo R{\"{u}}st, and Petr Skovron.
+\newblock Violator spaces: Structure and algorithms.
+\newblock \emph{Discrete Applied Mathematics}, 156\penalty0 (11):\penalty0
+  2124--2141, 2008.
+\newblock \doi{10.1016/j.dam.2007.08.048}.
+\newblock URL \url{http://dx.doi.org/10.1016/j.dam.2007.08.048}.
+
+\bibitem[Matousek et~al.(1996)Matousek, Sharir, and
+  Welzl]{DBLP:journals/algorithmica/MatousekSW96}
+Jir{\'{\i}} Matousek, Micha Sharir, and Emo Welzl.
+\newblock A subexponential bound for linear programming.
+\newblock \emph{Algorithmica}, 16\penalty0 (4/5):\penalty0 498--516, 1996.
+\newblock \doi{10.1007/BF01940877}.
+\newblock URL \url{http://dx.doi.org/10.1007/BF01940877}.
+
+\bibitem[Mityagin(2003)]{mityagin2003complexity}
 Anton Mityagin.
 \newblock On the complexity of finding a local maximum of functions on discrete
   planar subsets.
-\newblock In {\em STACS 2003}, pages 203--211. Springer, 2003.
+\newblock In \emph{STACS 2003}, pages 203--211. Springer, 2003.
 
-\bibitem{SW}
+\bibitem[Szab{\'{o}} and Welzl(2001)]{SW}
 Tibor Szab{\'{o}} and Emo Welzl.
 \newblock Unique sink orientations of cubes.
-\newblock In {\em 42nd Annual Symposium on Foundations of Computer Science,
+\newblock In \emph{42nd Annual Symposium on Foundations of Computer Science,
   {FOCS} 2001, 14-17 October 2001, Las Vegas, Nevada, {USA}}, pages 547--555,
   2001.
+\newblock \doi{10.1109/SFCS.2001.959931}.
+\newblock URL \url{http://dx.doi.org/10.1109/SFCS.2001.959931}.
 
-\bibitem{falkthesis}
+\bibitem[Tschirschnitz(2003)]{falkthesis}
 Falk Tschirschnitz.
-\newblock {\em LP-related Properties of Polytopes with Few Facets}.
+\newblock \emph{LP-related Properties of Polytopes with Few Facets}.
 \newblock PhD thesis, ETH Z\"urich, 2003.
 
-\bibitem{welzl2001entering}
+\bibitem[Welzl(2001)]{welzl2001entering}
 Emo Welzl.
 \newblock Entering and leaving $j$-facets.
-\newblock {\em Discrete \& Computational Geometry}, 25(3):351--364, 2001.
+\newblock \emph{Discrete \& Computational Geometry}, 25\penalty0 (3):\penalty0
+  351--364, 2001.
 
 \end{thebibliography}
