@@ -146,7 +146,13 @@ Notice that that any algorithm that finds the sink of a grid USO using edge quer
 Therefore, the randomized algorithm from~\citet{grid08} solves the matrix USO optimization problem on a $m\times n$ matrix in $\Theta(m+n)$ expected time. However, no deterministic counterpart to this algorithm is known. 
 Similar optimization problems on matrices have been studied with stronger conditions and have several applications in geometric problems~\cite{aggarwal1987geometric,demaine2005optimizing,galil1992dynamic,mityagin2003complexity}.
 
-LP-type problems are an abstract framework introduced by \citet{DBLP:journals/algorithmica/MatousekSW96}. There is a natural way to write the problem of finding the sink of a $(m,n)$-grid USO as an LP-type problem of combinatorial dimension 2. There are randomized algorithms for LP-type problems that imply $\Theta(m+n)$ edge queries for ($m,n$)-grid USOs in expectation. It was hinted by \citet{grid08} that it might be possible to apply the deterministic algorithms for LP-type problems \cite{DBLP:journals/jal/ChazelleM96} also for $(m,n)$-grid USOs. However, these deterministic algorithms assume an extra condition (called Computational assumption 2 in \cite{DBLP:journals/jal/ChazelleM96}) 
+All the algorithms mentioned so far are randomized. 
+Towards deterministic algorithms, \citet{grid08} hint that an $(m,n)$-grid USO can be naturally written as an LP-type problem of combinatorial dimension 2 (see~\cite{DBLP:journals/algorithmica/MatousekSW96} for the definition of an LP-type problem). 
+Randomized algorithms for LP-type problems also imply expected $O(m+n)$ edge queries for grid USOs. There are deterministic algorithms with matching performance \cite{DBLP:journals/jal/ChazelleM96}, but they make an extra assumption which does not hold for grid USOs (see Computational assumption 2 in \cite{DBLP:journals/jal/ChazelleM96}).
+
+%The deterministic algorithm for LP-type problems by \citet{DBLP:journals/jal/ChazelleM96} 
+
+%There is a natural way to write a $(m,n)$-grid USO as an LP-type problem of combinatorial dimension 2. There are randomized algorithms for LP-type problems that imply $\Theta(m+n)$ edge queries for ($m,n$)-grid USOs in expectation. It was hinted by \citet{grid08} that it might be possible to apply the deterministic algorithms for LP-type problems \cite{DBLP:journals/jal/ChazelleM96} also for $(m,n)$-grid USOs. However, these deterministic algorithms assume an extra condition (called Computational assumption 2 in \cite{DBLP:journals/jal/ChazelleM96}) 
 
 \subsection{Our results}
 
