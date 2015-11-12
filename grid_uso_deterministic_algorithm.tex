@@ -237,16 +237,14 @@ for short, if all its non-empty subgrids have a unique sink. For simplicity, we 
 % Let $G$ be an $X\times Y$-grid USO for some sets $X$ and $Y$ and let $A \subset 2^X$ and $B \subset 2^Y$ be partitions of $X$ and $Y$, respectively. Let $H$ be an $A\times B$-grid. \JN{See Malte's 4$\times$4 lower bound for a possible way to define this.}
 %\end{lemma}
 
-\subsection{Basic Properties}
-
-We will start by stating certain basic properties of grid USOs.
+For our algorithms to work it is important that the orientation is acyclic. The following lemma is due to \citet{grid08} and because of it we make no restriction when considering only acyclic grid USOs. 
 
 \begin{lemma}[\cite{grid08}]
 \label{lemma:acyclicity_lemma}
  Grid unique sink orientations are acyclic.
 \end{lemma}
 
-A useful property of grids is that one can test whether an orientation is a unique sink orientation by only looking at small subgrids as stated by the next proposition.
+Another useful property of grids is that to test whether an orientation is a unique sink orientation it enough to only look at small subgrids and ensure acyclicity. The following proposition is essentially known, but not explicitly mentioned before. \JN{At least I haven't seen it naywhere, but I'm not 100\% sure if it is mentioned or not.}
 
 \begin{proposition}
 \label{prop:subgrid_uso_check}
@@ -254,9 +252,9 @@ A useful property of grids is that one can test whether an orientation is a uniq
 \end{proposition}
 
 \begin{proof}
- One direction is evident: If a grid orientation is a unique sink orientation, then every $(2,2)$-subgrid is also a unique sink orientation and by Lemma~\ref{lemma:acyclicity_lemma} the orientation is acyclic. 
+ One direction is evident by using Lemma~\ref{lemma:acyclicity_lemma}.
  For the other direction note that every $(1,k)$-subgrid and $(k,1)$-subgrid is a unique sink orientation due to acyclicity. 
- If there were two sinks in any other subgrid, then we could find a $(2,2)$-subgrid that was not a unique sink orientation which would contradict the assumption.
+ If there were two sinks in any other subgrid, then we could find a $(2,2)$-subgrid that was not a unique sink orientation which would be a contradiction.
  Acyclicity proves the existence of one sink in each subgrid and the statement follows. \qed
 \end{proof}
 
@@ -389,17 +387,15 @@ As a first step to find a $(\frac{n}{2}, \frac{n}{2})$-vertex, we show how to co
 The algorithm we describe queries a linear number of vertices of the grid before finding a vertex with the required \indegree. 
 After explaining the algorithm we prove its correctness.
 
-The algorithm works as follows. First, query the diagonal vertices $D = \{v_1,\ldots, v_n\}$ where $v_i = (i,i)$.
+The algorithm works as follows. In the first phase, query the diagonal vertices $D = \{v_1,\ldots, v_n\}$ where $v_i = (i,i)$.
 If one of the vertices in $D$ has the required \indegree, we are done. 
-If not, observe that we can assume (by sorting and renaming) that vertex $v_i$ has at least $i-1$ incoming edges. \LB{Don't see this}
-The existence of such an ordering is easy to see: any linear extension of $\succeq$ will work. Just consider the $(2,2)$-subgrids induced by pairs of distinct vertices $v_i,v_j \in D$. 
+If not, sort and rename the vertices of $D$ such that for $i < j$ vertex $v_i$ has at most as many incoming edges as $v_j$. 
 
-Let $V = \{v_{\lceil \frac{n}{2} \rceil},\ldots,v_n\} \subseteq D$.
+In the second phase, let $V = \{v_{\lceil \frac{n}{2} \rceil},\ldots,v_n\} \subseteq D$.
 Label the vertices in $V$ as either \emph{horizontal}  or \emph{vertical}, depending on whether the majority of incoming edges for the corresponding vertex are horizontal  or vertical, respectively. 
 Assume without loss of generality that there are more vertical vertices in $V$; otherwise change the role of the coordinates. 
 Let $V' \subseteq V$ be the set of all vertical vertices in $V$ and notice that $|V'| \geq |V|/2$.
 %Additionally, let $v \in V'$ be such that for each $u\in V'$ either 
-
 
 Find some $v \in \join(V')$ by using at most $O(V')$ additional queries and note that $v' \succeq v$ for every $v' \in V'$. Let $I'$ be the set of indices containing the first coordinate of each vertex in~$V'$. 
 Assume that $v = (x_v, y_v)$ and let $W = I'\times \{y_v\}$ be a subset of vertices in the same row as $v$ with $|W| = |V'|\geq |V|/2$.
@@ -407,8 +403,14 @@ To conclude, the algorithm queries each vertex in $W$.
 It is clear from the description above that the number of vertices queried so far is $O(n)$. 
 We claim that one of the queried vertices will have the required \indegree.
 
-To prove our claim, recall that every diagonal vertex $v_i \in D$ has at least $i - 1$ incoming edges.  
-Therefore, each vertex of $V'$ has at least $\lceil \frac{n}{2} \rceil - 1$ incoming edges. 
+To prove our claim we first show that after querying the diagonal in the first phase, and after sorting and renaming the vertices, $D$ has the property that $v_i$ has at least $i-1$ incoming edges.
+To prove the claim, observe that if some ordering has the property, then the ordering with respect to the number of incoming edges satisfies the property as well. \JN{To Luis You commented before that you didn't see the argument. I modified it so hopefully now it works.}
+The existence of such an ordering follows by considering any linear extension of $\succeq$ restricted on $D$. 
+Indeed, if $D$ was ordered so that $v_i \not\preceq v_j$ for all $i\leq j$, then consider the $(2,2)$-subgrids containing two diagonal vertices: For every $i < j$ the $(2,2)$-subgrid containing $v_i$ and $v_j$ has at least one edge oriented towards $v_j$ because otherwise this would contradict the assumption on having a linear extension. 
+This proves our first claim.
+
+Recall the definition of $V'$ in the start of the second phase. 
+By the claim that we established, each vertex of $V'$ has at least $\lceil \frac{n}{2} \rceil - 1$ incoming edges.
 Moreover, each vertex in $V'$ has at least $\frac{\lceil \frac{n}{2}\rceil-1}{2}$ incoming vertical edges and $|V'| \geq \frac{n-\lceil \frac{n}{2}\rceil + 1}{2} \geq \frac{n}{4}$. 
 
 Let $v^*$ be the sink of $W$ obtained after querying each vertex in this set (including $v$). Let $[a,b]$ be the \indegree of $v^*$. We claim that $a, b \geq \frac{n}{4} - 1$. 
