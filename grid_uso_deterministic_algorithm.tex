@@ -96,7 +96,8 @@ CH-8092 Z{\"u}rich, Switzerland, {\tt \{mmilatz, njerri, athomas\}@inf.ethz.ch}
 
 \begin{abstract}
 \noindent
- In this paper, we study unique sink orientations of so-called grids (USO) which are digraphs whose underlining graphs are Cartesian products of complete graphs. We study different models: In the edge model an oracle provides the orientation of the queried edge, whereas in the vertex model the oracle provides the orientation of all edges incident to the queried vertex. We are interested in bounding the number of queries to the oracle needed by an algorithm to find the sink. 
+ %In this paper, 
+ We study unique sink orientations (USO) of so-called grids which are digraphs whose underlining graphs are Cartesian products of complete graphs. We study different models: In the edge model an oracle provides the orientation of the queried edge, whereas in the vertex model the oracle provides the orientation of all edges incident to the queried vertex. We are interested in bounding the number of queries to the oracle needed by an algorithm to find the sink. 
 In the randomized setting, the best known algorithms find the sink using either $\Theta(n)$ edge oracle queries, or $O(\log^2 n)$ vertex oracle queries (no non-trivial lower bound is known). In the deterministic setting, $O(n^{\log_4 7})$ edge-oracle queries and $O(n \log n)$ vertex-oracle queries suffice to find the sink, while only $\Omega(n)$ lower bounds are known for both types of oracle queries.
 \keywords{Unique sink orientation, Grids}
 \end{abstract}
@@ -346,6 +347,8 @@ Therefore, $\s{G} = \s{A,B}$. \qed
 \section{The Vertex Oracle Model}
 \label{section:The vertex oracle model}
 
+Recall that in the vertex query model a grid USO is given by a \emph{vertex oracle} that for a queried vertex reveals the orientations of the edges adjacent to the vertex. Our main result is Theorem~\ref{theorem:Sink algorithm} which describes a deterministic algorithm that needs $O((n + m) \log (n + m))$ vertex queries to find the sink of an $(m, n)$-grid USO. We start by proving intermediate Lemmas~\ref{lem:seed_lemma_for_square_matrices} and~\ref{lemma:Climbing lemma} and their repsective Corollaries~\ref{corollary: n/4 indegree} and~\ref{corollary: (m/2,n/2) indegree} which we then combine to prove Theorem~\ref{theorem:Sink algorithm}. We conclude the chapter in Theorem~\ref{thm:lowerbound} in which we show a lower bound of $n+m-1$ vertex queries for any deterministic algorithm.
+
 \subsection{The Sink-finding Algorithm}
 \label{section:the_sink_finding_algorithm}
 
@@ -355,7 +358,7 @@ In words, we say that $w$ is \emph{larger} than $v$ (or $v$ is \emph{smaller} th
 Because grid USOs are acyclic by Lemma~\ref{lemma:acyclicity_lemma}, this partial order is well defined.
 Moreover, the sink of the grid USO is the unique minimal vertex with respect to this ordering. 
 
-For $v,w \in G$ we also define an operation called \emph{\join} so that \join($v,w$) is the vertex that is the sink in the smallest subgrid containing $v$ and $w$. Note that $v,w \succeq \join(v,w)$. For sets of vertices $V$, $\join(V)$ denotes the set of vertices of the grid to which there is a path from all vertices in $V$. More formally $\join(V) = \{w \in G \: | \: v \succeq w \:\: \forall v \in V \}$. Given some set of vertices $V$ we can compute some $w \in \join(V)$ with $\mathcal{O}(|V|)$ vertex queries: just repeatedly apply the $\join$ operation on vertices from $V$.
+For a set of vertices $V$ in a grid USO $G$ let \join($V$) be the set of vertices of the grid to which there is a path from all vertices in $V$.  More formally $\join(V) = \{w \in G \: | \: v \succeq w \:\: \forall v \in V \}$. Note that if $s$ is the sink of the subgrid containing two vertices $v$ and $w$, then $s \in \join(\{v,w\})$. Therefore, given some set of vertices $V$, we can compute a $w \in \join(V)$ with $O(|V|)$ vertex queries.
 
 %Note that two vertices may not be $\succeq$-comparable in the smallest subgrid containing them. 
 %There could still be a path between the two vertices. 
@@ -379,7 +382,7 @@ As a first step to find a $(\frac{n}{2}, \frac{n}{2})$-vertex, we show how to co
 
 \begin{lemma}
 \label{lem:seed_lemma_for_square_matrices}
- Given an $[n]\times [n]$ grid USO we can find an $(\frac{n}{4}, \frac{n}{4})$-vertex using $\mathcal{O}(n)$ vertex queries.
+ Given an $[n]\times [n]$ grid USO we can find an $(\frac{n}{4}, \frac{n}{4})$-vertex using $O(n)$ vertex queries.
 \end{lemma}
 
 \begin{proof}
@@ -390,10 +393,6 @@ The algorithm works as follows. First, query the diagonal vertices $D = \{v_1,\l
 If one of the vertices in $D$ has the required \indegree, we are done. 
 If not, observe that we can assume (by sorting and renaming) that vertex $v_i$ has at least $i-1$ incoming edges. \LB{Don't see this}
 The existence of such an ordering is easy to see: any linear extension of $\succeq$ will work. Just consider the $(2,2)$-subgrids induced by pairs of distinct vertices $v_i,v_j \in D$. 
-%assume without loss of generality that $v_i \succeq v_j$ whenever $j > i$; otherwise rename the vertices. 
-%With this assumption, we claim that every diagonal vertex $v_i \in D$ has at least $i - 1$ incoming edges. 
-%Indeed, for each $j < i$, we have that either $v_j \succeq v_i$ or they are incomparable. 
-%Thus, regardless of the case we can guarantee the existence of at least one incoming edge to $v_i$ in the $(2, 2)$-subgrid containing $v_i$ and $v_j$. 
 
 Let $V = \{v_{\lceil \frac{n}{2} \rceil},\ldots,v_n\} \subseteq D$.
 Label the vertices in $V$ as either \emph{horizontal}  or \emph{vertical}, depending on whether the majority of incoming edges for the corresponding vertex are horizontal  or vertical, respectively. 
@@ -402,11 +401,10 @@ Let $V' \subseteq V$ be the set of all vertical vertices in $V$ and notice that 
 %Additionally, let $v \in V'$ be such that for each $u\in V'$ either 
 
 
-Let $v \in \join(V')$ be a vertex obtained after repeatedly applying the \join operation on vertices of $V'$ in any order. 
-Note that $v' \succeq v$ for every $v' \in V'$. Let $I'$ be the set of indices containing the first coordinate of each vertex in~$V'$. 
-Assume that $v = (x_v, y_v)$ and let $W = I'\times \{y_v\}$ be a subset of vertices in the same row as $v$ with $|W| = |V'|\geq |V|/2|$.
+Find some $v \in \join(V')$ by using at most $O(V')$ additional queries and note that $v' \succeq v$ for every $v' \in V'$. Let $I'$ be the set of indices containing the first coordinate of each vertex in~$V'$. 
+Assume that $v = (x_v, y_v)$ and let $W = I'\times \{y_v\}$ be a subset of vertices in the same row as $v$ with $|W| = |V'|\geq |V|/2$.
 To conclude, the algorithm queries each vertex in $W$.
-It is clear from the description above that the number of vertices queried so far is $\mathcal{O}(n)$. 
+It is clear from the description above that the number of vertices queried so far is $O(n)$. 
 We claim that one of the queried vertices will have the required \indegree.
 
 To prove our claim, recall that every diagonal vertex $v_i \in D$ has at least $i - 1$ incoming edges.  
@@ -458,7 +456,7 @@ Otherwise, there is a vertex $v' \in V'$ that is in the same column as $v^*$. Du
 The following corollary extends the previous lemma to non-square grids.
 
 \begin{corollary}\label{corollary: n/4 indegree}
-  Given an $[m]\times [n]$ grid USO $G$, we can find a vertex with \indegree $[a,b]$ with $a \geq \frac{m}{8} - 1$ and  $b \geq \frac{n}{8} - 1$ using $\mathcal{O}(M)$ vertex queries where $M = \max\{m,n\}$.
+  Given an $[m]\times [n]$ grid USO $G$, we can find a vertex with \indegree $[a,b]$ with $a \geq \frac{m}{8} - 1$ and  $b \geq \frac{n}{8} - 1$ using $O(M)$ vertex queries where $M = \max\{m,n\}$.
 \end{corollary}
 
 \begin{proof}
@@ -516,7 +514,7 @@ Repeat this procedure with $G_{i+1}$ as long as $|B_i| \geq  \frac{n}{2}$; see F
 \begin{figure}[h]
 \centering
 \includegraphics[width=1\textwidth]{ClimbingLemma.pdf}
-\caption{\small }
+\caption{\small Illustration for the first part of the proof of Lemma~\ref{lemma:Climbing lemma}.}
 \label{fig:Climbing Lemma}
 \end{figure}
 
@@ -524,14 +522,14 @@ Since $0 < \beta < 1$, after $k = O(1)$ iterations, the above procedure stops.
 Because the process stopped, we know that $|B_{k+1}| = |B_k \setminus J_{v_k}| <  \frac{n}{2}$.
 Since $B_{k+1} = B_0\setminus \cup_{i=0}^k J_{v_i}$, we know that $|\cup_{i=0}^k J_{v_i}| >  \frac{n}{2}$.
 
-Let $s = join(\{v_0, \ldots, v_k\})$ and notice that $s$ is smaller than $v_i$ for each $1\leq i\leq k$. Since $k = O(1)$, $s$ can be computed using $O(1)$ vertex queries. 
+Compute an $s \in \join(\{v_0, \ldots, v_k\})$ and notice that $s$ is smaller than $v_i$ for each $1\leq i\leq k$. Since $k = O(1)$, $s$ can be computed using $O(1)$ vertex queries. 
 Assume that $s = (x_s, y_s)$ and let $s'$ be the sink of the $\{x_s\}\times \cup_{i=0}^k J_{v_i}$-subgrid. 
 Let $0\leq h\leq k$ be an integer such that $s'$ belongs to the $[m]\times J_{v_h}$-subgrid; see Figure~\ref{fig:Climbing Lemma-2}.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=1\textwidth]{ClimbingLemma-2.pdf}
-\caption{\small }
+\includegraphics[width=0.85\textwidth]{ClimbingLemma-2.pdf}
+\caption{\small Illustration for the latter part of the proof of Lemma~\ref{lemma:Climbing lemma}.}
 \label{fig:Climbing Lemma-2}
 \end{figure}
 
@@ -556,7 +554,7 @@ Therefore, using again Lemma~\ref{lemma:Climbing lemma} with this $(\frac{1}{8},
 We are ready to prove our main result. 
 
 \begin{theorem}\label{theorem:Sink algorithm}
- Let $M = \max\{m,n\}$. The sink of an $[m]\times[n]$-grid USO can be found after $\mathcal{O}(M(\log M))$ vertex queries.
+ Let $M = \max\{m,n\}$. The sink of an $[m]\times[n]$-grid USO can be found after $O(M(\log M))$ vertex queries.
 \end{theorem}
 
 \begin{proof}
@@ -615,21 +613,6 @@ It is easy to check that the answers are consistent with a unique sink orientati
 
 Because vertices in unexplored rows are always smaller, the sink of $G$ lies always in an unexplored row throughout the execution of $A$. Therefore, $A$ requires at least $n$ vertex queries before querying the first vertex in the row $r$ containing the sink. Once $A$ has queried the first vertex in $r$, it has still to find the maximum among its $m$ vertices. 
 By Lemma~\ref{lem:kx1} this requires at least $m$ vertex queries of which the algorithm has performed exactly one. Thus, $m-1$ additional vertex queries are needed to find the sink. That is, $A$ requires at least $m+n-1$ vertex queries to find the sink of $G$. \qed
-\end{proof}
-
-A unique sink orientation is called \emph{combed} in rows (columns) if the orientation of all the edges between the vertices of any two rows (columns) are the same. 
-A combed USO is combed either in the rows or in the columns. The unique sink orientation arising in the proof of Theorem~\ref{thm:lowerbound} is an example of a USO that is combed in the rows.
-The next theorem shows that if one wants to improve the lower bound of Theorem~\ref{thm:lowerbound}, it is not sufficient to consider only combed USOs.
-
-\begin{theorem}
- The sink of a combed $(m,n)$-grid USO can be found by using $m+n-1$ vertex queries.
-\end{theorem}
-
-\begin{proof}
- If we know that the grid is combed in rows or columns, then the same approach used by the adversary player in the proof of Theorem~\ref{thm:lowerbound} will work.
- If we don't know the direction of the combing, there is a strategy that will find the sink within the required number of steps: after querying a vertex, the next vertex to be checked is the one that is the furthest away from the current vertex within the subgrid that is spanned by the edges leaving the curent vertex. 
- 
- This strategy works because no matter in which direction the USO is combed, at every step we discard  one or more of the irrelevant rows or columns. For example, if the USO is combed in rows, then in at most $n$ queries we will be at a vertex that has only horiontal outgoing edges. That is, we have found the row where the sink is in. In the next $m-1$ all queries will be in that row so that in the required number of queries we have found the sink. \qed
 \end{proof}
 
 
