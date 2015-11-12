@@ -11,19 +11,7 @@
 \usepackage{xypic}
 \usepackage[numbers]{natbib}
 
-%\title{Grid USO algorithms}
-%\author{Antonis Thomas \\ \small ETH Zürich \and
-   %     Jerri Nummenpalo \\ \small ETH Zürich \and
-   %     Luis Barba \\ \small ULB / Carleton University \and
-   %     Malte Milatz \\ \small ETH Zürich}
-
 \newtheorem{observation}{Observation}
-%\newtheorem{lemma}{Lemma}
-%\newtheorem{definition}{Definition}
-%\newtheorem{corollary}{Corollary}
-%\newtheorem{theorem}{Theorem}
-%\newtheorem{prop}{Proposition}
-%\newtheorem{conjecture}{Conjecture}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Setup margin comments. If you want to ignore them, then comment the other part out.
@@ -43,7 +31,6 @@
 \newcommand{\B}{\ensuremath{\mathcal B}}
 \newcommand{\s}[1]{\ensuremath{s_{\scriptscriptstyle#1}}}
 \newcommand{\USO}{\ensuremath{\mathrm{USO}}}
-\newcommand{\timeEdge}{\ensuremath{T_\mathrm{E}}}
 \newcommand{\timeVertex}{\ensuremath{T_\mathrm{V}}}
 \newcommand{\e}{\ensuremath{\mathrm{e}}}
 \newcommand{\RR}{\ensuremath{\mathbb{R}}}
@@ -620,27 +607,20 @@ By Lemma~\ref{lem:kx1} this requires at least $m$ vertex queries of which the al
 
 \subsection{Optimality of the Lower Bound for Small Grids}
 
-We now write $\timeVertex(m,n)$ for the minimum number of queries that a
-deterministic algorithm must ask in the worst case to find and query the sink
-in a grid $G = K_m \times K_n$.
-Here we analyze some small cases:
+Here we identify four small cases where the lower bound in
+Theorem~\ref{thm:lowerbound} is tight:
 \begin{theorem}
     \label{thm:smallGrids}
-    Let $n \le 4$. Then $\timeVertex(n,n) = 2n-1$.
+    Let $n \le 4$ and let $G$ denote the $(n,n)$-grid. Then the minimum number
+    of queries that a deterministic algorithm must ask in the worst case to
+    find and query the sink in a unique sink orientation of $G$ is equal to
+    $2n-1$.
 \end{theorem}
-Thus we will find that for the cases covered by the theorem, the lower bound
-in Theorem~\ref{thm:lowerbound} is tight.
 
-We omit the proofs for the cases $n = 1,2,3$. Namely,
-\begin{itemize}
-    \item
-        if $n \le 2$ then the graph $G = K_n \times K_n$ coincides with the
-        ``$n$-cube'', already discussed to large extents in the USO
-        literature;
-    \item
-        and if $n = 3$ then the proof is similar to the case $n=4$, but much
-        simpler.
-\end{itemize}
+We omit the proofs for the cases $n = 1,2,3$.
+Namely, for $n \le 2$ the graph $G = K_n \times K_n$ coincides with the
+``$n$-cube'', already discussed to large extents in the USO literature;
+and if $n = 3$ then the proof is similar to the case $n=4$, but much simpler.
 The rest of this subsection will thus be concerned with the following
 proposition, whose proof will settle Theorem~\ref{thm:smallGrids}.
 
@@ -793,28 +773,24 @@ queries. This concludes the proof of Proposition~\ref{prop:4:7}.
 \section{The Edge Oracle Model}
 \label{section:The edge oracle model}
 
-In this section we study an easier data model, so as to expand the potential
-applications of our investigations.
+In this section we study an alternative data model, so as to expand the
+potential applications of our investigations.
 In the \emph{edge oracle model} considered here, the algorithm accesses the
 grid $G = K_m \times K_n$ by means of an \emph{edge oracle} which can tell us
 the orientation of any given edge.
-Recall that we write $\timeEdge(N)$ for the required number of edge queries,
-$N = m+n$.
-
 By an adversary argument similar to the one used for Theorem~\ref{thm:lowerbound},
-\[
-    \timeEdge(N) \in \Omega(N).
-\]
-On the other hand, a vertex query can clearly be simulated using $O(N)$ edge
-queries, so that we have $\timeEdge(N) \in O(N^2 \log N)$ as an immediate
-corollary of Theorem~\ref{theorem:Sink algorithm}.
-But we can improve on that:
+we have an $\Omega(N)$ lower bound for the required number of edge queries,
+where $N = m+n$.
+An easy upper bound is $O(N^2)$ (find the sink of each row individually; then
+for each of these local sinks, query all incident edges to decide whether it
+is the global sink).
+But we can do better:
 
 \begin{theorem}
     \label{thm:timeEdge}
-    \[
-        \timeEdge(N) \in O(N ^ {\log_4(7)}),~ \log_4(7) \approx 1.40.
-    \]
+    To find the sink in a grid USO deterministically,
+    $O(N ^ {\log_4(7)})$ edge queries suffice; $\log_4(7) \approx
+    1.40$.
 \end{theorem}
 
 \begin{proof}
@@ -825,15 +801,14 @@ But we can improve on that:
 
     Given the grid $G = K_m \times K_m$, let $A \subseteq 2 ^ {[m]}$
     be a partition of the index set such that
-    $|A| = 4$ and $|a| \le \frac{m}{4}$ for all $a \in A$.
+    $|A| = 4$ and $|a| = \frac{m}{4}$ for all $a \in A$.
     Consider the induced unique sink orientation on the grid
     $H = K_A \times K_A$, and let $v$ be a vertex of $H$.
+
     We claim that we can find out the orientations of the edges adjacent to
     $v$ (thus simulating a vertex query on $H$)
     and at the same time determine the sink of $G(v)$ using
-    \[
-        T \left( \frac{N}{4} \right) + O(N)
-    \]
+    $T( N/4 ) + O(N)$
     edge queries.
     Then, using Theorem~\ref{thm:smallGrids} to tell us \emph{which} vertex
     queries to simulate, we will have found $\sink(H)$ as well as
@@ -841,7 +816,7 @@ But we can improve on that:
     \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink})
     after at most
     \[
-        T(N) \le 7 \cdot \left( T \left( \frac{N}{4} \right) + O(N) \right)
+        T(N) \le 7 \cdot \Bigl( T \left( N/4 \right) + O(N) \Bigr)
     \]
     edge queries, and the theorem follows by the ``master theorem'' applied to
     this recurrence.
@@ -856,8 +831,9 @@ But we can improve on that:
         ~\cup~
         \bigl\{~ \{ s,(x,s_2) \} ~:~ x \notin s_1 ~\bigr\};
     \]
-    this is only a linear number of edges, so they account for the $O(N)$
-    term in the claim. \qed
+    this is only a linear number of edges, and they account for the $O(N)$
+    term in the claim.
+    \qed
 \end{proof}
 
 \section{Counting Grid USOs}
