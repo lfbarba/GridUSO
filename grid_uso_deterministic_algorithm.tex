@@ -90,13 +90,36 @@ In the randomized setting, the best known algorithms find the sink using either 
 \end{abstract}
 
 \section{Introduction}
+%We write $K_X$ for the complete graph on a given vertex set $X$.
+%Given two finite sets $X$ and $Y$,
+%the \emph{$X \times Y$-grid} is the product of two complete graphs $G = K_X \times K_Y$.
 A \emph{$(m,n)$-grid}, or simply a \emph{grid}, is the Cartesian product $K_m \times K_n$ of two complete graphs with $m$ and $n$ vertices, respectively. An induced subgraph of a grid is called a \emph{subgrid} if it is itself a grid.
-In this paper, we study digraphs obtained by orienting the edges of a grid. 
-In particular, we are interested in orientations in which every subgrid has unique \emph{sink}, i.e., a vertex whose adjacent edges are all incoming. 
-These digraphs are called unique sink orientations of a grid (or simply grid USOs). 
+%It is also called an \emph{$(m,n)$-grid}, where $m = |X|$ and $n = |Y|$ denote
+%the cardinalities of the index sets.
+%Unless otherwise specified, we assume that $X = [m]$ and $Y = [n]$.
+See Figure~\ref{fig:examplegrid} for an example of a grid.
 
+Let $[m] = \{1,\ldots,m\}$.
+Explicitly, the vertex set of the graph $G$ is $[m] \times [n]$, and two
+vertices $v,w \in [m] \times [n]$ are adjacent if and only if they differ in
+exactly one of their two coordinates.
+We call the edge $vw$ a \emph{vertical edge} if $v$ and $w$ differ in the
+first coordinate, and we speak of a \emph{horizontal edge} if they differ in the
+second coordinate. The \emph{rows} and \emph{columns} of the grid are defined accordingly (see Figure~\ref{fig:examplegrid}).
+%The set of \emph{indices} of an $(m,n)$-grid is $[m]\cup [n]$.
 
-We are interested in finding the sink of a grid USO by performing oracle queries which return the orientation of either a single edge (\emph{edge query}) or of all edges incident to a specified vertex (\emph{vertex query}). 
+  \begin{figure}[htbp] 
+  	\centering
+  	\includegraphics{uso_example.pdf}
+  	\caption{\small On the left is displayed an exampe of an $(4,3)$-grid (that means $4$ columns and $3$ rows) 
+  	and a $(3,2)$-subgrid is higlighted in light blue. On the right there is a unique sink orientation of a $(3,2)$-grid.} 
+  	\label{fig:examplegrid}
+  \end{figure}
+
+A vertex in an oriented graph is called a \emph{sink} if all its incident edges are incoming.
+An orientation of a grid is a \emph{unique sink orientation}, or \emph{USO}
+for short, if all its non-empty subgrids have a unique sink. For simplicity, we call a grid with a unique sink orientation a grid USO.
+The problem of interest is to find the sink of a grid USO by performing oracle queries which return the orientation of either a single edge (\emph{edge query}) or of all edges incident to a specified vertex (\emph{vertex query}). 
 The main goal is to determine the minimum number of vertex queries that a deterministic (or randomized) algorithm must ask in the worst case to find the sink of a grid USO.
 
 \subsubsection{Previous work.}
@@ -136,9 +159,34 @@ Notice that that any algorithm that finds the sink of a grid USO using edge quer
 Therefore, the randomized algorithm from~\citet{grid08} solves the matrix USO optimization problem on a $m\times n$ matrix in $\Theta(m+n)$ expected time. However, no deterministic counterpart to this algorithm is known. 
 Similar optimization problems on matrices have been studied with stronger conditions and have several applications in geometric problems~\cite{aggarwal1987geometric,demaine2005optimizing,galil1992dynamic,mityagin2003complexity}.
 
-All the algorithms mentioned so far are randomized. 
-Towards deterministic algorithms, \citet{grid08} hint that an $(m,n)$-grid USO can be naturally written as an LP-type problem of combinatorial dimension 2 (see~\cite{DBLP:journals/algorithmica/MatousekSW96} for the definition of an LP-type problem). 
-Randomized algorithms for LP-type problems also imply expected $O(m+n)$ edge queries for grid USOs. There are deterministic algorithms with matching performance \cite{DBLP:journals/jal/ChazelleM96}, but they make an extra assumption which does not hold for grid USOs (see Computational assumption 2 in \cite{DBLP:journals/jal/ChazelleM96}).
+\subsection{Connection to LP-type problems}
+LP-type problems as originally defined by \citet{SharirW92} are optimization problems defined on a set of constraints $S$ and a function 
+$w:2^S \rightarrow \mathbb{R}$
+that satisfies two properties: (1) Monotonicity: for every two sets $A \subseteq B \subseteq S$, we have $w(A) \leq w(B) \leq w(S)$ and
+(2) Locality: for every two sets $A \subseteq B \subseteq S$ and every constraint $h \in S$, if $w(A) = w(B) = w(A\cup \{h\})$ then 
+$w(A) = w(B \cup \{h\})$.
+A \emph{basis} of an LP-type problem is a set $B \subseteq S$ with the property that every proper subset
+of $B$ has a smaller value of $w$ than $B$ itself. The \emph{dimension} of an LP-type problem 
+is the maximum cardinality of a basis. For more information on LP-type problems refer to \cite{MatousekSW96}.
+
+\citet{grid08} hint that the problem of finding the sink of an $(m,n)$-grid USO can be naturally written as an LP-type problem of combinatorial dimension~2. 
+Intuitively, the set of constraints is the set $S = [m] \cup [n]$ and $w$ is any function that is consistent with the topological order of the vertices induced by the grid USO (every $(m, n)$-grid USO is acyclic; see Section~\ref{section:grid_uso_properties}). This definition satisfies both monotonicity and locality yielding an LP-type problem.
+Moreover, a basis is simply a vertex defined by two constraints, one contained in $[m]$ and another in $[n]$. 
+%The \emph{violator set} of a vertex $v$ is the set of constraints representing the rows and columns to which $v$ has outgoing edges. 
+
+Using the above construction, there are randomized algorithms for LP-type problems that imply expected $O(m+n)$ edge queries for grid USOs~\cite{MatousekSW96}. 
+While there exist deterministic algorithms with matching performance \cite{chan16,ChazelleM96}, they make an extra assumption  
+(see Computational assumption 2 in \cite{ChazelleM96}). 
+Namely, they require that a set system has constant VC-dimension which does not hold for the LP-type problem described above 
+(refer to~\cite{matouvsek2002lectures} for further information on VC-dimension). \AT{Here we refer to the construction which will be in the appendix.}
+When this assumption is not satisfied then the above deterministic algorithms are less efficient that exploring the entire 
+grid exhaustively. 
+
+Therefore, it is open whether there exist deterministic algorithms that find the sink of a grid USO using only a linear number of queries. In particular, 
+it is not known if \emph{any} LP-type problem can be deterministically solved in linear~time. 
+
+
+%Namely, they require that the set system induced on $S$ by the family of violator sets of each of the vertices has constant VC-dimension (refer to~\cite{matouvsek2002lectures} for further information on VC-dimension).
 
 %The deterministic algorithm for LP-type problems by \citet{DBLP:journals/jal/ChazelleM96} 
 
@@ -187,42 +235,14 @@ While the first $O(n^{\log_4 7})$ algorithm works in both the edge- and the vert
 \section{Grid USO Properties}\label{section:grid_uso_properties}
 In this section, we introduce the terminology and basic properties of grids. Moreover, we go into the basics of the partition strategy which will be key to our subsequent algorithms.
 
-We write $K_X$ for the complete graph on a given vertex set $X$.
-Given two finite sets $X$ and $Y$,
-the \emph{$X \times Y$-grid} is the product graph $G = K_X \times K_Y$.
-It is also called an \emph{$(m,n)$-grid}, where $m = |X|$ and $n = |Y|$ denote
-the cardinalities of the index sets.
-Unless otherwise specified, we assume that $X = [m]$ and $Y = [n]$.
-See Figure~\ref{fig:examplegrid} for an example of a grid.
-
-Explicitly, the vertex set of the graph $G$ is $X \times Y$, and two
-vertices $v,w \in X \times Y$ are adjacent if and only if they differ in
-exactly one of their two coordinates.
-We call the edge $vw$ a \emph{horizontal edge} if $v$ and $w$ differ in the
-$X$-coordinate, and we speak of a \emph{vertical edge} if they differ in the
-$Y$-coordinate. The \emph{rows} and \emph{columns} of the grid are defined accordingly.
-
-Recall that an induced subgraph of a grid is called a \emph{subgrid} if it is itself a grid.
-The subgrids of $G$ are exactly those induced subgraphs whose vertex set is a
-Cartesian product $I \times J$, for some $I \subseteq X$ and $J \subseteq Y$.
-If the graph $G$ is oriented then its subgrids inherit an orientation.
-
-  \begin{figure}[htbp] 
-  	\centering
-  	\includegraphics[scale=1.0]{uso_example.pdf}
-  	\caption{\small On the left is displayed an exampe of an (4,3)-grid and a $(3,2)$-subgrid is higlighted in light blue. On the right there is a unique sink orientation of a $(3,2)$-grid.} 
-  	\label{fig:examplegrid}
-  \end{figure}
-
-A vertex in an oriented graph is called a \emph{sink} if all its incident edges are incoming.
-An orientation of a grid is a \emph{unique sink orientation}, or \emph{USO}
-for short, if all its non-empty subgrids have a unique sink. For simplicity, we call a grid with a unique sink orientation a grid USO.
-
-
 
 %\begin{lemma}[Product construction]
 % Let $G$ be an $X\times Y$-grid USO for some sets $X$ and $Y$ and let $A \subset 2^X$ and $B \subset 2^Y$ be partitions of $X$ and $Y$, respectively. Let $H$ be an $A\times B$-grid. \JN{See Malte's 4$\times$4 lower bound for a possible way to define this.}
 %\end{lemma}
+Recall that an induced subgraph of a grid is called a \emph{subgrid} if it is itself a grid.
+The subgrids of $G$ are exactly those induced subgraphs whose vertex set is a
+Cartesian product $I \times J$, for some $I \subseteq X$ and $J \subseteq Y$.
+If the graph $G$ is oriented then its subgrids inherit an orientation.
 
 For our algorithms to work it is important that the orientation is acyclic. The following lemma is due to \citet{grid08} and because of it we make no restriction when considering only acyclic grid USOs. 
 
