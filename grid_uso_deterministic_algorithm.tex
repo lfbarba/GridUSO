@@ -15,11 +15,11 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Setup margin comments. If you want to ignore them, then comment the other part out.
-\newcommand{\JN}[1]{\marginpar{\parbox{3.7cm}{{\small {\bf JN:} #1}}}} %Jerri
-\newcommand{\LB}[1]{\marginpar{\parbox{3.7cm}{{\small {\bf LB:} #1}}}} %Luis
-\newcommand{\MM}[1]{\marginpar{\parbox{3.7cm}{{\small {\bf MM:} #1}}}} %Malte
-\newcommand{\AT}[1]{\marginpar{\parbox{3.7cm}{{\small {\bf AT:} #1}}}} %Antonis
-\newcommand{\BG}[1]{\marginpar{\parbox{3.7cm}{{\small {\bf BG:} #1}}}} %Bernd
+\newcommand{\JN}[1]{\marginpar{\parbox{3.6cm}{{\small {\bf JN:} #1}}}} %Jerri
+\newcommand{\LB}[1]{\marginpar{\parbox{3.6cm}{{\small {\bf LB:} #1}}}} %Luis
+\newcommand{\MM}[1]{\marginpar{\parbox{3.6cm}{{\small {\bf MM:} #1}}}} %Malte
+\newcommand{\AT}[1]{\marginpar{\parbox{3.6cm}{{\small {\bf AT:} #1}}}} %Antonis
+\newcommand{\BG}[1]{\marginpar{\parbox{3.6cm}{{\small {\bf BG:} #1}}}} %Bernd
 %\newcommand{\JN}[1]{}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -84,7 +84,10 @@ CH-8092 Z{\"u}rich, Switzerland, {\tt \{mmilatz, njerri, athomas\}@inf.ethz.ch}
 \begin{abstract}
 \noindent
  %In this paper, 
- We study unique sink orientations (USO) of so-called grids which are digraphs whose underlining graphs are Cartesian products of complete graphs. We study different models: In the edge model an oracle provides the orientation of the queried edge, whereas in the vertex model the oracle provides the orientation of all edges incident to the queried vertex. We are interested in bounding the number of queries to the oracle needed by an algorithm to find the sink. 
+ We study unique sink orientations (USO) of so-called grids which are digraphs whose underlining graphs are Cartesian products of complete graphs.
+    \MM{``Underlining graph'' -- Jerri, you were drunk. Anyways, we should
+    agree on ``a grid'' per se being an \emph{undirected} graph.}
+ We study different models: In the edge model an oracle provides the orientation of the queried edge, whereas in the vertex model the oracle provides the orientation of all edges incident to the queried vertex. We are interested in bounding the number of queries to the oracle needed by an algorithm to find the sink.
 In the randomized setting, the best known algorithms find the sink using either $\Theta(n)$ edge oracle queries, or $O(\log^2 n)$ vertex oracle queries (no non-trivial lower bound is known). In the deterministic setting, $O(n^{\log_4 7})$ edge-oracle queries and $O(n \log n)$ vertex-oracle queries suffice to find the sink, while only $\Omega(n)$ lower bounds are known for both types of oracle queries.
 \keywords{Unique sink orientation, Grids}
 \end{abstract}
