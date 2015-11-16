@@ -1,4 +1,4 @@
-\begin{thebibliography}{13}
+\begin{thebibliography}{16}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -11,7 +11,14 @@ Alok Aggarwal, Maria~M Klawe, Shlomo Moran, Peter Shor, and Robert Wilber.
 \newblock Geometric applications of a matrix-searching algorithm.
 \newblock \emph{Algorithmica}, 2\penalty0 (1-4):\penalty0 195--208, 1987.
 
-\bibitem[Chazelle and Matousek(1996)]{DBLP:journals/jal/ChazelleM96}
+\bibitem[Chan(2016)]{chan16}
+Timothy Chan.
+\newblock Improved deterministic algorithms for linear programming in low
+  dimensions.
+\newblock \emph{To appear in Proc. 27th ACM-SIAM Symposium on Discrete
+  Algorithms}, 2016.
+
+\bibitem[Chazelle and Matousek(1996)]{ChazelleM96}
 Bernard Chazelle and Jir{\'{\i}} Matousek.
 \newblock On linear-time deterministic algorithms for optimization problems in
   fixed dimension.
@@ -68,8 +75,12 @@ Bernd G{\"{a}}rtner, Jirka Matousek, Leo R{\"{u}}st, and Petr Skovron.
 \newblock \doi{10.1016/j.dam.2007.08.048}.
 \newblock URL \url{http://dx.doi.org/10.1016/j.dam.2007.08.048}.
 
-\bibitem[Matousek et~al.(1996)Matousek, Sharir, and
-  Welzl]{DBLP:journals/algorithmica/MatousekSW96}
+\bibitem[Matou{\v{s}}ek(2002)]{matouvsek2002lectures}
+Ji{\v{r}}{\'\i} Matou{\v{s}}ek.
+\newblock \emph{Lectures on discrete geometry}, volume 212.
+\newblock Springer New York, 2002.
+
+\bibitem[Matousek et~al.(1996)Matousek, Sharir, and Welzl]{MatousekSW96}
 Jir{\'{\i}} Matousek, Micha Sharir, and Emo Welzl.
 \newblock A subexponential bound for linear programming.
 \newblock \emph{Algorithmica}, 16\penalty0 (4/5):\penalty0 498--516, 1996.
@@ -81,6 +92,17 @@ Anton Mityagin.
 \newblock On the complexity of finding a local maximum of functions on discrete
   planar subsets.
 \newblock In \emph{STACS 2003}, pages 203--211. Springer, 2003.
+
+\bibitem[Sharir and Welzl(1992)]{SharirW92}
+Micha Sharir and Emo Welzl.
+\newblock A combinatorial bound for linear programming and related problems.
+\newblock In Alain Finkel and Matthias Jantzen, editors, \emph{{STACS} 92, 9th
+  Annual Symposium on Theoretical Aspects of Computer Science, Cachan, France,
+  February 13-15, 1992, Proceedings}, volume 577 of \emph{Lecture Notes in
+  Computer Science}, pages 569--579. Springer, 1992.
+\newblock ISBN 3-540-55210-3.
+\newblock \doi{10.1007/3-540-55210-3_213}.
+\newblock URL \url{http://dx.doi.org/10.1007/3-540-55210-3_213}.
 
 \bibitem[Szab{\'{o}} and Welzl(2001)]{SW}
 Tibor Szab{\'{o}} and Emo Welzl.

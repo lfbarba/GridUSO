@@ -180,11 +180,16 @@ Intuitively, the set of constraints is the set $S = [m] \cup [n]$ and $w$ is any
 Moreover, a basis is simply a vertex defined by two constraints, one contained in $[m]$ and another in $[n]$. 
 %The \emph{violator set} of a vertex $v$ is the set of constraints representing the rows and columns to which $v$ has outgoing edges. 
 
-Using the above construction, there are randomized algorithms for LP-type problems that imply expected $O(m+n)$ edge queries for grid USOs~\cite{MatousekSW96}. 
-While there exist deterministic algorithms with matching performance \cite{chan16,ChazelleM96}, they make an extra assumption  
+There are randomized algorithms for LP-type problems~\cite{MatousekSW96} that imply expected $O(m+n)$ edge queries for grid USOs using the above construction. 
+While there exist deterministic algorithms with matching performance to solve LP-type problems \cite{chan16,ChazelleM96}, they make an extra assumption  
 (see Computational assumption 2 in \cite{ChazelleM96}). 
-Namely, they require that a set system has constant VC-dimension which does not hold for the LP-type problem described above 
-(refer to~\cite{matouvsek2002lectures} for further information on VC-dimension). \AT{Here we refer to the construction which will be in the appendix.}
+Namely, they require that a set system has constant VC-dimension which does not hold for the LP-type problem described above (refer to~\cite{matouvsek2002lectures} for further information on set systems and VC-dimension). 
+For each vertex $v$ in the grid, let $R_v\subseteq [m]\cup [n]$ be the set of indices of the rows and columns to which $v$ has an outgoing edge. 
+The set system $([m]\times [n], \mathcal R)$ must have constant VC-dimension for the algorithm of \citet{ChazelleM96} to work, where $\mathcal R = \{R_v : v\text{ is a vertex of the grid}\}$. 
+Since this set system has unbounded VC-dimension for general Gird USOs as shown in Figure~\ref{}, the above algorithm cannot be applied.
+To find the sink of Holt-Klee grids however, the VC-dimension of the aforementioned set system is constant  which leads to deterministic linear-time algorithms~\cite{grid05,falkthesis}.
+
+\AT{Here we refer to the construction which will be in the appendix.}
 When this assumption is not satisfied then the above deterministic algorithms are less efficient that exploring the entire 
 grid exhaustively. 
 
