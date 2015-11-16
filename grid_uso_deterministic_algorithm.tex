@@ -38,6 +38,8 @@
 \newcommand{\T}{\ensuremath{\mathrm{T}}}
 \newcommand{\sink}{\ensuremath{\mathrm{sink}}}
 \newcommand{\join}{\mbox{join}\xspace}
+\newcommand{\sinkalg}{sink-algorithm\xspace}
+\newcommand{\sinkalgs}{sink-algorithms\xspace}
 
 \begin{document}
 
@@ -115,7 +117,7 @@ second coordinate. The \emph{rows} and \emph{columns} of the grid are defined ac
   	\centering
   	\includegraphics{uso_example.pdf}
   	\caption{\small On the left is displayed an exampe of an $(4,3)$-grid (that means $4$ columns and $3$ rows) 
-  	and a $(3,2)$-subgrid is higlighted in light blue. On the right there is a unique sink orientation of a $(3,2)$-grid.} 
+  	and a $(3,2)$-subgrid is shaded. On the right there is a unique sink orientation of a $(3,2)$-grid.} 
   	\label{fig:examplegrid}
   \end{figure}
 
@@ -123,44 +125,42 @@ A vertex in an oriented graph is called a \emph{sink} if all its incident edges 
 An orientation of a grid is a \emph{unique sink orientation}, or \emph{USO}
 for short, if all its non-empty subgrids have a unique sink. For simplicity, we call a grid with a unique sink orientation a grid USO.
 The problem of interest is to find the sink of a grid USO by performing oracle queries which return the orientation of either a single edge (\emph{edge query}) or of all edges incident to a specified vertex (\emph{vertex query}). 
-The main goal is to determine the minimum number of vertex queries that a deterministic (or randomized) algorithm must ask in the worst case to find the sink of a grid USO.
+The main goal is to determine the minimum number of vertex queries that a deterministic (or randomized) algorithm must ask in the worst case to find the sink of a grid USO. We call such an algorithm a \emph{\sinkalg}.
 
 \subsubsection{Previous work.}
-        \MM{In the caption of fig.~1: We should probably assume a b/w print of
-        the proceedings, i.\,e., not refer to PDF colors in the text.}
 
-Unique sink orientations of grids, as introduced in this paper,
+Unique sink orientations of grids, as presented in this paper,
 are a graph-theoretic model for a specific class of linear programs~\cite{linepoint}.
-\MM{They are \emph{not} ``introduced'' in this paper.}
 Namely, assume that the feasible region of a given linear program is a
 simple polytope of dimension $d$ that has exactly $d+2$ facets.
 This \emph{$(d, d+2)$-polytope} is a product of two simplices and hence its graph $G$ is isomorphic to a grid~\cite{grid05}. 
 Let $f : \RR^d \to \RR$ denote the objective function of the linear program.
-Assuming general position, the function $f$ induces an orientation on $G$ such that for every oriented
+Assuming general position, $f$ induces an orientation on $G$ such that for every oriented
 edge $u \to v$ we have $f(u) > f(v)$ and the resulting digraph is a grid USO~\cite{grid05}.
-Therefore, minimizing $f$ on the polytope corresponds to finding the
+Therefore, minimizing~$f$ on the polytope corresponds to finding the
 unique sink of the grid USO $G$.
 
 It is known that the above problem is equivalent to the \emph{One line and $n$ points} problem in the plane~\cite{linepoint,welzl2001entering}:
 Given $n$ points in general position in the plane and one vertical line $\ell$, find the segment connecting two pairs of points that has the lowest intersection with the given line. 
 We assume that $\ell$ contains none of the given points and that no two segments intersect on $\ell$.
-\citet{linepoint} proved that the grid USO arising from an instance of the one line and $n$ points problem is a special grid orientation, called \emph{Holt-Klee} grid USO, which is a grid USO with a specific forbidden subgraph called the ``double twist''. In other words, each instance of the one line and $n$ points, and hence also each instance of a linear program on a $(d, d+2)$-polytope, corresponds to a Holt-Klee grid USO. 
-However, Holt-Klee condition is more general as there are Holt-Klee grid USOs that come from no instance of the one line and $n$ points problem. 
+\citet{linepoint} proved that the grid USO arising from an instance of the one line and $n$ points problem is a special grid orientation, called \emph{Holt-Klee} grid USO, which is a grid USO with a specific forbidden subgraph called the ``double twist'' depicted in Figure~\ref{fig:examplegrid} (right). In other words, each instance of the one line and $n$ points, and hence also each instance of a linear program on a $(d, d+2)$-polytope, corresponds to a Holt-Klee grid USO. 
+However, the Holt-Klee condition is more general as there are grid USOs that satisfy it and  come from no instance of the one line and $n$ points problem. 
 
 An interpretation of the \emph{Random Edge} simplex algorithm in the setting of one line and $n$ points provides a way to find the lower-most segment using $O(\log^2 n )$ pivot steps~\cite{linepoint}. 
 An instance where this algorithm needs $\Omega(\log^2 n )$ many pivot steps is also provided. 
-This algorithm translates to a randomized algorithm to find the sink of a square Holt-Klee grid USO using $O(\log^2 n)$ vertex queries~\cite{falkthesis}. 
-In addition, the Random Edge algorithm is generalized by \citet{grid05}, where they prove that it also finds the sink of any Holt-Klee $(m,n)$-grid USO using $O(\log n\cdot\log m)$ pivot steps with any starting vertex. 
+This algorithm translates to a randomized \sinkalg in square Holt-Klee grid USOs using $O(\log^2 n)$ vertex queries~\cite{falkthesis}. 
+In addition, the Random Edge algorithm is generalized by \citet{grid05}, who prove that it also finds the sink of any Holt-Klee $(m,n)$-grid USO using $O(\log n\cdot\log m)$ pivot steps with any starting vertex. 
 However, a matching lower bound for this problem remains elusive.
 
 %Finally, they argue that there are $2^{\Omega(n^2)}$ different Holt-Klee grid USOs.
 
 \citet{grid08} studied higher dimensional grid USOs (Cartesian products of $d$ complete graphs, each on at most $n$ vertices) as general models that arise from solving a problem called PGLCP. 
-They provide a randomized product algorithm, which is similar to the one introduced in~\cite{SW} for cube USOs, and prove that for fixed dimension $d$ it uses polylogarithmic vertex queries in expectation. In particular, it finds the sink of a 2-dimensional grid USO using $O(\log n \cdot \log m)$ vertex queries which is matching the upper bound for Holt-Klee grid USOs.
-In the edge query model, again for fixed dimension, they describe a randomized algorithm with a running time linear in $n$. The latter result is also matched by \citet{DBLP:journals/dam/GartnerMRS08} who study the edge query model in the context of so called \emph{violator spaces}.
-For $(m,n)$-grids, one thus knows that finds the sink of a grid USO can be found using $\Theta(n + m)$ edge queries in expectation.
+They provide a randomized product algorithm, which is similar to the one introduced in~\cite{SW} for cube USOs, and prove that for fixed dimension $d$ it uses polylogarithmic vertex queries in expectation. 
+In particular, it finds the sink of a 2-dimensional grid USO using $O(\log n \cdot \log m)$ vertex queries which matches the performance of \sinkalgs in Holt-Klee grid USOs.
+In the edge query model, again for fixed dimension, they describe a randomized \sinkalg with a running time linear in $n$. This result is also matched by \citet{DBLP:journals/dam/GartnerMRS08} who study the edge query model in the context of so called \emph{violator spaces}. \LB{This is more general that LP-type}
+It is therefore known that for $(m,n)$-grids, the sink of a grid USO can be found using $\Theta(n + m)$ edge queries in expectation.
 
-Notice that that any algorithm that finds the sink of a grid USO using edge queries can be applied to solve the following \emph{matrix USO optimization} problem: Find the global minimum of an injective real function defined on a two dimensional matrix USO, where a matrix is USO if each $2\times 2$ sub-matrix has a unique minimum. 
+Notice that that any algorithm that finds the sink of a grid USO using edge queries can be also applied to solve the following \emph{matrix USO optimization} problem: Find the global minimum of an injective real function defined on a two dimensional matrix USO, where a matrix is USO if each $2\times 2$ sub-matrix has a unique minimum. 
 Therefore, the randomized algorithm from~\citet{grid08} solves the matrix USO optimization problem on a $m\times n$ matrix in $\Theta(m+n)$ expected time. However, no deterministic counterpart to this algorithm is known. 
 Similar optimization problems on matrices have been studied with stronger conditions and have several applications in geometric problems~\cite{aggarwal1987geometric,demaine2005optimizing,galil1992dynamic,mityagin2003complexity}.
 
@@ -172,26 +172,24 @@ that satisfies two properties: (1) Monotonicity: for every two sets $A \subseteq
 $w(A) = w(B \cup \{h\})$.
 A \emph{basis} of an LP-type problem is a set $B \subseteq S$ with the property that every proper subset
 of $B$ has a smaller value of $w$ than $B$ itself. The \emph{dimension} of an LP-type problem 
-is the maximum cardinality of a basis. For more information on LP-type problems refer to \cite{MatousekSW96}.
+is the maximum cardinality of a basis (for more information on LP-type problems refer to \cite{MatousekSW96}).
 
 \citet{grid08} hint that the problem of finding the sink of an $(m,n)$-grid USO can be naturally written as an LP-type problem of combinatorial dimension~2. 
 Intuitively, the set of constraints is the set $S = [m] \cup [n]$ and $w$ is any function that is consistent with the topological order of the vertices induced by the grid USO (every $(m, n)$-grid USO is acyclic; see Section~\ref{section:grid_uso_properties}). This definition satisfies both monotonicity and locality yielding an LP-type problem.
 Moreover, a basis is simply a vertex defined by two constraints, one contained in $[m]$ and another in $[n]$. 
 %The \emph{violator set} of a vertex $v$ is the set of constraints representing the rows and columns to which $v$ has outgoing edges. 
 
-There are randomized algorithms for LP-type problems~\cite{MatousekSW96} that imply expected $O(m+n)$ edge queries for grid USOs using the above construction. 
+There are linear-time randomized algorithms for LP-type problems~\cite{MatousekSW96} that, by the above construction, yield \sinkalgs using linear number of edge queries. 
 While there exist deterministic algorithms with matching asymptotic performance to solve LP-type problems \cite{chan16,ChazelleM96}, they make an extra assumption  
 (see Computational assumption 2 in \cite{ChazelleM96}). 
-Namely, they require that a set system has constant VC-dimension which does not hold for the LP-type problem described above (refer to~\cite{matouvsek2002lectures} for further information on set systems and VC-dimension). 
-For each vertex $v$ in the grid, let $R_v\subseteq [m]\cup [n]$ be the set of indices of the rows and columns to which $v$ has an outgoing edge. 
+Namely, they require that a set system has constant VC-dimension which does not hold for the LP-type problem in grid USOs described above (refer to~\cite{matouvsek2002lectures} for further information on set systems and VC-dimension). 
+More formally, for each vertex $v$ in the grid, let $R_v\subseteq [m]\cup [n]$ be the set of indices of the rows and columns to which $v$ has an outgoing edge. 
 The \emph{violator set system} $([m]\times [n], \mathcal R)$ must have constant VC-dimension for the above deterministic algorithms to work, where $\mathcal R = \{R_v : v\text{ is a vertex of the grid}\}$. 
 Since this set system has unbounded VC-dimension for general grid USOs as shown in Figure~\ref{fig:shatteredgrid}, these deterministic algorithms are less efficient than exploring the entire grid exhaustively. 
-
-%To find the sink of Holt-Klee grids however, the VC-dimension of the aforementioned set system is constant  which leads to deterministic linear-time algorithms~\cite{grid05,falkthesis}.
-
-Therefore, it is open whether there exist deterministic algorithms that find the sink of any grid USO using only a linear number of queries. 
+Therefore, it is open whether there exist deterministic \sinkalgs that use only a linear number of queries. 
 In particular, it is not known if \emph{any} LP-type problem can be deterministically solved in linear~time. 
-\begin{figure}[htbp] 
+
+\begin{figure}[h!] 
   	\centering
   	\includegraphics{shatteredgrid.pdf}
   	\caption{\small We display a grid USO that has VC dimension at least $\log n$. 
@@ -201,11 +199,11 @@ In particular, it is not known if \emph{any} LP-type problem can be deterministi
   	\label{fig:shatteredgrid}
   \end{figure}
   
-However, let us make the following note. 
+While the above deterministic algorithms for LP-type problems are not efficient for general grid USOs, with the additional Holt-Klee condition they yield efficient \sinkalgs:
 It is known that every Holt-Klee grid USO is induced by a red-blue arrangement of pseudo-lines \cite{grid05,falkthesis}. 
 In turn, this can be thought of as the dual of the combinatorial version of the one line and $n$ points configuration.
-The equivalence of Holk-Klee grid USOs and red-blue arrangement of pseudo-lines imply that the violator set system we defined above for the former
-has constant VC dimension. This implies that we can find the sink of Holt-Klee grids using only a linear number of queries with the algorithms of \cite{chan16,ChazelleM96}.
+The equivalence of Holt-Klee grid USOs and red-blue arrangement of pseudo-lines imply that the violator set system we defined above for grids has constant VC dimension. 
+This implies that we can deterministically find the sink of Holt-Klee grid USOs using only a linear number of queries by reducing to an LP-type problem~\cite{chan16,ChazelleM96}.
 
 %Namely, they require that the set system induced on $S$ by the family of violator sets of each of the vertices has constant VC-dimension (refer to~\cite{matouvsek2002lectures} for further information on VC-dimension).
 
