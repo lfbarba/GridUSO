@@ -149,11 +149,10 @@ However, Holt-Klee condition is more general as there are Holt-Klee grid USOs th
 
 An interpretation of the \emph{Random Edge} simplex algorithm in the setting of one line and $n$ points provides a way to find the lower-most segment using $O(\log^2 n )$ pivot steps~\cite{linepoint}. 
 An instance where this algorithm needs $\Omega(\log^2 n )$ many pivot steps is also provided. 
-This algorithm translates to a randomized algorithm to find the sink of a square Holt-Klee grid USO using $O(\log^2 n)$ vertex queries~\cite{falkthesis}. However, a matching lower bound for this problem remains elusive.
+This algorithm translates to a randomized algorithm to find the sink of a square Holt-Klee grid USO using $O(\log^2 n)$ vertex queries~\cite{falkthesis}. 
+In addition, the Random Edge algorithm is generalized by \citet{grid05}, where they prove that it also finds the sink of any Holt-Klee $(m,n)$-grid USO using $O(\log n\cdot\log m)$ pivot steps with any starting vertex. 
+However, a matching lower bound for this problem remains elusive.
 
-
-Another connection was discovered by~\citet{grid05} who showed that every Holt-Klee grid USO is induced by a red-blue arrangement of pseudo-lines which, in turn, can be thought as a combinatorial dual of the one line and $n$ points configuration.
-In addition, they generalize Random Edge algorithm and prove that it also finds the sink of any Holt-Klee $(m,n)$-grid USO using $O(\log n\cdot\log m)$ pivot steps with any starting vertex. 
 %Finally, they argue that there are $2^{\Omega(n^2)}$ different Holt-Klee grid USOs.
 
 \citet{grid08} studied higher dimensional grid USOs (Cartesian products of $d$ complete graphs, each on at most $n$ vertices) as general models that arise from solving a problem called PGLCP. 
@@ -181,17 +180,17 @@ Moreover, a basis is simply a vertex defined by two constraints, one contained i
 %The \emph{violator set} of a vertex $v$ is the set of constraints representing the rows and columns to which $v$ has outgoing edges. 
 
 There are randomized algorithms for LP-type problems~\cite{MatousekSW96} that imply expected $O(m+n)$ edge queries for grid USOs using the above construction. 
-While there exist deterministic algorithms with matching performance to solve LP-type problems \cite{chan16,ChazelleM96}, they make an extra assumption  
+While there exist deterministic algorithms with matching asymptotic performance to solve LP-type problems \cite{chan16,ChazelleM96}, they make an extra assumption  
 (see Computational assumption 2 in \cite{ChazelleM96}). 
 Namely, they require that a set system has constant VC-dimension which does not hold for the LP-type problem described above (refer to~\cite{matouvsek2002lectures} for further information on set systems and VC-dimension). 
 For each vertex $v$ in the grid, let $R_v\subseteq [m]\cup [n]$ be the set of indices of the rows and columns to which $v$ has an outgoing edge. 
-The set system $([m]\times [n], \mathcal R)$ must have constant VC-dimension for the above deterministic algorithms to work, where $\mathcal R = \{R_v : v\text{ is a vertex of the grid}\}$. 
-Since this set system has unbounded VC-dimension for general Gird USOs as shown in Figure~\ref{fig:shatteredgrid}, these deterministic algorithms are less efficient that exploring the entire grid exhaustively. 
-To find the sink of Holt-Klee grids however, the VC-dimension of the aforementioned set system is constant  which leads to deterministic linear-time algorithms~\cite{grid05,falkthesis}.
+The \emph{violator set system} $([m]\times [n], \mathcal R)$ must have constant VC-dimension for the above deterministic algorithms to work, where $\mathcal R = \{R_v : v\text{ is a vertex of the grid}\}$. 
+Since this set system has unbounded VC-dimension for general grid USOs as shown in Figure~\ref{fig:shatteredgrid}, these deterministic algorithms are less efficient than exploring the entire grid exhaustively. 
 
-Therefore, it is open whether there exist deterministic algorithms that find the sink of a grid USO using only a linear number of queries. 
+%To find the sink of Holt-Klee grids however, the VC-dimension of the aforementioned set system is constant  which leads to deterministic linear-time algorithms~\cite{grid05,falkthesis}.
+
+Therefore, it is open whether there exist deterministic algorithms that find the sink of any grid USO using only a linear number of queries. 
 In particular, it is not known if \emph{any} LP-type problem can be deterministically solved in linear~time. 
-
 \begin{figure}[htbp] 
   	\centering
   	\includegraphics{shatteredgrid.pdf}
@@ -201,6 +200,12 @@ In particular, it is not known if \emph{any} LP-type problem can be deterministi
 	  of the edges of the grid that are not incident to one of the vertices of the top row. All the horizontal edges are uniformly oriented to the left.} 
   	\label{fig:shatteredgrid}
   \end{figure}
+  
+However, let us make the following note. 
+It is known that every Holt-Klee grid USO is induced by a red-blue arrangement of pseudo-lines \cite{grid05,falkthesis}. 
+In turn, this can be thought of as the dual of the combinatorial version of the one line and $n$ points configuration.
+The equivalence of Holk-Klee grid USOs and red-blue arrangement of pseudo-lines imply that the violator set system we defined above for the former
+has constant VC dimension. This implies that we can find the sink of Holt-Klee grids using only a linear number of queries with the algorithms of \cite{chan16,ChazelleM96}.
 
 %Namely, they require that the set system induced on $S$ by the family of violator sets of each of the vertices has constant VC-dimension (refer to~\cite{matouvsek2002lectures} for further information on VC-dimension).
 
