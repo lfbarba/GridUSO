@@ -672,38 +672,25 @@ proposition, whose proof will settle Theorem~\ref{thm:smallGrids}.
 For the description of the algorithm we introduce some terminology:
 An edge of the grid has been \emph{discovered} if an incident vertex has been
 queried.
-At any step of the algorithm, a vertex of the grid can be either \emph{alive}
-or \emph{dead}.
-These adjectives obey the following rules:
-\begin{itemize}
-    \item
-        In the very beginning, every vertex is alive.
-
-    \item
-        A vertex changes its state at most once.
-        In other words, a vertex can die, but it cannot come to life again.
-
-    \item
-        The sink never dies.
-
-    \item
-        Whenever an edge $u \to v$ is discovered, the vertex $u$ dies.
-        \hfill $(*)$
-\end{itemize}
-
-Condition~($*$) and the unique sink property imply the following lemma.
+At any step of the algorithm, a vertex of the grid can be either \emph{active}
+or \emph{inactive}.
+In the very beginning, every vertex is active; and in the end, the sink will
+be the only active vertex remaining.
+We stipulate that whenever an edge $u \to v$ is discovered, the vertex $u$
+becomes inactive.
+This and the unique sink property imply the following lemma.
 
 \begin{lemma}
     Let $(i,j)$ and $(k,l)$ be vertices of the grid that have already been
     queried, $i \neq k$, $j \neq l$.
-    Then among the two vertices $(i,l)$ and $(k,j)$, at least one is dead.
+    Then among the two vertices $(i,l)$ and $(k,j)$, at least one is inactive.
 
     \label{lem:rectangle}
 \end{lemma}
 
 As a consequence of Lemma~\ref{lem:rectangle} we can observe that,
 if the four vertices on the diagonal of the $(4,4)$-grid have already
-been queried, then at least 10 vertices have died.
+been queried, then at least 10 vertices have become inactive.
 Motivated by this observation, our algorithm will start out by querying
 the four vertices on the diagonal.
 Having done this, let us characterize the resulting situation by putting some
@@ -713,11 +700,11 @@ labels on the vertices of the grid:
         The four vertices of the diagonal we label by ``$0$'', so that we
         remember that we have already queried them.
     \item
-        The 6 vertices that died from condition~($*$), according to
-        Lemma~\ref{lem:rectangle}, we label ``$+$''.
+        We put the label ``$+$'' on the 6 vertices that became inactive
+        according to Lemma~\ref{lem:rectangle}.
     \item
         If we put a ``$+$'' on vertex $(i,j)$, then we put a ``$-$'' on vertex
-        $(j,i)$, be it dead or alive.
+        $(j,i)$, be it active or inactive.
 \end{itemize}
 A grid thus labelled can e.\,g.~look like so:
 \begin{align*}
@@ -788,7 +775,7 @@ action is given by
         \end{pmatrix}.
 \end{align*}
 To tackle these cases, we identify another condition under which we can let a
-vertex die:
+vertex become inactive:
 
 \begin{lemma}
     \label{lem:kill}
@@ -796,8 +783,8 @@ vertex die:
     Assume that
     \begin{itemize}
         \item the vertex $(i,j)$ has been queried (it is marked ``\,$0$''), and
-        \item the vertex $(k,l)$ has died from condition~$(*)$ (it is marked
-            ``\,$+$'').
+        \item the vertex $(k,l)$ has become inactive from condition~$(*)$ (it
+            is marked ``\,$+$'').
     \end{itemize}
     Then for some $v \in \{ (i,l),~ (k,j) \}$ the following is true:
     There is no unique sink orientation that complies with the edges
