@@ -186,12 +186,21 @@ While there exist deterministic algorithms with matching performance to solve LP
 Namely, they require that a set system has constant VC-dimension which does not hold for the LP-type problem described above (refer to~\cite{matouvsek2002lectures} for further information on set systems and VC-dimension). 
 For each vertex $v$ in the grid, let $R_v\subseteq [m]\cup [n]$ be the set of indices of the rows and columns to which $v$ has an outgoing edge. 
 The set system $([m]\times [n], \mathcal R)$ must have constant VC-dimension for the above deterministic algorithms to work, where $\mathcal R = \{R_v : v\text{ is a vertex of the grid}\}$. 
-Since this set system has unbounded VC-dimension for general Gird USOs as shown in Figure~\ref{}, these deterministic algorithms are less efficient that exploring the entire grid exhaustively. 
+Since this set system has unbounded VC-dimension for general Gird USOs as shown in Figure~\ref{fig:shatteredgrid}, these deterministic algorithms are less efficient that exploring the entire grid exhaustively. 
 To find the sink of Holt-Klee grids however, the VC-dimension of the aforementioned set system is constant  which leads to deterministic linear-time algorithms~\cite{grid05,falkthesis}.
 
 Therefore, it is open whether there exist deterministic algorithms that find the sink of a grid USO using only a linear number of queries. 
 In particular, it is not known if \emph{any} LP-type problem can be deterministically solved in linear~time. 
 
+\begin{figure}[htbp] 
+  	\centering
+  	\includegraphics{shatteredgrid.pdf}
+  	\caption{\small We display a grid USO that has VC dimension at least $\log n$. 
+	  The columns are labeled with the subsets of the powerset of $\{1,2,3\}$. On the top, unlabeled, row we have a vertex whose 
+	  vertical outgoing edges correspond to the set on the label of the column. Incoming edges are not depicted for these vertices. Also none 
+	  of the edges of the grid that are not incident to one of the vertices of the top row. All the horizontal edges are uniformly oriented to the left.} 
+  	\label{fig:shatteredgrid}
+  \end{figure}
 
 %Namely, they require that the set system induced on $S$ by the family of violator sets of each of the vertices has constant VC-dimension (refer to~\cite{matouvsek2002lectures} for further information on VC-dimension).
 
