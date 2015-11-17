@@ -123,7 +123,7 @@ A vertex in an oriented graph is called a \emph{sink} if all its incident edges 
 An orientation of a grid is a \emph{unique sink orientation}, or \emph{USO}
 for short, if all its non-empty subgrids have a unique sink. For simplicity, we call a grid with a unique sink orientation a grid USO.
 The problem of interest is to find the sink of a grid USO by performing oracle queries which return the orientation of either a single edge (\emph{edge query}) or of all edges incident to a specified vertex (\emph{vertex query}). 
-The main goal is to determine the minimum number of queries that a deterministic (or randomized) algorithm must ask in the worst case to find the sink of a grid USO. We call such an algorithm a \emph{\sinkalg}. \AT{Why do we need to speak of \sinkalg ?}
+The main goal is to determine the minimum number of queries that a deterministic (or randomized) algorithm must ask in the worst case to find the sink of a grid USO. We call such an algorithm a \emph{\sinkalg}.
 
 \subsubsection{Previous work.}
 
@@ -133,12 +133,12 @@ Namely, assume that the feasible region of a given linear program is a
 simple polytope of dimension $d$ that has exactly $d+2$ facets.
 This \emph{$(d, d+2)$-polytope} is a product of two simplices and hence its graph $G$ is isomorphic to a grid~\cite{grid05}. 
 Let $f : \RR^d \to \RR$ denote the objective function of the linear program.
-Assuming general position, \AT{Assuming general position of what?} $f$ induces an orientation on $G$ such that for every oriented
+Assuming general position, $f$ induces an orientation on $G$ such that for every oriented
 edge $u \to v$ we have $f(u) > f(v)$ and the resulting digraph is a grid USO~\cite{grid05}.
 Therefore, minimizing~$f$ on the polytope corresponds to finding the
 unique sink of the grid USO $G$.
 
-It is known that the above\AT{By above here we mean the d,d+2 polytope problem?} problem is equivalent to the \emph{One line and $n$ points} problem in the plane~\cite{linepoint,welzl2001entering}:
+It is known that the above linear programming problem is equivalent to the \emph{One line and $n$ points} problem in the plane~\cite{linepoint,welzl2001entering}:
 Given $n$ points in general position in the plane and one vertical line $\ell$, find the segment connecting two pairs of points that has the lowest intersection with the given line. 
 We assume that $\ell$ contains none of the given points and that no two segments intersect on $\ell$.
 \citet{linepoint} proved that the grid USO arising from an instance of the one line and $n$ points problem is a special grid orientation, called \emph{Holt-Klee} grid USO, which is a grid USO with a specific forbidden subgraph called the ``double twist'' depicted in Figure~\ref{fig:examplegrid} (right). In other words, each instance of the one line and $n$ points, and hence also each instance of a linear program on a $(d, d+2)$-polytope, corresponds to a Holt-Klee grid USO. 
@@ -146,15 +146,16 @@ However, the Holt-Klee condition is more general as there are grid USOs that sat
 
 An analysis of the \emph{Random Edge} simplex algorithm in the setting of one line and $n$ points provides a way to find the lower-most segment using $O(\log^2 n )$ pivot steps~\cite{linepoint}. 
 An instance where this algorithm needs $\Omega(\log^2 n )$ many pivot steps is also provided. 
-It can also be shown that geometry is not essential for Random Edge: Finding the sink of a Holt-Klee $(m,n)$-grid USOs it takes also $O(\log n\cdot\log m)$ vertex queries~\cite{grid05,falkthesis}. However, a matching lower bound for this problem remains elusive. \AT{We have to stress out that this sentence refers to the randomized algorithmic setting}
+It can also be shown that geometry is not essential for Random Edge: Finding the sink of a Holt-Klee $(m,n)$-grid USOs it takes also $O(\log n\cdot\log m)$ vertex queries~\cite{grid05,falkthesis}. 
 
 %for randomized \sinkalg in square Holt-Klee grid USOs using $O(\log^2 n)$ vertex queries~\cite{falkthesis}. 
 %In addition, the Random Edge algorithm is generalized by \citet{grid05}, who prove that it also finds the sink of any %Holt-Klee $(m,n)$-grid USO using $O(\log n\cdot\log m)$ pivot steps with any starting vertex. 
 %Finally, they argue that there are $2^{\Omega(n^2)}$ different Holt-Klee grid USOs.
 
-\citet{grid08} study higher dimensional grid USOs (Cartesian products of $d$ complete graphs, each on at most $n$ vertices) as general models that arise from solving a problem called PGLCP. \AT{We either say PGLCP is or we don't write PGLCP at all.} 
+\citet{grid08} study higher dimensional grid USOs (Cartesian products of $d$ complete graphs, each on at most $n$ vertices). 
+%as general models that arise from solving a problem called PGLCP. \AT{We either say PGLCP is or we don't write PGLCP at all.} 
 They provide a randomized product algorithm, which is similar to the one introduced in~\cite{SW} for cube USOs, and prove that for fixed dimension $d$ it uses polylogarithmic vertex queries in expectation. 
-In particular, it finds the sink of any 2-dimensional grid USO using expected $O(\log n \cdot \log m)$ vertex queries which matches the performance of \sinkalgs in Holt-Klee grid USOs.
+In particular, it finds the sink of any 2-dimensional grid USO using expected $O(\log n \cdot \log m)$ vertex queries which matches the performance of \sinkalgs in Holt-Klee grid USOs. Note, however, that a matching lower bound for the problem in the randomized setting remains elusive.
 In the edge query model, again for fixed dimension, they describe a randomized \sinkalg that performs a linear number of queries.
 
 Notice that that any algorithm that finds the sink of a grid USO using edge queries can be also applied to solve the following \emph{matrix USO optimization} problem: Find the global minimum of an injective real function defined on a two dimensional matrix USO, where a matrix is USO if each $2\times 2$ sub-matrix has a unique minimum. 
@@ -201,10 +202,11 @@ Therefore, it is open whether there exist deterministic \sinkalgs that use less 
   \end{figure}
   
 While the above deterministic algorithms for LP-type problems are not efficient for general grid USOs, the addition of the Holt-Klee condition yields efficient \sinkalgs:
-It is known that every Holt-Klee grid USO is induced by a red-blue arrangement of pseudo-lines \cite{grid05,falkthesis}. \AT{Do we really need to say that it can be thought of as... ?}
-In turn, this can be thought of as the dual of the combinatorial version of the one line and $n$ points configuration.
-The equivalence of Holt-Klee grid USOs and red-blue arrangement of pseudo-lines imply that the violator set system we defined above for grids has constant VC dimension. 
-Therefore, we can deterministically find the sink of Holt-Klee grid USOs using only a linear number of queries by reducing to an LP-type problem~\cite{chan16,ChazelleM96}.
+It is known that every Holt-Klee grid USO is induced by a red-blue arrangement of pseudo-lines \cite{grid05,falkthesis}.
+%In turn, this can be thought of as the dual of the combinatorial version of the one line and $n$ points configuration.
+This equivalence implies that the violator set system for Holt-Klee grid USOs, as we defined it above, has constant VC dimension. 
+Therefore, we can deterministically find the sink of Holt-Klee grid USOs using only a linear number of queries by reducing it to an LP-type problem~\cite{chan16,ChazelleM96}.
+\JN{I still need to verify this.}
 
 %Namely, they require that the set system induced on $S$ by the family of violator sets of each of the vertices has constant VC-dimension (refer to~\cite{matouvsek2002lectures} for further information on VC-dimension).
 
@@ -243,7 +245,7 @@ More involved arguments allow us to split the grid into 16 subgrids and find the
 In Section~\ref{section:the_sink_finding_algorithm} we focus on the vertex query model and improve upon the above algorithm by using the following idea: Spend a linear number of vertex queries prior to the partition to discard an $(n/2, n/2)$-subgrid that contains one quarter of the total number of vertices. 
 The removal of such a subgrid leaves us with a graph that can be partitioned into three $(n/2, n/2)$-subgrids. 
 We then show how to find the sink by recursively solving only two of them and disregarding the third one. In this way, we obtain a recurrence of the form $T(n) = 2 T(n/2) + O(n)$ which solves to $O(n \log n)$. 
-That is, we obtain a deterministic algorithm that finds the sink of an $(n, n)$-grid using $O(n \log n)$ vertex queries. \AT{I leave the outline section unedited. Why does it speak only of square grids?}
+That is, we obtain a deterministic algorithm that finds the sink of an $(n, n)$-grid using $O(n \log n)$ vertex queries. \AT{I leave the outline section unedited. Let us first decide why and when to talk about square grids. Also look for this at the beginning of Section 3, Sink-finding algorithm.}
 
 To discard the $(n/2, n/2)$-subgrid used in the first part of this algorithm, we focus on finding a vertex $v$ with ``large'' indegree. 
 However, we want the incoming edges of $v$ to be evenly distributed among its horizontal and vertical edges. Using the properties of the grid USO, we are able to show that such a vertex $v$ will be the sink of a large subgrid, namely the smallest subgrid that contains $v$ and each vertex that has an outgoing edge to $v$.
@@ -298,15 +300,16 @@ A similar result was proved by G\"artner et al.~\cite{grid08} in higher dimensio
 Let $G$ be an $(m,n)$-grid USO,
 and let $\A$ and $\B$ be partitions of $[m]$ and $[n]$, respectively.
 The orientation of the $\A$-$\B$-partition grid $H$ induced by $G$ is a unique sink orientation.
+Moreover, the sink of $H$ is the subgrid of $G$ that contains the sink of $G$.
 \end{lemma}
-\AT{Should we merge lemma and theorem into one?}
-\begin{theorem}
-\label{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink}
+\AT{Lemma now contains what was Theorem 1. Please verify this phrasing is OK.}
+%\begin{theorem}
+%\label{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink}
 
-Let $G$ be an $(m,n)$-grid USO,
-and let $\A$ and $\B$ be partitions of $[m]$ and $[n]$, respectively. Let $A\in \A$ and $B \in \B$.
-If the $A\times B$-subgrid is the sink of the $\A$-$\B$-partition grid $H$, then the sink of the $A\times B$-subgrid is the sink of $G$.
-\end{theorem}
+%Let $G$ be an $(m,n)$-grid USO,
+%and let $\A$ and $\B$ be partitions of $[m]$ and $[n]$, respectively. Let $A\in \A$ and $B \in \B$.
+%If the $A\times B$-subgrid is the sink of the $\A$-$\B$-partition grid $H$, then the sink of the $A\times B$-subgrid is the sink of $G$.
+%\end{theorem}
 
 \section{The Vertex Oracle Model}
 \label{section:The vertex oracle model}
@@ -331,16 +334,16 @@ For a set of vertices $V$ in a grid USO $G$ let $\join(V$) be the set of vertice
 In an ($m,n$)-grid USO $G$, the \emph{\indegree} of a vertex $v \in G$ is an ordered pair $[a_v, b_v] \in \{0,1,\ldots,m-1\}\times \{0,1,\ldots,n-1\}$ where $a_v$ and $b_v$ specify the number of incoming horizontal  and vertical edges of $v$, respectively.
 We say that a vertex $v$ with \indegree $[a_v, b_v]$ is a \emph{$(k, t)$-vertex} if $a_v\geq k-1$ while $b_v\geq t-1$.
 
-Consider the following algorithmic approach to finding the sink of an ($n$,$n$)-grid USO deterministically. \AT{Again, why talk about square grids here?}
+Consider the following algorithmic approach to finding the sink of an ($n$,$n$)-grid USO deterministically. \AT{Decide when to talk about square grids. Also see Outline subsec.}
 Assume that we are able to find in $O(n)$ time a $(\frac{n}{2}, \frac{n}{2})$-vertex $v$.
 We could then partition the grid into 4 equally sized square subgrids so that $v$ is the sink of one of them.
-The next step would be to find the sink of the block antipodal to the block containing $v$ in the (2,2)-grid induced by this partition. \AT{I chaned oposite to antipodal which is standard terminology in the cubes (and 2x2 is also a cube)}
-By Theorem~\ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} we could thereafter discard one subgrid out of consideration and possibly still find the sink of one subgrid.
+The next step would be to find the sink of the block antipodal to the block containing $v$ in the (2,2)-grid induced by this partition. 
+By Lemma~\ref{lemma:USO-Lemma} we could thereafter discard one subgrid out of consideration and possibly still find the sink of one subgrid.
 If one finds the sinks of the subgrids recursively, one would get the recursion
 \begin{align*}
- T(n) = 2T\left(\frac{n}{2}\right) + O(n)
+ T(m,n) = 2T\left(\frac{m}{2},\frac{n}{2}\right) + O(m+n)
 \end{align*}
-where $T(n)$ is the number of vertex queries needed by this algorithm to find the sink of an $(n,n)$-grid. This recurrence solves to $T(n) = O(n\log n)$. 
+where $T(m,n)$ is the number of vertex queries needed by this algorithm to find the sink of an $(m,n)$-grid. This recurrence solves to \mbox{$T(m,n) = O((m+n)\log (m+n))$}. 
 
 As a first step to find a $(\frac{n}{2}, \frac{n}{2})$-vertex, we show how to compute an $(\frac{n}{4}, \frac{n}{4})$-vertex of an $(n, n)$-grid. Then, we extend this result to non-square grids. Finally, using these results as a black box, we show how to compute an $(\frac{m}{2}, \frac{n}{2})$-vertex in an $(m,n)$-grid using $O(m+n)$ vertex queries in total. 
 Before proceeding we need the following lemma.
@@ -353,10 +356,10 @@ Let $D = \{v_1,\ldots,v_n\}$ be the set of diagonal vertices of an $(n,n)$-grid 
 \begin{proof}
 Note that to prove the claim it is enough to show that some ordering of~$D$ has the property that the $j$-th vertex has at least $j-1$ vertices because then also the ordering with respect to indegree satisfies the same property. 
 
-Rename the coordinates such that for all $1 \leq i < j\leq n$ either $v_i \succeq v_j$ or $v_i$ and $v_j$ are incomparable. \AT{We have not define incomparable now. Also bellow we cant say since $v_i \succeq v_j$; they might also be incomparable}
+Rename the coordinates such that for all $1 \leq i < j\leq n$ either $v_i \succeq v_j$ or $v_i$ and $v_j$ are incomparable. 
 This defines a linear extension of the partial order $\succeq$ and we claim that $v_j$ has at least $j-1$ incoming edges for every $j = 1, \ldots, n$. 
 To see this fix some $v_j$ and consider the $(2,2)$-subgrid $H_{i,j}$ containing both $v_i$ and $v_j$ for some $1\leq i < j$. 
-Because $H_{i,j}$ is a USO and since $v_i \succeq v_j$, we know that $H_{i,j}$ contains no path from $v_j$ to $v_i$. 
+Because $H_{i,j}$ is a USO and since $v_i \succeq v_j$ (or $v_i$ and $v_j$ are incomparable), we know that $H_{i,j}$ contains no path from $v_j$ to $v_i$. 
 Therefore, $v_j$ cannot be the source of $H_{i,j}$  which implies that $v_j$ has at least one incoming edge in $H_{i,j}$. 
 Since the edges in $H_{i,j}$ are disjoint from those of $H_{i',j}$ for $1\leq i < i' < j$, 
 we know that $v_j$ has an incoming edge for each $1\leq i< j$, i.e., $v_j$ has at least $j-1$ incoming edges. 
@@ -404,8 +407,10 @@ Let $v^*$ be the sink of $W$ obtained after querying each vertex in this set (in
 Indeed, because $v^*$ is smaller than each other vertex in $W$, we know that $$a \geq |W|-1 = |V'|-1 = \frac{n-\lceil \frac{n}{2}\rceil + 1}{2} - 1 \geq \frac{n}{4} - 1.$$
 
 
-If $v = v^*$, then since $v\in V'$, we know that $b\geq \frac{\lceil \frac{n}{2}\rceil-1}{2}\geq \frac{n}{4} - 1$. \AT{Why is $v \in V^*$ now?}
-Otherwise, there is a vertex $v' \in V'$ that is in the same column as $v^*$. Due to the \join operation there is a path from $v'$ to $v$ and further to $v^*$. Therefore, by acyclicity the edge between $v'$ and $v^*$ is oriented towards $v^*$ and $v^*$ has more incoming vertical edges than $v'$ also because of acyclicity. Therefore we establish that $b \geq \frac{\lceil \frac{n}{2}\rceil-1}{2} + 1 \geq \frac{n}{4} \geq \frac{n}{4} - 1$ which shows that $v^*$ is an $(\frac{n}{4}, \frac{n}{4})$-vertex. \qed
+%If $v = v^*$, then since $v\in V'$, we know that $b\geq \frac{\lceil \frac{n}{2}\rceil-1}{2}\geq \frac{n}{4} - 1$. \AT{Why is $v \in V^*$ now?}
+Furthermore, there is a vertex $v' \in V'$ that is in the same column as $v^*$. Due to the \join operation there is a path from $v'$ to $v$ and further to $v^*$. 
+If $v'=v^*$ then the we know already that $v^*$ has at least $\frac{n}{4} - 1$ incoming edges vertically.
+Otherwise,  the edge between $v'$ and $v^*$ is oriented towards $v^*$ and $v^*$ has more incoming vertical edges than $v'$, because of acyclicity. Therefore we establish that $b \geq \frac{\lceil \frac{n}{2}\rceil-1}{2} + 1 \geq \frac{n}{4} \geq \frac{n}{4} - 1$ which shows that $v^*$ is an $(\frac{n}{4}, \frac{n}{4})$-vertex. \qed
 
 %\begin{figure}[htbp] 
 %\centering
@@ -445,8 +450,8 @@ Otherwise, there is a vertex $v' \in V'$ that is in the same column as $v^*$. Du
 The following corollary extends the previous lemma to non-square grids.
 
 \begin{corollary}\label{corollary: n/4 indegree}
-  Given an $(m,n)$-grid USO $G$, we can find a vertex with \indegree $[a,b]$ with $a \geq \frac{m}{8} - 1$ and  $b \geq \frac{n}{8} - 1$ using $O(M)$ vertex queries where $M = \max\{m,n\}$.
-\end{corollary} \AT{Changed $[m]\times [n]$ to $(m,n)$. Here and below.}
+  Given an $(m,n)$-grid USO $G$, we can find a vertex with \indegree $[a,b]$ with $a \geq \frac{m}{8} - 1$ and  $b \geq \frac{n}{8} - 1$ using $O(m+n)$ vertex queries.
+\end{corollary} 
 
 
 %if every induced directed subgraph that is attained by fixing or limiting the range of some coordinates of the vertices has a unique sink. More specifically, we require this property to hold for subgraphs that are attained by taking $d$ nonempty index sets $\emptyset \not= J_i \subseteq \mathbb{Z}_n, i = 1,\ldots,d$ and considering the induced subgraph over the vertices $\{(a_1,\ldots, a_d) \in V \: : \:  a_i \in J_i \: \forall i = 1,\ldots, d \}$. If each $J_i$ is the whole of $\mathbb{Z}_n$ or a singleton, we call the resulting induced subgraph a \emph{face}. The dimension $d' \in \{0,1,\ldots, d\}$ of the face is the number of index sets that are the whole of $\mathbb{Z}_n$. Note that a face of $(K_n)^d$ of dimension $d'$ is isomorphic to $(K_n)^{d'}$. Any face can be compactly written as a vector $(v_1,\ldots,v_d) \in \left(\mathbb{Z}_{n} \cup \{*\}\right)^d$ where $v_i$ matches the only element of $J_i$ when $J_i$ is a singleton and $v_i$ is $*$ otherwise. Unless otherwise clear, one should also specify what $n$ is when talking of faces. This concept of a face is a natural generalization from the $d$-cube $(K_2)^d$ for which the faces we defined correspond to the faces of the $d$-cube in the geometric sense.
@@ -462,11 +467,11 @@ The following corollary extends the previous lemma to non-square grids.
 
 \subsubsection{Finding an $(\frac{n}{2}, \frac{n}{2})$-vertex.}
 
-Given an $(a, b)$-vertex $v = (x_v, y_v)$ in an $(m,n)$-grid USO, let $I_v\subseteq [m]$ be the set of indices such that  $I_v \times \{y_v\}$ is the set of all vertices with an outgoing horizontal edge to $v$, with $v$ included in this set. Analogously, $J_v\subseteq [n]$ is the set of indices such that $\{x_v\}\times J_v$ is the set of all vertices with an outgoing vertical edge to~$v$ (including $v$). Notice that $|I_v| \geq a$ while $|J_v| \geq b$. \AT{This was =, changed to $\geq$.}
+Given an $(a, b)$-vertex $v = (x_v, y_v)$ in an $(m,n)$-grid USO, let $I_v\subseteq [m]$ be the set of indices such that  $I_v \times \{y_v\}$ is the set of all vertices with an outgoing horizontal edge to $v$, with $v$ included in this set. Analogously, $J_v\subseteq [n]$ is the set of indices such that $\{x_v\}\times J_v$ is the set of all vertices with an outgoing vertical edge to~$v$ (including $v$). Notice that $|I_v| \geq a$ while $|J_v| \geq b$ and that $v$ is the sink of the $I_v\times J_v$-grid.
 
-\begin{observation}\label{Obs:Sink of dominated grid}
-Given a vertex  $v = (x_v, y_v)$ in a grid USO, $v$ is the sink of the $I_v\times J_v$-grid.
-\end{observation} \AT{It's safe to delete Obs 1}
+%\begin{observation}\label{Obs:Sink of dominated grid}
+
+%\end{observation} \AT{It's safe to delete Obs 1}
 
 An \emph{$(\alpha, \beta)$-oracle} is an algorithm that, given an $(m, n)$-grid USO as input, can find an $(\alpha m, \beta n)$-vertex $v$ using $O(m + n)$ queries.
 
@@ -478,7 +483,7 @@ Given an $(\alpha, \beta)$-oracle such that $0 < \alpha, \beta  < 1$, we can fin
 We show how to find an $(\alpha m,  \frac{n}{2})$-vertex. The procedure to find an $( \frac{m}{2}, \beta n)$-vertex is analogous.
 Let $B_0 = [n]$ and let $G_0$ be the $[m]\times B_0$-grid, i.e., $G = G_0$.
 Using an oracle call in $G_i$ (initially $i = 0$), find an $(\alpha n, \beta n)$-vertex $v_i$ in $G_i$. 
-Recall that $v_i$ is the sink of the $I_{v_i}\times J_{v_i}$-grid by Observation~\ref{Obs:Sink of dominated grid}.
+Recall that $v_i$ is the sink of the $I_{v_i}\times J_{v_i}$-grid. % by Observation~\ref{Obs:Sink of dominated grid}.
 Notice that $|I_{v_i}| \geq \alpha m$ while $|J_{v_i}| \geq \beta |B_i|$.
 Let $B_{i+1} = B_i\setminus J_{v_i}$ and let $G_{i+1}$ be the $[m]\times B_{i+1}$-grid. 
 Repeat this procedure with $G_{i+1}$ as long as $|B_i| \geq  \frac{n}{2}$; see Figure~\ref{fig:Climbing Lemma}.
@@ -521,7 +526,7 @@ We can compute an $( \frac{m}{2}, \frac{n}{2})$-vertex using $O(m + n)$ vertex q
 Our main result can now be proved by combining the Lemmas and Corollaries we established in this section. 
 
 \begin{theorem}\label{theorem:Sink algorithm}
- Let $M = \max\{m,n\}$. The sink of an $(m,n)$-grid USO can be found after $O(M(\log M))$ vertex queries.
+The sink of an $(m,n)$-grid USO can be found with \\ $O((m+n)\log (m+n))$ vertex queries.
 \end{theorem}
 
 \section{The Edge Oracle Model}
@@ -563,8 +568,8 @@ But we can do better:
     edge queries.
     Then, using Proposition~\ref{prop:4:7} to tell us \emph{which} vertex
     queries to simulate, we will have found $\sink(H)$ as well as
-    $\sink(G) = \sink(G(\sink(H)))$ (cf.~Theorem
-    \ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink})
+    $\sink(G) = \sink(G(\sink(H)))$ (see~Lemma
+    \ref{lemma:USO-Lemma})
     after at most
     \[
         T(N) \le 7 \cdot \Bigl( T \left( N/4 \right) + O(N) \Bigr)
