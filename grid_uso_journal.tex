@@ -404,21 +404,24 @@ If one finds the sinks of the subgrids recursively, one would get the recursion
 \end{align*}
 where $T(n)$ is the number of vertex queries needed by this algorithm to find the sink of an $(n,n)$-grid. By the master theorem this recurrence solves to $T(n) = \mathcal{O}(n\log n)$. 
 
-As a first step to find a $(\frac{n}{2}, \frac{n}{2})$-vertex, we show how to compute an $(\frac{n}{4}, \frac{n}{4})$-vertex of an $(n, n)$-grid. Then, we extend this result to non-square grids. Finally, using these results as a black box, we show how to compute an $(\frac{m}{2}, \frac{n}{2})$-vertex in an $(m,n)$-grid using $O(m+n)$ vertex queries in total. Before proceeding we first prove an interdisciplinary lemma.
+As a first step to find a $(\frac{n}{2}, \frac{n}{2})$-vertex, we show how to compute an $(\frac{n}{4}, \frac{n}{4})$-vertex of an $(n, n)$-grid. Then, we extend this result to non-square grids. Finally, using these results as a black box, we show how to compute an $(\frac{m}{2}, \frac{n}{2})$-vertex in an $(m,n)$-grid using $O(m+n)$ vertex queries in total. 
+Before proceeding we need the following lemma.
 
 \begin{lemma}
 \label{lem:diagonal_lemma}
-Let $D = \{v_1,\ldots,v_n\}$ be the set of diagonal vertices of an $(n,n)$-grid USO so that $v_i = (i,i)$. After sorting the vertices with respect to their indegree the $j$'th vertex has at least $j-1$ incoming edges.
+Let $D = \{v_1,\ldots,v_n\}$ be the set of diagonal vertices of an $(n,n)$-grid USO so that $v_i = (i,i)$. After sorting the vertices with respect to their indegree the $j$-th vertex has at least $j-1$ incoming edges.
 \end{lemma}
 
 \begin{proof}
-Note that to prove the claim it is enough to show that some ordering of $D$ has the property that the $j$'th vertex has at least $j-1$ vertices because then also the ordering with respect to indegree satisfies the same property. 
+Note that to prove the claim it is enough to show that some ordering of~$D$ has the property that the $j$-th vertex has at least $j-1$ vertices because then also the ordering with respect to indegree satisfies the same property. 
 
 Rename the coordinates such that for all $1 \leq i < j\leq n$ either $v_i \succeq v_j$ or $v_i$ and $v_j$ are incomparable. 
 This defines a linear extension of the partial order $\succeq$ and we claim that $v_j$ has at least $j-1$ incoming edges for every $j = 1, \ldots, n$. 
-To see this fix some $v_j$ and consider the $(2,2)$-subgrids containing both $v_j$ and $v_i$ for $1\leq i < j$. 
-Note that each of these subgrids is a USO and none of them contains a path from $v_i$ to $v_j$ due to the assumption on having a linear extension. Therefore $v_j$ can't be the source of any of the subgrids and in every subgrid $v_j$ has at least one incoming edge. The edges of two different subgrids are disjoint so that there are $j-1$ subgrids each contributing at least one incoming edge for $v_j$. This concludes the proof.
-
+To see this fix some $v_j$ and consider the $(2,2)$-subgrid $H_{i,j}$ containing both $v_i$ and $v_j$ for some $1\leq i < j$. 
+Because $H_{i,j}$ is a USO and since $v_i \succeq v_j$, we know that $H_{i,j}$ contains no path from $v_j$ to $v_i$. 
+Therefore, $v_j$ cannot be the source $H_{i,j}$  which implies that $v_j$ has at least one incoming edge in $H_{i,j}$. 
+Since the edges in $H_{i,j}$ are disjoint from those of $H_{i',j}$ for $1\leq i < i' < j$, 
+we know that $v_j$ has an incoming edge for each $1\leq i< j$, i.e., $v_j$ has at least $j-1$ incoming edges. 
 %To prove our claim we first show that after querying the diagonal in the first phase, and after sorting and renaming the vertices, $D$ has the property that $v_i$ has at least $i-1$ incoming edges.
 %To prove the claim, observe that if some ordering has the property, then the ordering with respect to the number of incoming edges satisfies the property as well. \JN{To Luis You commented before that you didn't see the argument. I modified it so hopefully now it works.}
 %The existence of such an ordering follows by considering any linear extension of $\succeq$ restricted on $D$. 
@@ -431,7 +434,7 @@ Note that each of these subgrids is a USO and none of them contains a path from 
 
 \begin{lemma}
 \label{lem:seed_lemma_for_square_matrices}
- Given an $[n]\times [n]$ grid USO we can find an $(\frac{n}{4}, \frac{n}{4})$-vertex using $O(n)$ vertex queries.
+ Given an $(n, n)$-grid USO we can find an $(\frac{n}{4}, \frac{n}{4})$-vertex using $O(n)$ vertex queries.
 \end{lemma}
 
 \begin{proof}
@@ -446,16 +449,16 @@ In the second phase, let $V = \{v_{\lceil \frac{n}{2} \rceil},\ldots,v_n\} \subs
 Label the vertices in $V$ as either \emph{horizontal}  or \emph{vertical}, depending on whether the majority of incoming edges for the corresponding vertex are horizontal  or vertical, respectively. 
 Assume without loss of generality that there are more vertical vertices in $V$; otherwise change the role of the coordinates. 
 Let $V' \subseteq V$ be the set of all vertical vertices in $V$ and notice that $|V'| \geq |V|/2$.
-%Additionally, let $v \in V'$ be such that for each $u\in V'$ either 
+Then, find some $v \in \join(V')$ by using at most $O(V')$ additional queries and note that $v' \succeq v$ for every $v' \in V'$.
 
-Continuing the second phase we first find some $v \in \join(V')$ by using at most $O(V')$ additional queries and note that $v' \succeq v$ for every $v' \in V'$. Let $I'$ be the set of indices containing the first coordinate of each vertex in~$V'$. 
+Let $I'$ be the set of indices containing the first coordinate of each vertex in~$V'$. 
 Assume that $v = (x_v, y_v)$ and let $W = I'\times \{y_v\}$ be a subset of vertices in the same row as $v$ with $|W| = |V'|\geq |V|/2$.
 To conclude, the algorithm queries each vertex in $W$.
 It is clear from the description above that the number of vertices queried so far is $O(n)$. 
 We claim that one of the queried vertices will have the required \indegree.
 
-Because of the renaming after the first phase and due to Lemma~\ref{lem:diagonal_lemma} we know that $v_i$ has at least $i-1$ incoming edges. Recall the definition of $V'$ in the start of the second phase. 
-By the claim that we established, each vertex of $V'$ has at least $\lceil \frac{n}{2} \rceil - 1$ incoming edges.
+Because of the renaming after the first phase and due to Lemma~\ref{lem:diagonal_lemma} we know that $v_i$ has at least $i-1$ incoming edges. 
+Therefore, by the definition of $V$, we know that each vertex of $V'\subseteq V$ has at least $\lceil \frac{n}{2} \rceil - 1$ incoming edges.
 Moreover, each vertex in $V'$ has at least $\frac{\lceil \frac{n}{2}\rceil-1}{2}$ incoming vertical edges and $|V'| \geq \frac{n-\lceil \frac{n}{2}\rceil + 1}{2} \geq \frac{n}{4}$. 
 
 Let $v^*$ be the sink of $W$ obtained after querying each vertex in this set (including $v$). Let $[a,b]$ be the \indegree of $v^*$. We claim that $a, b \geq \frac{n}{4} - 1$. 
@@ -465,14 +468,14 @@ Indeed, because $v^*$ is smaller than each other vertex in $W$, we know that $$a
 If $v = v^*$, then since $v\in V'$, we know that $b\geq \frac{\lceil \frac{n}{2}\rceil-1}{2}\geq \frac{n}{4} - 1$.
 Otherwise, there is a vertex $v' \in V'$ that is in the same column as $v^*$. Due to the \join operation there is a path from $v'$ to $v$ and further to $v^*$. Therefore, by acyclicity the edge between $v'$ and $v^*$ is oriented towards $v^*$ and $v^*$ has more incoming vertical edges than $v'$ also because of acyclicity. Therefore we establish that $b \geq \frac{\lceil \frac{n}{2}\rceil-1}{2} + 1 \geq \frac{n}{4} \geq \frac{n}{4} - 1$ which shows that $v^*$ is an $(\frac{n}{4}, \frac{n}{4})$-vertex. \qed
 
-  %This situation is depicted in Figure~\ref{fig:seedlem1}.
-  %\begin{figure}[htbp] 
-  %	\centering
-  %	\includegraphics[scale=0.7]{seedlemma_fig1.pdf}
-  %	\caption{In this figure only a subset of the edges of the grid appears. The vertices that are marked with discs are the ones evaluated.} 
-  %	\label{fig:seedlem1}
-  %\end{figure}
-   %If we can show that there is an edge from $w$ to $v^*$, then by acyclicity $v^*$ has at least one more incoming vertical edge as compared to $w$, therefore establishing that $b \geq \frac{\lceil \frac{n}{2}\rceil-1}{2} + 1 \geq \frac{n}{4} \geq \frac{n}{4} - 1$ and showing that$v^*$ is an $(\frac{n}{4}, \frac{n}{4})$-vertex. 
+%\begin{figure}[htbp] 
+%\centering
+%\includegraphics[scale=0.7]{seedlemma_fig1.pdf}
+%\caption{In this figure only a subset of the edges of the grid appears. The vertices that are marked with discs are the ones evaluated.} 
+%\label{fig:seedlem1}
+%\end{figure}
+
+ %If we can show that there is an edge from $w$ to $v^*$, then by acyclicity $v^*$ has at least one more incoming vertical edge as compared to $w$, therefore establishing that $b \geq \frac{\lceil \frac{n}{2}\rceil-1}{2} + 1 \geq \frac{n}{4} \geq \frac{n}{4} - 1$ and showing that$v^*$ is an $(\frac{n}{4}, \frac{n}{4})$-vertex. 
    
    %Because $v$ is a minimal vertex in $V'$, either $w\succeq v$, or $v$ and $w$ are incomparable. 
    %To show that there is an edge from $w$ to $v^*$ we study these two cases: 
@@ -484,20 +487,20 @@ Otherwise, there is a vertex $v' \in V'$ that is in the same column as $v^*$. Du
   %Therefore, the only possibility for $v$ and $w$ to be incomparable is that there is an edge from $w$ to $v^*$. 
   %We give illustrations of the two cases in Figure~\ref{fig:seedlem2}. 
   %Thus regardless of the case, there is an edge from $w$ to $v^*$ which concludes the proof. \qed  
-  % \begin{figure}[htbp] 
-  %     \centering
-  %     \begin{subfigure}[b]{0.4\textwidth}
-  %         \includegraphics[scale = 0.7]{seedlemma_fig2_cas1.pdf}
-  %         \caption{$w \succeq v$}
-  %     \end{subfigure}
-  %     \qquad \qquad
-  %     \begin{subfigure}[b]{0.4\textwidth}
-  %         \includegraphics[scale = 0.7]{seedlemma_fig2_cas2.pdf}
-  %         \caption{$v$ and $w$ are incomparable}
-  %     \end{subfigure}
-  %     \caption{Illustrations of the two cases. }
-  %     \label{fig:seedlem2}
- %  \end{figure}
+%\begin{figure}[htbp] 
+%    \centering
+%    \begin{subfigure}[b]{0.4\textwidth}
+%        \includegraphics[scale = 0.7]{seedlemma_fig2_cas1.pdf}
+%        \caption{$w \succeq v$}
+%    \end{subfigure}
+%    \qquad \qquad
+%    \begin{subfigure}[b]{0.4\textwidth}
+%        \includegraphics[scale = 0.7]{seedlemma_fig2_cas2.pdf}
+%        \caption{$v$ and $w$ are incomparable}
+%    \end{subfigure}
+%    \caption{Illustrations of the two cases. }
+%    \label{fig:seedlem2}
+%\end{figure}
 \end{proof}
 
 The following corollary extends the previous lemma to non-square grids.
