@@ -155,8 +155,7 @@ It can also be shown that geometry is not essential for Random Edge: Finding the
 \citet{grid08} study higher dimensional grid USOs (Cartesian products of $d$ complete graphs, each on at most $n$ vertices) as general models that arise from solving a problem called PGLCP. 
 They provide a randomized product algorithm, which is similar to the one introduced in~\cite{SW} for cube USOs, and prove that for fixed dimension $d$ it uses polylogarithmic vertex queries in expectation. 
 In particular, it finds the sink of any 2-dimensional grid USO using expected $O(\log n \cdot \log m)$ vertex queries which matches the performance of \sinkalgs in Holt-Klee grid USOs.
-In the edge query model, again for fixed dimension, they describe a randomized \sinkalg with a running time linear in $n$. This result is also matched by \citet{DBLP:journals/dam/GartnerMRS08} who study the edge query model in the context of so called \emph{violator spaces}. \LB{This is more general that LP-type}
-It is therefore known that for $(m,n)$-grids, the sink of a grid USO can be found using $\Theta(n + m)$ edge queries in expectation.
+In the edge query model, again for fixed dimension, they describe a randomized \sinkalg that performs a linear number of queries.
 
 Notice that that any algorithm that finds the sink of a grid USO using edge queries can be also applied to solve the following \emph{matrix USO optimization} problem: Find the global minimum of an injective real function defined on a two dimensional matrix USO, where a matrix is USO if each $2\times 2$ sub-matrix has a unique minimum. 
 Therefore, the randomized algorithm from~\citet{grid08} solves the matrix USO optimization problem on a $m\times n$ matrix in $\Theta(m+n)$ expected time. However, no deterministic counterpart to this algorithm is known. 
@@ -172,8 +171,10 @@ A \emph{basis} of an LP-type problem is a set $B \subseteq S$ with the property 
 of $B$ has a smaller value of $w$ than $B$ itself. The \emph{combinatorial dimension} of an LP-type problem 
 is the maximum cardinality of a basis (for more information on LP-type problems refer to \cite{MatousekSW96}).
 
-\citet{grid08} hint that the problem of finding the sink of an $(m,n)$-grid USO can be naturally written as an LP-type problem $(S,w)$ of combinatorial dimension~2. 
-The set of constraints, $S$, is the set of rows and columns and therefore $|S| = m + n$. As any grid USO is acyclic (see Section~\ref{section:grid_uso_properties}), there is a topological ordering of the vertices. The function $w$ then takes a subset of the rows and columns (a subgrid) to the rank of the sink the subgrid in the ordering. If the subset of $S$ consists only of rows or columns, its value under $w$ is $-\infty$. 
+\citet{grid08} hint that the problem of finding the sink of an $(m,n)$-grid USO can be naturally written as an LP-type problem $(S,w)$ of combinatorial dimension~2 (\citet{DBLP:journals/dam/GartnerMRS08} looked also at the connection with the more general setting of \emph{violator spaces}). 
+The set of constraints, $S$, is the set of rows and columns and therefore $|S| = m + n$. As any grid USO is acyclic (see Section~\ref{section:grid_uso_properties}), there is a topological ordering of its vertices. 
+The function $w$ then takes a subset of the rows and columns defining a subgrid and maps it to the rank of its sink in the topological ordering. 
+If the subset of $S$ consists only of rows or columns, its value under $w$ is~$-\infty$. 
 This definition satisfies both monotonicity and locality yielding an LP-type problem.
 Moreover, a basis is simply a vertex defined by two constraints, one row and one column.
 Finding the sink of the grid then corresponds to finding a basis of $(S,w)$ with the highest value.
