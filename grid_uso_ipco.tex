@@ -155,8 +155,7 @@ It can also be shown that geometry is not essential for Random Edge: Finding the
 \citet{grid08} study higher dimensional grid USOs (Cartesian products of $d$ complete graphs, each on at most $n$ vertices) as general models that arise from solving a problem called PGLCP. 
 They provide a randomized product algorithm, which is similar to the one introduced in~\cite{SW} for cube USOs, and prove that for fixed dimension $d$ it uses polylogarithmic vertex queries in expectation. 
 In particular, it finds the sink of any 2-dimensional grid USO using expected $O(\log n \cdot \log m)$ vertex queries which matches the performance of \sinkalgs in Holt-Klee grid USOs.
-In the edge query model, again for fixed dimension, they describe a randomized \sinkalg with a running time linear in $n$. This result is also matched by \citet{DBLP:journals/dam/GartnerMRS08} who study the edge query model in the context of so called \emph{violator spaces}. \LB{This is more general that LP-type}
-It is therefore known that for $(m,n)$-grids, the sink of a grid USO can be found using $\Theta(n + m)$ edge queries in expectation.
+In the edge query model, again for fixed dimension, they describe a randomized \sinkalg that performs a linear number of queries.
 
 Notice that that any algorithm that finds the sink of a grid USO using edge queries can be also applied to solve the following \emph{matrix USO optimization} problem: Find the global minimum of an injective real function defined on a two dimensional matrix USO, where a matrix is USO if each $2\times 2$ sub-matrix has a unique minimum. 
 Therefore, the randomized algorithm from~\citet{grid08} solves the matrix USO optimization problem on a $m\times n$ matrix in $\Theta(m+n)$ expected time. However, no deterministic counterpart to this algorithm is known. 
@@ -172,8 +171,10 @@ A \emph{basis} of an LP-type problem is a set $B \subseteq S$ with the property 
 of $B$ has a smaller value of $w$ than $B$ itself. The \emph{combinatorial dimension} of an LP-type problem 
 is the maximum cardinality of a basis (for more information on LP-type problems refer to \cite{MatousekSW96}).
 
-\citet{grid08} hint that the problem of finding the sink of an $(m,n)$-grid USO can be naturally written as an LP-type problem $(S,w)$ of combinatorial dimension~2. 
-The set of constraints, $S$, is the set of rows and columns and therefore $|S| = m + n$. As any grid USO is acyclic (see Section~\ref{section:grid_uso_properties}), there is a topological ordering of the vertices. The function $w$ then takes a subset of the rows and columns (a subgrid) to the rank of the sink the subgrid in the ordering. If the subset of $S$ consists only of rows or columns, its value under $w$ is $-\infty$. 
+\citet{grid08} hint that the problem of finding the sink of an $(m,n)$-grid USO can be naturally written as an LP-type problem $(S,w)$ of combinatorial dimension~2 (\citet{DBLP:journals/dam/GartnerMRS08} looked also at the connection with the more general setting of \emph{violator spaces}). 
+The set of constraints, $S$, is the set of rows and columns and therefore $|S| = m + n$. As any grid USO is acyclic (see Section~\ref{section:grid_uso_properties}), there is a topological ordering of its vertices. 
+The function $w$ then takes a subset of the rows and columns defining a subgrid and maps it to the rank of its sink in the topological ordering. 
+If the subset of $S$ consists only of rows or columns, its value under $w$ is~$-\infty$. 
 This definition satisfies both monotonicity and locality yielding an LP-type problem.
 Moreover, a basis is simply a vertex defined by two constraints, one row and one column.
 Finding the sink of the grid then corresponds to finding a basis of $(S,w)$ with the highest value.
@@ -185,8 +186,8 @@ While there exist deterministic algorithms with matching asymptotic performance 
 Namely, they require that a specific set system has constant VC-dimension which does not hold for the LP-type problem in grid USOs described above (refer to~\cite{matouvsek2002lectures} for further information on set systems and VC-dimension). More specifically, for each vertex $v$ in the grid, let $R_v\subset S$ be the set of rows and columns to which $v$ has an outgoing edge. 
 The \emph{violator set system} $(S, \mathcal R)$ must have constant VC-dimension for the above deterministic algorithms to work, where $\mathcal R = \{R_v : v\text{ is a vertex of the grid}\}$. 
 Since this set system has unbounded VC-dimension for general grid USOs, as illustrated in Figure~\ref{fig:shatteredgrid}, these deterministic algorithms are less efficient than exploring the entire grid exhaustively. 
-Therefore, it is open whether there exist deterministic \sinkalgs that use only a linear number of queries. 
-In particular, it is not known if \emph{any} LP-type problem can be deterministically solved in linear~time. 
+Therefore, it is open whether there exist deterministic \sinkalgs that use less than a quadratic number of queries. 
+%In particular, it is not known if \emph{any} LP-type problem can be deterministically solved in linear~time. 
 
 \begin{figure}[h!] 
   	\centering
@@ -198,11 +199,11 @@ In particular, it is not known if \emph{any} LP-type problem can be deterministi
   	\label{fig:shatteredgrid}
   \end{figure}
   
-While the above deterministic algorithms for LP-type problems are not efficient for general grid USOs, with the additional Holt-Klee condition they yield efficient \sinkalgs:
+While the above deterministic algorithms for LP-type problems are not efficient for general grid USOs, the addition of the Holt-Klee condition yields efficient \sinkalgs:
 It is known that every Holt-Klee grid USO is induced by a red-blue arrangement of pseudo-lines \cite{grid05,falkthesis}. 
 In turn, this can be thought of as the dual of the combinatorial version of the one line and $n$ points configuration.
 The equivalence of Holt-Klee grid USOs and red-blue arrangement of pseudo-lines imply that the violator set system we defined above for grids has constant VC dimension. 
-This implies that we can deterministically find the sink of Holt-Klee grid USOs using only a linear number of queries by reducing to an LP-type problem~\cite{chan16,ChazelleM96}.
+Therefore, we can deterministically find the sink of Holt-Klee grid USOs using only a linear number of queries by reducing to an LP-type problem~\cite{chan16,ChazelleM96}.
 
 %Namely, they require that the set system induced on $S$ by the family of violator sets of each of the vertices has constant VC-dimension (refer to~\cite{matouvsek2002lectures} for further information on VC-dimension).
 
@@ -226,7 +227,6 @@ Additionally, recall that an algorithm that finds the sink of a grid USO in the 
 Therefore, our algorithm in the edge query model provides a way to deterministically find the minimum of an $m\times n$ matrix USO by querying for the value of only $O((m+n)^{\log_4 7})$ entries of the matrix. 
 
 \subsubsection{Outline.}
-
 To guide the reader, we give a rough sketch of the algorithms presented in this paper.
 The main idea behind our algorithms is to partition the grid into a constant number of subgrids. 
 Then, by recursively finding the sink of a ``few'' of these subgrids, we are able to infer global information and discard some of the remaining subgrids, i.e., we guarantee that they do not contain the sink. 
@@ -243,7 +243,7 @@ We then show how to find the sink by recursively solving only two of them and di
 That is, we obtain a deterministic algorithm that finds the sink of an $(n, n)$-grid using $O(n \log n)$ vertex queries. 
 
 To discard the $(n/2, n/2)$-subgrid used in the first part of this algorithm, we focus on finding a vertex $v$ with ``large'' indegree. 
-However, we want the incoming edges of $v$ to be evenly distributed among its horizontal and vertical edges. Using the properties of the grid USO, we are able to show that such a vertex $v$ will be the sink of a large subgrid, namely the smallest subgrid that contains $v$ and each vertex that has an edge towards $v$.
+However, we want the incoming edges of $v$ to be evenly distributed among its horizontal and vertical edges. Using the properties of the grid USO, we are able to show that such a vertex $v$ will be the sink of a large subgrid, namely the smallest subgrid that contains $v$ and each vertex that has an outgoing edge to $v$.
 If the indegree of $v$ is sufficiently large, then this subgrid having $v$ as its sink will contain a quarter of the vertices of the $(n,n)$-grid fulfilling the requirements of our $O(n \log n)$ algorithm.
 
 While the first $O(n^{\log_4 7})$ algorithm works in both the edge- and the vertex-query model, we have not been able to extended the second and more efficient algorithm to the edge-query model.
