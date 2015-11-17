@@ -258,7 +258,7 @@ In this section, we introduce the terminology and basic properties of grids. Mor
 %\end{lemma}
 Recall that an induced subgraph of a grid is called a \emph{subgrid} if it is itself a grid.
 The subgrids of an $(m,n)$-grid are exactly those induced subgraphs whose vertex set is a
-Cartesian product $I \times J$, for some $I \subseteq [m]$ and $J \subseteq [n]$. We call the corresponding subgrid by $(I,J)$-subgrid.
+Cartesian product $I \times J$, for some $I \subseteq [m]$ and $J \subseteq [n]$. We call the corresponding subgrid an $I\times J$-subgrid.
 If the original grid is oriented, the subgrids inherited an orientation.
 
 For our algorithms to work it is important that the orientation is acyclic. The following lemma is due to \citet{grid08} and because of it we make no restriction when considering only acyclic grid USOs. 
@@ -297,11 +297,11 @@ which inherits a unique sink orientation from the original grid USO; see Figure~
 
 Formally, let $G$ be an $(m,n)$-grid USO,
 and let $\A = \{A_1,\ldots,A_k\}$ and $\B = \{B_1\ldots, B_l\}$ be partitions of $[m]$ and $[n]$, respectively.
-Let $H$ be a $(k,l)$-grid whose vertices we identify with the $(A_i,B_j)$-subgrids of $G$ where $1\leq i \leq k$ and $1 \leq j \leq l$. 
+Let $H$ be a $(k,l)$-grid whose vertex $(i,j)$ we identify with the $A_i \times B_j$-subgrid of $G$ for every $1\leq i \leq k$ and for every $1 \leq j \leq l$. 
 We define an orientation on $H$ so that the edge between two adjacent vertices $x$ and $y$ of $H$ is oriented towards $y$ if the sink of $x$ has at least one outgoing edge to a vertex of $y$ in the original grid $G$. 
 This orientation is well defined, because if the sink of $y$ had an edge towards some vertex of $x$, there would be a cycle in $G$. 
 Furthermore, there is always at least one such outgoing edge from one of the sinks as otherwise an appropriately chosen subgrid of $G$ would have two sinks. 
-We say that this orientation is \emph{induced} on $H$ by $G$ and $H$ is called the \emph{$\A$-$\B$-partition grid}.
+We say that this orientation is \emph{induced} on $H$ by $G$ and $H$ is called the \emph{$\A$-$\B$-partition grid}. For $A \in \A$ and $B \in \B$ we call refer 
 The following result shows that the orientation induced on $H$ by $G$ is also a unique sink orientation. 
 A similar result was proved by G\"artner et al.~\cite{grid08} in higher dimensional grid USOs.
 
@@ -319,12 +319,12 @@ The orientation of the $\A$-$\B$-partition grid $H$ induced by $G$ is a unique s
 
 \begin{proof}
 Let $A, A'\in \A$ and $B,B'\in \B$. Let $F$ be the $\{A,A'\}\times\{B, B'\}$-subgrid of~$H$.
-Note that $F$ consists of four blocks being $(A,B), (A', B), (A, B')$ and $(A', B')$. Let their respective sinks be $s_{A,B}$, $s_{A',B}$, $s_{A,B'}$ and $s_{A',B'}$.
+Note that $F$ consists of four subgrids being $A\times B, A'\times B, A\times B'$ and $A'\times B'$. Let their respective sinks be $s_{A,B}$, $s_{A',B}$, $s_{A,B'}$ and $s_{A',B'}$.
 By Proposition \ref{prop:subgrid_uso_check} it is enough to check that the orientation of $F$ is a unique sink orientation and that $H$ is acyclic.
 We first show that $F$ has at most one sink and then show that it cannot have cycles and therefore has exactly one sink. Lastly we show that $H$ can not have cycles.
 
 Assume for a contradiction that $F$ has more than one sink.
-Because these sinks cannot be adjacent, $F$ has two sinks and without loss of generality they are the blocks $(A,B')$ and $(A', B)$. Consider the $(2,2)$ subgrid in $G$ that contains the vertices $\s{A,B'}$ and $\s{A',B}$. By assumption, and from the way the induced orientation was constructed, this subgrid has two sinks which is a contradiction to $G$ being a unique sink orientation. See Figure~\ref{fig:InducedUSOtwosinks} for an example. Therefore we conclude that $F$ has at most one sink. 
+Because these sinks cannot be adjacent, $F$ has two sinks and without loss of generality they are the subgrids $A\times B'$ and $A'\times B$. Consider the $(2,2)$ subgrid in $G$ that contains the vertices $\s{A,B'}$ and $\s{A',B}$. By assumption, and from the way the induced orientation was constructed, this subgrid has two sinks which is a contradiction to $G$ being a unique sink orientation. See Figure~\ref{fig:InducedUSOtwosinks} for an example. Therefore we conclude that $F$ has at most one sink. 
 
 Next to show is that $F$ has at least one sink. The only way for $F$ to have no sink is if there is a cycle in $F$. Such a cycle would induce a cycle in $G$: starting from the sink of one of the blocks of $H$, move along an edge to another block and then again to the sink of the new block and repeat until we reach the sink of the block we started from. This works because there is always such an outgoing edge between blocks when $F$ is cyclic --- which implies an outgoing edge in the original grid --- and there is always a path within a block from any vertex to the sink of the block due to Lemma~\ref{lemma:acyclicity_lemma}. Such a cycle is illustrated in Figure~\ref{fig:InducedUSOcycle}. We conclude that $F$ can't have a cycle and therefore $F$ will have exactly one sink.
 
@@ -354,18 +354,18 @@ To see that $H$ is acyclic one only needs to repeat the same argument as for $F$
 
 Let $G$ be an $(m,n)$-grid USO,
 and let $\A$ and $\B$ be partitions of $[n]$ and $[m]$, respectively.
-If the subgrid $(A,B)$ is the sink of the $\A$-$\B$-partition grid $H$, then the sink of $(A,B)$ is the sink of $G$.
+If the $A\times B$-subgrid  is the sink of the $\A$-$\B$-partition grid $H$, then the sink of $A\times B$ is the sink of $G$.
 \end{theorem}
 \begin{proof}
-Let $\s{A,B}$ be the sink of $(A,B)$ and let $\s{G}$ denote the sink of $G$.
+Let $\s{A,B}$ be the sink of $A\times B$ and let $\s{G}$ denote the sink of $G$.
 We claim that $\s{G} = \s{A,B}$.
 Assume for a contradiction that $\s{A,B}\neq \s{G}$.
-Note that $\s{G}$ does not belong to $(A,B)$ as $\s{A,B}$ is its sink.
-Therefore, $\s{G}$ is the sink of $G(A', B')$ for some $A'\in \A, B'\in \B$.
+Note that $\s{G}$ does not belong to $A\times B$ as $\s{A,B}$ is its sink.
+Therefore, $\s{G}$ is the sink of $A'\times B'$ for some $A'\in \A, B'\in \B$.
 
-Consider the smallest subgrid in $H$ containing both $(A,B)$ and $(A', B')$. 
-Since Lemma~\ref{lemma:USO-Lemma} guarantees that $(A',B')$ is not the sink of this subgrid, there is at least one outgoing edge from $(A',B')$ to another vertex in $H$.
-Thus, by the definition of the orientation of $H$, there is an outgoing edge going from the sink of $G(A',B')$, i.e., an outgoing edge from $\s{G}$---a contradiction since $\s{G}$ is the sink of $G$ and has no outgoing edges. 
+Consider the smallest subgrid in $H$ containing both $A\times B$ and $A'\times B'$. 
+Since Lemma~\ref{lemma:USO-Lemma} guarantees that $A'\times B'$ is not the sink of this subgrid, there is at least one outgoing edge from $A'\times B'$ to another vertex in $H$.
+Thus, by the definition of the orientation of $H$, there is an outgoing edge going from the sink of $A'\times B'$, i.e., an outgoing edge from $\s{G}$---a contradiction since $\s{G}$ is the sink of $G$ and has no outgoing edges. 
 Therefore, $\s{G} = \s{A,B}$. \qed
 \end{proof}
 
@@ -606,14 +606,14 @@ We are ready to prove our main result.
 
 \begin{proof}
 Use Corollary~\ref{corollary: (m/2,n/2) indegree} to find an $(\frac{m}{2}, \frac{n}{2})$-vertex $v$. 
-Recall that $v$ is the sink of the $I_v\times J_v$-grid by Observation~\ref{Obs:Sink of dominated grid}, where $|I_v| \geq \frac{m}{2}$ and $|J_v|\geq \frac{n}{2}$. Let $A_1\subset I_v$ and $B_1\subset J_v$ be subsets of indices such that $|A_1| = \frac{m}{2}, |B_1| = \frac{n}{2}$ and note that $v$ is also the sink of the $(A_1, B_1)$-subgrid.
+Recall that $v$ is the sink of the $I_v\times J_v$-grid by Observation~\ref{Obs:Sink of dominated grid}, where $|I_v| \geq \frac{m}{2}$ and $|J_v|\geq \frac{n}{2}$. Let $A_1\subset I_v$ and $B_1\subset J_v$ be subsets of indices such that $|A_1| = \frac{m}{2}, |B_1| = \frac{n}{2}$ and note that $v$ is also the sink of the $A_1\times B_1$-subgrid.
 Let $A_2= [m]\setminus A_1$ and $B_2 = [n]\setminus B_1$.
 Let $\A = \{A_1, A_2\}$ and $\B = \{B_1, B_2\}$ be partitions of $[m]$ and $[n]$, respectively.
 
 Let $T(m, n)$ be the number of queries needed to find the sink of an $[m]\times[n]$-grid USO.
 We can find recursively the sink $s$ of the $(A_2, B_2)$-subgrid using $T(\frac{m}{2}, \frac{n}{2})$ vertex queries. 
 If neither $v$ nor $s$ is the sink of $G$ we proceed as follows.
-Since the orientation of the $\A$-$\B$-partition grid $H$ induced by $G$ is a unique sink orientation by Lemma~\ref{lemma:USO-Lemma}, we can decide whether the sink of $G$ lies in the $(A_1, B_2)$-subgrid or in the $(A_2, B_1)$-subgrid after querying $v$ and $s$.
+Since the orientation of the $\A$-$\B$-partition grid $H$ induced by $G$ is a unique sink orientation by Lemma~\ref{lemma:USO-Lemma}, we can decide whether the sink of $G$ lies in the $A_1\times B_2$-subgrid or in the $A_2\times B_1$-subgrid after querying $v$ and $s$.
 By finding recursively the sink of the remaining subgrid, we find the sink of $G$ by Theorem~\ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink}. In summary, the total number of queries requried to find the sink of $G$ is given by the recurrence
 $$T(m, n) = 2\cdot T\left(\frac{m}{2}, \frac{n}{2}\right) + O(m+n),$$
 which solves to $T(m, n) = O((m+n) \log (m+n))$ yielding our result. \qed
