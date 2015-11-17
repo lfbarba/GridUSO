@@ -281,7 +281,7 @@ Let $H$ be a $(k,l)$-grid whose vertex $(i,j)$ we identify with the $A_i \times 
 We define an orientation on $H$ so that the edge between two adjacent vertices $x$ and $y$ of $H$ is oriented towards $y$ if the sink of $x$ has at least one outgoing edge to a vertex of $y$ in the original grid $G$. 
 This orientation is well defined, because if the sink of $y$ had an edge towards some vertex of $x$, there would be a cycle in $G$. 
 Furthermore, there is always at least one such outgoing edge from one of the sinks as otherwise an appropriately chosen subgrid of $G$ would have two sinks. 
-We say that this orientation is \emph{induced} on $H$ by $G$ and $H$ is called the \emph{$\A$-$\B$-partition grid}. For $A \in \A$ and $B \in \B$ we call refer 
+We say that this orientation is \emph{induced} on $H$ by $G$ and $H$ is called the \emph{$\A$-$\B$-partition grid}. 
 The following result shows that the orientation induced on $H$ by $G$ is also a unique sink orientation. 
 A similar result was proved by G\"artner et al.~\cite{grid08} in higher dimensional grid USOs.
 
@@ -316,10 +316,10 @@ Recall that in the vertex query model a grid USO is given by a \emph{vertex orac
 Before explaining the algorithm we introduce some notation. We define a reflexive partial order on the vertices of a grid USO $G$ as follows. 
 For any two vertices $v,w \in G$ we say that $w \succeq v$ if there is a directed path from $w$ to $v$ within the grid $G$ (or if $w = v$). 
 In words, we say that $w$ is \emph{larger} than $v$ (or $v$ is \emph{smaller} than $w$).
-Because grid USOs are acyclic by Lemma~\ref{lemma:acyclicity_lemma}, this partial order is well defined.
+Because grid USOs are acyclic, this partial order is well defined.
 Moreover, the sink of the grid USO is the unique minimal vertex with respect to this ordering. 
 
-For a set of vertices $V$ in a grid USO $G$ let \join($V$) be the set of vertices of the grid to which there is a path from all vertices in $V$.  More formally $\join(V) = \{w \in G \: | \: v \succeq w \:\: \forall v \in V \}$. Note that if $s$ is the sink of the subgrid containing two vertices $v$ and $w$, then $s \in \join(\{v,w\})$. Therefore, given some set of vertices $V$, we can compute a $w \in \join(V)$ with $O(|V|)$ vertex queries.
+For a set of vertices $V$ in a grid USO $G$ let $\join(V$) be the set of vertices of the grid to which there is a path from all vertices in $V$.  More formally $\join(V) = \{w \in G \: | \: v \succeq w \:\: \forall v \in V \}$. Note that if $s$ is the sink of the subgrid containing two vertices $v$ and $w$, then $s \in \join(\{v,w\})$. Therefore, given some set of vertices $V$, we can compute a $w \in \join(V)$ with $O(|V|)$ vertex queries.
 
 %Note that two vertices may not be $\succeq$-comparable in the smallest subgrid containing them. 
 %There could still be a path between the two vertices. 
@@ -354,7 +354,7 @@ Rename the coordinates such that for all $1 \leq i < j\leq n$ either $v_i \succe
 This defines a linear extension of the partial order $\succeq$ and we claim that $v_j$ has at least $j-1$ incoming edges for every $j = 1, \ldots, n$. 
 To see this fix some $v_j$ and consider the $(2,2)$-subgrid $H_{i,j}$ containing both $v_i$ and $v_j$ for some $1\leq i < j$. 
 Because $H_{i,j}$ is a USO and since $v_i \succeq v_j$, we know that $H_{i,j}$ contains no path from $v_j$ to $v_i$. 
-Therefore, $v_j$ cannot be the source $H_{i,j}$  which implies that $v_j$ has at least one incoming edge in $H_{i,j}$. 
+Therefore, $v_j$ cannot be the source of $H_{i,j}$  which implies that $v_j$ has at least one incoming edge in $H_{i,j}$. 
 Since the edges in $H_{i,j}$ are disjoint from those of $H_{i',j}$ for $1\leq i < i' < j$, 
 we know that $v_j$ has an incoming edge for each $1\leq i< j$, i.e., $v_j$ has at least $j-1$ incoming edges. 
 %To prove our claim we first show that after querying the diagonal in the first phase, and after sorting and renaming the vertices, $D$ has the property that $v_i$ has at least $i-1$ incoming edges.
@@ -394,7 +394,7 @@ We claim that one of the queried vertices will have the required \indegree.
 
 Because of the renaming after the first phase and due to Lemma~\ref{lem:diagonal_lemma} we know that $v_i$ has at least $i-1$ incoming edges. 
 Therefore, by the definition of $V$, we know that each vertex of $V'\subseteq V$ has at least $\lceil \frac{n}{2} \rceil - 1$ incoming edges.
-Moreover, each vertex in $V'$ has at least $\frac{\lceil \frac{n}{2}\rceil-1}{2}$ incoming vertical edges and $|V'| \geq \frac{n-\lceil \frac{n}{2}\rceil + 1}{2} \geq \frac{n}{4}$. 
+Moreover, each vertex in $V'$ has at least $(\lceil \frac{n}{2}\rceil-1)/2$ incoming vertical edges and $|V'| \geq \frac{n-\lceil \frac{n}{2}\rceil + 1}{2} \geq \frac{n}{4}$. 
 
 Let $v^*$ be the sink of $W$ obtained after querying each vertex in this set (including $v$). Let $[a,b]$ be the \indegree of $v^*$. We claim that $a, b \geq \frac{n}{4} - 1$. 
 Indeed, because $v^*$ is smaller than each other vertex in $W$, we know that $$a \geq |W|-1 = |V'|-1 = \frac{n-\lceil \frac{n}{2}\rceil + 1}{2} - 1 \geq \frac{n}{4} - 1.$$
@@ -523,15 +523,12 @@ We are ready to prove our main result.
 \section{The Edge Oracle Model}
 \label{section:The edge oracle model}
 
-In this section we study an alternative data model, so as to expand the
-potential applications of our investigations.
-In the \emph{edge oracle model} considered here, the algorithm accesses the
+So far in the previous sections we have mainly discussed the vertex oracle model.
+Recall that in the \emph{edge oracle model} considered here, the algorithm accesses the
 grid $G = K_m \times K_n$ by means of an \emph{edge oracle} which can tell us
 the orientation of any given edge.
-By an adversary argument similar to the one used for Theorem~\ref{thm:lowerbound},
-we have an $\Omega(N)$ lower bound for the required number of edge queries,
-where $N = m+n$.
-An easy upper bound is $O(N^2)$ (find the sink of each row individually; then
+One can show by an adversary argument that $\Omega(m+n)$ queries are necessary in the worst case.
+An easy upper bound is $O(mn)$ (find the sink of each row individually; then
 for each of these local sinks, query all incident edges to decide whether it
 is the global sink).
 But we can do better:
