@@ -394,15 +394,15 @@ In an ($m,n$)-grid USO $G$, the \emph{\indegree} of a vertex $v \in G$ is an ord
 We say that a vertex $v$ with \indegree $[a_v, b_v]$ is a \emph{$(k, t)$-vertex} if $a_v\geq k-1$ while $b_v\geq t-1$.
 
 Consider the following algorithmic approach to finding the sink of an ($n$,$n$)-grid USO deterministically. 
-Assume that we are able to find in $\mathcal{O}(n)$ time a $(\frac{n}{2}, \frac{n}{2})$-vertex $v$.
+Assume that we are able to find in $O(n)$ time a $(\frac{n}{2}, \frac{n}{2})$-vertex $v$.
 We could then partition the grid into 4 equally sized square subgrids so that $v$ is the sink of one of them.
 The next step would be to find the sink of the block opposite to the block containing $v$ in the (2,2)-grid induced by this partition. 
 By Theorem~\ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} we could thereafter discard one subgrid out of consideration and possibly still find the sink of one subgrid.
 If one finds the sinks of the subgrids recursively, one would get the recursion
 \begin{align*}
- T(n) = 2T\left(\frac{n}{2}\right) + \mathcal{O}(n)
+ T(n) = 2T\left(\frac{n}{2}\right) + O(n)
 \end{align*}
-where $T(n)$ is the number of vertex queries needed by this algorithm to find the sink of an $(n,n)$-grid. By the master theorem this recurrence solves to $T(n) = \mathcal{O}(n\log n)$. 
+where $T(n)$ is the number of vertex queries needed by this algorithm to find the sink of an $(n,n)$-grid. By the master theorem this recurrence solves to $T(n) = O(n\log n)$. 
 
 As a first step to find a $(\frac{n}{2}, \frac{n}{2})$-vertex, we show how to compute an $(\frac{n}{4}, \frac{n}{4})$-vertex of an $(n, n)$-grid. Then, we extend this result to non-square grids. Finally, using these results as a black box, we show how to compute an $(\frac{m}{2}, \frac{n}{2})$-vertex in an $(m,n)$-grid using $O(m+n)$ vertex queries in total. 
 Before proceeding we need the following lemma.
@@ -517,7 +517,7 @@ The following corollary extends the previous lemma to non-square grids.
 consider the $\A$-$\B$-partition grid $H$ and its induced orientation inherited from $G$. 
  Use Lemma~\ref{lem:seed_lemma_for_square_matrices} to find an $(\frac{n}{4}, \frac{n}{4})$-vertex $v$ in $H$. 
  Note that in each vertex query of $H$ we need to find the sink of a $(|A|,1)$-grid for some $A\in \A$. 
- The total number of vertex queries of $G$ used is therefore $\mathcal{O}(\frac{m}{n}\cdot n) = \mathcal{O}(m)$ as asserted. 
+ The total number of vertex queries of $G$ used is therefore $O(\frac{m}{n}\cdot n) = O(m)$ as asserted. 
  Since $v$ has at least $\frac{n}{4} - 1$ horizontal incoming edges in $H$, each of which is a $(|A|,1)$-grid in $G$ for some $A\in \A$, 
  by Theorem~\ref{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink} $v$ has at least $$\left(\frac{n}{4} - 1\right)\cdot\left\lfloor \frac{m}{n} \right\rfloor + \left\lfloor \frac{m}{n} \right\rfloor - 1 \geq \frac{m}{8} - 1$$ incoming edges in $G$.
  Vertex $v$ also has at least $\frac{n}{4} - 1 \geq \frac{n}{8} - 1$ incoming vertical edges which concludes the proof. \qed
