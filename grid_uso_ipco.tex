@@ -250,8 +250,9 @@ While the first $O(n^{\log_4 7})$ algorithm works in both the edge- and the vert
 
 
 \section{Grid USO Properties}\label{section:grid_uso_properties}
-In this section, we introduce the terminology and basic properties of grids. Moreover, we go into the basics of the partition strategy which will be key to our subsequent algorithms.
 
+In this section, we state basic properties of grids. Firstly, \citet{grid08} have shown that every $(m,n)$-grid USO is \emph{acyclic}. 
+A second ingredient that we use in our algorithms is a partition strategy which we describe subsequently.
 
 %\begin{lemma}[Product construction]
 % Let $G$ be an $X\times Y$-grid USO for some sets $X$ and $Y$ and let $A \subset 2^X$ and $B \subset 2^Y$ be partitions of $X$ and $Y$, respectively. Let $H$ be an $A\times B$-grid. \JN{See Malte's 4$\times$4 lower bound for a possible way to define this.}
@@ -261,8 +262,6 @@ The subgrids of an $(m,n)$-grid are exactly those induced subgraphs whose vertex
 Cartesian product $I \times J$, for some $I \subseteq [m]$ and $J \subseteq [n]$. We call the corresponding subgrid an $I\times J$-subgrid.
 If the original grid is oriented, the subgrids inherited an orientation.
 
-For our algorithms to work it is important that the orientation is acyclic. \citet{grid08} have shown that grid USOs are acyclic. Furthermore, to check whether a grid orientation is a USO it is enough to check that the orientation is acycli and that every $(2,2)$-subgrid is a USO.
-
 \subsubsection{Induced USOs}
 
 For the \sinkalgs we want to partition the grid into subgrids.
@@ -271,7 +270,7 @@ which inherits a unique sink orientation from the original grid USO; see Figure~
 
   \begin{figure}[htbp] 
   	\centering
-  	\includegraphics[scale=1.5]{induced_orientation_ex.pdf}
+  	\includegraphics[scale=1]{induced_orientation_ex.pdf}
   	\caption{\small On the left side of the figure there is a $(3,3)$-grid USO whose $X$-coordinates and $Y$-coordinates have been partitioned into 2 parts of cardinalities two and one. The induced $(2,2)$-grid USO with respect to these blocks is shown on the right and the edges contributing are also shown in the original grid.} 
   	\label{fig:example_induced_orientation}
   \end{figure}
@@ -302,8 +301,8 @@ The orientation of the $\A$-$\B$-partition grid $H$ induced by $G$ is a unique s
 \label{thm:the_sink_of_the_sink_of_the_induced_orientation_is_the_global_sink}
 
 Let $G$ be an $(m,n)$-grid USO,
-and let $\A$ and $\B$ be partitions of $[n]$ and $[m]$, respectively.
-If the $A\times B$-subgrid  is the sink of the $\A$-$\B$-partition grid $H$, then the sink of $A\times B$ is the sink of $G$.
+and let $\A$ and $\B$ be partitions of $[m]$ and $[n]$, respectively. Let $A\in \A$ and $B \in \B$.
+If the $A\times B$-subgrid is the sink of the $\A$-$\B$-partition grid $H$, then the sink of the $A\times B$-subgrid is the sink of $G$.
 \end{theorem}
 
 \section{The Vertex Oracle Model}
@@ -587,7 +586,7 @@ But we can do better:
     \qed
 \end{proof}
 
-\bibliographystyle{plainnat}
+\bibliographystyle{abbrvnat}
 \bibliography{griduso}
 
 \end{document}
