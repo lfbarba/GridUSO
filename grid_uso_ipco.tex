@@ -356,8 +356,8 @@ For a set of vertices $V$ in a grid USO $G$ let $\join(V$) be the set of vertice
 In an ($m,n$)-grid USO $G$, the \emph{\indegree} of a vertex $v \in G$ is an ordered pair $[a_v, b_v] \in \{0,1,\ldots,m-1\}\times \{0,1,\ldots,n-1\}$ where $a_v$ and $b_v$ specify the number of incoming horizontal  and vertical edges of $v$, respectively.
 We say that a vertex $v$ with \indegree $[a_v, b_v]$ is a \emph{$(k, t)$-vertex} if $a_v\geq k-1$ while $b_v\geq t-1$.
 
-Consider the following algorithmic approach to finding the sink of an ($n$,$n$)-grid USO deterministically. \AT{Decide when to talk about square grids. Also see Outline subsec.}
-Assume that we are able to find in $O(n)$ time a $(\frac{n}{2}, \frac{n}{2})$-vertex $v$.
+Consider the following algorithmic approach to finding the sink of an ($m$,$n$)-grid USO deterministically. 
+Assume that we are able to find in $O(m+n)$ time a $(\frac{m}{2}, \frac{n}{2})$-vertex $v$.
 We could then partition the grid into 4 equally sized square subgrids so that $v$ is the sink of one of them.
 The next step would be to find the sink of the block antipodal to the block containing $v$ in the (2,2)-grid induced by this partition. 
 By Lemma~\ref{lemma:USO-Lemma} we could thereafter discard one subgrid out of consideration and possibly still find the sink of one subgrid.
@@ -367,8 +367,11 @@ If one finds the sinks of the subgrids recursively, one would get the recursion
 \end{align*}
 where $T(m,n)$ is the number of vertex queries needed by this algorithm to find the sink of an $(m,n)$-grid. This recurrence solves to \mbox{$T(m,n) = O((m+n)\log (m+n))$}. 
 
-As a first step to find a $(\frac{n}{2}, \frac{n}{2})$-vertex, we show how to compute an $(\frac{n}{4}, \frac{n}{4})$-vertex of an $(n, n)$-grid. Then, we extend this result to non-square grids. Finally, using these results as a black box, we show how to compute an $(\frac{m}{2}, \frac{n}{2})$-vertex in an $(m,n)$-grid using $O(m+n)$ vertex queries in total. 
-Before proceeding we need the following lemma.
+The main part of the algorithm description is to obtain an $(\frac{m}{2}, \frac{n}{2})$-vertex in linear time.
+For ease of presentation, we prove Lemmas~\ref{lem:diagonal_lemma} and \ref{lem:seed_lemma_for_square_matrices} for the square $(n, n)$-grid. From those, 
+we obtain Corollary~\ref{corollary: n/4 indegree}, which we state here without proof.  The latter establishes the computation of a 
+$(\frac{m}{8}, \frac{n}{8})$-vertex in linear time. Using it as a black box, we manage to get a $(\frac{m}{2}, \frac{n}{2})$-vertex with only linearly 
+many more queries in Lemma~\ref{lemma:Climbing lemma} and Corollary~\ref{corollary: (m/2,n/2) indegree}.
 
 \begin{lemma}
 \label{lem:diagonal_lemma}
@@ -487,7 +490,7 @@ The following corollary extends the previous lemma to non-square grids.
 % 
 % The problem we are looking at is that of finding the global sink of a USO over $(K_n)^d$. The USO is given by an oracle that for any given vertex reveals the orientations of the edges adjacent to the vertex. The question is, what is the least number of these vertex queries needed to find the unique global sink? Just knowing its location is not sufficient, but we also require that the sink is evaluated. This requirement will prove useful when developing an algorithm.
 
-\subsubsection{Finding an $(\frac{n}{2}, \frac{n}{2})$-vertex.}
+\subsubsection{Finding an $(\frac{m}{2}, \frac{n}{2})$-vertex.}
 
 Given an $(a, b)$-vertex $v = (x_v, y_v)$ in an $(m,n)$-grid USO, let $I_v\subseteq [m]$ be the set of indices such that  $I_v \times \{y_v\}$ is the set of all vertices with an outgoing horizontal edge to $v$, with $v$ included in this set. Analogously, $J_v\subseteq [n]$ is the set of indices such that $\{x_v\}\times J_v$ is the set of all vertices with an outgoing vertical edge to~$v$ (including $v$). Notice that $|I_v| \geq a$ while $|J_v| \geq b$ and that $v$ is the sink of the $I_v\times J_v$-grid.
 
@@ -498,7 +501,7 @@ Given an $(a, b)$-vertex $v = (x_v, y_v)$ in an $(m,n)$-grid USO, let $I_v\subse
 An \emph{$(\alpha, \beta)$-oracle} is an algorithm that, given an $(m, n)$-grid USO as input, can find an $(\alpha m, \beta n)$-vertex $v$ using $O(m + n)$ queries.
 
 \begin{lemma}\label{lemma:Climbing lemma}
-Let $G$ be an $[m]\times [n]$-grid USO.
+Let $G$ be an $(m,n)$-grid USO.
 Given an $(\alpha, \beta)$-oracle such that $0 < \alpha, \beta  < 1$, we can find both an $(\frac{m}{2}, \beta n)$-vertex and an $(\alpha m, \frac{n}{2})$-vertex in $G$ using $O(1)$ oracle calls and $O(m+n)$ additional vertex queries.
 \end{lemma}
 \begin{proof}
@@ -539,7 +542,8 @@ Therefore, at least $|I_{v_h}|$ vertices have outgoing edges to $s'$ in the row 
 Moreover, since $s'$ is the sink of the $\{x_s\}\times \cup_{i=0}^k J_{v_i}$-subgrid, $b \geq |\cup_{i=0}^k J_{v_i}|  >  \frac{n}{2}$.
 Consequently, $s'$ is an $(\alpha m,  \frac{n}{2})$-vertex. \qed
 \end{proof}
-The above lemma can be generalized to non-square grids. We obtain the \mbox{following:}
+
+The above lemma can be generalized to the following corollary, which we state without proof. 
 \begin{corollary}\label{corollary: (m/2,n/2) indegree}
 Let $G$ be an $(m,n)$-grid USO. 
 We can compute an $( \frac{m}{2}, \frac{n}{2})$-vertex using $O(m + n)$ vertex queries.
