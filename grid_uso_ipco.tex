@@ -186,13 +186,22 @@ Finding the sink of the grid then corresponds to finding a basis of $(S,w)$ with
 %The \emph{violator set} of a vertex $v$ is the set of constraints representing the rows and columns to which $v$ has outgoing edges. 
 
 There are linear-time randomized algorithms for LP-type problems~\cite{MatousekSW96} that, by the above construction, yield \sinkalgs using linear number of edge queries. 
-While there exist deterministic algorithms with matching asymptotic performance to solve LP-type problems \cite{chan16,ChazelleM96}, they make an extra assumption  
+While there exist deterministic algorithms with matching asymptotic performance to solve LP-type problems \cite{chan16,ChazelleM96}, they make an extra assumption on the problem 
 (see Computational assumption 2 in \cite{ChazelleM96}). 
-Namely, they require that a specific set system has constant VC-dimension which does not hold for the LP-type problem in grid USOs described above (refer to~\cite{matouvsek2002lectures} for further information on set systems and VC-dimension). More specifically, for each vertex $v$ in the grid, let $R_v\subset S$ be the set of rows and columns to which $v$ has an outgoing edge. 
+A necessary requirement they make is that a specific set system has constant VC-dimension which does not hold for the LP-type problem in grid USOs described above (refer to~\cite{matouvsek2002lectures} for further information on set systems and VC-dimension). More specifically, for each vertex $v$ in the grid, let $R_v\subset S$ be the set of rows and columns to which $v$ has an outgoing edge. 
 The \emph{violator set system} $(S, \mathcal R)$ must have constant VC-dimension for the above deterministic algorithms to work, where $\mathcal R = \{R_v : v\text{ is a vertex of the grid}\}$. 
 Since this set system has unbounded VC-dimension for general grid USOs, as illustrated in Figure~\ref{fig:shatteredgrid}, these deterministic algorithms are less efficient than exploring the entire grid exhaustively. 
 Therefore, it is open whether there exist deterministic \sinkalgs that use less than a quadratic number of queries. 
 %In particular, it is not known if \emph{any} LP-type problem can be deterministically solved in linear~time. 
+
+Curiously, if the grid USO satisfies the Holt-Klee condition, then its violator set system has VC-dimension at most 2.
+%While the above deterministic algorithms for LP-type problems are not efficient for general grid USOs, the addition of the Holt-Klee condition yields efficient \sinkalgs:
+This is a consequence of the fact that every Holt-Klee grid USO is induced by a red-blue arrangement of pseudo-lines \cite{grid05,falkthesis}, and such an arrangement always has VC-dimension at most 2.
+%In turn, this can be thought of as the dual of the combinatorial version of the one line and $n$ points configuration.
+Despite that, the results of \citet{ChazelleM96} still do not directly imply a deterministic algorithm using $O(m+n)$ edge queries for finding the sink of a Holt-Klee $(m,n)$-grid USO because of the further requirements in Computational assumption 2 of \citet{ChazelleM96}.
+
+%Therefore, we can deterministically find the sink of Holt-Klee grid USOs using only a linear number of queries by reducing it to an LP-type problem~\cite{chan16,ChazelleM96}.
+
 
 \begin{figure}[h!] 
   	\centering
@@ -205,12 +214,7 @@ Therefore, it is open whether there exist deterministic \sinkalgs that use less 
   	\label{fig:shatteredgrid}
   \end{figure}
   
-While the above deterministic algorithms for LP-type problems are not efficient for general grid USOs, the addition of the Holt-Klee condition yields efficient \sinkalgs:
-It is known that every Holt-Klee grid USO is induced by a red-blue arrangement of pseudo-lines \cite{grid05,falkthesis}.
-%In turn, this can be thought of as the dual of the combinatorial version of the one line and $n$ points configuration.
-This equivalence implies that the violator set system for Holt-Klee grid USOs, as we defined it above, has constant VC dimension. 
-Therefore, we can deterministically find the sink of Holt-Klee grid USOs using only a linear number of queries by reducing it to an LP-type problem~\cite{chan16,ChazelleM96}.
-\JN{I still need to verify this.}
+
 
 %Namely, they require that the set system induced on $S$ by the family of violator sets of each of the vertices has constant VC-dimension (refer to~\cite{matouvsek2002lectures} for further information on VC-dimension).
 
