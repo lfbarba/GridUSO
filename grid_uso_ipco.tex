@@ -102,6 +102,13 @@ An induced subgraph of a grid is called a \emph{subgrid} if it is itself a grid.
 %It is also called an \emph{$(m,n)$-grid}, where $m = |X|$ and $n = |Y|$ denote
 %the cardinalities of the index sets.
 %Unless otherwise specified, we assume that $X = [m]$ and $Y = [n]$.
+
+We identify the vertex set of an $(m,n)$-grid with the Cartesian product $[m] \times [n]$ where $[m] = \{1,\ldots,m\}$. Two
+vertices $v,w$ in a grid are adjacent if and only if they differ in
+exactly one of their two coordinates.
+We call the edge $vw$ a \emph{vertical edge} if $v$ and $w$ differ in the
+first coordinate, and we call it a \emph{horizontal edge} if they differ in the
+second coordinate. The \emph{rows} and \emph{columns} of the grid are defined accordingly.
 See Figure~\ref{fig:examplegrid} for an example of a grid.
 
 A vertex in an oriented graph is called a \emph{sink} if all its incident edges are incoming.
@@ -115,8 +122,8 @@ The main goal of this paper is to bound the minimum number of queries that a det
   \begin{figure}[htbp] 
   	\centering
   	\includegraphics{uso_example.pdf}
-  	\caption{\small On the left is displayed an exampe of an $(4,3)$-grid (that means $4$ columns and $3$ rows) 
-  	and a $(3,2)$-subgrid is shaded. On the right there is a unique sink orientation of a $(3,2)$-grid.} 
+  	\caption{\small The grid on the left is a $(4,3)$-grid (that means $4$ columns and $3$ rows) 
+  	and a $(3,2)$-subgrid is shaded. The orientation on the right is a unique sink orientation of a $(3,2)$-grid.} 
   	\label{fig:examplegrid}
   \end{figure}
 
@@ -229,37 +236,39 @@ Additionally, recall that an algorithm that finds the sink of a grid USO in the 
 Therefore, our algorithm in the edge query model provides a way to deterministically find the minimum of an $m\times n$ matrix USO by querying for the value of only $O((m+n)^{\log_4 7})$ entries of the matrix. 
 
 \subsubsection{Outline.}
-To guide the reader, we give a rough sketch of the algorithms presented in this paper.
-The main idea behind our algorithms is to partition the grid into a constant number of subgrids. 
-Then, by recursively finding the sink of a ``few'' of these subgrids, we are able to infer global information and discard some of the remaining subgrids, i.e., we guarantee that they do not contain the sink. 
-In this way, there are portions of the grid where no oracle query is performed which leads to algorithms that require a sub-quadratic number of oracle queries.
+%To guide the reader, we give a rough sketch of the algorithms presented in this paper.
+%The main idea behind our algorithms is to partition the grid into a constant number of subgrids. 
+%Then, by recursively finding the sink of a ``few'' of these subgrids, we are able to infer global %information and discard some of the remaining subgrids, i.e., we guarantee that they do not contain the sink. 
+%In this way, there are portions of the grid where no oracle query is performed which leads to algorithms that require a sub-quadratic number of oracle queries.
 
-To fix ideas, imagine splitting an $(n,n)$-grid into four $(n/2, n/2)$-subgrids. 
-In Section~\ref{lemma:USO-Lemma} we show how to find the global sink of this grid by recursively solving only three of the four $(n/2, n/2)$-subgrids while disregarding the last one. \AT{What is this? Is it still in?}
-We obtain then a recurrence of the form $T(n) = 3 T(n/2)$ which solves to $T(n) = O(n^{\log_2 3})$.
-More involved arguments allow us to split the grid into 16 subgrids and find the sink by solving only 7 of them which leads to a deterministic algorithm using $O(n^{\log_4 7})$ oracle queries.
+In Section~\ref{section:grid_uso_properties} we state basic facts for grids that were already known from previous work. Subsequently, we define a way to partition the grid into subgrids and discuss the properties of this partition. The notion of induced grid USOs becomes relevant and we describe Lemma~\ref{lemma:USO-Lemma} which is crucial for our algorithms.
 
-In Section~\ref{section:the_sink_finding_algorithm} we focus on the vertex query model and improve upon the above algorithm by using the following idea: Spend a linear number of vertex queries prior to the partition to discard an $(n/2, n/2)$-subgrid that contains one quarter of the total number of vertices. 
-The removal of such a subgrid leaves us with a graph that can be partitioned into three $(n/2, n/2)$-subgrids. 
-We then show how to find the sink by recursively solving only two of them and disregarding the third one. In this way, we obtain a recurrence of the form $T(n) = 2 T(n/2) + O(n)$ which solves to $O(n \log n)$. 
-That is, we obtain a deterministic algorithm that finds the sink of an $(n, n)$-grid using $O(n \log n)$ vertex queries. \AT{I leave the outline section unedited. Let us first decide why and when to talk about square grids. Also look for this at the beginning of Section 3, Sink-finding algorithm.}
+In Section~\ref{section:the_sink_finding_algorithm} we focus on the vertex query model and prove a our main result: Theorem~\ref{theorem:Sink algorithm}. Finally, in Section~\ref{section:The edge oracle model} we briefly discuss the edge query model and give the relevant algorithm in Theorem~\ref{thm:timeEdge}.
 
-To discard the $(n/2, n/2)$-subgrid used in the first part of this algorithm, we focus on finding a vertex $v$ with ``large'' indegree. 
-However, we want the incoming edges of $v$ to be evenly distributed among its horizontal and vertical edges. Using the properties of the grid USO, we are able to show that such a vertex $v$ will be the sink of a large subgrid, namely the smallest subgrid that contains $v$ and each vertex that has an outgoing edge to $v$.
-If the indegree of $v$ is sufficiently large, then this subgrid having $v$ as its sink will contain a quarter of the vertices of the $(n,n)$-grid fulfilling the requirements of our $O(n \log n)$ algorithm.
+%and improve upon the above algorithm by using the following idea: Spend a linear number of vertex queries prior to the partition to discard an $(n/2, n/2)$-subgrid that contains one quarter of the total number of vertices. 
+%The removal of such a subgrid leaves us with a graph that can be partitioned into three $(n/2, n/2)$-subgrids. 
+%We then show how to find the sink by recursively solving only two of them and disregarding the third one. In this way, we obtain a recurrence of the form $T(n) = 2 T(n/2) + O(n)$ which solves to $O(n \log n)$. 
+%That is, we obtain a deterministic algorithm that finds the sink of an $(n, n)$-grid using $O(n \log n)$ vertex queries. \AT{I leave the outline section unedited. Let us first decide why and when to talk about square grids. Also look for this at the beginning of Section 3, Sink-finding algorithm.}
 
-While the first $O(n^{\log_4 7})$ algorithm works in both the edge- and the vertex-query model, we have not been able to extended the second and more efficient algorithm to the edge-query model.
+%To fix ideas, imagine splitting an $(m,n)$-grid into four $(m/2, n/2)$-subgrids. In Section~\ref{lemma:USO-Lemma} we show how to partition the grid into subgrids
+
+
+%In Section~\ref{lemma:USO-Lemma} we show how to find the global sink of this grid by recursively solving only three of the four $(n/2, n/2)$-subgrids while disregarding the last one. \AT{What is this? Is it still in?}
+%We obtain then a recurrence of the form $T(n) = 3 T(n/2)$ which solves to $T(n) = O(n^{\log_2 3})$.
+%More involved arguments allow us to split the grid into 16 subgrids and find the sink by solving only 7 of them which leads to a deterministic algorithm using $O(n^{\log_4 7})$ oracle queries.
+
+
+
+%To discard the $(n/2, n/2)$-subgrid used in the first part of this algorithm, we focus on finding a vertex $v$ with ``large'' indegree. 
+%However, we want the incoming edges of $v$ to be evenly distributed among its horizontal and vertical edges. Using the properties of the grid USO, we are able to show that such a vertex $v$ will be the sink of a large subgrid, namely the smallest subgrid that contains $v$ and each vertex that has an outgoing edge to $v$.
+%If the indegree of $v$ is sufficiently large, then this subgrid having $v$ as its sink will contain a quarter of the vertices of the $(n,n)$-grid fulfilling the requirements of our $O(n \log n)$ algorithm.
+
+%While the first $O(n^{\log_4 7})$ algorithm works in both the edge- and the vertex-query model, we have not been able to extended the second and more efficient algorithm to the edge-query model.
 
 
 \section{Grid USO Properties}\label{section:grid_uso_properties}
 
-Let $[m] = \{1,\ldots,m\}$.
-We identify the vertex set of an $(m,n)$-grid with the Cartesian product $[m] \times [n]$. Two
-vertices $v,w \in [m] \times [n]$ are adjacent if and only if they differ in
-exactly one of their two coordinates.
-We call the edge $vw$ a \emph{vertical edge} if $v$ and $w$ differ in the
-first coordinate, and we call it a \emph{horizontal edge} if they differ in the
-second coordinate. The \emph{rows} and \emph{columns} of the grid are defined accordingly (see Figure~\ref{fig:examplegrid}).
+
 %The set of \emph{indices} of an $(m,n)$-grid is $[m]\cup [n]$.
 
 
