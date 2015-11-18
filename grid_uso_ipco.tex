@@ -418,6 +418,13 @@ Assume without loss of generality that there are more vertical vertices in $V$; 
 Let $V' \subseteq V$ be the set of all vertical vertices in $V$ and notice that $|V'| \geq |V|/2$.
 Then, find some $v \in \join(V')$ by using at most $O(V')$ additional queries and note that $v' \succeq v$ for every $v' \in V'$.
 
+\begin{figure}[htbp] 
+\centering
+\includegraphics[scale=0.7]{seedlemma_fig1.pdf}
+\caption{An illustration for Lemma~\ref{lem:seed_lemma_for_square_matrices}. The three black circles on the diagonal form $V'$. The dashed edges denote that there is a path from each vertex in $V'$ to $v$. On the right hand side the vertices belonging to $W$ are marked with a square. }
+\label{fig:seedlem1}
+\end{figure}
+
 Let $I'$ be the set of indices containing the first coordinate of each vertex in~$V'$. 
 Assume that $v = (x_v, y_v)$ and let $W = I'\times \{y_v\}$ be a subset of vertices in the same row as $v$ with $|W| = |V'|\geq |V|/2$.
 To conclude, the algorithm queries each vertex in $W$.
@@ -437,12 +444,7 @@ Furthermore, there is a vertex $v' \in V'$ that is in the same column as $v^*$. 
 If $v'=v^*$ then the we know already that $v^*$ has at least $\frac{n}{4} - 1$ incoming edges vertically.
 Otherwise,  the edge between $v'$ and $v^*$ is oriented towards $v^*$ and $v^*$ has more incoming vertical edges than $v'$, because of acyclicity. Therefore we establish that $b \geq \frac{\lceil \frac{n}{2}\rceil-1}{2} + 1 \geq \frac{n}{4} \geq \frac{n}{4} - 1$ which shows that $v^*$ is an $(\frac{n}{4}, \frac{n}{4})$-vertex. \qed
 
-%\begin{figure}[htbp] 
-%\centering
-%\includegraphics[scale=0.7]{seedlemma_fig1.pdf}
-%\caption{In this figure only a subset of the edges of the grid appears. The vertices that are marked with discs are the ones evaluated.} 
-%\label{fig:seedlem1}
-%\end{figure}
+
 
  %If we can show that there is an edge from $w$ to $v^*$, then by acyclicity $v^*$ has at least one more incoming vertical edge as compared to $w$, therefore establishing that $b \geq \frac{\lceil \frac{n}{2}\rceil-1}{2} + 1 \geq \frac{n}{4} \geq \frac{n}{4} - 1$ and showing that$v^*$ is an $(\frac{n}{4}, \frac{n}{4})$-vertex. 
    
