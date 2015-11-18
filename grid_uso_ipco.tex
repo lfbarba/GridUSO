@@ -86,10 +86,11 @@ CH-8092 Z{\"u}rich, Switzerland, {\tt \{mmilatz, njerri, athomas\}@inf.ethz.ch}
 \maketitle
 
 \begin{abstract}
-\noindent
- We study unique sink orientations (USO) of grids --- Cartesian products of two complete graphs.
- We investigate two different models: In the edge oracle model an oracle provides the orientation of a queried edge, whereas in the vertex oracle model the oracle provides the orientation of all edges incident to a queried vertex. We are interested in bounding the number of queries to the oracle needed by an algorithm to find the sink.
-In the randomized setting the best known algorithms find the sink using either $\Theta(n)$ edge queries, or $O(\log^2 n)$ vertex queries in expectation. \JN{I removed the mention of no nontrivial lower bound because there is a lower bound of $\log n$ in the randomized setting.} We prove that $O(n^{\log_4 7})$ edge queries and $O(n \log n)$ vertex queries suffice to find the sink in the deterministic setting. A deterministic lower bound for both models is $\Omega(n)$.
+\noindent\LB{There was no mention of $n$, I included it, although it might be misleading in thinking that it is a square grid. But since it is not less general, I figure it is not so bad}
+ We study unique sink orientations (USO) of grids --- Cartesian products of two complete graphs with $n$ vertices whose edges are oriented in such a way that each subgrid has a unique sink.
+We consider two different oracle models, the edge- and the vertex-query models---an edge query provides the orientation of the queried edge, whereas a vertex query provides the orientation of all edges incident to the queried vertex. 
+We are interested in bounding the number of queries to the oracle needed by an algorithm to find the sink.
+In the randomized setting the best known algorithms find the sink using either $\Theta(n)$ edge queries, or $O(\log^2 n)$ vertex queries in expectation. We prove that $O(n^{\log_4 7})$ edge queries and $O(n \log n)$ vertex queries suffice to find the sink in the deterministic setting. A deterministic lower bound for both models is $\Omega(n)$.
 \keywords{Unique sink orientation, Grid}
 \end{abstract}
 
@@ -122,14 +123,14 @@ The main goal of this paper is to bound the minimum number of queries that a det
   \begin{figure}[htbp] 
   	\centering
   	\includegraphics{uso_example.pdf}
-  	\caption{\small The grid on the left is a $(4,3)$-grid (that means $4$ columns and $3$ rows) 
-  	and a $(3,2)$-subgrid is shaded. The orientation on the right is a unique sink orientation of a $(3,2)$-grid.} 
+  	\caption{\small Left: Shows a $(4,3)$-grid (that means $4$ columns and $3$ rows) 
+  	and a $(3,2)$-subgrid is shaded. Right: The orientation is a unique sink orientation of a $(3,2)$-grid.} 
   	\label{fig:examplegrid}
   \end{figure}
 
 
 
-\subsubsection{Previous work.}
+\vspace{-.2in}\subsubsection{Previous work.}
 
 Unique sink orientations of grids, as presented in this paper,
 are a graph-theoretic model for a specific class of linear programs~\cite{linepoint}.
@@ -150,7 +151,7 @@ However, the Holt-Klee condition is more general as there are grid USOs that sat
 
 An analysis of the \emph{Random Edge} simplex algorithm in the setting of one line and $n$ points provides a way to find the lower-most segment using $O(\log^2 n )$ pivot steps~\cite{linepoint}. 
 An instance where this algorithm needs $\Omega(\log^2 n )$ many pivot steps is also provided. 
-It can also be shown that geometry is not essential for Random Edge: Finding the sink of a Holt-Klee $(m,n)$-grid USOs it takes also $O(\log n\cdot\log m)$ vertex queries~\cite{grid05,falkthesis}. 
+It can also be shown that geometry is not essential for Random Edge: Finding the sink of a Holt-Klee $(m,n)$-grid USO takes also $O(\log n\cdot\log m)$ vertex queries~\cite{grid05,falkthesis}. 
 
 %for randomized \sinkalg in square Holt-Klee grid USOs using $O(\log^2 n)$ vertex queries~\cite{falkthesis}. 
 %In addition, the Random Edge algorithm is generalized by \citet{grid05}, who prove that it also finds the sink of any %Holt-Klee $(m,n)$-grid USO using $O(\log n\cdot\log m)$ pivot steps with any starting vertex. 
@@ -166,7 +167,7 @@ Notice that that any algorithm that finds the sink of a grid USO using edge quer
 Therefore, the randomized algorithm from~\citet{grid08} solves the matrix USO optimization problem on a $m\times n$ matrix in $\Theta(m+n)$ expected time. However, no deterministic counterpart to this algorithm is known. 
 Similar optimization problems on matrices have been studied with stronger conditions and have several applications in geometric problems~\cite{aggarwal1987geometric,demaine2005optimizing,galil1992dynamic,mityagin2003complexity}.
 
-\subsubsection{Connection to LP-type problems.} \citet{grid08} hint that the problem of finding the sink of an $(m,n)$-grid USO can be naturally written as an \emph{LP-type problem}. An LP-type problem, originally defined by \citet{SharirW92}, is a pair $(S,w)$ where $S$ is a finite set called the \emph{constraints} and
+\vspace{-.2in}\subsubsection{Connection to LP-type problems.} \citet{grid08} hinted that the problem of finding the sink of an $(m,n)$-grid USO can be naturally written as an \emph{LP-type problem}. An LP-type problem, originally defined by \citet{SharirW92}, is a pair $(S,w)$ where $S$ is a finite set called the \emph{constraints} and
 $w:2^S \rightarrow \mathbb{R} \cup \{-\infty\}$ is a function subject to certain conditions: 
 %\citet{DBLP:journals/dam/GartnerMRS08} looked also at the connection with the more general setting of \emph{violator spaces}.
 (1) Monotonicity: for every two sets $A \subseteq B \subseteq S$, we have $w(A) \leq w(B) $ and
@@ -222,8 +223,7 @@ Despite that, the results of \citet{ChazelleM96} still do not directly imply a d
 
 %There is a natural way to write a $(m,n)$-grid USO as an LP-type problem of combinatorial dimension 2. There are randomized algorithms for LP-type problems that imply $\Theta(m+n)$ edge queries for ($m,n$)-grid USOs in expectation. It was hinted by \citet{grid08} that it might be possible to apply the deterministic algorithms for LP-type problems \cite{DBLP:journals/jal/ChazelleM96} also for $(m,n)$-grid USOs. However, these deterministic algorithms assume an extra condition (called Computational assumption 2 in \cite{DBLP:journals/jal/ChazelleM96}) 
 
-\subsubsection{Our results.}
-
+\vspace{-.2in}\subsubsection{Our results.}
 While randomized algorithms to find the sink of a grid USO have been previously studied~\cite{grid05,linepoint,grid08,falkthesis}, 
 to the best of our knowledge no non-trivial deterministic algorithm was known prior to this work. 
 We present the first deterministic algorithms that find the sink of an $(m,n)$-grid USO using $O((m+n)\log (m+n))$ vertex queries
@@ -239,7 +239,7 @@ However, in the deterministic setting, it is still unclear whether a gap exists.
 Additionally, recall that an algorithm that finds the sink of a grid USO in the edge query model can be used to solve the matrix USO optimization problem. 
 Therefore, our algorithm in the edge query model provides a way to deterministically find the minimum of an $m\times n$ matrix USO by querying for the value of only $O((m+n)^{\log_4 7})$ entries of the matrix. 
 
-\subsubsection{Outline.}
+\vspace{-.2in}\subsubsection{Outline.}
 %To guide the reader, we give a rough sketch of the algorithms presented in this paper.
 %The main idea behind our algorithms is to partition the grid into a constant number of subgrids. 
 %Then, by recursively finding the sink of a ``few'' of these subgrids, we are able to infer global %information and discard some of the remaining subgrids, i.e., we guarantee that they do not contain the sink. 
@@ -288,7 +288,7 @@ Our algorithms rely on two basic properties of grid USOs.
 First, \citet{grid08} have shown that every $(m,n)$-grid USO is \emph{acyclic}. 
 The second ingredient is a partitioning strategy which we describe subsequently.
 
-\subsubsection{Induced USOs.}
+\vspace{-.2in}\subsubsection{Induced USOs.}
 
 For our algorithms we want to partition the grid into subgrids.
 Such a partition into subgrids forms itself a grid in a natural way,
@@ -339,7 +339,7 @@ Recall that in the vertex query model a grid USO is given by a \emph{vertex orac
 An adversary argument can be used to show that any deterministic algorithm needs $m+n-1$ vertex queries in the worst case to find the sink of an $(m, n)$-grid USO.
 Our main result is Theorem~\ref{theorem:Sink algorithm} which describes a deterministic algorithm that needs $O((n + m) \log (n + m))$ vertex queries. 
 
-\subsubsection{The Sink-finding Algorithm.}
+\vspace{-.2in}\subsubsection{The Sink-finding Algorithm.}
 \label{section:the_sink_finding_algorithm}
 
 Before explaining the algorithm we introduce some notation. We define a reflexive partial order on the vertices of a grid USO $G$ as follows. 
@@ -366,7 +366,7 @@ If one finds the sinks of the subgrids recursively, one would get the recursion
 \begin{align*}
  T(m,n) = 2T\left(\frac{m}{2},\frac{n}{2}\right) + O(m+n)
 \end{align*}
-where $T(m,n)$ is the number of vertex queries needed by this algorithm to find the sink of an $(m,n)$-grid. This recurrence solves to \mbox{$T(m,n) = O((m+n)\log (m+n))$}. 
+where $T(m,n)$ is the number of vertex queries needed by this algorithm to find the sink of an $(m,n)$-grid, which solves to \mbox{$T(m,n) = O((m+n)\log (m+n))$}. 
 
 The main part of the algorithm description is to obtain an $(\frac{m}{2}, \frac{n}{2})$-vertex in linear time.
 For ease of presentation, we prove Lemmas~\ref{lem:diagonal_lemma} and \ref{lem:seed_lemma_for_square_matrices} for the square $(n, n)$-grid. From those, 
@@ -498,7 +498,7 @@ The following corollary extends the previous lemma to non-square grids.
 % 
 % The problem we are looking at is that of finding the global sink of a USO over $(K_n)^d$. The USO is given by an oracle that for any given vertex reveals the orientations of the edges adjacent to the vertex. The question is, what is the least number of these vertex queries needed to find the unique global sink? Just knowing its location is not sufficient, but we also require that the sink is evaluated. This requirement will prove useful when developing an algorithm.
 
-\subsubsection{Finding an $(\frac{m}{2}, \frac{n}{2})$-vertex.}
+\vspace{-.2in}\subsubsection{Finding an $(\frac{m}{2}, \frac{n}{2})$-vertex.}
 
 Given an $(a, b)$-vertex $v = (x_v, y_v)$ in an $(m,n)$-grid USO, let $I_v\subseteq [m]$ be the set of indices such that  $I_v \times \{y_v\}$ is the set of all vertices with an outgoing horizontal edge to $v$, with $v$ included in this set. Analogously, $J_v\subseteq [n]$ is the set of indices such that $\{x_v\}\times J_v$ is the set of all vertices with an outgoing vertical edge to~$v$ (including $v$). Notice that $|I_v| \geq a$ while $|J_v| \geq b$ and that $v$ is the sink of the $I_v\times J_v$-grid.
 
@@ -557,7 +557,7 @@ Let $G$ be an $(m,n)$-grid USO.
 We can compute an $( \frac{m}{2}, \frac{n}{2})$-vertex using $O(m + n)$ vertex queries.
 \end{corollary}
 
-Our main result can now be proved by combining the Lemmas and Corollaries we established in this section. 
+Our main result can now be proved by combining the Lemmas and Corollaries established in this section. 
 
 \begin{theorem}\label{theorem:Sink algorithm}
 The sink of an $(m,n)$-grid USO can be found with \\ $O((m+n)\log (m+n))$ vertex queries.
@@ -570,16 +570,15 @@ In the previous sections we have mainly discussed the vertex oracle model.
 In the \emph{edge oracle model} considered here, the algorithm accesses the
 grid by means of an \emph{edge oracle} which can tell us
 the orientation of any given edge.
-One can show by an adversary argument that $\Omega(m+n)$ queries are necessary in the worst case.
-An easy upper bound is $O(mn)$ (find the sink of each row individually; then
+One can show by an adversary argument that $\Omega(m+n)$ queries are necessary in the worst case (this lower bounds holds also for vertex queries).
+An trivial bound is $O(mn)$: find the sink of each row individually; then
 for each of these local sinks, query all incident edges to decide whether it
-is the global sink).
-But we can do better:
+is the global sink;
+but we can do better.
 
 \begin{theorem}
     \label{thm:timeEdge}
-    To find the sink in an $(m,n)$-grid USO with a deterministic algorithm,
-    $O((m+n) ^ {\log_4(7)})$ edge queries suffice; $\log_4(7) \approx
+    There exist a deterministic algorithm which finds the sink of an $(m,n)$-grid USO using $O((m+n) ^ {\log_4(7)})$ edge queries, where $\log_4(7) \approx
     1.40$.
 \end{theorem}
 
@@ -587,42 +586,33 @@ To proof of Theorem~\ref{thm:timeEdge} uses the following result for the \emph{v
 
 \begin{lemma}
     \label{lem:4:7}
-    There is a deterministic algorithm which finds the sink in a
-    $(4,4)$-grid USO and which uses at most 7 vertex queries.
+    There exist a deterministic algorithm which finds the sink of a\linebreak
+    $(4,4)$-grid USO using at most 7 vertex queries.
 \end{lemma}
-
-\MM{Improve this sentence}
-For the proof of the lemma we refer the reader to the full version of this paper, where we describe how we reduce the problem to three cases, using a computer search to eliminate symmetrical situations. 
+To prove Lemma~\ref{lem:4:7}, we use a computer-based search to eliminate symmetrical situations and reduce the problem to three cases which are then individually handled.
+We refer the reader to the full version of this paper for more details.
 
 \begin{proof}[of Theorem~\ref{thm:timeEdge}]
-    Let $N = m+n$.
-    We describe a sink-finding algorithm which uses
-    $T(N) \in O(N ^ {\log_4(7)})$ edge queries.
-    Without loss of generality, we will assume that $m$ is a power of $4$, and
-    $m=n$. Otherwise, we can satisfy this property with adding at most linearly many rows and columns while maintaining the position of the sink.
+    Without loss of generality, we assume that $m$ is a power of $4$, and
+    $m=n$. Otherwise, we can satisfy this property by adding at most linearly many rows and columns while maintaining the position of the sink.
 
     Given an $(m,m)$-grid $G$, let $\A$
     be a partition of the index set $[m]$ such that
-    $|\A| = 4$ and $|A| = \frac{m}{4}$ for all $A \in \A$.
+    $|\A| = 4$ and $|A| = \frac{m}{4}$ for each $A \in \A$.
     Consider the induced unique sink orientation on the \aapart $H$.
     
     
-    Let $v$ be a vertex of $H$. Recall that $v$ corresponds to an $(\frac{m}{4},\frac{m}{4})$-subgrid of $G$.
-    We can find the sink $s_v$ of the subgrid $v$ using a recursive call that takes $T(N/4)$ edge queries.
+    Let $v$ be a vertex of $H$. Since $v$ corresponds to an $(\frac{m}{4},\frac{m}{4})$-subgrid of~$G$, we can find the sink $s_v$ of this subgrid using a recursive call that takes $T(m/4)$ edge queries.
     Afterwards we can find out the orientations of the six edges
-    adjacent to the vertex $v$ in $H$ by querying the $N-2$ edges adjacent to $s_v$ in $G$.
-    Thus we have simulated a vertex query in $H$ using at most $T(N/4) + N$ edge queries in $G$.
+    adjacent to the vertex $v$ in $H$ by querying the $m-2$ edges adjacent to $s_v$ in $G$.
+    Thus we have simulated a vertex query in $H$ using at most $T(m/4) + m$ edge queries in~$G$.
 
-    Now, using Lemma~\ref{lem:4:7} to tell us \emph{which} vertex
-    queries to simulate, we will find the sink of $H$
-    % $\sink(G) = \sink(G(\sink(H)))$ (see~Lemma
-    %\ref{lemma:USO-Lemma})
-    after at most
+Using Lemma~\ref{lem:4:7} to guide the search in $H$, we can find the sink of $H$ after
     \[
-        T(N) \le 7 \cdot \Bigl( T \left( N/4 \right) + N \Bigr)
+        T(m) \le 7 \cdot \Bigl( T \left( m/4 \right) + m \Bigr)
     \]
-    edge queries in $G$ and therefore $T(N) \in O(N ^ {\log_4(7)})$. 
-    Recall that algorithm from Lemma~\ref{lem:4:7} also queries the sink $s_H$ of $H$, and by Lemma~\ref{lemma:USO-Lemma} the sink $s_G$ of $G$ equals the sink of the subgrid $s_H$. Therefore we have in the process also found and queried the edges adjacent to $s_G$.
+    edge queries in $G$ and hence $T(m) \in O(m ^ {\log_4(7)})$. 
+    Recall that algorithm from Lemma~\ref{lem:4:7} finds the sink $s_H$ of $H$ which by Lemma~\ref{lemma:USO-Lemma} coincides with the sink $s_G$ of $G$.
     \qed
 \end{proof}
 
