@@ -199,7 +199,7 @@ Curiously, if the grid USO satisfies the Holt-Klee condition, then its violator 
 %While the above deterministic algorithms for LP-type problems are not efficient for general grid USOs, the addition of the Holt-Klee condition yields efficient \sinkalgs:
 This is a consequence of the fact that every Holt-Klee grid USO is induced by a red-blue arrangement of pseudo-lines \cite{grid05,falkthesis}, and such an arrangement always has VC-dimension at most 2.
 %In turn, this can be thought of as the dual of the combinatorial version of the one line and $n$ points configuration.
-Despite that, the results of \citet{ChazelleM96} still do not directly imply a deterministic algorithm using $O(m+n)$ edge queries for finding the sink of a Holt-Klee $(m,n)$-grid USO because of the further requirements in Computational assumption 2 of \citet{ChazelleM96}.
+Despite that, the results of \citet{ChazelleM96} still do not directly imply a deterministic algorithm using $O(m+n)$ edge queries to find the sink of a Holt-Klee $(m,n)$-grid USO (see Computational Assumption 2 of \cite{ChazelleM96}). 
 
 %Therefore, we can deterministically find the sink of Holt-Klee grid USOs using only a linear number of queries by reducing it to an LP-type problem~\cite{chan16,ChazelleM96}.
 
@@ -226,18 +226,18 @@ Despite that, the results of \citet{ChazelleM96} still do not directly imply a d
 \vspace{-.2in}\subsubsection{Our results.}
 While randomized algorithms to find the sink of a grid USO have been previously studied~\cite{grid05,linepoint,grid08,falkthesis}, 
 to the best of our knowledge no non-trivial deterministic algorithm was known prior to this work. 
-We present the first deterministic algorithms that find the sink of an $(m,n)$-grid USO using $O((m+n)\log (m+n))$ vertex queries
+We present two deterministic algorithms that find the sink of an $(m,n)$-grid USO using $O((m+n)\log (m+n))$ vertex queries
 and 
 %we present the first non-trivial deterministic algorithm that finds the sink of an $(m, n)$-grid USO using 
-$O((m+n)^{\log_47})$ edge queries respectively.
+$O((m+n)^{\log_47})$ edge queries, respectively.
 Both query models exhibit a lower bound of $\Omega(m+n)$ queries.
 
 Since a single vertex query reveals the orientation of a linear number of edges, one would expect the minimum number of  oracle queries required to find the sink to be different in the edge and the vertex query models.
-Indeed, as shown ~\citet{grid08} this is true for randomized algorithms where there is an exponential gap ($O(\log m\cdot \log n)$ vertex queries and $\Theta(m+n)$ edge queries suffice to find the sink of a grid USO).
+Indeed, as shown by~\citet{grid08}, this is true for randomized algorithms where there is an exponential gap ($O(\log m\cdot \log n)$ vertex queries and $\Theta(m+n)$ edge queries suffice to find the sink of a grid USO).
 However, in the deterministic setting, it is still unclear whether a gap exists.
 
-Additionally, recall that an algorithm that finds the sink of a grid USO in the edge query model can be used to solve the matrix USO optimization problem. 
-Therefore, our algorithm in the edge query model provides a way to deterministically find the minimum of an $m\times n$ matrix USO by querying for the value of only $O((m+n)^{\log_4 7})$ entries of the matrix. 
+Additionally, recall that a  sink-algorithm in the edge query model can be used to solve the matrix USO optimization problem. 
+Therefore, our sink-algorithm in the edge query model provides a way to deterministically find the minimum of an $m\times n$ matrix USO by querying for the value of only $O((m+n)^{\log_4 7})$ entries of the matrix. 
 
 \vspace{-.2in}\subsubsection{Outline.}
 %To guide the reader, we give a rough sketch of the algorithms presented in this paper.
