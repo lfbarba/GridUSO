@@ -177,7 +177,7 @@ is the maximum cardinality of a basis
 (for more information on LP-type problems refer to \cite{MatousekSW96}). 
 
 %\citet{grid08} hint that the problem of finding the sink of an $(m,n)$-grid USO can be naturally written as an LP-type problem $(S,w)$ of combinatorial dimension~2 (\citet{DBLP:journals/dam/GartnerMRS08} looked also at the connection with the more general setting of \emph{violator spaces}). 
-To write a grid USO as an LP-type problem, we let the set of constraints $S$ be the set of rows and columns and therefore $|S| = m + n$. As any grid USO is acyclic (see Section~\ref{section:grid_uso_properties}), there is a topological ordering of its vertices. 
+To write a grid USO as an LP-type problem, we let the set of constraints $S$ be the set of rows and columns and thus $|S| = m + n$. As any grid USO is acyclic (see Section~\ref{section:grid_uso_properties}), there is a topological ordering of its vertices. 
 The function $w$ then takes a subset of the rows and columns defining a subgrid and maps it to the rank of its sink in the topological ordering. 
 If the subset of $S$ consists only of rows or columns, its value under $w$ is~$-\infty$. 
 This definition satisfies both monotonicity and locality yielding an LP-type problem.
@@ -297,7 +297,8 @@ which inherits a unique sink orientation from the original grid USO; see Figure~
   \begin{figure}[htbp] 
   	\centering
   	\includegraphics[scale=1]{induced_orientation_ex.pdf}
-  	\caption{\small On the left side of the figure there is a $(3,3)$-grid USO whose $X$-coordinates and $Y$-coordinates have been partitioned into 2 parts of cardinalities two and one. The induced $(2,2)$-grid USO with respect to these blocks is shown on the right; the edges contributing to the induced orientation are also shown in the original grid.} 
+  	\caption{\small On the left side of the figure there is a $(3,3)$-grid USO whose %$X$-coordinates and $Y$-
+  	coordinates have been partitioned into 2 parts of cardinalities two and one. The induced $(2,2)$-grid USO with respect to these blocks is shown on the right; the edges contributing to the induced orientation are also shown in the original grid.} 
   	\label{fig:example_induced_orientation}
   \end{figure}
 
@@ -418,13 +419,6 @@ Assume without loss of generality that there are more vertical vertices in $V$; 
 Let $V' \subseteq V$ be the set of all vertical vertices in $V$ and notice that $|V'| \geq |V|/2$.
 Then, find some $v \in \join(V')$ by using at most $O(V')$ additional queries and note that $v' \succeq v$ for every $v' \in V'$.
 
-\begin{figure}[htbp] 
-\centering
-\includegraphics[scale=0.7]{seedlemma_fig1.pdf}
-\caption{An illustration for Lemma~\ref{lem:seed_lemma_for_square_matrices}. The three black circles on the diagonal form $V'$. The dashed edges denote that there is a path from each vertex in $V'$ to $v$. On the right hand side the vertices belonging to $W$ are marked with a square. }
-\label{fig:seedlem1}
-\end{figure}
-
 Let $I'$ be the set of indices containing the first coordinate of each vertex in~$V'$. 
 Assume that $v = (x_v, y_v)$ and let $W = I'\times \{y_v\}$ be a subset of vertices in the same row as $v$ with $|W| = |V'|\geq |V|/2$.
 To conclude, the algorithm queries each vertex in $W$.
@@ -444,7 +438,12 @@ Furthermore, there is a vertex $v' \in V'$ that is in the same column as $v^*$. 
 If $v'=v^*$ then the we know already that $v^*$ has at least $\frac{n}{4} - 1$ incoming edges vertically.
 Otherwise,  the edge between $v'$ and $v^*$ is oriented towards $v^*$ and $v^*$ has more incoming vertical edges than $v'$, because of acyclicity. Therefore we establish that $b \geq \frac{\lceil \frac{n}{2}\rceil-1}{2} + 1 \geq \frac{n}{4} \geq \frac{n}{4} - 1$ which shows that $v^*$ is an $(\frac{n}{4}, \frac{n}{4})$-vertex. \qed
 
-
+%\begin{figure}[htbp] 
+%\centering
+%\includegraphics[scale=0.7]{seedlemma_fig1.pdf}
+%\caption{In this figure only a subset of the edges of the grid appears. The vertices that are marked with discs are the ones evaluated.} 
+%\label{fig:seedlem1}
+%\end{figure}
 
  %If we can show that there is an edge from $w$ to $v^*$, then by acyclicity $v^*$ has at least one more incoming vertical edge as compared to $w$, therefore establishing that $b \geq \frac{\lceil \frac{n}{2}\rceil-1}{2} + 1 \geq \frac{n}{4} \geq \frac{n}{4} - 1$ and showing that$v^*$ is an $(\frac{n}{4}, \frac{n}{4})$-vertex. 
    
@@ -518,7 +517,7 @@ Repeat this procedure with $G_{i+1}$ as long as $|B_i| \geq  \frac{n}{2}$; see F
 \begin{figure}[h]
 \centering
 \includegraphics[width=1\textwidth]{ClimbingLemma.pdf}
-\caption{\small Illustration for the first part of the proof of Lemma~\ref{lemma:Climbing lemma}.}
+\caption{\small An illustration of the first part of the proof. On the left we depict the situation after the first call and on the right after the last call of the $(\alpha, \beta)$-oracle.}
 \label{fig:Climbing Lemma}
 \end{figure}
 
@@ -533,7 +532,7 @@ Let $0\leq h\leq k$ be an integer such that $s'$ belongs to the $[m]\times J_{v_
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.85\textwidth]{ClimbingLemma-2.pdf}
-\caption{\small Illustration for the latter part of the proof of Lemma~\ref{lemma:Climbing lemma}.}
+\caption{\small The second part of the algorithm. On the left we depict how to find $s$ and on the right we depict how to find $s'$. The latter is the output of the algorithm.}
 \label{fig:Climbing Lemma-2}
 \end{figure}
 
