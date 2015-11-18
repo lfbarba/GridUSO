@@ -40,6 +40,8 @@
 \newcommand{\join}{\mbox{join}\xspace}
 \newcommand{\sinkalg}{sink-algorithm\xspace}
 \newcommand{\sinkalgs}{sink-algorithms\xspace}
+\newcommand{\abpart}{$\A$-$\B$-partition grid\xspace}
+\newcommand{\aapart}{$\A$-$\A$-partition grid\xspace}
 
 \begin{document}
 
@@ -162,7 +164,7 @@ Notice that that any algorithm that finds the sink of a grid USO using edge quer
 Therefore, the randomized algorithm from~\citet{grid08} solves the matrix USO optimization problem on a $m\times n$ matrix in $\Theta(m+n)$ expected time. However, no deterministic counterpart to this algorithm is known. 
 Similar optimization problems on matrices have been studied with stronger conditions and have several applications in geometric problems~\cite{aggarwal1987geometric,demaine2005optimizing,galil1992dynamic,mityagin2003complexity}.
 
-\subsubsection{Connection to LP-type problems}
+\subsubsection{Connection to LP-type problems.}
 An LP-type problem, originally defined by \citet{SharirW92}, is a pair $(S,w)$ where $S$ is a finite set called the \emph{constraints} and
 $w:2^S \rightarrow \mathbb{R} \cup \{-\infty\}$ is a function 
 that satisfies two properties: (1) Monotonicity: for every two sets $A \subseteq B \subseteq S$, we have $w(A) \leq w(B) $ and
@@ -214,7 +216,7 @@ Therefore, we can deterministically find the sink of Holt-Klee grid USOs using o
 
 %There is a natural way to write a $(m,n)$-grid USO as an LP-type problem of combinatorial dimension 2. There are randomized algorithms for LP-type problems that imply $\Theta(m+n)$ edge queries for ($m,n$)-grid USOs in expectation. It was hinted by \citet{grid08} that it might be possible to apply the deterministic algorithms for LP-type problems \cite{DBLP:journals/jal/ChazelleM96} also for $(m,n)$-grid USOs. However, these deterministic algorithms assume an extra condition (called Computational assumption 2 in \cite{DBLP:journals/jal/ChazelleM96}) 
 
-\subsubsection{Our results}
+\subsubsection{Our results.}
 
 While randomized algorithms to find the sink of a grid USO have been previously studied~\cite{grid05,linepoint,grid08,falkthesis}, 
 to the best of our knowledge no non-trivial deterministic algorithm was known prior to this work. 
@@ -267,7 +269,7 @@ The subgrids of an $(m,n)$-grid are exactly those induced subgraphs whose vertex
 Cartesian product $I \times J$, for some $I \subseteq [m]$ and $J \subseteq [n]$. We call the corresponding subgrid an $I\times J$-subgrid.
 If the original grid is oriented, the subgrids inherited an orientation.
 
-\subsubsection{Induced USOs}
+\subsubsection{Induced USOs.}
 
 For the \sinkalgs we want to partition the grid into subgrids.
 Such a partition into subgrids forms itself a grid in a natural way,
@@ -284,9 +286,9 @@ Formally, let $G$ be an $(m,n)$-grid USO,
 and let $\A = \{A_1,\ldots,A_k\}$ and $\B = \{B_1\ldots, B_l\}$ be partitions of $[m]$ and $[n]$, respectively.
 Let $H$ be a $(k,l)$-grid whose vertex $(i,j)$ we identify with the $A_i \times B_j$-subgrid of $G$ for every $1\leq i \leq k$ and for every $1 \leq j \leq l$. 
 We define an orientation on $H$ so that the edge between two adjacent vertices $x$ and $y$ of $H$ is oriented towards $y$ if the sink of $x$ has at least one outgoing edge to a vertex of $y$ in the original grid $G$. 
-This orientation is well defined, because if the sink of $y$ had an edge towards some vertex of $x$, there would be a cycle in $G$. 
+This orientation is well defined: If the sink of $y$ also had an edge towards some vertex of $x$, there would be a cycle in $G$. 
 Furthermore, there is always at least one such outgoing edge from one of the sinks as otherwise an appropriately chosen subgrid of $G$ would have two sinks. 
-We say that this orientation is \emph{induced} on $H$ by $G$ and $H$ is called the \emph{$\A$-$\B$-partition grid}. 
+We say that this orientation is \emph{induced} on $H$ by $G$ and $H$ is called the \emph{\abpart}. 
 The following result shows that the orientation induced on $H$ by $G$ is also a unique sink orientation. 
 A similar result was proved by G\"artner et al.~\cite{grid08} in higher dimensional grid USOs.
 
@@ -314,9 +316,11 @@ Moreover, the sink of $H$ is the subgrid of $G$ that contains the sink of $G$.
 \section{The Vertex Oracle Model}
 \label{section:The vertex oracle model}
 
-Recall that in the vertex query model a grid USO is given by a \emph{vertex oracle} that for a queried vertex reveals the orientations of the edges adjacent to the vertex. Our main result is Theorem~\ref{theorem:Sink algorithm} which describes a deterministic algorithm that needs $O((n + m) \log (n + m))$ vertex queries to find the sink of an $(m, n)$-grid USO. We start by proving intermediate Lemmas~\ref{lem:seed_lemma_for_square_matrices} and~\ref{lemma:Climbing lemma} and their repsective Corollaries~\ref{corollary: n/4 indegree} and~\ref{corollary: (m/2,n/2) indegree} which we then combine to prove Theorem~\ref{theorem:Sink algorithm}. 
+Recall that in the vertex query model a grid USO is given by a \emph{vertex oracle} that for a queried vertex reveals the orientations of the edges adjacent to the vertex. 
+An adversary argument can be used to show that any deterministic algorithm needs $m+n-1$ vertex queries in the worst case to find the sink of an $(m, n)$-grid USO.
+Our main result is Theorem~\ref{theorem:Sink algorithm} which describes a deterministic algorithm that needs $O((n + m) \log (n + m))$ vertex queries. 
 
-\subsubsection{The Sink-finding Algorithm}
+\subsubsection{The Sink-finding Algorithm.}
 \label{section:the_sink_finding_algorithm}
 
 Before explaining the algorithm we introduce some notation. We define a reflexive partial order on the vertices of a grid USO $G$ as follows. 
@@ -534,7 +538,7 @@ The sink of an $(m,n)$-grid USO can be found with \\ $O((m+n)\log (m+n))$ vertex
 
 In the previous sections we have mainly discussed the vertex oracle model.
 In the \emph{edge oracle model} considered here, the algorithm accesses the
-grid $G = K_m \times K_n$ by means of an \emph{edge oracle} which can tell us
+grid by means of an \emph{edge oracle} which can tell us
 the orientation of any given edge.
 One can show by an adversary argument that $\Omega(m+n)$ queries are necessary in the worst case.
 An easy upper bound is $O(mn)$ (find the sink of each row individually; then
@@ -544,22 +548,34 @@ But we can do better:
 
 \begin{theorem}
     \label{thm:timeEdge}
-    To find the sink in a grid USO deterministically, \AT{We have to define $N$}
-    $O(N ^ {\log_4(7)})$ edge queries suffice; $\log_4(7) \approx
+    To find the sink in an $(m,n)$-grid USO with a deterministic algorithm,
+    $O((m+n) ^ {\log_4(7)})$ edge queries suffice; $\log_4(7) \approx
     1.40$.
 \end{theorem}
 
-\begin{proof}
+To proof of Theorem~\ref{thm:timeEdge} builds on the following result for the \emph{vertex oracle model}.
+
+\begin{lemma}
+    \label{lem:4:7}
+    There is a deterministic algorithm which finds the sink in a
+    $(4,4)$-grid USO and which uses at most 7 vertex queries.
+\end{lemma}
+
+\MM{Improve this sentence}
+For the proof of the lemma we refer the reader to the full version of this paper, where we describe how we reduce the problem to three cases, using a computer search to eliminate symmetrical situations. 
+
+\begin{proof}[of Theorem~\ref{thm:timeEdge}]
+    Let $N = m+n$.
     We describe a sink-finding algorithm which uses
     $T(N) \in O(N ^ {\log_4(7)})$ edge queries.
     Without loss of generality, we will assume that $m$ is a power of $4$, and
     $m=n$ (otherwise we can use an embedding argument). \AT{Is "embedding argument" clear enough? Why do we need m power of 4? I guess we need to insert the 7 steps proposition!}
 
-    Given the grid $G = K_m \times K_m$, let $A \subseteq 2 ^ {[m]}$
-    be a partition of the index set such that
-    $|A| = 4$ and $|a| = \frac{m}{4}$ for all $a \in A$.
-    Consider the induced unique sink orientation on the grid
-    $H = K_{A} \times K_{A}$, and let $v$ be a vertex of $H$.
+    Given an $(m,m)$-grid $G$, let $\A$
+    be a partition of the index set $[m]$ such that
+    $|\A| = 4$ and $|a| = \frac{m}{4}$ for all $a \in \A$.
+    Consider the induced unique sink orientation on the \aapart $H$,
+    and let $v$ be a vertex of $H$.
 
     We claim that we can find out the orientations of the edges adjacent to
     $v$ (thus simulating a vertex query on $H$)
