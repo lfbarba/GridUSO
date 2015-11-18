@@ -573,38 +573,26 @@ For the proof of the lemma we refer the reader to the full version of this paper
 
     Given an $(m,m)$-grid $G$, let $\A$
     be a partition of the index set $[m]$ such that
-    $|\A| = 4$ and $|a| = \frac{m}{4}$ for all $a \in \A$.
-    Consider the induced unique sink orientation on the \aapart $H$,
-    and let $v$ be a vertex of $H$.
+    $|\A| = 4$ and $|A| = \frac{m}{4}$ for all $A \in \A$.
+    Consider the induced unique sink orientation on the \aapart $H$.
+    
+    
+    Let $v$ be a vertex of $H$. Note that $v$ is identified with an $(\frac{m}{4},\frac{m}{4})$-subgrid of $G$.
+    We can find the sink $s$ of the subgrid $v$ using a recursive call that takes $T(N/4)$ edge queries.
+    Afterwards we can find out the orientations of the six $H$-edges
+    adjacent to the vertex $v$ by querying the $O(N)$ many $G$-edges adjacent to $s$.
+    Thus we have simulated a vertex query in $H$ using $T(N/4) + O(N)$ edge queries in $G$.
 
-    We claim that we can find out the orientations of the edges adjacent to
-    $v$ (thus simulating a vertex query on $H$)
-    and at the same time determine the sink of $G(v)$ using
-    $T( N/4 ) + O(N)$
-    edge queries.
-    Then, using Proposition~\ref{prop:4:7} to tell us \emph{which} vertex
-    queries to simulate, we will have found $\sink(H)$ as well as
-    $\sink(G) = \sink(G(\sink(H)))$ (see~Lemma
-    \ref{lemma:USO-Lemma})
+    Now, using Lemma~\ref{lem:4:7} to tell us \emph{which} vertex
+    queries to simulate, we will find the sink of $H$
+    % $\sink(G) = \sink(G(\sink(H)))$ (see~Lemma
+    %\ref{lemma:USO-Lemma})
     after at most
     \[
         T(N) \le 7 \cdot \Bigl( T \left( N/4 \right) + O(N) \Bigr)
     \]
-    edge queries, and the theorem follows by the ``master theorem'' applied to
-    this recurrence.
-
-    Finally, to see why the claim is true, first observe that we can find the
-    sink $s = (s_1,s_2)$ of $G(v)$ using a recursive call on the subgrid
-    $G(v)$, which explains the term $T(N/4)$. \AT{$G(v)$ has not been defined}
-    Afterwards we can indeed find out the orientations of the six edges
-    adjacent to $v$ by querying the edges in the set
-    \[
-        \bigl\{~ \{ s,(s_1,y) \} ~:~ y \notin s_2 ~\bigr\}
-        ~\cup~
-        \bigl\{~ \{ s,(x,s_2) \} ~:~ x \notin s_1 ~\bigr\};
-    \]
-    this is only a linear number of edges, and they account for the $O(N)$
-    term in the claim.
+    edge queries. Recall that the algorithm from Lemma~\ref{lem:4:7} also queries the sink $s_H$ of $H$, and by Lemma~\ref{lemma:USO-Lemma} the sink $s_G$ of $G$ equals the sink of the subgrid $s_H$.
+    Therefore we have also found the global sink.
     \qed
 \end{proof}
 
