@@ -572,14 +572,14 @@ In the \emph{edge oracle model} considered here, the algorithm accesses the
 grid by means of an \emph{edge oracle} which can tell us
 the orientation of any given edge.
 One can show by an adversary argument that $\Omega(m+n)$ queries are necessary in the worst case (this lower bounds holds also for vertex queries).
-An trivial bound is $O(mn)$: find the sink of each row individually; then
+A trivial bound is $O(mn)$: find the sink of each row individually; then
 for each of these local sinks, query all incident edges to decide whether it
-is the global sink;
-but we can do better.
+is the global sink.
+The following theorem improves on this bound.
 
 \begin{theorem}
     \label{thm:timeEdge}
-    There exist a deterministic algorithm which finds the sink of an $(m,n)$-grid USO using $O((m+n) ^ {\log_4(7)})$ edge queries, where $\log_4(7) \approx
+    There exists a deterministic algorithm which finds the sink of an $(m,n)$-grid USO using $O((m+n) ^ {\log_4(7)})$ edge queries, where $\log_4(7) \approx
     1.40$.
 \end{theorem}
 
@@ -587,7 +587,7 @@ To proof of Theorem~\ref{thm:timeEdge} uses the following result for the \emph{v
 
 \begin{lemma}
     \label{lem:4:7}
-    There exist a deterministic algorithm which finds the sink of a\linebreak
+    There exists a deterministic algorithm which finds the sink of a\linebreak
     $(4,4)$-grid USO using at most 7 vertex queries.
 \end{lemma}
 To prove Lemma~\ref{lem:4:7}, we use a computer-based search to eliminate symmetrical situations and reduce the problem to three cases which are then individually handled.
@@ -605,15 +605,18 @@ We refer the reader to the full version of this paper for more details.
     
     Let $v$ be a vertex of $H$. Since $v$ corresponds to an $(\frac{m}{4},\frac{m}{4})$-subgrid of~$G$, we can find the sink $s_v$ of this subgrid using a recursive call that takes $T(m/4)$ edge queries.
     Afterwards we can find out the orientations of the six edges
-    adjacent to the vertex $v$ in $H$ by querying the $m-2$ edges adjacent to $s_v$ in $G$.
-    Thus we have simulated a vertex query in $H$ using at most $T(m/4) + m$ edge queries in~$G$.
+    adjacent to the vertex $v$ in $H$ by querying the $2m-2$ edges adjacent to $s_v$ in $G$.
+    Thus we have implemented a vertex query in $H$ using at most $T(m/4) + 2m - 2$ edge queries in~$G$.
 
-Using Lemma~\ref{lem:4:7} to guide the search in $H$, we can find the sink of $H$ after
+Using Lemma~\ref{lem:4:7} to guide the search in $H$, we can find and query
+the sink $s_H$ of $H$ after
     \[
-        T(m) \le 7 \cdot \Bigl( T \left( m/4 \right) + m \Bigr)
+        T(m) \le 7 \cdot \Bigl( T \left( m/4 \right) + 2m-2 \Bigr)
     \]
     edge queries in $G$ and hence $T(m) \in O(m ^ {\log_4(7)})$. 
-    Recall that algorithm from Lemma~\ref{lem:4:7} finds the sink $s_H$ of $H$ which by Lemma~\ref{lemma:USO-Lemma} coincides with the sink $s_G$ of $G$.
+    Querying $s_H$ involves in particular finding the sink of the subgrid
+    $s_H$, which by Lemma~\ref{lemma:USO-Lemma} coincides with the sink of
+    $G$.
     \qed
 \end{proof}
 
