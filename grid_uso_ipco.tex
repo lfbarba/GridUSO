@@ -47,7 +47,7 @@
 
 % first the title is needed
 %\title{Algorithms for Grid Unique Sink Orientations}
-\title{Deterministic Algorithms for Unique Sink Orientations of the Grid}
+\title{Deterministic Algorithms for Unique Sink Orientations of Grids}
 
 % a short form should be given in case it is too long for the running head
 \titlerunning{Deterministic Algorithms for USOs of the Grid}
@@ -85,14 +85,14 @@ CH-8092 Z{\"u}rich, Switzerland, {\tt \{mmilatz, njerri, athomas\}@inf.ethz.ch}
 \maketitle
 
 \begin{abstract}
-\noindent\LB{There was no mention of $n$, I included it, although it might be misleading in thinking that it is a square grid. But since it is not less general, I figure it is not so bad}
+\noindent %\LB{There was no mention of $n$, I included it, although it might be misleading in thinking that it is a square grid. But since it is not less general, I figure it is not so bad}
  We study unique sink orientations (USOs) of grids: Cartesian products of
   \emph{two} complete graphs on $n$ vertices, where the edges are oriented in such a way that each subgrid has a unique sink.
   We consider two different oracle models, the \emph{edge query} and the
   \emph{vertex query} model.
   An edge query provides the orientation of the queried edge, whereas a vertex query provides the orientation of all edges incident to the queried vertex.
 We are interested in bounding the number of queries to the oracle needed by an algorithm to find the sink.
-In the randomized setting the best known algorithms find the sink using either $\Theta(n)$ edge queries, or $O(\log^2 n)$ vertex queries in expectation. We prove that $O(n^{\log_4 7})$ edge queries and $O(n \log n)$ vertex queries suffice to find the sink in the deterministic setting. A deterministic lower bound for both models is $\Omega(n)$.
+In the randomized setting, the best known algorithms find the sink using either $\Theta(n)$ edge queries, or $O(\log^2 n)$ vertex queries, in expectation. We prove that $O(n^{\log_4 7})$ edge queries and $O(n \log n)$ vertex queries suffice to find the sink in the deterministic setting. A deterministic lower bound for both models is $\Omega(n)$.
 \keywords{Unique sink orientation, Grid}
 \end{abstract}
 
@@ -636,10 +636,14 @@ Note that for both models linear lower bounds are simple to obtain, but nothing 
 is to close the gap between the lower and upper bounds. Moreover, we would like to explore possible extensions of the algorithms we give 
 in this paper to higher dimensional grids (as defined in \cite{grid08}).
 
-Finally, it remains to settle all the details in the LP-type problems that arise from the problem of finding the 
-sink in a grid USO (see the relevant part of Section~\ref{sec:intro}). Namely, it still might be possible 
-to solve Holt-Klee grid USOs in deterministic linear time by using the algorithms mentioned in Section~\ref{sec:intro}.
+%Finally, it remains to settle all the details in the LP-type problems that arise from the problem of finding the 
+%sink in a grid USO (see the relevant part of Section~\ref{sec:intro}). Namely, it still might be possible 
+%to solve Holt-Klee grid USOs in deterministic linear time by using the algorithms mentioned in Section~\ref{sec:intro}.
 %Or this method might give linear upper bounds for more restricted classes of grid USO. 
+
+Finally, it still might be possible 
+to solve Holt-Klee grid USOs in deterministic linear time by using the algorithms mentioned in Section~\ref{sec:intro}.
+Even though the obvious approach does not work, there may be another way to make use of these algorithms for our purpose.
 
 \section*{Acknowledgments}\label{sec:Acknowledgments}
 
