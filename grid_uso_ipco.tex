@@ -609,17 +609,17 @@ We refer the reader to the full version of this paper for more details.
     Let $v$ be a vertex of $H$. Since $v$ corresponds to an $(\frac{m}{4},\frac{m}{4})$-subgrid of~$G$, we can find the sink $s_v$ of this subgrid using a recursive call that takes $T(m/4)$ edge queries.
     Afterwards we can find out the orientations of the six edges
     adjacent to the vertex $v$ in $H$ by querying the $2m-2$ edges adjacent to $s_v$ in $G$.
-    Thus, we have implemented a vertex query in $H$ using at most $T(m/4) + 2m - 2$
-    %Thus we have simulated a vertex query in $H$ using at most $T(m/4) + m$ edge queries in~$G$.
+    Thus we have implemented a vertex query in $H$ using at most $T(m/4) + 2m - 2$ edge queries in~$G$.
 
-Using Lemma~\ref{lem:4:7} to guide the search in $H$, we can find the sink of $H$ after
+Using Lemma~\ref{lem:4:7} to guide the search in $H$, we can find and query
+the sink $s_H$ of $H$ after
     \[
         T(m) \le 7 \cdot \Bigl( T \left( m/4 \right) + 2m-2 \Bigr)
     \]
     edge queries in $G$ and hence $T(m) \in O(m ^ {\log_4(7)})$. 
     Querying $s_H$ involves in particular finding the sink of the subgrid
-        $s_H$, which by Lemma~\ref{lemma:USO-Lemma} coincides with the sink of
-        $G$.
+    $s_H$, which by Lemma~\ref{lemma:USO-Lemma} coincides with the sink of
+    $G$.
     \qed
 \end{proof}
 
