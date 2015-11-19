@@ -564,21 +564,6 @@ Our main result can now be proved by combining the Lemmas and Corollaries establ
 The sink of an $(m,n)$-grid USO can be found with \\ $O((m+n)\log (m+n))$ vertex queries.
 \end{theorem}
 
-\begin{proof}
-Use Corollary~\ref{corollary: (m/2,n/2) indegree} to find an $(\frac{m}{2}, \frac{n}{2})$-vertex $v$. 
-Recall that $v$ is the sink of the $I_v\times J_v$-grid, where $|I_v| \geq \frac{m}{2}$ and $|J_v|\geq \frac{n}{2}$. Let $A_1\subset I_v$ and $B_1\subset J_v$ be subsets of indices such that $|A_1| = \frac{m}{2}, |B_1| = \frac{n}{2}$ and note that $v$ is also the sink of the $A_1\times B_1$-subgrid.
-Let $A_2= [m]\setminus A_1$ and $B_2 = [n]\setminus B_1$.
-Let $\A = \{A_1, A_2\}$ and $\B = \{B_1, B_2\}$ be partitions of $[m]$ and $[n]$, respectively.
-
-Let $T(m, n)$ be the number of queries needed to find the sink of an $[m]\times[n]$-grid USO.
-We can find recursively the sink $s$ of the $(A_2, B_2)$-subgrid using $T(\frac{m}{2}, \frac{n}{2})$ vertex queries. 
-If neither $v$ nor $s$ is the sink of $G$ we proceed as follows.
-Since the orientation of the $\A$-$\B$-partition grid $H$ induced by $G$ is a unique sink orientation, by Lemma~\ref{lemma:USO-Lemma}, we can decide whether the sink of $G$ lies in the $A_1\times B_2$-subgrid or in the $A_2\times B_1$-subgrid after querying $v$ and $s$.
-By finding recursively the sink of the remaining subgrid, we will the sink of $G$ by Lemma~\ref{lemma:USO-Lemma}. In summary, the total number of queries requried to find the sink of $G$ is given by the recurrence
-$$T(m, n) = 2\cdot T\left(\frac{m}{2}, \frac{n}{2}\right) + O(m+n),$$
-which solves to $T(m, n) = O((m+n) \log (m+n))$ yielding our result. \qed
-\end{proof}
-
 \section{The Edge Oracle Model}
 \label{section:The edge oracle model}
 
@@ -634,5 +619,122 @@ Using Lemma~\ref{lem:4:7} to guide the search in $H$, we can find the sink of $H
 
 \bibliographystyle{abbrvnat}
 \bibliography{griduso}
+
+\newpage
+\appendix
+\section*{Appendix}
+Here we attach the proofs missing from the main body of the paper. 
+
+\setcounter{lemma}{0}
+\begin{lemma}[USO-Lemma]
+Let $G$ be an $(m,n)$-grid USO,
+and let $\A$ and $\B$ be partitions of $[m]$ and $[n]$, respectively.
+The orientation of the $\A$-$\B$-partition grid $H$ induced by $G$ is a unique sink orientation.
+Moreover, the sink of $H$ is the subgrid of $G$ that contains the sink of $G$.
+\end{lemma}
+\begin{proof}
+It is enough to check that the orientation of $H$ is acyclic and that for every pair $A, A'\in \A$ and for every pair $B,B'\in \B$, the 
+$\{A,A'\}\times\{B, B'\}$-subgrid of $H$, which we call $F$, is a unique sink orientation.
+%For any $A, A'\in \A$ and $B,B'\in \B$, let $F$ be the $\{A,A'\}\times\{B, B'\}$-subgrid of~$H$.
+Note that the vertices of $F$ correspond to the four subgrids $A\times B, A'\times B, A\times B'$ and $A'\times B'$ of $G$. 
+Let their respective sinks be $s_{A,B}$, $s_{A',B}$, $s_{A,B'}$ and $s_{A',B'}$.
+%It is enough to check that the orientation of $F$ is a unique sink orientation and that $H$ is acyclic.
+We first show that $F$ has at most one sink and then show that it cannot have cycles and therefore has exactly one sink. Lastly we show that $H$ cannot have cycles.
+
+Assume for a contradiction that $F$ has more than one sink.
+Because these sinks cannot be adjacent, $F$ has two sinks and without loss of generality they are the subgrids $A\times B'$ and $A'\times B$. Consider the $(2,2)$ subgrid in $G$ that contains the vertices $\s{A,B'}$ and $\s{A',B}$. By assumption, and from the way the induced orientation was constructed, this subgrid has two sinks which is a contradiction to $G$ being a unique sink orientation. See Figure~\ref{fig:InducedUSOtwosinks} for an example. Therefore we conclude that $F$ has at most one sink. 
+
+\begin{figure}
+\begin{subfigure}[t]{0.45\textwidth}
+\includegraphics{product_lemma_two_sinks.pdf}
+%[width=1\textwidth]
+\caption{\small If the induced grid USO F had two sinks, a (2,2) grid in the original grid $G$ wouldn't have a unique sink.}
+\label{fig:InducedUSOtwosinks}
+\end{subfigure}
+\qquad\qquad
+\begin{subfigure}[t]{0.44\textwidth}
+\includegraphics{product_lemma_cycle.pdf}
+\caption{\small If the induced USO F had a cycle, there would be a cycle in the original grid~$G$.}
+\label{fig:InducedUSOcycle}
+\end{subfigure}
+\caption{An illustration of the two cases in the proof of Lemma~\ref{lemma:USO-Lemma}. Solid arrowed edges represent edges in $G$ and dashed edges represent (directed) paths in $G$.}
+\label{fig:inducesUSOboth}
+\end{figure}
+
+Next to show is that $F$ has at least one sink. The only way for $F$ to have no sink is if there is a cycle in $F$. 
+Such a cycle would induce a cycle in $G$: starting from the sink of one of the blocks of $H$, move along an edge to 
+another block and then again to the sink of the new block and repeat until we reach the sink of the block we started from. 
+This works because there is always such an outgoing edge between blocks when $F$ is cyclic --- which implies an outgoing 
+edge in the original grid --- and there is always a path within a block from any vertex to the sink of the block due to
+acyclicity. Such a cycle is illustrated in Figure~\ref{fig:InducedUSOcycle}. 
+ We conclude that $F$ can't have a cycle and therefore $F$ will have exactly one sink.
+
+To see that $H$ is acyclic one only needs to repeat the same argument as for $F$. That is, a cycle in $H$ would imply a cycle in $G$. 
+We go on to prove that the sink of $H$ corresponds to the subgrid of $G$ that contains the sink of $G$.
+
+Let $\s{A,B}$ be the sink of $A\times B$ and let $\s{G}$ denote the sink of $G$.
+We claim that $\s{G} = \s{A,B}$.
+Assume for a contradiction that $\s{A,B}\neq \s{G}$.
+Note that $\s{G}$ does not belong to $A\times B$ as $\s{A,B}$ is its sink.
+Therefore, $\s{G}$ is the sink of $A'\times B'$ for some $A'\in \A, B'\in \B$.
+
+Consider the smallest subgrid in $H$ containing both $A\times B$ and $A'\times B'$. 
+Since Lemma~\ref{lemma:USO-Lemma} guarantees that $A'\times B'$ is not the sink of this subgrid, there is at least one outgoing edge from $A'\times B'$ to another vertex in $H$.
+Thus, by the definition of the orientation of $H$, there is an outgoing edge going from the sink of $A'\times B'$, i.e., an outgoing edge from $\s{G}$---a contradiction since $\s{G}$ is the sink of $G$ and has no outgoing edges. 
+Therefore, $\s{G} = \s{A,B}$. 
+This concludes the proof. \qed
+
+
+
+\end{proof}
+
+\setcounter{corollary}{0}
+\begin{corollary}
+  Given an $(m,n)$-grid USO $G$, we can find a vertex with \indegree $[a,b]$ with $a \geq \frac{m}{8} - 1$ and  $b \geq \frac{n}{8} - 1$ using $O(m+n)$ vertex queries.
+\end{corollary} 
+\begin{proof}
+ Assume without loss of generality that $m \geq n$. 
+ We will partition $[m]$ into $n$ blocks, then apply Lemma~\ref{lem:seed_lemma_for_square_matrices} on the induced orientation, and conclude using
+ Lemma~\ref{lemma:USO-Lemma} that this  gives us the desired result.
+ 
+  Let $\A$ be a partition of $[m]$ into $n$ blocks, each of size either $\left\lfloor \frac{m}{n} \right\rfloor$ or $\left\lceil \frac{m}{n} \right\rceil$. Let $\B = [n]$ and 
+consider the $\A$-$\B$-partition grid $H$ and its induced orientation inherited from $G$. 
+ Use Lemma~\ref{lem:seed_lemma_for_square_matrices} to find an $(\frac{n}{4}, \frac{n}{4})$-vertex $v$ in $H$. 
+ Note that in each vertex query of $H$ we need to find the sink of a $(|A|,1)$-grid for some $A\in \A$. 
+ The total number of vertex queries of $G$ used is therefore $O(\frac{m}{n}\cdot n) = O(m)$ as asserted. 
+ Since $v$ has at least $\frac{n}{4} - 1$ horizontal incoming edges in $H$, each of which is a $(|A|,1)$-grid in $G$ for some $A\in \A$, 
+ by Lemma~\ref{lemma:USO-Lemma} $v$ has at least $$\left(\frac{n}{4} - 1\right)\cdot\left\lfloor \frac{m}{n} \right\rfloor + \left\lfloor \frac{m}{n} \right\rfloor - 1 \geq \frac{m}{8} - 1$$ incoming edges in $G$.
+ Vertex $v$ also has at least $\frac{n}{4} - 1 \geq \frac{n}{8} - 1$ incoming vertical edges which concludes the proof. \qed
+\end{proof}
+
+\begin{corollary}
+Let $G$ be an $(m,n)$-grid USO. 
+We can compute an $( \frac{m}{2}, \frac{n}{2})$-vertex using $O(m + n)$ vertex queries.
+\end{corollary}
+\begin{proof}
+Notice that Corollary~\ref{corollary: n/4 indegree} proves the existence of an $( \frac{1}{8}, \frac{1}{8})$-oracle.
+We use Lemma~\ref{lemma:Climbing lemma} with the $(\frac{1}{8}, \frac{1}{8})$-oracle as input, to find an $(\frac{m}{8}, \frac{n}{2})$-vertex using only $O(1)$ calls to this $(\frac{1}{8}, \frac{1}{8})$-oracle and $O(m+n)$ additional vertex queries. Since each call to the  $(\frac{1}{8}, \frac{1}{8})$-oracle can be implemented with $O(m+n)$ vertex queries by Corollary~\ref{corollary: n/4 indegree}, the algorithm to find the $(\frac{m}{8}, \frac{n}{2})$-vertex is a $(\frac{1}{8}, \frac{1}{2})$-oracle. 
+Therefore, using again Lemma~\ref{lemma:Climbing lemma} with this $(\frac{1}{8}, \frac{1}{2})$-oracle as input, we can find an $(\frac{m}{2}, \frac{n}{2})$-vertex using $O(1)$ calls to the $(\frac{1}{8}, \frac{1}{2})$-oracle. That is, in total $O(m + n)$ queries suffice to find an $(\frac{m}{2}, \frac{n}{2})$-vertex. \qed
+\end{proof}
+
+\setcounter{theorem}{0}
+\begin{theorem}
+The sink of an $(m,n)$-grid USO can be found with \\ $O((m+n)\log (m+n))$ vertex queries.
+\end{theorem}
+
+\begin{proof}
+Use Corollary~\ref{corollary: (m/2,n/2) indegree} to find an $(\frac{m}{2}, \frac{n}{2})$-vertex $v$. 
+Recall that $v$ is the sink of the $I_v\times J_v$-grid, where $|I_v| \geq \frac{m}{2}$ and $|J_v|\geq \frac{n}{2}$. Let $A_1\subset I_v$ and $B_1\subset J_v$ be subsets of indices such that $|A_1| = \frac{m}{2}, |B_1| = \frac{n}{2}$ and note that $v$ is also the sink of the $A_1\times B_1$-subgrid.
+Let $A_2= [m]\setminus A_1$ and $B_2 = [n]\setminus B_1$.
+Let $\A = \{A_1, A_2\}$ and $\B = \{B_1, B_2\}$ be partitions of $[m]$ and $[n]$, respectively.
+
+Let $T(m, n)$ be the number of queries needed to find the sink of an $[m]\times[n]$-grid USO.
+We can find recursively the sink $s$ of the $(A_2, B_2)$-subgrid using $T(\frac{m}{2}, \frac{n}{2})$ vertex queries. 
+If neither $v$ nor $s$ is the sink of $G$ we proceed as follows.
+Since the orientation of the $\A$-$\B$-partition grid $H$ induced by $G$ is a unique sink orientation, by Lemma~\ref{lemma:USO-Lemma}, we can decide whether the sink of $G$ lies in the $A_1\times B_2$-subgrid or in the $A_2\times B_1$-subgrid after querying $v$ and $s$.
+By finding recursively the sink of the remaining subgrid, we will the sink of $G$ by Lemma~\ref{lemma:USO-Lemma}. In summary, the total number of queries requried to find the sink of $G$ is given by the recurrence
+$$T(m, n) = 2\cdot T\left(\frac{m}{2}, \frac{n}{2}\right) + O(m+n),$$
+which solves to $T(m, n) = O((m+n) \log (m+n))$ yielding our result. \qed
+\end{proof}
 
 \end{document}
