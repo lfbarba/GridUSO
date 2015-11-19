@@ -254,7 +254,9 @@ Therefore, our sink-algorithm in the edge query model provides a way to determin
 
 In Section~\ref{section:grid_uso_properties} we state basic facts for grids that were already known from previous work. Subsequently, we define a way to partition the grid into subgrids and discuss the properties of this partition. The notion of induced grid USOs becomes relevant and we describe Lemma~\ref{lemma:USO-Lemma} which is crucial for our algorithms.
 
-In Section~\ref{section:the_sink_finding_algorithm} we focus on the vertex query model and prove a our main result: Theorem~\ref{theorem:Sink algorithm}. Finally, in Section~\ref{section:The edge oracle model} we briefly discuss the edge query model and give the relevant algorithm in Theorem~\ref{thm:timeEdge}.
+In Section~\ref{section:the_sink_finding_algorithm} we focus on the vertex
+query model and prove a our main result: Theorem~\ref{theorem:Sink algorithm}.
+Finally, in Section~\ref{section:The edge query model} we briefly discuss the edge query model and give the relevant algorithm in Theorem~\ref{thm:timeEdge}.
 
 %and improve upon the above algorithm by using the following idea: Spend a linear number of vertex queries prior to the partition to discard an $(n/2, n/2)$-subgrid that contains one quarter of the total number of vertices. 
 %The removal of such a subgrid leaves us with a graph that can be partitioned into three $(n/2, n/2)$-subgrids. 
@@ -339,8 +341,8 @@ Moreover, the sink of $H$ is the subgrid of $G$ that contains the sink of $G$.
 %If the $A\times B$-subgrid is the sink of the $\A$-$\B$-partition grid $H$, then the sink of the $A\times B$-subgrid is the sink of $G$.
 %\end{theorem}
 
-\section{The Vertex Oracle Model}
-\label{section:The vertex oracle model}
+\section{The Vertex Query Model}
+\label{section:The vertex query model}
 
 Recall that in the vertex query model a grid USO is given by a \emph{vertex oracle} that for a queried vertex reveals the orientations of the edges adjacent to the vertex. 
 An adversary argument can be used to show that any deterministic algorithm needs $m+n-1$ vertex queries in the worst case to find the sink of an $(m, n)$-grid USO.
@@ -570,11 +572,11 @@ Our main result can now be proved by combining the Lemmas and Corollaries establ
 The sink of an $(m,n)$-grid USO can be found with \\ $O((m+n)\log (m+n))$ vertex queries.
 \end{theorem}
 
-\section{The Edge Oracle Model}
-\label{section:The edge oracle model}
+\section{The Edge Query Model}
+\label{section:The edge query model}
 
-In the previous sections we have discussed the vertex oracle model.
-In the \emph{edge oracle model} considered here, the algorithm accesses the
+In the previous sections we have discussed the vertex query model.
+In the \emph{edge query model} considered here, the algorithm accesses the
 grid by means of an \emph{edge oracle} which can tell us
 the orientation of any given edge.
 One can show by an adversary argument that $\Omega(m+n)$ queries are necessary in the worst case (this lower bounds holds also for vertex queries).
@@ -589,7 +591,8 @@ The following theorem improves on this bound.
     1.40$.
 \end{theorem}
 
-To proof of Theorem~\ref{thm:timeEdge} uses the following result for the \emph{vertex} oracle model.
+To proof of Theorem~\ref{thm:timeEdge} uses the following result for the
+\emph{vertex} query model.
 
 \begin{lemma}
     \label{lem:4:7}
