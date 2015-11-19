@@ -134,7 +134,7 @@ The main goal of this paper is to bound the minimum number of queries that a det
 
 
 
-\vspace{-.2in}\subsubsection{Previous work.}
+\subsubsection{Previous work.}
 
 Unique sink orientations of grids, as presented in this paper,
 are a graph-theoretic model for a specific class of linear programs~\cite{linepoint}.
@@ -171,11 +171,14 @@ Notice that that any algorithm that finds the sink of a grid USO using edge quer
 Therefore, the randomized algorithm from~\citet{grid08} solves the matrix USO optimization problem on a $m\times n$ matrix in $\Theta(m+n)$ expected time. However, no deterministic counterpart to this algorithm is known. 
 Similar optimization problems on matrices have been studied with stronger conditions and have several applications in geometric problems~\cite{aggarwal1987geometric,demaine2005optimizing,galil1992dynamic,mityagin2003complexity}.
 
-\vspace{-.2in}\subsubsection{Connection to LP-type problems.} \citet{grid08} hinted that the problem of finding the sink of an $(m,n)$-grid USO can be naturally written as an \emph{LP-type problem}. An LP-type problem, originally defined by \citet{SharirW92}, is a pair $(S,w)$ where $S$ is a finite set called the \emph{constraints} and
+\subsubsection{Connection to LP-type problems.} \citet{grid08} hinted that the problem of finding the sink of an $(m,n)$-grid USO can be naturally written as an \emph{LP-type problem}. An LP-type problem, originally defined by \citet{SharirW92}, is a pair $(S,w)$ where $S$ is a finite set called the \emph{constraints} and
 $w:2^S \rightarrow \mathbb{R} \cup \{-\infty\}$ is a function subject to certain conditions: 
 %\citet{DBLP:journals/dam/GartnerMRS08} looked also at the connection with the more general setting of \emph{violator spaces}.
-(1) Monotonicity: for every two sets $A \subseteq B \subseteq S$, we have $w(A) \leq w(B) $ and
-(2) Locality: for every two sets $A \subseteq B \subseteq S$ and every constraint $h \in S$, if $w(A) = w(B) = w(A\cup \{h\})$ then $w(A) = w(B \cup \{h\})$.
+\begin{enumerate}[\quad (1)]
+    \item Monotonicity: for every two sets $A \subseteq B \subseteq S$ we
+        have $w(A) \leq w(B) $, and
+    \item Locality: for every two sets $A \subseteq B \subseteq S$ and every constraint $h \in S$, if $w(A) = w(B) < w(B\cup \{h\})$ then $w(A) < w(A \cup \{h\})$.
+\end{enumerate}
 A set $B \subseteq S$ is called a \emph{basis} if every proper subset
 of $B$ has a smaller value of $w$ than $B$ itself. The \emph{combinatorial dimension} of an LP-type problem 
 is the maximum cardinality of a basis
@@ -227,7 +230,7 @@ Despite that, the results of \citet{ChazelleM96} still do not directly imply a d
 
 %There is a natural way to write a $(m,n)$-grid USO as an LP-type problem of combinatorial dimension 2. There are randomized algorithms for LP-type problems that imply $\Theta(m+n)$ edge queries for ($m,n$)-grid USOs in expectation. It was hinted by \citet{grid08} that it might be possible to apply the deterministic algorithms for LP-type problems \cite{DBLP:journals/jal/ChazelleM96} also for $(m,n)$-grid USOs. However, these deterministic algorithms assume an extra condition (called Computational assumption 2 in \cite{DBLP:journals/jal/ChazelleM96}) 
 
-\vspace{-.2in}\subsubsection{Our results.}
+\subsubsection{Our results.}
 While randomized algorithms to find the sink of a grid USO have been previously studied~\cite{grid05,linepoint,grid08,falkthesis}, 
 to the best of our knowledge no non-trivial deterministic algorithm was known prior to this work. 
 We present two deterministic algorithms that find the sink of an $(m,n)$-grid USO using $O((m+n)\log (m+n))$ vertex queries
@@ -243,7 +246,7 @@ However, in the deterministic setting, it is still unclear whether a gap exists.
 Additionally, recall that a  sink-algorithm in the edge query model can be used to solve the matrix USO optimization problem. 
 Therefore, our sink-algorithm in the edge query model provides a way to deterministically find the minimum of an $m\times n$ matrix USO by querying for the value of only $O((m+n)^{\log_4 7})$ entries of the matrix. 
 
-\vspace{-.2in}\subsubsection{Outline.}
+\subsubsection{Outline.}
 %To guide the reader, we give a rough sketch of the algorithms presented in this paper.
 %The main idea behind our algorithms is to partition the grid into a constant number of subgrids. 
 %Then, by recursively finding the sink of a ``few'' of these subgrids, we are able to infer global %information and discard some of the remaining subgrids, i.e., we guarantee that they do not contain the sink. 
@@ -292,7 +295,7 @@ Our algorithms rely on two basic properties of grid USOs.
 First, \citet{grid08} have shown that every $(m,n)$-grid USO is \emph{acyclic}. 
 The second ingredient is a partitioning strategy which we describe subsequently.
 
-\vspace{-.2in}\subsubsection{Induced USOs.}
+\subsubsection{Induced USOs.}
 
 For our algorithms we want to partition the grid into subgrids.
 Such a partition into subgrids forms itself a grid in a natural way,
@@ -343,7 +346,7 @@ Recall that in the vertex query model a grid USO is given by a \emph{vertex orac
 An adversary argument can be used to show that any deterministic algorithm needs $m+n-1$ vertex queries in the worst case to find the sink of an $(m, n)$-grid USO.
 Our main result is Theorem~\ref{theorem:Sink algorithm} which describes a deterministic algorithm that needs $O((n + m) \log (n + m))$ vertex queries. 
 
-\vspace{-.2in}\subsubsection{The Sink-finding Algorithm.}
+\subsubsection{The Sink-finding Algorithm.}
 \label{section:the_sink_finding_algorithm}
 
 Before explaining the algorithm we introduce some notation. We define a reflexive partial order on the vertices of a grid USO $G$ as follows. 
@@ -502,7 +505,7 @@ The following corollary extends the previous lemma to non-square grids.
 % 
 % The problem we are looking at is that of finding the global sink of a USO over $(K_n)^d$. The USO is given by an oracle that for any given vertex reveals the orientations of the edges adjacent to the vertex. The question is, what is the least number of these vertex queries needed to find the unique global sink? Just knowing its location is not sufficient, but we also require that the sink is evaluated. This requirement will prove useful when developing an algorithm.
 
-\vspace{-.2in}\subsubsection{Finding an $(\frac{m}{2}, \frac{n}{2})$-vertex.}
+\subsubsection{Finding an $(\frac{m}{2}, \frac{n}{2})$-vertex.}
 
 Given an $(a, b)$-vertex $v = (x_v, y_v)$ in an $(m,n)$-grid USO, let $I_v\subseteq [m]$ be the set of indices such that  $I_v \times \{y_v\}$ is the set of all vertices with an outgoing horizontal edge to $v$, with $v$ included in this set. Analogously, $J_v\subseteq [n]$ is the set of indices such that $\{x_v\}\times J_v$ is the set of all vertices with an outgoing vertical edge to~$v$ (including $v$). Notice that $|I_v| \geq a$ while $|J_v| \geq b$ and that $v$ is the sink of the $I_v\times J_v$-grid.
 
