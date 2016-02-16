@@ -128,8 +128,8 @@ The main goal of this paper is to bound the minimum number of queries that a det
   \begin{figure}[htbp] 
   	\centering
   	\includegraphics{uso_example.pdf}
-  	\caption{\small Left: Shows a $(4,3)$-grid (that means $4$ columns and $3$ rows) 
-  	and a $(3,2)$-subgrid is shaded. Right: The orientation is a unique sink orientation of a $(3,2)$-grid. It also represents the double twist graph forbidden as a subgraph in Holt-Klee grid USOs.} 
+  	\caption{\small Left: Example of a $(4,3)$-grid (that means $4$ columns and $3$ rows) 
+  	where a $(3,2)$-subgrid is shaded. Right: A unique sink orientation of a $(3,2)$-grid. It also represents the double twist graph forbidden as a subgraph in Holt-Klee grid USOs.} 
   	\label{fig:examplegrid}
   \end{figure}
 
@@ -178,7 +178,7 @@ However, in the deterministic setting, it is still unclear whether a gap exists.
 
 
 %%maybe we can reduce
-Notice that that any algorithm that finds the sink of a grid USO using edge queries can be also applied to solve the following \emph{matrix USO optimization} problem: Find the global minimum of an injective real function defined on a two dimensional matrix USO, where a matrix is USO if each $2\times 2$ sub-matrix has a unique minimum. 
+Notice that that any algorithm that finds the sink of a grid USO using edge queries can be also applied to solve the following \emph{matrix USO optimization} problem: Find the global minimum of an injective real function defined on a two dimensional matrix USO, where a matrix is USO if each $2\times 2$ sub-matrix has a unique minimum. This condition can be checked to be an equivalent to requiring every submatrix induced by rows and columns to have a unique minimum. 
 Therefore, the randomized algorithm from~\citet{grid08} solves the matrix USO optimization problem on a $m\times n$ matrix in $\Theta(m+n)$ expected time. However, no deterministic counterpart to this algorithm is known. 
 Similar optimization problems on matrices have been studied with stronger conditions and have several applications in geometric problems~\cite{aggarwal1987geometric,demaine2005optimizing,galil1992dynamic,mityagin2003complexity}.
 
@@ -192,21 +192,20 @@ $w:2^S \rightarrow \mathbb{R} \cup \{-\infty\}$ is a function subject to certain
 A set $B \subseteq S$ is called a \emph{basis} if every proper subset
 of $B$ has a smaller value of $w$ than $B$ itself. The \emph{combinatorial dimension} of an LP-type problem 
 is the maximum cardinality of a basis
-(for more information on LP-type problems refer to \cite{MatousekSW96}). To solve an LP-type problem, one needs to find a basis with the same value under $w$ as the whole set $S$.
+(for more information on LP-type problems refer to \cite{MatousekSW96}). Solving an LP-type problem, means finding a basis with the same value under $w$ as the whole set $S$.
 
 %\citet{grid08} hint that the problem of finding the sink of an $(m,n)$-grid USO can be naturally written as an LP-type problem $(S,w)$ of combinatorial dimension~2 (\citet{DBLP:journals/dam/GartnerMRS08} looked also at the connection with the more general setting of \emph{violator spaces}). 
 To write a grid USO as an LP-type problem, we let the set of constraints $S$ be the set of rows and columns and thus $|S| = m + n$. As any grid USO is acyclic (see Section~\ref{section:grid_uso_properties}), there is a topological ordering of its vertices with the sink having the highest rank in the ordering. 
-The function $w$ can be defined as follows. Every subset of the rows and columns defines a subgrid and this subgrid is mapped to the rank of its sink in the topological ordering. 
-If this subset of $S$ consists only of rows or only of columns, its value under $w$ is~$-\infty$. 
+Every subset of the rows and columns defines a subgrid $H$ and we define $w(H)$ to be the rank of its sink in the topological ordering or~$-\infty$ if the subgrid is empty.
 This definition satisfies both monotonicity and locality, yielding an LP-type problem.
-Moreover, a basis is simply a vertex defined by two constraints, one row and one column.
+Moreover, a basis is simply a vertex defined by one row and one column.
 Finding the sink of the grid then corresponds to finding a basis of $(S,w)$ with the highest value. 
 %The \emph{violator set} of a vertex $v$ is the set of constraints representing the rows and columns to which $v$ has outgoing edges. 
  
 To solve an LP-type problem, there are linear-time (in $|S|$) randomized algorithms~\cite{MatousekSW96} which require access to certain primitive operations.
 For grid USOs these operations corresponds directly to edge queries, which by the above construction yield randomized algorithms that use a linear number of edge queries to find the sink. 
 
-While derandomizations of algorithms  algorithms exist with the same performance~\cite{chan16,ChazelleM96}, they make an extra assumption on the problem that does not hold for grid USOs, namely the existence of a \emph{subsystem oracle} (see Computational assumption 2 in \cite{ChazelleM96}).
+While derandomizations of algorithms for LP-type problems exist with the same performance~\cite{chan16,ChazelleM96}, they make an extra assumption on the problem that does not hold for grid USOs, namely the existence of a \emph{subsystem oracle} (see Computational assumption 2 in \cite{ChazelleM96}).
 Other problems where these assumptions do not hold have been studied~\cite{chan1998deterministic}, and it is an open question whether or not all of them can be solved with a linear number of primitive operations.
 We believe that finding the sink in grid USOs is a good candidate for an LP-type problem where super linear lower bounds might exist. 
 
@@ -324,8 +323,8 @@ which inherits a unique sink orientation from the original grid USO; see Fig.~\r
   \begin{figure}[htbp] 
   	\centering
   	\includegraphics[scale=1]{induced_orientation_ex.pdf}
-  	\caption{\small On the left side of the figure there is a $(3,3)$-grid USO whose %$X$-coordinates and $Y$-
-  	coordinates have been partitioned into 2 parts of cardinalities two and one. The induced $(2,2)$-grid USO with respect to the corresponding subgrids is shown on the right; the edges contributing to the induced orientation are also shown in the original grid.} 
+  	\caption{\small Left: A $(3,3)$-grid USO whose %$X$-coordinates and $Y$-
+  	coordinates have been partitioned into 2 parts of cardinalities two and one. Right: The induced $(2,2)$-grid USO; The edges contributing to the induced orientation are also shown in the original grid.}
   	\label{fig:example_induced_orientation}
   \end{figure}
   \vspace{-.1in}
@@ -554,7 +553,7 @@ Repeat this procedure with $G_{i+1}$ as long as $|B_i| \geq  \frac{n}{2}$; see F
 \begin{figure}[h]
 \centering
 \includegraphics[width=1\textwidth]{ClimbingLemma.pdf}
-\caption{\small An illustration of the first part of the proof. On the left we depict the situation after the first call and on the right after the last call of the $(\alpha, \beta)$-oracle.}
+\caption{\small An illustration of the first part of the proof of Lemma~\ref{lemma:Climbing lemma}. On the left we depict the situation after the first call and on the right after the last call of the $(\alpha, \beta)$-oracle.}
 \label{fig:Climbing Lemma}
 \end{figure}
 
@@ -569,8 +568,9 @@ Let $0\leq h\leq k$ be an integer such that $s'$ belongs to the $[m]\times J_{v_
 %\vspace{-.1in}
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.85\textwidth]{ClimbingLemma-2.pdf}
-\caption{\small The second part of the algorithm. On the left we depict how to find $s$ and on the right we depict how to find $s'$. The latter is the output of the algorithm.}
+\hspace*{0.75cm}
+\includegraphics[width=0.92\textwidth]{ClimbingLemma-2.pdf}
+\caption{\small The second part of the algorithm in Lemma~\ref{lemma:Climbing lemma}. On the left we depict how to find $s$ and on the right we depict how to find $s'$. The latter is the output of the algorithm.}
 \label{fig:Climbing Lemma-2}
 \end{figure}
 
@@ -597,7 +597,7 @@ The sink of an $(m,n)$-grid USO can be found with \\ $O((m+n)\log (m+n))$ vertex
 \subsection{Holt-Klee grid USOs}
 
 Holt-Klee grid USOs arise naturally as a generalization of the one line and $n$ points problem~\cite{linepoint}.
-Recall that a Holt-Klee grid USO has a specific forbidden subgraph called the ``double twist'' (depicted in Fig.~\ref{fig:examplegrid} right).
+Recall that a Holt-Klee grid USO are those USOs with a specific forbidden subgraph called the ``double twist'' (depicted in Fig.~\ref{fig:examplegrid} right).
 
 Let $G$ be a Holt-Klee grid USO.
 Given a $(2,2)$-subgrid $H$ of $G$, we say that $H$ is a \emph{bow} if it contains a directed path $(v_1, v_2, v_3, v_4)$ of length three. We refer to the edge $v_2 v_3$ as the \emph{middle edge} of this bow.
@@ -616,7 +616,7 @@ Since $w$ has all its edges incoming, the orientation of all the edges of the $(
 \centering
 \includegraphics{HoltKlee.pdf}
 %[width=1\textwidth]
-\caption{\small }
+\caption{\small Left: It is impossible to have the global sink in the same row of the middle edge of a bow. Right: Illustration of case (3) in the algorithm for Theorem~\ref{theorem:Holt-Klee algorithm} which results in eliminating the column containing $u$ and $v$.}
 \label{fig:Bow example}
 \end{figure}
 
