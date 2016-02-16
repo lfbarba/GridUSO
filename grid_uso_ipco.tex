@@ -125,13 +125,14 @@ The main goal of this paper is to bound the minimum number of queries that a det
 
 
 \vspace{-.2in}
-  \begin{figure}[htbp] 
+  \begin{figure}[h] 
   	\centering
   	\includegraphics{uso_example.pdf}
   	\caption{\small Left: Example of a $(4,3)$-grid (that means $4$ columns and $3$ rows) 
   	where a $(3,2)$-subgrid is shaded. Right: A unique sink orientation of a $(3,2)$-grid. It also represents the double twist graph forbidden as a subgraph in Holt-Klee grid USOs.} 
   	\label{fig:examplegrid}
   \end{figure}
+  \vspace{-.3in}
 
 \subsubsection{Previous work.}
 
@@ -314,12 +315,11 @@ Our algorithms rely on two basic properties of grid USOs.
 First, \citet{grid08} have shown that every $(m,n)$-grid USO is \emph{acyclic}. 
 The second ingredient is a partitioning strategy which we describe subsequently.
 
-\vspace{-.2in}\subsubsection{Induced USOs.}
+\subsubsection{Induced USOs.}
 
 For our algorithms we want to partition the grid into subgrids.
 Such a partition into subgrids forms itself a grid in a natural way,
 which inherits a unique sink orientation from the original grid USO; see Fig.~\ref{fig:example_induced_orientation} for an illustration.
-\vspace{-.2in}
   \begin{figure}[htbp] 
   	\centering
   	\includegraphics[scale=1]{induced_orientation_ex.pdf}
@@ -327,8 +327,6 @@ which inherits a unique sink orientation from the original grid USO; see Fig.~\r
   	coordinates have been partitioned into 2 parts of cardinalities two and one. Right: The induced $(2,2)$-grid USO; The edges contributing to the induced orientation are also shown in the original grid.}
   	\label{fig:example_induced_orientation}
   \end{figure}
-  \vspace{-.1in}
-
 Formally, let $G$ be an $(m,n)$-grid USO,
 and let $\A = \{A_1,\ldots,A_k\}$ and $\B = \{B_1\ldots, B_l\}$ be partitions of $[m]$ and $[n]$, respectively.
 Let $H$ be a $(k,l)$-grid whose vertex $(i,j)$ we identify with the $A_i \times B_j$-subgrid of $G$ for every $1\leq i \leq k$ and for every $1 \leq j \leq l$. 
@@ -552,7 +550,7 @@ Repeat this procedure with $G_{i+1}$ as long as $|B_i| \geq  \frac{n}{2}$; see F
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=1\textwidth]{ClimbingLemma.pdf}
+\includegraphics[width=0.90\textwidth]{ClimbingLemma.pdf}
 \caption{\small An illustration of the first part of the proof of Lemma~\ref{lemma:Climbing lemma}. On the left we depict the situation after the first call and on the right after the last call of the $(\alpha, \beta)$-oracle.}
 \label{fig:Climbing Lemma}
 \end{figure}
@@ -569,7 +567,7 @@ Let $0\leq h\leq k$ be an integer such that $s'$ belongs to the $[m]\times J_{v_
 \begin{figure}[h]
 \centering
 \hspace*{0.75cm}
-\includegraphics[width=0.92\textwidth]{ClimbingLemma-2.pdf}
+\includegraphics[width=0.83\textwidth]{ClimbingLemma-2.pdf}
 \caption{\small The second part of the algorithm in Lemma~\ref{lemma:Climbing lemma}. On the left we depict how to find $s$ and on the right we depict how to find $s'$. The latter is the output of the algorithm.}
 \label{fig:Climbing Lemma-2}
 \end{figure}
@@ -594,7 +592,8 @@ Our main result can now be proved by combining the Lemmas and Corollaries establ
 The sink of an $(m,n)$-grid USO can be found with \\ $O((m+n)\log (m+n))$ vertex queries.
 \end{theorem}
 
-\subsection{Holt-Klee grid USOs}
+\subsubsection{Holt-Klee grid USOs in the vertex query model.}
+\label{section:Holt-Klee vertex query}
 
 Holt-Klee grid USOs arise naturally as a generalization of the one line and $n$ points problem~\cite{linepoint}.
 Recall that a Holt-Klee grid USO are those USOs with a specific forbidden subgraph called the ``double twist'' (depicted in Fig.~\ref{fig:examplegrid} right).
@@ -706,7 +705,7 @@ Reaching a linear bound seems challenging, but new techniques for computing $\ep
 
 This work started at the 13th Gremo’s Workshop on Open Problems
 (GWOP), June 1–5, 2015, Feldis (GR), Switzerland. 
-The authors would like to thank Bernd G\"{a}rtner and Emo Welzl for useful discussions.
+The authors would like to thank Bernd G\"{a}rtner and Emo Welzl for the workshop and for useful discussions.
 
 \bibliographystyle{abbrvnat}
 \bibliography{griduso}
