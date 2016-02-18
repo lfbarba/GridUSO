@@ -34,7 +34,8 @@
 \newcommand{\RR}{\ensuremath{\mathbb{R}}}
 \newcommand{\Sym}{\ensuremath{\mathfrak{S}}}
 \newcommand{\T}{\ensuremath{\mathrm{T}}}
-\newcommand{\sink}{SINK\xspace}
+\newcommand{\sink}{\textsc{Sink}\xspace}
+\newcommand{\sinkmn}{\textsc{Sink}$(m,n)$\xspace}
 \newcommand{\join}{\mbox{join}\xspace}
 %\newcommand{\sinkalg}{sink-algorithm\xspace}
 %\newcommand{\sinkalgs}{sink-algorithms\xspace}
@@ -121,7 +122,8 @@ An orientation of a grid is a \emph{unique sink orientation}, or \emph{USO}
 for short, if all its non-empty subgrids have a unique sink. 
 We call a grid with a unique sink orientation a grid USO.
 The \emph{\sink problem} asks to find the sink of a grid USO by performing oracle queries which return the orientation of either a single edge (\emph{edge query}) or of all edges incident to a specified vertex (\emph{vertex query}). 
-The goal of this paper is to provide bounds on the minimum number of queries that a deterministic algorithm must ask in the worst case to solve \sink.
+We denote by \emph{\sinkmn} the \sink problem where the input is an $(m,n)$-grid.
+The goal of this paper is to provide bounds on the minimum number of queries that a deterministic algorithm must ask in the worst case to solve \sinkmn.
 %We call such an algorithm a \emph{\sinkalg}.
 
 
@@ -186,7 +188,9 @@ Similar optimization problems on matrices have been studied with stronger condit
 
 
 
-\vspace{-.2in}\subsubsection{Connection to LP-type problems.} \citet{grid08} hinted that the problem of finding the sink of an $(m,n)$-grid USO can be naturally written as an \emph{LP-type problem}. An LP-type problem, originally defined by \citet{SharirW92}, is a pair $(S,w)$ where $S$ is a finite set called the \emph{constraints} and
+\vspace{-.2in}\subsubsection{Connection to LP-type problems.} \citet{grid08} hinted that \sink
+%the problem of finding the sink of an $(m,n)$-grid USO 
+can be naturally written as an \emph{LP-type problem}. An LP-type problem, originally defined by \citet{SharirW92}, is a pair $(S,w)$ where $S$ is a finite set called the \emph{constraints} and
 $w:2^S \rightarrow \mathbb{R} \cup \{-\infty\}$ is a function subject to certain conditions: 
 %\citet{DBLP:journals/dam/GartnerMRS08} looked also at the connection with the more general setting of \emph{violator spaces}.
 (1) Monotonicity: for every two sets $A \subseteq B \subseteq S$, we have $w(A) \leq w(B) $ and
@@ -209,7 +213,7 @@ For grid USOs these operations corresponds directly to edge queries, which by th
 
 While derandomizations of algorithms for LP-type problems exist with the same performance~\cite{chan16,ChazelleM96}, they make an extra assumption on the problem that does not hold for grid USOs, namely the existence of a \emph{subsystem oracle} (see Computational assumption 2 in \cite{ChazelleM96}).
 Other problems where these assumptions do not hold have been studied~\cite{chan1998deterministic}, and it is an open question whether or not all of them can be solved with a linear number of primitive operations.
-We believe that finding the sink in grid USOs is a good candidate for an LP-type problem where super linear lower bounds might exist. 
+We believe that \sink is a good candidate for an LP-type problem where super linear lower bounds might exist. 
 
 As a generalization of LP-type problems, \citet{DBLP:journals/dam/GartnerMRS08} introduced \emph{violator  spaces}. 
 Intuitively, instead of assigning a value to each subset $A\subseteq S$ of constraints, in violator spaces we map $A$ to a set of its \emph{violators}, i.e., the set of constraints whose addition to $A$ would change its basis. The goal is to find the basis with the same set of violators as $S$ which can be done in linear expected number of primitive operations~\cite{DBLP:journals/dam/GartnerMRS08}.
@@ -257,9 +261,9 @@ Therefore, the vertex query model corresponds to an oracle that reveals the set 
 \subsubsection{Our results.}
 While randomized algorithms to solve \sink have been previously studied~\cite{grid05,linepoint,grid08,falkthesis}, 
 to the best of our knowledge no non-trivial deterministic algorithm was known prior to this work. This is mainly due to the fact that the aforementioned subsystem oracle does not exist. In light of this fact, we aim to solve the problem using a different set of techniques.
-We present two deterministic algorithms to find the sink of an $(m,n)$-grid USO using $O((m+n)\log (m+n))$ vertex queries
+We present two deterministic algorithms to \sinkmn using $O((m+n)\log (m+n))$ vertex queries
 and $O((m+n)^{\log_47})$ edge queries, respectively. 
-Additionally, if the Holt-Klee property holds (see Fig.~\ref{fig:examplegrid} right), we exhibit a deterministic algorithm to find its sink using $O(m + n)$ vertex queries. 
+Additionally, if the Holt-Klee property holds (see Fig.~\ref{fig:examplegrid} right), we exhibit a deterministic algorithm to find the sink using $O(m + n)$ vertex queries. 
 Both query models exhibit a lower bound of $\Omega(m + n)$.
 
 \vspace{-.2in}\subsubsection{Outline.}
@@ -358,7 +362,8 @@ Moreover, the sink of $H$ is the subgrid of $G$ that contains the sink of $G$.
 \label{section:The vertex query model}
 
 Recall that in the vertex query model a grid USO is given by a \emph{vertex oracle} that reveals the orientations of the edges adjacent to the queried vertex. 
-An adversary argument can be used to show that any deterministic algorithm needs $m+n-1$ vertex queries in the worst case to find the sink of an $(m, n)$-grid USO.
+An adversary argument can be used to show that any deterministic algorithm needs $m+n-1$ vertex queries in the worst case to solve \sinkmn.
+%find the sink of an $(m, n)$-grid USO.
 Our main result is Theorem~\ref{theorem:Sink algorithm} which describes a deterministic algorithm that needs $O((n + m) \log (n + m))$ vertex queries. 
 
 %\vspace{-.1in}
@@ -380,7 +385,8 @@ For a set of vertices $V$ in a grid USO $G$ let $\join(V$) be the set of vertice
 In an ($m,n$)-grid USO $G$, the \emph{\indegree} of a vertex $v \in G$ is an ordered pair $[a_v, b_v] \in \{0,1,\ldots,m-1\}\times \{0,1,\ldots,n-1\}$ where $a_v$ and $b_v$ specify the number of incoming horizontal  and vertical edges of $v$, respectively.
 We say that a vertex $v$ with \indegree $[a_v, b_v]$ is a \emph{$(k, t)$-vertex} if $a_v\geq k-1$ while $b_v\geq t-1$.
 
-Consider the following algorithmic approach to finding the sink of an ($m$,$n$)-grid USO deterministically. 
+Consider the following algorithmic approach to solving \sinkmn
+%finding the sink of an ($m$,$n$)-grid USO deterministically. 
 Assume that we are able to find in $O(m+n)$ time an $(\frac{m}{2}, \frac{n}{2})$-vertex $v$.
 We could then partition the whole grid into 4 $(\frac{m}{2}, \frac{n}{2})$-subgrids so that $v$ is the sink of one of them.
 The next step would be to find the sink of the subgrid antipodal to the subgrid containing $v$ in the (2,2)-grid induced by this partition. 
@@ -389,7 +395,9 @@ If one finds the sinks of the subgrids recursively, one would get the recursion
 \begin{align*}
  T(m,n) = 2T\left(\frac{m}{2},\frac{n}{2}\right) + O(m+n),
 \end{align*}
-where $T(m,n)$ is the number of vertex queries needed by this algorithm to find the sink of an $(m,n)$-grid, which solves to \mbox{$T(m,n) = O((m+n)\log (m+n))$}. 
+where $T(m,n)$ is the number of vertex queries needed by this algorithm 
+%to find the sink of an $(m,n)$-grid,
+to solve \sinkmn which results in \mbox{$T(m,n) = O((m+n)\log (m+n))$}. 
 
 The main part of the algorithm description is to obtain an $(\frac{m}{2}, \frac{n}{2})$-vertex in linear time.
 For ease of presentation, we prove Lemmas~\ref{lem:diagonal_lemma} and \ref{lem:seed_lemma_for_square_matrices} for the square $(n, n)$-grid. From those, 
