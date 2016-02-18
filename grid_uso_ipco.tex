@@ -179,7 +179,7 @@ However, in the deterministic setting, it is still unclear whether a gap exists.
 
 
 %%maybe we can reduce
-Notice that that any algorithm that finds the sink of a grid USO using edge queries can be also applied to solve the following \emph{matrix USO optimization} problem: Find the global minimum of an injective real function defined on a two dimensional matrix USO, where a matrix is USO if each $2\times 2$ sub-matrix has a unique minimum. This condition can be checked to be an equivalent to requiring every submatrix induced by rows and columns to have a unique minimum. 
+Notice that that any algorithm that finds the sink of a grid USO using edge queries can be also applied to solve the following \emph{matrix USO optimization} problem: Find the global minimum of an injective real function defined on a two dimensional matrix USO, where a matrix is USO if each $2\times 2$ sub-matrix has a unique minimum. This condition can be checked to be equivalent to requiring every submatrix induced by rows and columns to have a unique minimum. 
 Therefore, the randomized algorithm from~\citet{grid08} solves the matrix USO optimization problem on a $m\times n$ matrix in $\Theta(m+n)$ expected time. However, no deterministic counterpart to this algorithm is known. 
 Similar optimization problems on matrices have been studied with stronger conditions and have several applications in geometric problems~\cite{aggarwal1987geometric,demaine2005optimizing,galil1992dynamic,mityagin2003complexity}.
 
@@ -189,7 +189,7 @@ Similar optimization problems on matrices have been studied with stronger condit
 $w:2^S \rightarrow \mathbb{R} \cup \{-\infty\}$ is a function subject to certain conditions: 
 %\citet{DBLP:journals/dam/GartnerMRS08} looked also at the connection with the more general setting of \emph{violator spaces}.
 (1) Monotonicity: for every two sets $A \subseteq B \subseteq S$, we have $w(A) \leq w(B) $ and
-(2) Locality: for every two sets $A \subseteq B \subseteq S$ and every constraint $h \in S$, if $w(A) = w(B) < w(A\cup \{h\})$ then $w(A) < w(B \cup \{h\})$.
+(2) Locality: for every two sets $A \subseteq B \subseteq S$ and every constraint $h \in S$, if $-\infty < w(A) = w(B) < w(B\cup \{h\})$ then $w(A) < w(A \cup \{h\})$.
 A set $B \subseteq S$ is called a \emph{basis} if every proper subset
 of $B$ has a smaller value of $w$ than $B$ itself. The \emph{combinatorial dimension} of an LP-type problem 
 is the maximum cardinality of a basis
