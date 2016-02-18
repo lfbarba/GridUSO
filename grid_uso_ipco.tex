@@ -374,7 +374,7 @@ In words, we say that $w$ is \emph{larger} than $v$ (or $v$ is \emph{smaller} th
 Because grid USOs are acyclic, this partial order is well defined.
 Moreover, the sink of the grid USO is the unique minimal vertex with respect to this ordering. 
 
-For a set of vertices $V$ in a grid USO $G$ let $\join(V$) be the set of vertices of the grid to which there is a path from all vertices in $V$.  More formally $\join(V) = \{w \in G \: | \: v \succeq w \:\: \forall v \in V \}$. Note that if $s$ is the sink of the subgrid containing two vertices $v$ and $w$, then $s \in \join(\{v,w\})$. Therefore, given some set of vertices $V$, we can compute a $w \in \join(V)$ with $O(|V|)$ vertex queries.
+For a set of vertices $V$ in a grid USO $G$ let $\join(V$) be the set of vertices of the grid to which there is a path from all vertices in $V$.  More formally $\join(V) = \{w \in G \: | \: v \succeq w \:\: \forall v \in V \}$. Note that if $s$ is the sink of the subgrid containing two vertices $v$ and $w$, then $s \in \join(\{v,w\})$. Therefore, given some set of vertices $V$, we can compute  $w \in \join(V)$ with $O(|V|)$ vertex queries.
 
 %Note that two vertices may not be $\succeq$-comparable in the smallest subgrid containing them. 
 %There could still be a path between the two vertices. 
@@ -441,7 +441,7 @@ In the second phase, let $V = \{v_{\lceil \frac{n}{2} \rceil},\ldots,v_n\} \subs
 Label the vertices in $V$ as either \emph{horizontal}  or \emph{vertical}, depending on whether the majority of incoming edges for the corresponding vertex are horizontal  or vertical, respectively. 
 Assume without loss of generality that there are more vertical vertices in $V$; otherwise change the role of the coordinates. 
 Let $V' \subseteq V$ be the set of all vertical vertices in $V$ and notice that $|V'| \geq |V|/2$.
-Then, find some $v \in \join(V')$ by using at most $O(V')$ additional queries and note that $v' \succeq v$ for every $v' \in V'$.
+Then, find some $v \in \join(V')$ by using at most $O(|V'|)$ additional queries and note that $v' \succeq v$ for every $v' \in V'$.
 
 
 
@@ -580,13 +580,13 @@ Moreover, since $s'$ is the sink of the $\{x_s\}\times \cup_{i=0}^k J_{v_i}$-sub
 Consequently, $s'$ is an $(\alpha m,  \frac{n}{2})$-vertex. \qed
 \end{proof}
 
-The above lemma can be generalized to the following corollary, which we state without proof. 
+From Lemma~\ref{lemma:Climbing lemma} we immediately get the following corollary.
 \begin{corollary}\label{corollary: (m/2,n/2) indegree}
 Let $G$ be an $(m,n)$-grid USO. 
 We can compute an $( \frac{m}{2}, \frac{n}{2})$-vertex using $O(m + n)$ vertex queries.
 \end{corollary}
 
-Our main result can now be proved by combining the Lemmas and Corollaries established in this section. 
+Our main result can now be proved from Corollary~\ref{corollary: (m/2,n/2) indegree}.
 
 \begin{theorem}\label{theorem:Sink algorithm}
 The sink of an $(m,n)$-grid USO can be found with \\ $O((m+n)\log (m+n))$ vertex queries.
@@ -650,8 +650,8 @@ The following theorem improves on this bound.
 
 \begin{theorem}
     \label{thm:timeEdge}
-    There exists a deterministic algorithm which finds the sink of an $(m,n)$-grid USO using $O((m+n) ^ {\log_4(7)})$ edge queries, where $\log_4(7) \approx
-    1.40$.
+    There exists a deterministic algorithm which finds the sink of an $(m,n)$-grid USO using $O((m+n) ^ {\log_4(7)})$ edge queries, where $\log_4(7) < 
+    1.404$.
 \end{theorem}
 
 To proof of Theorem~\ref{thm:timeEdge} uses the following result for the \emph{vertex} query model.
