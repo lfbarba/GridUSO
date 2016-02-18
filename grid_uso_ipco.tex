@@ -614,7 +614,6 @@ Since $w$ has all its edges incoming, the orientation of all the edges of the $(
 \begin{figure}[tb]
 \centering
 \includegraphics{HoltKlee.pdf}
-%[width=1\textwidth]
 \caption{\small Left: It is impossible to have the global sink in the same row of the middle edge of a bow. Right: Illustration of case (3) in the algorithm for Theorem~\ref{theorem:Holt-Klee algorithm} which results in eliminating the column containing $u$ and $v$.}
 \label{fig:Bow example}
 \end{figure}
@@ -630,9 +629,9 @@ Therefore, if $v$ is not the sink of $G$, then this sink lies in the $[m] \times
 Let $u$ be an arbitrary vertex in the same column as $v$ such that $v\succeq u$. After querying $u$, we have three cases:
 either (1) $u$ is the sink of $G$, or (2)
  $u$ has no horizontal incoming edges, in which case the sink of $G$ cannot lie in the row containing $u$, or (3) there is an outgoing edge from $u$ to some vertex $a$. 
-In this case, since $u$ is the sink of its row, the (2,2)-subgrid containing $u,v$ and $a$ is necessarily a bow and hence, the sink of $G$ cannot lie in the column containing~$u$; see Fig.~\ref{fig:Bow example}.
-Thus, regardless of the case, we can discard either a row or a column of $G$ and update either $u$ or $v$ to continue with this process.
-Consequently, after querying all vertices in the initial row $r$, with every additional query we can discard either a row or a column. Thus, after $O(n+ m)$ vertex queries the algorithm finds the sink of $G$.
+In this case, since $u$ is the sink of its row, the (2,2)-subgrid containing $u,v$ and $a$ is necessarily a bow and hence, Lemma~\ref{lemma:bow lemma} implies that the sink of $G$ cannot lie in the column containing~$u$; see Fig.~\ref{fig:Bow example}.
+Thus, regardless of the case, we can discard either a row or a column of $G$ and update either $u$ or $v$ accordingly to continue with this process.
+Consequently, after querying all vertices in the initial row $r$, with every additional query we can discard either a row or a column. That is, after $O(n+ m)$ vertex queries the algorithm finds the sink of $G$.
 \qed
 \end{proof}
 
@@ -712,6 +711,39 @@ The authors would like to thank Bernd G\"{a}rtner and Emo Welzl for the workshop
 
 \newpage
 \appendix
+%\section{Subsystem oracle}
+%
+%For each vertex $v$ in the grid, let $R_v\subset S$ be the set of rows and columns to which $v$ has an outgoing edge. 
+%The \emph{violator set system} is the pair $(S, \mathcal R)$, where $\mathcal R = \{R_v : v\text{ is a vertex of the grid}\}$. 
+%
+%A necessary requirement to have a subsystem oracle as defined by~\citet{ChazelleM96} is that $(S, \mathcal R)$ has constant VC-dimension (refer to~\cite{matouvsek2002lectures} for further information on set systems and VC-dimension). 
+%Since this set system has unbounded VC-dimension for general grid USOs, as illustrated in Fig.~\ref{fig:shatteredgrid}, no subsystem oracle exists.
+%
+%
+%%
+%%Curiously, if the grid USO satisfies the Holt-Klee condition, then its violator set system has VC-dimension at most 2.
+%%%While the above deterministic algorithms for LP-type problems are not efficient for general grid USOs, the addition of the Holt-Klee condition yields efficient \sinkalgs:
+%%This is a consequence of the fact that every Holt-Klee grid USO is induced by a red-blue arrangement of pseudo-lines \cite{grid05,falkthesis}, and such an arrangement always has VC-dimension at most 2.
+%%%In turn, this can be thought of as the dual of the combinatorial version of the one line and $n$ points configuration.
+%%Despite that, the results of \citet{ChazelleM96} still do not directly imply a deterministic algorithm using $O(m+n)$ edge queries to find the sink of a Holt-Klee $(m,n)$-grid USO (see Computational Assumption 2 of \cite{ChazelleM96}). 
+%%
+%%Therefore, we can deterministically find the sink of Holt-Klee grid USOs using only a linear number of queries by reducing it to an LP-type problem~\cite{chan16,ChazelleM96}.
+%
+%\vspace{-.1in}
+%\begin{figure}[h!] 
+%  	\centering
+%  	\includegraphics{shatteredgrid.pdf}
+%  	\caption{\small We display an $(n,\log n + 1)$-grid USO whose violator set system has VC dimension at least $\log n$. 
+%	  The columns are labeled with the subsets of the powerset of $\{1,2,3\}$. On the top, unlabeled, row we have a vertex whose 
+%	  vertical outgoing edges correspond to the set on the label of the column. Incoming edges are not depicted for these vertices. Also none 
+%	  of the edges of the grid that are not incident to one of the vertices of the top row. All the horizontal edges are uniformly oriented to the left.
+%	  This orientation can be easily extended to a grid USO.} 
+%  	\label{fig:shatteredgrid}
+%  \end{figure}
+%  \vspace{-.1in}
+%
+%
+%\section{Missing proofs}
 \section{Appendix}
 Here we attach the proofs missing from the main body of the paper. 
 
