@@ -623,7 +623,7 @@ Given a $(2,2)$-subgrid $H$ of $G$, we say that $H$ is a \emph{bow} if it contai
 Let $H$ be a bow subgrid of a Holt-Klee grid USO $G$. If $g$ is the row or column of $G$ which contains the middle edge of $H$, then $g$ does not contain the sink of $G$.
 \end{lemma}
 \begin{proof}
-Let $(v_1, v_2, v_3,v_4)$ be directed path in the bow $H$ and assume that the edge $v_2v_3$ is horizontal. 
+Let $(v_1, v_2, v_3,v_4)$ be the directed path in the bow $H$ and assume that the edge $v_2v_3$ is horizontal. 
 Let $w$ be any vertex in the row containing $v_2v_3$.  
 Assume for a contradiction that $w$ is the sink of $G$. 
 Since $w$ has all its edges incoming, the orientation of all the edges of the $(3,2)$-subgrid containing $H$ and $w$ is forced as shown in Fig.~\ref{fig:Bow example}. This yields a double twist as a subgraph of $G$ which is a contradiction. Thus, no vertex in the row containing $v_2v_3$ is the sink of~$G$. \qed
@@ -646,7 +646,7 @@ Therefore, if $v$ is not the sink of $G$, then this sink lies in the $[m] \times
 
 Let $u$ be an arbitrary vertex in the same column as $v$ such that $v\succeq u$. After querying $u$, we have three cases:
 either (1) $u$ is the sink of $G$, or (2)
- $u$ has no horizontal incoming edges, in which case the sink of $G$ cannot lie in the row containing $u$, or (3) there is an outgoing edge from $u$ to some vertex $a$. 
+ $u$ has no horizontal outgoing edges, in which case the sink of $G$ cannot lie in the row containing $u$, or (3) there is at least one outgoing edge from $u$ to some vertex $a$. 
 In this case, since $u$ is the sink of its row, the (2,2)-subgrid containing $u,v$ and $a$ is necessarily a bow and hence, Lemma~\ref{lemma:bow lemma} implies that the sink of $G$ cannot lie in the column containing~$u$; see Fig.~\ref{fig:Bow example}.
 Thus, regardless of the case, we can discard either a row or a column of $G$ and update  $u$ or $v$ accordingly to continue with this process.
 Consequently, after querying all vertices in the initial row $r$, with every additional query we can discard either a row or a column. That is, after $O(n+ m)$ vertex queries the algorithm finds the sink of $G$.
@@ -680,6 +680,8 @@ To proof of Theorem~\ref{thm:timeEdge} uses the following result for the \emph{v
     $(4,4)$-grid USO using at most 7 vertex queries.
 \end{lemma}
 To prove Lemma~\ref{lem:4:7}, we use a computer-based search to eliminate symmetrical situations and reduce the problem to three individually handled cases.
+We omit it from this paper as it does not offer any insights to the problem. Note, however, that the upper bound of 7 queries is exactly tight 
+to our $n + m -1$ lower bound.
 
 \begin{proof}[of Theorem~\ref{thm:timeEdge}]
     Without loss of generality, we assume that $m$ is a power of $4$, and
@@ -706,20 +708,20 @@ $T(m) \le 7 \cdot \Bigl( T \left( m/4 \right) + 2m-2 \Bigr)$
 \end{proof}
 \vspace{-.1in}\section{Conclusions}
 
-In this paper, we have discussed the existence of efficient deterministic algorithms to solve \sinkmn. 
+In this paper, we have discussed the existence of deterministic algorithms to solve \sinkmn. 
 We show that $O((m+n)\log(m+n))$ vertex queries and $O((m+n)^{1.404})$ edge queries suffice to solve \sinkmn. In the case of Holt-Klee grids, a linear number of vertex queries suffices.
 %Recall that a  sink-algorithm in the edge query model can be used to solve the matrix USO optimization problem. 
 %Therefore, our sink-algorithm in the edge query model provides a way to deterministically find the minimum of an $m\times n$ matrix USO by querying for the value of only $O((m+n)^{1.404})$ entries of this matrix. 
-
-While linear lower bounds are simple to obtain, closing the gap between the lower and upper bounds remains an open question. 
+%While linear lower bounds are simple to obtain, closing the gap between the lower and upper bounds remains an open question. 
+The obvious open problem is to close the gap between upper and lower bound in both vertex and edge query models.
 Following our approach, an equivalent statement to Lemma~\ref{lem:seed_lemma_for_square_matrices} in the edge query model would yield an algorithm using $O((m+n)\log(m+n))$ edge queries. 
-Reaching a linear bound seems challenging, but new techniques for computing $\epsilon$-nets without the need of a subsystem oracle could lead to optimal algorithms. 
+%Reaching a linear bound seems challenging, but new techniques for computing $\epsilon$-nets without the need of a subsystem oracle could lead to optimal algorithms. 
 
 \vspace{.1in}
 \noindent\textbf{Acknowledgments.} 
 This work started at the 13th Gremo's Workshop on Open Problems
-(GWOP), Feldis (GR), Switzerland. 
-The authors would like to thank Bernd G\"{a}rtner and Emo Welzl for the workshop and for useful discussions.
+(GWOP), Feldis (GR), Switzerland. We thank the organizers. In addition, we thank
+Bernd G\"{a}rtner and Emo Welzl for useful discussions.
 
 {\small
 \bibliographystyle{abbrvnat}
