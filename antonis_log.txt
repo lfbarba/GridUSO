@@ -1,0 +1,10 @@
+list of changes by Antonis on 20.2.16:
+
+1) said in several places input is a (m,n)-grid. That is wrong of course as any vertex query algorithm then would be linear to the input. The input is the oracle. Fixed. 
+
+2) Command \join is replaced by $join$ so that the word join appears in italics. This is since it is an algorithmic operation
+
+
+) Reformed the Appendix: Appendix A is "Missing proofs". Appendix B is "A determinisrtic lower bound" and we refer to it in the text.
+
+) Several typos here and there. 
