@@ -2,9 +2,13 @@ list of changes by Antonis on 20.2.16:
 
 1) said in several places input is a (m,n)-grid. That is wrong of course as any vertex query algorithm then would be linear to the input. The input is the oracle. Fixed. 
 
-2) Command \join is replaced by $join$ so that the word join appears in italics. This is since it is an algorithmic operation
+2) Command \join is replaced by $join$ so that the word join appears in italics. This is since it is an algorithmic operation.
 
+3) Added acyclicity as Lemma 1.
 
-) Reformed the Appendix: Appendix A is "Missing proofs". Appendix B is "A determinisrtic lower bound" and we refer to it in the text.
+4) Reformed the Appendix: 
+*) Appendix A is "Missing proofs". 
+*) Appendix B is "A deterministic lower bound". It now contains a discussion/proof that the USO we get by the lower bound theorem are Holt-Klee (and so the upper bound for HK is tight).
+*) Appendix C is the discussion about why 
 
 ) Several typos here and there. 
