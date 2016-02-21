@@ -146,21 +146,18 @@
 }
 
 @Article{ChazelleM96,
-  Title                    = {On Linear-Time Deterministic Algorithms for Optimization Problems
- in Fixed Dimension},
-  Author                   = {Bernard Chazelle and
- Jir{\'{\i}} Matousek},
-  Journal                  = {J. Algorithms},
-  Year                     = {1996},
-  Number                   = {3},
-  Pages                    = {579--597},
-  Volume                   = {21},
-
-  Bibsource                = {dblp computer science bibliography, http://dblp.org},
-  Biburl                   = {http://dblp.uni-trier.de/rec/bib/journals/jal/ChazelleM96},
-  Nodoi                    = {10.1006/jagm.1996.0060},
-  Nourl                    = {http://dx.doi.org/10.1006/jagm.1996.0060},
-  Timestamp                = {Fri, 01 Jul 2011 13:43:01 +0200}
+  author =    {Bernard Chazelle and Jir{\'{\i}} Matou\v{s}ek},
+  title =     {On Linear-Time Deterministic Algorithms for Optimization Problems in Fixed Dimension},
+  journal =   {J. Algorithms},
+  year =      {1996},
+  volume =    {21},
+  number =    {3},
+  pages =     {579--597},
+  bibsource = {dblp computer science bibliography, http://dblp.org},
+  biburl =    {http://dblp.uni-trier.de/rec/bib/journals/jal/ChazelleM96},
+  nodoi =     {10.1006/jagm.1996.0060},
+  nourl =     {http://dx.doi.org/10.1006/jagm.1996.0060},
+  timestamp = {Fri, 01 Jul 2011 13:43:01 +0200}
 }
 
 @Article{count,
@@ -246,22 +243,18 @@
 }
 
 @Article{DBLP:journals/dam/GartnerMRS08,
-  Title                    = {Violator spaces: Structure and algorithms},
-  Author                   = {Bernd G{\"{a}}rtner and
- Jirka Matousek and
- Leo R{\"{u}}st and
- Petr Skovron},
-  Journal                  = {Discrete Appl. Math.},
-  Year                     = {2008},
-  Number                   = {11},
-  Pages                    = {2124--2141},
-  Volume                   = {156},
-
-  Bibsource                = {dblp computer science bibliography, http://dblp.org},
-  Biburl                   = {http://dblp.uni-trier.de/rec/bib/journals/dam/GartnerMRS08},
-  Nodoi                    = {10.1016/j.dam.2007.08.048},
-  Nourl                    = {http://dx.doi.org/10.1016/j.dam.2007.08.048},
-  Timestamp                = {Tue, 16 Sep 2008 11:20:44 +0200}
+  author =    {Bernd G{\"{a}}rtner and Jirka Matou\v{s}ek and Leo R{\"{u}}st and Petr Skovron},
+  title =     {Violator spaces: Structure and algorithms},
+  journal =   {Discrete Appl. Math.},
+  year =      {2008},
+  volume =    {156},
+  number =    {11},
+  pages =     {2124--2141},
+  bibsource = {dblp computer science bibliography, http://dblp.org},
+  biburl =    {http://dblp.uni-trier.de/rec/bib/journals/dam/GartnerMRS08},
+  nodoi =     {10.1016/j.dam.2007.08.048},
+  nourl =     {http://dx.doi.org/10.1016/j.dam.2007.08.048},
+  timestamp = {Tue, 16 Sep 2008 11:20:44 +0200}
 }
 
 @PhdThesis{falkthesis,

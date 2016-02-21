@@ -123,7 +123,9 @@ An orientation of a grid is a \emph{Unique Sink Orientation}, or \emph{USO}
 for short, if all its non-empty subgrids have a unique sink. 
 We call a grid with a unique sink orientation a grid USO.
 The \emph{\sink problem} asks to find the sink of a grid USO by performing oracle queries which return the orientation of either a single edge (\emph{edge query}) or of all edges incident to a specified vertex (\emph{vertex query}). 
-We denote by \emph{\sinkmn} the \sink problem where the input is an $(m,n)$-grid. \AT{The input is not a grid, is it?}
+We denote by \emph{\sinkmn} the \sink problem 
+where the corresponding USO is an an $(m,n)$-grid.
+%where the input is an $(m,n)$-grid. \AT{The input is not a grid, is it?}
 The goal of this paper is to provide bounds on the minimum number of queries needed to solve
 \sinkmn \emph{deterministically}.
 %that a deterministic algorithm must ask in the worst case to solve \sinkmn.
@@ -555,7 +557,7 @@ Given an $(a, b)$-vertex $v = (x_v, y_v)$ in an $(m,n)$-grid USO, let $I_v\subse
 
 %\end{observation} \AT{It's safe to delete Obs 1}
 
-An \emph{$(\alpha, \beta)$-oracle} is an algorithm that, given an $(m, n)$-grid USO as input, can find an $(\alpha m, \beta n)$-vertex $v$ using $O(m + n)$ queries.
+An \emph{$(\alpha, \beta)$-oracle} is an algorithm that can find an $(\alpha m, \beta n)$-vertex $v$ on a $(m, n)$-grid USO, using $O(m + n)$ queries.
 
 \begin{lemma}\label{lemma:Climbing lemma}
 Let $G$ be an $(m,n)$-grid USO.
@@ -928,7 +930,8 @@ To prove this we just need to show that the double-twist will never appear as su
 W.l.o.g. we assume that the rows appear ordered, according to their label, from bottom to top. Then all vertical edges are oriented upwards and 
 the top row has only incoming vertical edges.
 Therefore, the double-twist cannot appear as is depicted in Fig.~\ref{fig:examplegrid} (right) but could only appear with 
-the roles of vertical and horizontal swapped; for the rest of the argument, we assume that vertical/horizontal are swapped.
+the roles of vertical and horizontal swapped; for the rest of the argument, we assume that vertical/horizontal are swapped
+(w.r.t. Fig~\ref{fig:examplegrid} right).
 
 During the adversary game we fix an orientation for each row, e.g. the leftmost vertex is the source of the row and all horizontal edges are oriented 
 to the right. If the adversary queries a vertex that in an explored row (that is not the top one), we answer according to this orientation.
@@ -942,6 +945,15 @@ upper bound we achieve in Theorem~\ref{theorem:Holt-Klee algorithm} is tight.
 
 
 \section{The non-existence of the subsystem oracle} \label{app:nosubsystem}
+
+In this section we provide evidence why the deterministic algorithms that solve LP-type problems \cite{chan16,ChazelleM96} will fail 
+to solve \sinkmn faster the algorithms we provide in the main body of the paper. As we have already mentioned, these algorithms depend
+on the existence of a subsystem oracle. Let us start with the relevant definitions; we follow the notation of \citet{ChazelleM96}.
+
+Let $(S,w)$ be the LP-type problem that we defined out of \sinkmn in Section~\ref{sec:intro}.
+For each vertex $v$ in the grid, let $R_v\subset S$ be the set of rows and columns to which $v$ has an outgoing edge. 
+Consider the \emph{violator set system} $(S, \mathcal R)$, where $\mathcal R = \{R_v : v\text{ is a vertex of the grid}\}$. 
+
 There are linear-time randomized algorithms for LP-type problems~\cite{MatousekSW96} that, by the above construction, yield sink-algorithms using linear number of edge queries. 
 While there exist deterministic algorithms with matching asymptotic performance to solve LP-type problems \cite{chan16,ChazelleM96}, they make an extra assumption  
 (see Computational assumption 2 in \cite{ChazelleM96}). 

@@ -1,6 +1,6 @@
 list of changes by Antonis on 20.2.16:
 
-1) said in several places input is a (m,n)-grid. That is wrong of course as any vertex query algorithm then would be linear to the input. The input is the oracle. Fixed. 
+1) said in several places input is a (m,n)-grid which is at least misleading, if not wrong. I rephrased such that it avoids this wording. When the input is an (a,b)-oracle it’s ok so I left it as is.
 
 2) Command \join is replaced by $join$ so that the word join appears in italics. This is since it is an algorithmic operation.
 
@@ -13,4 +13,4 @@ list of changes by Antonis on 20.2.16:
 *) Appendix B is "A deterministic lower bound". It now contains a discussion/proof that the USO we get by the lower bound theorem are Holt-Klee (and so the upper bound for HK is tight).
 *) Appendix C is the discussion about why 
 
-) Several typos here and there. 
+What about this “We believe that \sink is a good candidate for an LP-type problem where super-linear lower bounds might exist.” -> page 3
