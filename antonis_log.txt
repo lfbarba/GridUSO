@@ -11,6 +11,6 @@ list of changes by Antonis on 20.2.16:
 4) Reformed the Appendix: 
 *) Appendix A is "Missing proofs". 
 *) Appendix B is "A deterministic lower bound". It now contains a discussion/proof that the USO we get by the lower bound theorem are Holt-Klee (and so the upper bound for HK is tight).
-*) Appendix C is the discussion about why 
+*) Appendix C is the discussion about why the subsystem oracle does not exist. I try to do this without defining the shatter function.. hope it looks ok.
 
 What about this “We believe that \sink is a good candidate for an LP-type problem where super-linear lower bounds might exist.” -> page 3

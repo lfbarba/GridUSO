@@ -954,14 +954,19 @@ Let $(S,w)$ be the LP-type problem that we defined out of \sinkmn in Section~\re
 For each vertex $v$ in the grid, let $R_v\subset S$ be the set of rows and columns to which $v$ has an outgoing edge. 
 Consider the \emph{violator set system} $(S, \mathcal R)$, where $\mathcal R = \{R_v : v\text{ is a vertex of the grid}\}$. 
 
-There are linear-time randomized algorithms for LP-type problems~\cite{MatousekSW96} that, by the above construction, yield sink-algorithms using linear number of edge queries. 
-While there exist deterministic algorithms with matching asymptotic performance to solve LP-type problems \cite{chan16,ChazelleM96}, they make an extra assumption  
-(see Computational assumption 2 in \cite{ChazelleM96}). 
-Namely, they require that a specific set system has constant VC-dimension which does not hold for the LP-type problem in grid USOs described above (refer to~\cite{matouvsek2002lectures} for further information on set systems and VC-dimension). More specifically, for each vertex $v$ in the grid, let $R_v\subset S$ be the set of rows and columns to which $v$ has an outgoing edge. 
-The \emph{violator set system} $(S, \mathcal R)$ must have constant VC-dimension for the above deterministic algorithms to work, where $\mathcal R = \{R_v : v\text{ is a vertex of the grid}\}$. 
-Since this set system has unbounded VC-dimension for general grid USOs, as illustrated in Figure~\ref{fig:shatteredgrid}, these deterministic algorithms are less efficient than exploring the entire grid exhaustively. 
-Therefore, it is open whether there exist deterministic sink-algorithms that use only a linear number of queries. 
-In particular, it is not known if \emph{any} LP-type problem can be deterministically solved in linear~time. 
+Let $A \subseteq S$; with $\mathcal R|_A$ we denote the set system $\{A \cap R| R \in \mathcal R\}$, i.e. the system induced
+by $\mathcal R$ on $A$. Moreover, we say that a subset $A \subseteq S$ is \emph{shattered} if $\mathcal R|_A = 2^A$,
+i.e. the the system induced by $\mathcal R $ on $A$ spans the whole superset of $A$.
+Then, the \emph{VC-dimension} of $(S, \mathcal R)$ is defined as the size of the largest shatter subset of $S$. 
+%The shatter function $\pi_{\mathcal R}$ gives the maximum possible number of subsets 
+
+We say that $(S, \mathcal R)$ has a \emph{subsystem oracle} if the VC-dimension is bounded by a constant, say $d$,
+and there is an algorithm, which given a subset $A \subseteq S$ returns the list of sets $\mathcal R|_A$ (each set represented by a list of 
+each members) in $O(|A|)^{d+1}$ time. The existence of a subsystem oracle is Computational assumption 2 in \cite{ChazelleM96}. 
+
+Firstly, we can argue that for general grid USOs the set system $(S, \mathcal R)$ that we define above does not 
+have constant VC-dimension. We prove this with a counterexample in Fig.~\ref{fig:shatteredgrid}. Thus fir 
+general grid USOs this approach fails already.
 
 \begin{figure}[h!] 
   	\centering
@@ -972,13 +977,24 @@ In particular, it is not known if \emph{any} LP-type problem can be deterministi
 	  of the edges incident to any other vertex are depicted. All the horizontal edges are uniformly oriented to the left.} 
   	\label{fig:shatteredgrid}
   \end{figure}
-  
+ 
+Now we turn our attention to Holt-Klee grid USOs. It is known that every Holt-Klee grid USO is induced by a red-blue arrangement of pseudo-lines \cite{grid05,falkthesis}. 
 While the above deterministic algorithms for LP-type problems are not efficient for general grid USOs, with the additional Holt-Klee condition they yield efficient sink-algorithms:
 It is known that every Holt-Klee grid USO is induced by a red-blue arrangement of pseudo-lines \cite{grid05,falkthesis}. 
 In turn, this can be thought of as the dual of the combinatorial version of the one line and $n$ points configuration.
-The equivalence of Holt-Klee grid USOs and red-blue arrangement of pseudo-lines imply that the violator set system we defined above for grids has constant VC dimension. 
-This implies that we can deterministically find the sink of Holt-Klee grid USOs using only a linear number of queries by reducing to an LP-type problem~\cite{chan16,ChazelleM96}.
+The equivalence of Holt-Klee grid USOs and red-blue arrangement of pseudo-lines imply that the violator set system we defined above for grids 
+has constant VC-dimension, say $d$. 
 
+However, the requirement for a subsystem oracle is that it compute $\mathcal R|_A$ in $O(|A|)^{d+1}$ time.
+This is not possible in our case: if $A$ has constant size, then this computation must take place in constant time.  
+In this case $A$ is a subset of rows and columns. By the definition of $\mathcal R$ above, this means 
+that $\mathcal R|_A$ is the set of vertices that have an outgoing edge to some row or column in $A$.
+Even for a constant size $A$, this computation is not possible in constant time for grid USOs.
+
+We conclude that the subsystem oracle does not exist in our case. It follows that the deterministic algorithms 
+for solving LP-type problems are less efficient than exploring the entire grid exhaustively.  Therefore, 
+our algorithms are relevant and, in particular, the algorithm for Holt-Klee grid USO is optimal.
+It is, thus, an open problem if \emph{any} LP-type problem can be deterministically solved in linear~time. 
 
 \end{document}
 
