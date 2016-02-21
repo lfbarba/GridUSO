@@ -6,6 +6,8 @@ list of changes by Antonis on 20.2.16:
 
 3) Added acyclicity as Lemma 1.
 
+4) Added a description of what does Holt-Klee mean in general and what that means for grids.
+
 4) Reformed the Appendix: 
 *) Appendix A is "Missing proofs". 
 *) Appendix B is "A deterministic lower bound". It now contains a discussion/proof that the USO we get by the lower bound theorem are Holt-Klee (and so the upper bound for HK is tight).
